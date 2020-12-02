@@ -104,7 +104,10 @@ class DashboardController extends Controller
         $course = Course::where('course_id',$user_course)->get();
 
         //ดึงค่าตารางอาจารย์ผู้รับผิดชอบหลักสูตร
-        $trc = course_responsible_teacher::where('course_id',$user_course)->get();
+        $trc = course_responsible_teacher::join('year','course_responsible_teacher.year_id','=','year.year_id')
+        ->where('course_responsible_teacher.course_id',$user_course)
+        ->where('year.year_id',1)
+        ->get();
         ///นับอาจารย์ผู้รีบผิดชอบหลักสูตร
         $count=count($trc);
 
@@ -112,6 +115,17 @@ class DashboardController extends Controller
         {
             $c=$value['course_name'];
         }
-        return view('category/category1',compact('c','count'));
+        ///SELECT user_fullname
+        // FROM course_responsible_teacher
+        // left JOIN users on course_responsible_teacher.user_id=users.id
+        // LEFT JOIN year on course_responsible_teacher.year_id=year.year_id
+        // WHERE users.user_course=1 AND year.year_id=1
+        ///join table course_responsible_teacher และ users เพื่อให้ได้ชื่อ user ที่เป็นอาจารย์ผู้รับผิดชอบหลักสูตร
+        $nameteacher = course_responsible_teacher::leftjoin('users','course_responsible_teacher.user_id','=','users.id')
+        ->leftjoin('year','course_responsible_teacher.year_id','=','year.year_id')
+        ->where('users.user_course',$user_course)
+        ->where('year.year_id',1)
+        ->get();
+        return view('category/category1',compact('c','count','nameteacher'));
     }
 }

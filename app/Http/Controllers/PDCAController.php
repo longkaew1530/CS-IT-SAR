@@ -60,7 +60,7 @@ class PDCAController extends Controller
         //     {
         //         $user->assignRole('อาจารย์');
         //     }
-        return redirect('dashboard/admember');
+        return redirect('dashboard/addmember');
     }
     public function addpermission(Request $request)
     {
