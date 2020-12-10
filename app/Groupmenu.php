@@ -13,6 +13,6 @@ class Groupmenu extends Model
     ];
     public function menu()
     {
-        return $this->hasMany('App\Menu','G_Id','G_Id');
+        return $this->hasMany('App\Menu');
     }
 }

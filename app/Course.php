@@ -11,4 +11,5 @@ class Course extends Model
     protected $fillable=[
         'course_name','faculty_id'
     ];
+    
 }

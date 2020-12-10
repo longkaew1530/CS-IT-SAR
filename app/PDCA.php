@@ -6,20 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class PDCA extends Model
 {
-    protected $table = 'roles';
+    protected $table = 'pdca';
+    protected $primaryKey = 'pdca_id';
     protected $fillable=[
-        'name'
+        'Indicator_id','course_id','year_id','category_pdca','p','d','c','a','target','performance','score'
     ];
-     protected $hidden = [
-        'password', 'remember_token',
-    ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    public function docpdca()
+    {
+        return $this->hasMany('App\docpdca','pdca_id','pdca_id');
+    }
 }

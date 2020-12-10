@@ -265,7 +265,7 @@
                 <img src="{{url('/')}}/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                 
                 <p>
-                  อาจารย์
+                {{ Auth::user()->user_fullname }}
                 </p>
               </li>
               <!-- Menu Body -->

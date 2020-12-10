@@ -27,9 +27,21 @@
             </span>
           </a>
           <ul class="treeview-menu">
-
-            <li class="active"><a href="/category/category1"><i class="fa fa-circle-o text-red"></i>หมวดที่1</a></li>
+          <li class="active"><a href="/category/category1"><i class="fa fa-circle-o text-red"></i>หมวดที่1</a></li>
+            <li class="active"><a href="/category/indicator1-1"><i class="fa fa-circle-o text-red"></i>ตัวบ่งชี้ที่ 1.1</a></li>
             <li class="active"><a href="/dashboard/addmember"><i class="fa fa-circle-o text-red"></i>เพิ่มสมาชิก</a></li>
+          </ul>
+        </li>
+        <li class="active treeview menu-open">
+          <a href="">
+            <i class=""></i><span>หมวดที่2</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="active"><a href="/category/indicator4-1/4.1"><i class="fa fa-circle-o text-red"></i>ตัวบ่งชี้ที่ 4.1</a></li>
+            <li class="active"><a href="/category/indicator4-2/4.2"><i class="fa fa-circle-o text-red"></i>ตัวบ่งชี้ที่ 4.2</a></li>
           </ul>
         </li>
         <li class="header">LABELS</li>

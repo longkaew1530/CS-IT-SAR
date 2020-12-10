@@ -2,24 +2,67 @@
 
 @section('content')
 <div class="box box-warning marginl">
-            <div class="box-header">
-              <h1 class="box-title">การกำกับให้เป็นไปตามมาตรฐาน (เกณฑ์มาตรฐานหลักสูตร พ.ศ.2558)</h1>
-              <br>
-              <br><li><h4 class="box-title">การบริหารจัดการหลักสูตรตามเกณฑ์มาตรฐานหลักสูตรที่กำหนดโดย สกอ. (ตัวบ่งชี้ที่ 1.1)</h4><br></li>
-              <br><br><li><h4 class="box-title">การบริหารจัดการหลักสูตรตามเกณฑ์มาตรฐานหลักสูตรที่กำหนดโดย สกอ. (ตัวบ่งชี้ที่ 1.1)</h4><br></li>
-              <br><h4 class="box-title">1.จำนวนอาจารย์ผู้รับผิดชอบหลักสูตร</h4><br> 
-              หลักสูตร{{$c}} มีอาจารย์ประจำหลักสูตรจำนวน {{$count}} คน 
-              เป็นอาจารย์ผู้รับผิดชอบหลักสูตรเพียง 1 หลักสูตรเท่านั้น และอยู่ประจำหลักสูตรตลอดระยะเวลาที่จัดการศึกษาตามหลักสูตรดังนี้<br>
-              @foreach($nameteacher as $key =>$value)
-              
-                <ul>{{($key + 1)}}. {{$value['user_fullname']}}</ul>
-              
+<div class="box-header">
+              <h1 class="box-title">หมวดที่ 1 ข้อมูลทั่วไป</h1>
+              @foreach($course as $key =>$value)
+              <br><b>หลักสูตร{{$value['course_name']." สาขา".$value['branch']." หลักสูตรปรับปรุง พ.ศ. ".$value['update_course']}} ระดับปริญญาตรี</b><br>
+              <b>รหัสหลักสูตร</b> {{$value['course_code']}}<br>
+              <b>สถานที่จัดการเรียนการสอน</b> {{$value['place']}}<br>
               @endforeach
-            </div>
-            
-          </div>
-            <!-- /.box-body -->
-          </div>
+              <br><br><br>
+              <b>อาจารย์ผู้รับผิดชอบหลักสูตร</b>
+                  <div class="box-body">
+                  <table class="table table-bordered">
+                    <tbody><tr>
+                      <th width="15%">มคอ.2</th>
+                      <th width="15%">ปัจจุบัน</th>
+                      <th width="15%">หมายเหตุ</th>
+                    </tr>
+                    @foreach($educ_bg as $key =>$row)
+                    <tr>
+                      <td>{{($key + 1)}}. {{$row['user_fullname']}}<br>
+                      @foreach($row->educational_background as $value) 
+                      {{$value['abbreviations']." (".$value['eb_fieldofstudy'].")"}}<br>
+                      @endforeach
+                      </td>
+                      <td>{{($key + 1)}}. {{$row['user_fullname']}}<br>
+                      @foreach($row->educational_background as $value) 
+                      {{$value['abbreviations']." (".$value['eb_fieldofstudy'].")"}}<br>
+                      @endforeach
+                      </td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                    @endforeach
+                  </tbody></table>
+                </div>
+
+                <br><br><b>อาจารย์ผู้สอน</b>  
+                    <div class="box-body">
+                  <table class="table table-bordered">
+                    <tbody><tr>
+                      <th width="15%">รายชื่ออาจารย์</th>
+                      <th width="30%">สาขาวิชาที่จบ</th>
+                    </tr>
+                    @foreach($instructor as $key =>$row )
+                    <tr>
+                      <td>{{($key + 1)}}.{{$row['user_fullname']}}</td>             
+                      <td>
+                      @foreach($row->educational_background as $value) 
+                      {{$value['abbreviations']." (".$value['eb_fieldofstudy'].")"}}<br>
+                      @endforeach
+                      </td>
+                    </tr>
+                    <tr>
+                    @endforeach
+                  </tbody></table>  
+                </div>
+
+                <br><br>@include('category/indi1-1show',['c','count','nameteacher'
+                  ,'educ_bg','y','checkpass','checknotpass','tc_course','instructor','specialinstructor','inc','course'])
+              </div>
+              </div>
+</div>
 <style>
 .marginl{
   padding:10px;
