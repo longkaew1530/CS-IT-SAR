@@ -42,6 +42,22 @@
           <ul class="treeview-menu">
             <li class="active"><a href="/category/indicator4-1/4.1"><i class="fa fa-circle-o text-red"></i>ตัวบ่งชี้ที่ 4.1</a></li>
             <li class="active"><a href="/category/indicator4-2/4.2"><i class="fa fa-circle-o text-red"></i>ตัวบ่งชี้ที่ 4.2</a></li>
+            <li class="active"><a href="/category/indicator4-3/4.3"><i class="fa fa-circle-o text-red"></i>ตัวบ่งชี้ที่ 4.3</a></li>
+          </ul>
+        </li>
+        <li class="active treeview menu-open">
+          <a href="">
+            <i class=""></i><span>หมวดที่3</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="active"><a href="/category/indicator4-1/4.1"><i class="fa fa-circle-o text-red"></i>ข้อมูลนักศึกษา</a></li>
+            <li class="active"><a href="/category3/graduatesqty"><i class="fa fa-circle-o text-red"></i>จำนวนผู้สำเร็จการศึกษา</a></li>
+            <li class="active"><a href="/category3/Impactfactors"><i class="fa fa-circle-o text-red"></i>ปัจจัยที่มีผลกระทบต่อจำนวนนักศึกษา</a></li>
+            <li class="active"><a href="/category3/Impactgraduation"><i class="fa fa-circle-o text-red"></i>ปัจจัยที่มีผลกระทบต่อการสำเร็จการศึกษา</a></li>
+            
           </ul>
         </li>
         <li class="header">LABELS</li>

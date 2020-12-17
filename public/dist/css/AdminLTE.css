@@ -1313,7 +1313,7 @@ a:focus {
   color: #00a65a;
 }
 .form-group.has-warning label {
-  color: #f39c12;
+  color:#63AFBB;
 }
 .form-group.has-warning .form-control,
 .form-group.has-warning .input-group-addon {
@@ -1475,7 +1475,7 @@ a:focus {
 }
 .progress-bar-yellow,
 .progress-bar-warning {
-  background-color: #f39c12;
+  background-color: #63AFBB;
 }
 .progress-striped .progress-bar-yellow,
 .progress-striped .progress-bar-warning {

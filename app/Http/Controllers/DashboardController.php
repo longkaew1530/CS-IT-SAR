@@ -32,8 +32,16 @@ class DashboardController extends Controller
         // {
         //     dd($value->id);
         // }
-        
-       
+        $user=auth()->user();
+        $user_course=$user->user_course;
+        $year=Year::where('year_name',2563)->get();
+        foreach($year as $value){
+            $y_name=$value['year_name'];
+            $y_id=$value['year_id'];
+        }
+        session()->put('usercourse',$user_course);
+        session()->put('year',$y_name);
+        session()->put('year_id',$y_id);
         return view('dashboard/year');
     }
     public function index2()

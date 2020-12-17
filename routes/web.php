@@ -27,12 +27,18 @@ Route::get('/dashboard/category', 'DashboardController@index10');
 Route::get('/dashboard/Indicator', 'DashboardController@index11');
 Route::get('/dashboard/usercategory', 'DashboardController@index12');
 
-/////หมวด1-7
+/////หมวด1-2
 Route::get('/category/indicator1-1', 'CategoryController@indicator1_1');
 Route::get('/category/category1', 'CategoryController@category1');
 Route::get('/category/indicator4-1/{id}', 'CategoryController@indicator4_1');
 Route::get('/category/indicator4-2/{id}', 'CategoryController@indicator4_2');
+Route::get('/category/indicator4-3/{id}', 'CategoryController@indicator4_3');
 
+//////หมวด3
+Route::get('/category3/graduatesqty', 'Category3Controller@graduatesqty');
+Route::get('/category3/Impactfactors', 'Category3Controller@Impactfactors');
+Route::get('/category3/Impactgraduation', 'Category3Controller@Impactgraduation');
+Route::get('/category3/indicator2-1', 'Category3Controller@indicator2_1');
 
 Route::post('/save', 'PDCAController@store');
 Route::post('/addper', 'PDCAController@addpermission');
