@@ -57,7 +57,29 @@
             <li class="active"><a href="/category3/graduatesqty"><i class="fa fa-circle-o text-red"></i>จำนวนผู้สำเร็จการศึกษา</a></li>
             <li class="active"><a href="/category3/Impactfactors"><i class="fa fa-circle-o text-red"></i>ปัจจัยที่มีผลกระทบต่อจำนวนนักศึกษา</a></li>
             <li class="active"><a href="/category3/Impactgraduation"><i class="fa fa-circle-o text-red"></i>ปัจจัยที่มีผลกระทบต่อการสำเร็จการศึกษา</a></li>
-            
+            <li class="active"><a href="/category3/indicator2-1"><i class="fa fa-circle-o text-red"></i>คุณภาพบัณฑิตตามกรอบมาตรฐานคุณวุฒิระดับอุดมศึกษาแห่งชาติ</a></li>
+            <li class="active"><a href="/category3/assessment/2.1"><i class="fa fa-circle-o text-red"></i>ผลการประเมินตนเอง</a></li>
+            <li class="active"><a href="/category3/indicator2-2"><i class="fa fa-circle-o text-red"></i>ผลการดำเนินงาน</a></li>
+            <li class="active"><a href="/category3/assessment/2.2"><i class="fa fa-circle-o text-red"></i>ผลการประเมินตนเอง</a></li>
+            <li class="active"><a href="/category3/pdca/3.1"><i class="fa fa-circle-o text-red"></i>การรับนักศึกษา</a></li>
+            <li class="active"><a href="/category3/assessment/3.1"><i class="fa fa-circle-o text-red"></i>ผลการประเมินตนเอง</a></li>
+            <li class="active"><a href="/category3/pdca/3.2"><i class="fa fa-circle-o text-red"></i>การส่งเสริมและพัฒนานักศึกษา</a></li>
+            <li class="active"><a href="/category3/assessment/3.2"><i class="fa fa-circle-o text-red"></i>ผลการประเมินตนเอง</a></li>
+            <li class="active"><a href="/category3/performance"><i class="fa fa-circle-o text-red"></i>ผลการดำเนินงาน</a></li>
+            <li class="active"><a href="/category3/assessment/3.3"><i class="fa fa-circle-o text-red"></i>ผลการประเมินตนเอง3.3</a></li>
+          </ul>
+        </li>
+        <li class="active treeview menu-open">
+          <a href="">
+            <i class=""></i><span>หมวดที่4</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="active"><a href="/category4/course_summary"><i class="fa fa-circle-o text-red"></i>สรุปผลรายวิชาที่เปิดสอน</a></li>
+            <li class="active"><a href="/category4/notcourse_summary"><i class="fa fa-circle-o text-red"></i>รายวิชาที่ไม่ได้เปิดสอน</a></li>
+            <li class="active"><a href="/category3/assessment/5.1"><i class="fa fa-circle-o text-red"></i>ผลการประเมินตนเอง5.1</a></li>
           </ul>
         </li>
         <li class="header">LABELS</li>

@@ -39,6 +39,14 @@ Route::get('/category3/graduatesqty', 'Category3Controller@graduatesqty');
 Route::get('/category3/Impactfactors', 'Category3Controller@Impactfactors');
 Route::get('/category3/Impactgraduation', 'Category3Controller@Impactgraduation');
 Route::get('/category3/indicator2-1', 'Category3Controller@indicator2_1');
+Route::get('/category3/assessment/{id}', 'Category3Controller@showassess');
+Route::get('/category3/indicator2-2', 'Category3Controller@indicator2_2');
+Route::get('/category3/pdca/{id}', 'Category3Controller@showpdca');
+Route::get('/category3/performance', 'Category3Controller@indicator3_3');
+
+////หมวด4
+Route::get('/category4/course_summary', 'Category4Controller@coursesummary');
+Route::get('/category4/notcourse_summary', 'Category4Controller@notcoursesummary');
 
 Route::post('/save', 'PDCAController@store');
 Route::post('/addper', 'PDCAController@addpermission');

@@ -40,19 +40,18 @@
                 <tbody><tr>
                   <th width="30%" >ตัวบ่งชี้</th>
                   <th width="20%">เป้าหมาย</th>
-                  <th colspan="2" width="20%">ผลการดำเนินงาน</th>
+                  <th  width="20%">ผลการดำเนินงาน</th>
                   <th width="20%">คะแนนอิงเกณฑ์ สกอ.</th>
                 </tr>
                 @foreach($pdca as $key =>$row )
                 <tr >
                   <td rowspan="2">ตัวบ่งชี้ที่ {{$row['Indicator_id']." ".$row['Indicator_name']}}</td>           
                   <td rowspan="2">{{$row['target']}}</td>
-                  <td >{{$row['performance1']}}</td>
-                  <td rowspan="2">{{$row['performance3']}}</td>
+             
                   <td rowspan="2">{{$row['score']}}</td>
                 </tr>
                 <tr>
-                <td>{{$row['performance2']}}</td>
+                <td>{{$row['performance3']}}</td>
                 </tr>
                 <tr>
                 @endforeach

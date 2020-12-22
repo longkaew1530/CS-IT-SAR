@@ -293,11 +293,14 @@ class CategoryController extends Controller
     }
     public function indicator4_3($id)
     {
-        $in4_3=indicator4_3::all();
+        $in4_3=indicator4_3::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+
         $pdca=PDCA::leftjoin('indicator','pdca.Indicator_id','=','indicator.indicator_id')
         ->where('pdca.Indicator_id',$id)
         ->where('pdca.course_id',session()->get('usercourse'))
-        ->where('pdca.year_id',1)
+        ->where('pdca.year_id',session()->get('year_id'))
         ->get();
         return view('category/indicator4-3',compact('in4_3','pdca'));
     }
