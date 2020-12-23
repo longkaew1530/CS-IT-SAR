@@ -80,6 +80,11 @@
             <li class="active"><a href="/category4/course_summary"><i class="fa fa-circle-o text-red"></i>สรุปผลรายวิชาที่เปิดสอน</a></li>
             <li class="active"><a href="/category4/notcourse_summary"><i class="fa fa-circle-o text-red"></i>รายวิชาที่ไม่ได้เปิดสอน</a></li>
             <li class="active"><a href="/category3/assessment/5.1"><i class="fa fa-circle-o text-red"></i>ผลการประเมินตนเอง5.1</a></li>
+            <li class="active"><a href="/category3/pdca/5.2"><i class="fa fa-circle-o text-red"></i>การวางระบบผู้สอน 5.2 pdca</a></li>
+            <li class="active"><a href="/category3/assessment/5.2"><i class="fa fa-circle-o text-red"></i>ผลการประเมินตนเอง5.2</a></li>
+            <li class="active"><a href="/category3/assessment/5.3"><i class="fa fa-circle-o text-red"></i>ผลการประเมินตนเอง5.3</a></li>
+            <li class="active"><a href="/category4/indicator5_4"><i class="fa fa-circle-o text-red"></i>ตัวบ่งชี้ที่ 5.4</a></li>
+            <li class="active"><a href="/category3/assessment/5.4"><i class="fa fa-circle-o text-red"></i>ผลการประเมินตนเอง5.4</a></li>
           </ul>
         </li>
         <li class="header">LABELS</li>
