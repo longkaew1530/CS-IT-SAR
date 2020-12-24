@@ -85,6 +85,9 @@
             <li class="active"><a href="/category3/assessment/5.3"><i class="fa fa-circle-o text-red"></i>ผลการประเมินตนเอง5.3</a></li>
             <li class="active"><a href="/category4/indicator5_4"><i class="fa fa-circle-o text-red"></i>ตัวบ่งชี้ที่ 5.4</a></li>
             <li class="active"><a href="/category3/assessment/5.4"><i class="fa fa-circle-o text-red"></i>ผลการประเมินตนเอง5.4</a></li>
+            <li class="active"><a href="/category4/teachingquality"><i class="fa fa-circle-o text-red"></i>คุณภาพการสอน</a></li>
+            <li class="active"><a href="/category4/effectiveness"><i class="fa fa-circle-o text-red"></i>ประสิทธิผลของกลยุทธ์การสอน</a></li>
+            <li class="active"><a href="/category4/newteacher"><i class="fa fa-circle-o text-red"></i>การปฐมนิเทศอาจารย์ใหม่</a></li>
           </ul>
         </li>
         <li class="header">LABELS</li>

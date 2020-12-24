@@ -6,6 +6,9 @@ use App\category4_course_results;
 use App\category4_notcourse_results;
 use App\in_index;
 use App\indicator5_4;
+use App\category4_teaching_quality;
+use App\category4_effectiveness;
+use App\category4_newteacher;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -57,5 +60,34 @@ class Category4Controller extends Controller
         }
         $resultpass1_5persen=($resultpass1_5count*100)/5;
         return view('category4/indicator5_4',compact('indi','perfor','result','resultpass1_5','resultpass1_5persen','resultpassall'));
+    }
+    public function teachingquality()
+    {
+       $teachqua=category4_teaching_quality::where('course_id',session()->get('usercourse'))
+       ->where('year_id',session()->get('year_id'))
+       ->get();
+       $teachquagroup=category4_teaching_quality::groupBy('student_year')
+       ->get();
+        return view('category4/teaching_quality',compact('teachqua','teachquagroup'));
+    }
+    public function effectiveness()
+    {
+        $effec=category4_effectiveness::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        return view('category4/effectiveness',compact('effec'));
+    }
+    public function newteacher()
+    {
+        $th=category4_newteacher::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        $checkpass=false;
+        foreach($th as $row){
+            if($row['point_out']==1){
+                $checkpass=true;
+            }
+        }
+        return view('category4/newteacher',compact('th','checkpass'));
     }
 }

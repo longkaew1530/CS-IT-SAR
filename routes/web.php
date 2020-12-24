@@ -48,7 +48,9 @@ Route::get('/category3/performance', 'Category3Controller@indicator3_3');
 Route::get('/category4/course_summary', 'Category4Controller@coursesummary');
 Route::get('/category4/notcourse_summary', 'Category4Controller@notcoursesummary');
 Route::get('/category4/indicator5_4', 'Category4Controller@indicator5_4');
-
+Route::get('/category4/teachingquality', 'Category4Controller@teachingquality');
+Route::get('/category4/effectiveness', 'Category4Controller@effectiveness');
+Route::get('/category4/newteacher', 'Category4Controller@newteacher');
 
 Route::post('/save', 'PDCAController@store');
 Route::post('/addper', 'PDCAController@addpermission');

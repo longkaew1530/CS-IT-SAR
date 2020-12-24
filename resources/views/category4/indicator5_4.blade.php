@@ -6,7 +6,7 @@
             <div class="box-body">
             <br><br><b><h4>ผลการดำเนินงานหลักสูตรตามกรอบมาตรฐานคุณวุฒิระดับอุดมศึกษาแห่งชาติ (ตัวบ่งชี้ที่ 5.4)</h4></b><br><br>
             <table class="table table-bordered" >
-                <tbody><tr>
+                <tbody ><tr>
                   <th  class="text-center" colspan="3">ผลการดำเนินงานตามกรอบมาตรฐานคุณวุฒิ</th>
                   <th width="20%" class="text-center" rowspan="2">หลักฐานอ้างอิง</th>
                 </tr>
@@ -17,7 +17,7 @@
                 </tr>
                 @foreach($indi as $key=>$value)
                 <tr>
-                    <td><b>{{($key + 1)}}) {{$value['name']}}</b><br>
+                    <td ><b>{{($key + 1)}}) {{$value['name']}}</b><br>
                         <ins>ผลการดำเนินงาน</ins><br>
                         @foreach($perfor as $row)
                         @if($row['category']==$value['id'])
