@@ -1,6 +1,5 @@
-
-<ins>ผลการประเมินตนเอง</ins>
             <div class="box-body">
+            <ins>ผลการประเมินตนเอง</ins><br>
               <table class="table table-bordered text-center">
                 <tbody><tr>
                   <th width="30%" >ตัวบ่งชี้</th>

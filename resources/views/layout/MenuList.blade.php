@@ -88,6 +88,43 @@
             <li class="active"><a href="/category4/teachingquality"><i class="fa fa-circle-o text-red"></i>คุณภาพการสอน</a></li>
             <li class="active"><a href="/category4/effectiveness"><i class="fa fa-circle-o text-red"></i>ประสิทธิผลของกลยุทธ์การสอน</a></li>
             <li class="active"><a href="/category4/newteacher"><i class="fa fa-circle-o text-red"></i>การปฐมนิเทศอาจารย์ใหม่</a></li>
+            <li class="active"><a href="/category4/activity"><i class="fa fa-circle-o text-red"></i>กิจกรรมการพัฒนาวิชาชีพ</a></li>
+          </ul>
+        </li>
+        <li class="active treeview menu-open">
+          <a href="">
+            <i class=""></i><span>หมวดที่5</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="active"><a href="/category5/course_administration"><i class="fa fa-circle-o text-red"></i>การบริหารหลักสูตร</a></li>
+            <li class="active"><a href="/category3/pdca/6.1"><i class="fa fa-circle-o text-red"></i>สิ่งสนับสนุนการเรียนรู้</a></li>
+            <li class="active"><a href="/category3/assessment/6.1"><i class="fa fa-circle-o text-red"></i>ผลการประเมินตนเอง6.1</a></li>
+          </ul>
+        </li>
+        <li class="active treeview menu-open">
+          <a href="">
+            <i class=""></i><span>หมวดที่6</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="active"><a href="/category6/comment_course"><i class="fa fa-circle-o text-red"></i>ข้อคิดเห็น และข้อเสนอ</a></li>
+            <li class="active"><a href="/category6/assessment_summary"><i class="fa fa-circle-o text-red"></i>สรุปการประเมินหลักสูตร</a></li>
+          </ul>
+        </li>
+        <li class="active treeview menu-open">
+          <a href="">
+            <i class=""></i><span>หมวดที่7</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="active"><a href="/category6/comment_course"><i class="fa fa-circle-o text-red"></i>หมวดที่7</a></li>
           </ul>
         </li>
         <li class="header">LABELS</li>

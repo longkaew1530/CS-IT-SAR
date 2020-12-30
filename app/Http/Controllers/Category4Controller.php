@@ -9,6 +9,7 @@ use App\indicator5_4;
 use App\category4_teaching_quality;
 use App\category4_effectiveness;
 use App\category4_newteacher;
+use App\category4_activity;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -89,5 +90,12 @@ class Category4Controller extends Controller
             }
         }
         return view('category4/newteacher',compact('th','checkpass'));
+    }
+    public function activity()
+    {
+        $activity=category4_activity::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        return view('category4/activity',compact('activity'));
     }
 }

@@ -51,6 +51,14 @@ Route::get('/category4/indicator5_4', 'Category4Controller@indicator5_4');
 Route::get('/category4/teachingquality', 'Category4Controller@teachingquality');
 Route::get('/category4/effectiveness', 'Category4Controller@effectiveness');
 Route::get('/category4/newteacher', 'Category4Controller@newteacher');
+Route::get('/category4/activity', 'Category4Controller@activity');
+
+////หมวด5
+Route::get('/category5/course_administration', 'Category5Controller@course_administration');
+
+////หมวด6
+Route::get('/category6/comment_course', 'Category6Controller@comment_course');
+Route::get('/category6/assessment_summary', 'Category6Controller@assessment_summary');
 
 Route::post('/save', 'PDCAController@store');
 Route::post('/addper', 'PDCAController@addpermission');
