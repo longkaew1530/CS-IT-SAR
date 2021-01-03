@@ -124,7 +124,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="active"><a href="/category6/comment_course"><i class="fa fa-circle-o text-red"></i>หมวดที่7</a></li>
+            <li class="active"><a href="/category7/strength"><i class="fa fa-circle-o text-red"></i>หมวดที่7</a></li>
           </ul>
         </li>
         <li class="header">LABELS</li>

@@ -60,6 +60,10 @@ Route::get('/category5/course_administration', 'Category5Controller@course_admin
 Route::get('/category6/comment_course', 'Category6Controller@comment_course');
 Route::get('/category6/assessment_summary', 'Category6Controller@assessment_summary');
 
+////หมวด7
+Route::get('/category7/strength', 'Category7Controller@strength');
+
+
 Route::post('/save', 'PDCAController@store');
 Route::post('/addper', 'PDCAController@addpermission');
 Auth::routes();
