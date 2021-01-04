@@ -127,6 +127,25 @@
             <li class="active"><a href="/category7/strength"><i class="fa fa-circle-o text-red"></i>หมวดที่7</a></li>
           </ul>
         </li>
+        @foreach(session()->get('groupmenu')  as $value)
+        <li class="active treeview menu-open">
+        
+          <a href="">
+            <i class="{{$value['g_icon']}}"></i><span>{{$value['g_name']}}</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+         
+          <ul class="treeview-menu">
+            @foreach($value->menu as $row)
+            <li class="active"><a href="{{$row['m_url']}}"><i class="fa fa-circle-o text-red"></i>{{$row['m_name']}}</a></li>
+            @endforeach
+          </ul>
+          
+          
+        </li>
+        @endforeach
         <li class="header">LABELS</li>
         <li><a href="{{ route('logout') }}"  onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
         <i class="fa fa-sign-out"></i> <span>ออกจากระบบ</span></a></li>

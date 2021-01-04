@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Groupmenu extends Model
 {
-    protected $table = 'groupmenu';
-    protected $primaryKey = 'G_Id';
+    protected $table = 'menu_group';
+    protected $primaryKey = 'g_id';
     protected $fillable=[
-        'G_Id','G_Name'
+        'g_id','g_Name'
     ];
     public function menu()
     {
-        return $this->hasMany('App\Menu');
+        return $this->hasMany('App\Menu','g_id','g_id');
     }
 }

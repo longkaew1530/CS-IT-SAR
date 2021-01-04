@@ -8,6 +8,7 @@ use App\Groupmenu;
 use App\Course;
 use App\Year;
 use App\Tps;
+use App\usergroup;
 use App\course_responsible_teacher;
 use App\Educational_background;
 use Illuminate\Support\Facades\Hash;
@@ -42,6 +43,11 @@ class DashboardController extends Controller
         session()->put('usercourse',$user_course);
         session()->put('year',$y_name);
         session()->put('year_id',$y_id);
+        $groupmenu=Groupmenu::all();
+         foreach ($groupmenu as $key => $value){
+            $value->menu->first(); 
+         }
+        session()->put('groupmenu',$groupmenu);
         return view('dashboard/year');
     }
     public function index2()
@@ -72,14 +78,12 @@ class DashboardController extends Controller
     }
     public function index7()
     {
-        $Getall=PDCA::all();
-        // $role=GroupMenu::all();
-        
-        
-        //  foreach ($role as $key => $value){
-        //     $value->menu->first(); 
-        //  }
-        return view('dashboard.permission');
+        $getusergroup=usergroup::all();
+        $role=GroupMenu::all();
+         foreach ($role as $key => $value){
+            $value->menu->first(); 
+         }
+        return view('dashboard.permission',compact('getusergroup','role',));
         dd($role);
     }
     public function index8()
@@ -107,5 +111,5 @@ class DashboardController extends Controller
         
         return view('dashboard/usercategory');
     }
-  
+    
 }

@@ -63,9 +63,10 @@ Route::get('/category6/assessment_summary', 'Category6Controller@assessment_summ
 ////หมวด7
 Route::get('/category7/strength', 'Category7Controller@strength');
 
-
-Route::post('/save', 'PDCAController@store');
-Route::post('/addper', 'PDCAController@addpermission');
+///API
+Route::post('/save', 'APIController@store');
+Route::post('/addper', 'APIController@addpermission');
+Route::get('/getrolepermisson/{id}','APIController@getrolepermission');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

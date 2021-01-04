@@ -17,11 +17,11 @@
                 </tr>
                 </thead>
                 <tbody>
-                  @foreach($Getall as $row )
+                  @foreach($getusergroup as $row )
                 <tr>
-                  <td>{{$row['id']}}</td>
-                  <td>{{$row['name']}}</td>
-                  <td><button class="btn btn-warning" type="button" data-id="{{$row['id']}}"  data-toggle="modal" data-target="#modal-info" ><i class='fa fas fa-edit'></i>กำหนดสิทธิ์</button></td>
+                  <td>{{$row['user_group_id']}}</td>
+                  <td>{{$row['user_group_name']}}</td>
+                  <td><button class="btn btn-warning" type="button" data-id="{{$row['user_group_id']}}"  data-toggle="modal" data-target="#modal-info" ><i class='fa fas fa-edit'></i>กำหนดสิทธิ์</button></td>
                 </tr>
                 @endforeach
                 </tbody>
@@ -35,16 +35,26 @@
                   <span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">กำหนดสิทธิ์ผู้ใช้งาน</h4>
               </div>
+              <?php $checkrole=false ?>
               <form method="POST" action="/addper">
                @csrf
                 @foreach($role as $row )
-                <h4><p class="bginfo">{{$row['G_Name']}}</p></h4>
+                <h4><p class="bginfo">{{$row['g_name']}}</p></h4>
                 <div class="form-group ml-1">
                 @foreach($row->menu as $value)
+                    @if(session()->get('data')!=null)
+                      @foreach(session()->get('data') as $row2)
+                      {{$row2['m_id']}}//////{{$value['m_id']}}
+                         @if($row2['m_id']==$value['m_id'])
+                           <?php $checkrole=true; ?>
+                         @endif
+                      @endforeach
+                     @endif
                   <div class="checkbox">
                     <label>
-                      <input type="checkbox"  name="per[]" value="{{$value['M_Name']}}">
-                      {{$value['M_Name']}}
+                      <input type="checkbox"  name="per[]" value="{{$value['m_id']}}" @if($checkrole) checked @endif> 
+                      <?php $checkrole=false; ?>      
+                      {{$value['m_name']}}
                     </label>
                   </div>
                   @endforeach
@@ -105,7 +115,12 @@ var button = $(event.relatedTarget);
 var id= button.data('id');
 var modal = $(this);
 modal.find('#emp_id').val(id);
-console.log(id)
+var url = "/getrolepermisson";
+        $.get(url + '/' + id, function (data) {
+            //success data
+            console.log(data);
+            
+        }) 
 });
 });
 </script>

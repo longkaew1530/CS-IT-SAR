@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Menu extends Model
 {
     protected $table = 'menu';
-    protected $primaryKey = 'M_Id';
+    protected $primaryKey = 'm_id';
     protected $fillable=[
-        'M_Id','M_Name'
+        'm_id','m_Name'
     ];
     public function groupmenu()
     {
-        return $this->belongsTo('App\Groupmenu','M_Id');
+        return $this->belongsTo('App\Groupmenu','m_id');
     }
 }
