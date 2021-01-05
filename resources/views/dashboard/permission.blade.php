@@ -8,7 +8,7 @@
             <!-- /.box-header -->
             <div class="box-body">
             <!-- /.box-header -->
-            <table id="example1" class="table table-bordered table-striped">
+            <table id="example2" class="table table-bordered table-striped">
                 <thead>
                 <tr>
                   <th>ID</th>
@@ -26,7 +26,6 @@
                 @endforeach
                 </tbody>
               </table>
-            
               <div class="modal  fade" id="modal-info">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -44,7 +43,6 @@
                 @foreach($row->menu as $value)
                     @if(session()->get('data')!=null)
                       @foreach(session()->get('data') as $row2)
-                      {{$row2['m_id']}}//////{{$value['m_id']}}
                          @if($row2['m_id']==$value['m_id'])
                            <?php $checkrole=true; ?>
                          @endif
@@ -118,10 +116,16 @@ modal.find('#emp_id').val(id);
 var url = "/getrolepermisson";
         $.get(url + '/' + id, function (data) {
             //success data
-            console.log(data);
-            
+            console.log(id);
         }) 
 });
 });
+</script>
+<script>
+  $(function () {
+    $('#example2').DataTable({
+      lengthMenu: [ 10, 20, 50, 100]
+    })
+  })
 </script>
 @endsection

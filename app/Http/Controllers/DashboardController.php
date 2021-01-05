@@ -9,6 +9,8 @@ use App\Course;
 use App\Year;
 use App\Tps;
 use App\usergroup;
+use App\Menu;
+use App\rolepermission;
 use App\course_responsible_teacher;
 use App\Educational_background;
 use Illuminate\Support\Facades\Hash;
@@ -35,6 +37,7 @@ class DashboardController extends Controller
         // }
         $user=auth()->user();
         $user_course=$user->user_course;
+        $user_group=$user->user_group_id;
         $year=Year::where('year_name',2563)->get();
         foreach($year as $value){
             $y_name=$value['year_name'];
@@ -44,10 +47,13 @@ class DashboardController extends Controller
         session()->put('year',$y_name);
         session()->put('year_id',$y_id);
         $groupmenu=Groupmenu::all();
+        $rolepermiss=rolepermission::where('user_group_id',$user_group)->get();
+       
          foreach ($groupmenu as $key => $value){
             $value->menu->first(); 
          }
         session()->put('groupmenu',$groupmenu);
+        session()->put('roleper',$rolepermiss);
         return view('dashboard/year');
     }
     public function index2()
@@ -68,13 +74,13 @@ class DashboardController extends Controller
     }
     public function index5()
     {
-        
-        return view('dashboard/Groupmenu');
+        $getgroupmenu=Groupmenu::all();
+        return view('dashboard/Groupmenu',compact('getgroupmenu'));
     }
     public function index6()
     {
-        
-        return view('dashboard/Menu');
+        $getmenu=Menu::all();
+        return view('dashboard/Menu',compact('getmenu'));
     }
     public function index7()
     {

@@ -129,17 +129,25 @@
         </li>
         @foreach(session()->get('groupmenu')  as $value)
         <li class="active treeview menu-open">
-        
+        @foreach(session()->get('roleper')  as $value1)
+        @if($value1['g_id']==$value['g_id'])
           <a href="">
             <i class="{{$value['g_icon']}}"></i><span>{{$value['g_name']}}</span>
+            
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
-         
+          @break
+         @endif
+         @endforeach
           <ul class="treeview-menu">
             @foreach($value->menu as $row)
-            <li class="active"><a href="{{$row['m_url']}}"><i class="fa fa-circle-o text-red"></i>{{$row['m_name']}}</a></li>
+              @foreach(session()->get('roleper')  as $value)
+              @if($value['m_id']==$row['m_id'])
+               <li class="active"><a href="{{$row['m_url']}}"><i class="fa fa-circle-o text-red"></i>{{$row['m_name']}}</a></li>
+              @endif
+              @endforeach
             @endforeach
           </ul>
           

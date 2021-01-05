@@ -9,7 +9,7 @@ class Groupmenu extends Model
     protected $table = 'menu_group';
     protected $primaryKey = 'g_id';
     protected $fillable=[
-        'g_id','g_Name'
+        'g_id','g_Name','g_icon'
     ];
     public function menu()
     {

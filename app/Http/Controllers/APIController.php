@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\rolepermission;
 use App\Menu;
+use App\Groupmenu;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 class APIController extends Controller
@@ -65,6 +66,39 @@ class APIController extends Controller
     {
         $permiss = rolepermission::where('user_group_id',$id)->get();
         session()->put('data',$permiss);
-        return  $permiss;
+       
+        $user=auth()->user();
+        $user_group=$user->user_group_id;
+        $rolepermiss=rolepermission::where('user_group_id',$user_group)->get();
+
+        session()->put('roleper',$rolepermiss);
+        return redirect('dashboard/permission');
+    }
+    public function getgroupmenu($id)
+    {
+        $groupmenu = Groupmenu::where('g_id',$id)->get();
+        return $groupmenu;
+    }
+    public function addgroupmenu(Request $request)
+    {
+        $data['g_name']=$request->group;
+        $data['g_icon']=$request->icon;
+        Groupmenu::insert($data);
+        return redirect('/dashboard/MenuGroup');
+    }
+    public function updategroupmenu(Request $request,$id)
+    {
+        $data = Groupmenu::find($id);
+        $data->g_name = $request->input('g_name');
+        $data->g_icon = $request->input('g_icon');
+        $data->save();
+        return redirect('/dashboard/MenuGroup');
+    }
+    public function deletegroupmenu($id)
+    {
+        $product = Groupmenu::find($id);
+        $product->delete();
+        
+        return redirect('/dashboard/MenuGroup');
     }
 }

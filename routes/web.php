@@ -66,6 +66,12 @@ Route::get('/category7/strength', 'Category7Controller@strength');
 ///API
 Route::post('/save', 'APIController@store');
 Route::post('/addper', 'APIController@addpermission');
+
+Route::post('/addgroupmenu', 'APIController@addgroupmenu');
+Route::delete('/deletegroupmenu/{id}', 'APIController@deletegroupmenu');
+Route::put('/updategroupmenu/{id}','APIController@updategroupmenu');
+Route::get('/getgroupmenu/{id}','APIController@getgroupmenu');
+
 Route::get('/getrolepermisson/{id}','APIController@getrolepermission');
 Auth::routes();
 
