@@ -15,4 +15,5 @@ class Menu extends Model
     {
         return $this->belongsTo('App\Groupmenu','m_id');
     }
+    public $timestamps = false;
 }

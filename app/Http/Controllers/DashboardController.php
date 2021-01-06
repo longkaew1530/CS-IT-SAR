@@ -80,7 +80,8 @@ class DashboardController extends Controller
     public function index6()
     {
         $getmenu=Menu::all();
-        return view('dashboard/Menu',compact('getmenu'));
+        $getgroupmenu=Groupmenu::all();
+        return view('dashboard/Menu',compact('getmenu','getgroupmenu'));
     }
     public function index7()
     {
@@ -89,13 +90,21 @@ class DashboardController extends Controller
          foreach ($role as $key => $value){
             $value->menu->first(); 
          }
-        return view('dashboard.permission',compact('getusergroup','role',));
+         $getper=rolepermission::leftjoin('menu','role_permission.m_id','=','menu.m_id')
+         ->get();
+         $user=auth()->user();
+        $user_group=$user->user_group_id;
+        $rolepermiss=rolepermission::where('user_group_id',$user_group)->get();
+
+        session()->put('roleper',$rolepermiss);
+        return view('dashboard.permission',compact('getusergroup','role','getper'));
         dd($role);
     }
     public function index8()
     {
-        
-        return view('dashboard/course');
+        $course=Course::leftjoin('faculty','course.faculty_id','=','faculty.faculty_id')
+        ->get();
+        return view('dashboard/course',compact('course'));
     }
     public function index9()
     {

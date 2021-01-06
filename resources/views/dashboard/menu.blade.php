@@ -3,31 +3,129 @@
 @section('content')
 <div class="box box-warning marginl wid50">
             <div class="box-header">
-              <h2 class="box-title">เมนู</h2>
+              <h1 class="box-title">เมนู</h1>
             </div>
-            <a href="{{url('/dashboard/index3')}}">
-            <button type="submit" class="btn btn-success ml-1"><i class="glyphicon glyphicon-plus-sign"></i> เพิ่มข้อมูล</button>
-            </a>
+           
+            <button class="btn btn-success ml-1" type="button"   data-toggle="modal" data-target="#modal-info"><i class="fa fa-plus"></i> เพิ่มข้อมูล</button>
+            
             <!-- /.box-header -->
             <div class="box-body">
             <!-- /.box-header -->
             <table id="example3" class="table table-bordered table-striped ">
                 <thead>
                 <tr>
-                  <th width="5%">No.</th>
+                  <th width="5%">ที่</th>
                   <th width="30%">เมนู</th>
+                  <th width="30%">URL</th>
+                  <th width="20%">กลุ่มเมนู</th>
                   <th width="5%" >แก้ไข</th>
                   <th width="5%">ลบ</th>
                 </tr>
                 </thead>
                 <tbody>
-                  @foreach($getmenu as $row)
+                  @foreach($getmenu as $key=>$row)
                 <tr>
-                  <td>{{$row['m_id']}}</td>
-                  <td>{{$row['m_name']}}</td>             
-                  <td class="text-center"><button class="btn btn-warning"><i class='fa fas fa-edit'></i></button></td>
-                  <td class="text-center"><button class="btn btn-danger"><i class='fa fa-trash'></i></button></td>
+                  <td>{{$key+1}}</td>
+                  <td>{{$row['m_name']}}</td>
+                  <td>{{$row['m_url']}}</td> 
+                  <td>{{$row['g_id']}}</td>              
+                  <td class="text-center"><button class="btn btn-warning" type="button"   data-toggle="modal" data-target="#modal-edit" data-id="{{$row['m_id']}}"><i class='fa fas fa-edit'></i></button></td>
+                  <td class="text-center">
+                                      <form id="delete-form" method="POST" action="/deletemenu/{{$row['m_id']}}">
+                                        {{ csrf_field() }}
+                                        {{ method_field('DELETE') }}
+                                      <button type="submit" class="btn btn-danger"><i class='fa fa-trash'></i></button></form>
+                  </td>
                 </tr>
+
+                <div class="modal  fade" id="modal-info">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">เพิ่มข้อมูลกลุ่มเมนู</h4>
+              </div>
+              <form  method="POST" action="/addmenu">
+              @csrf
+              <div class="box-body">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">เมนู</label>
+                  <input type="text" class="form-control" id="m_name" name="m_name" placeholder="เมนู">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">URL</label>
+                  <input type="text" class="form-control" id="m_url" name="m_url" placeholder="URL">
+                </div>
+                <div class="form-group">
+                <label for="exampleInputPassword1">กลุ่มเมนู</label>
+                                  <select class="form-control"  id="g_id"  class="form-control @error('role') is-invalid @enderror" name="g_id">
+                                    @foreach($getgroupmenu as $value)
+                                    <option value="{{$value['g_id']}}">{{$value['g_name']}}</option>
+                                    @endforeach
+                                  </select>
+                                  </div>
+              </div>
+              
+              <div class="modal-footer">
+                <button type="button" class="btn btn-info pull-left" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-info">บันทึกข้อมูล</button>
+              </div>
+              </form>
+              <input type="hidden" class="form-control" name="id" id="emp_id" >
+              
+            </div>
+            
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+
+        <div class="modal  fade" id="modal-edit">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">เพิ่มข้อมูลกลุ่มเมนู</h4>
+              </div>
+              <form  method="POST" action="/updatemenu">
+              @csrf
+              {{ method_field('PUT') }}
+              <div class="box-body">
+              <input type="hidden" class="form-control" id="m_id1" name="m_id1" >
+                <div class="form-group">
+                  <label for="exampleInputEmail1">เมนู</label>
+                  <input type="text" class="form-control" id="m_name1" name="m_name1" placeholder="เมนู">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">URL</label>
+                  <input type="text" class="form-control" id="m_url1" name="m_url1" placeholder="URL">
+                </div>
+                <div class="form-group">
+                <label for="exampleInputPassword1">กลุ่มเมนู</label>
+                                  <select class="form-control"  id="g_id1"  class="form-control @error('role') is-invalid @enderror" name="g_id1">
+                                    @foreach($getgroupmenu as $value)
+                                    <option value="{{$value['g_id']}}">{{$value['g_name']}}</option>
+                                    @endforeach
+                                  </select>
+                                  </div>
+              </div>
+            
+              <div class="modal-footer">
+                <button type="button" class="btn btn-info pull-left" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-info">บันทึกข้อมูล</button>
+              </div>
+              </form>
+              <input type="hidden" class="form-control" name="id" id="emp_id" >
+              
+            </div>
+            
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+            </div>
                 @endforeach
                 </tbody>
               </table>
@@ -76,5 +174,24 @@
       lengthMenu: [ 8, 20, 50, 100]
     })
   })
+</script>
+<script>
+$(document).ready(function() {
+$('#modal-edit').on('show.bs.modal', function (event) {
+var button = $(event.relatedTarget);
+var id= button.data('id');
+var modal = $(this);
+modal.find('#emp_id').val(id);
+var url = "/getmenu";
+        $.get(url + '/' + id, function (data) {
+            //success data
+            console.log(data)
+            $("#m_id1").val(data[0].m_id);
+            $("#m_name1").val(data[0].m_name);
+            $("#m_url1").val(data[0].m_url);
+            $("#g_id1").val(data[0].g_id);
+        }) 
+});
+});
 </script>
 @endsection

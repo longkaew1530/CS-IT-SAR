@@ -19,7 +19,7 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
-        <li class="active treeview menu-open">
+        <!-- <li class="active treeview menu-open">
           <a href="">
             <i class=""></i><span>หมวดที่1</span>
             <span class="pull-right-container">
@@ -126,7 +126,7 @@
           <ul class="treeview-menu">
             <li class="active"><a href="/category7/strength"><i class="fa fa-circle-o text-red"></i>หมวดที่7</a></li>
           </ul>
-        </li>
+        </li> -->
         @foreach(session()->get('groupmenu')  as $value)
         <li class="active treeview menu-open">
         @foreach(session()->get('roleper')  as $value1)

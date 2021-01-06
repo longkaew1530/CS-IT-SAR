@@ -6,6 +6,7 @@ use App\User;
 use App\rolepermission;
 use App\Menu;
 use App\Groupmenu;
+use App\Course;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 class APIController extends Controller
@@ -45,8 +46,11 @@ class APIController extends Controller
         $data=$request->all();
         $userid=$request->id;
         $deleterolepermission = rolepermission::find($userid);
-        $deleterolepermission->delete();
-        if($data!=null){
+        if($deleterolepermission!=null){
+            $deleterolepermission->delete();
+        }
+        
+        if(isset($data['per'])){
         foreach($data['per'] as $value)
         {
           $item['user_group_id']=$userid;
@@ -67,13 +71,11 @@ class APIController extends Controller
         $permiss = rolepermission::where('user_group_id',$id)->get();
         session()->put('data',$permiss);
        
-        $user=auth()->user();
-        $user_group=$user->user_group_id;
-        $rolepermiss=rolepermission::where('user_group_id',$user_group)->get();
-
-        session()->put('roleper',$rolepermiss);
+        
         return redirect('dashboard/permission');
     }
+
+    /////groupmenu/////groupmenu/////groupmenu/////groupmenu/////groupmenu/////groupmenu
     public function getgroupmenu($id)
     {
         $groupmenu = Groupmenu::where('g_id',$id)->get();
@@ -86,9 +88,10 @@ class APIController extends Controller
         Groupmenu::insert($data);
         return redirect('/dashboard/MenuGroup');
     }
-    public function updategroupmenu(Request $request,$id)
+    public function updategroupmenu(Request $request)
     {
-        $data = Groupmenu::find($id);
+        $gid=$request->input('g_id');
+        $data = Groupmenu::find($gid);
         $data->g_name = $request->input('g_name');
         $data->g_icon = $request->input('g_icon');
         $data->save();
@@ -101,4 +104,72 @@ class APIController extends Controller
         
         return redirect('/dashboard/MenuGroup');
     }
+    /////groupmenu/////groupmenu/////groupmenu/////groupmenu/////groupmenu/////groupmenu
+
+    /////menu/////menu/////menu/////menu/////menu/////menu
+    public function getmenu($id)
+    {
+        $groupmenu = Menu::where('m_id',$id)->get();
+        return $groupmenu;
+    }
+    public function addmenu(Request $request)
+    {
+        $data['m_name']=$request->m_name;
+        $data['m_url']=$request->m_url;
+        $data['g_id']=$request->g_id;
+        Menu::insert($data);
+        return redirect('/dashboard/Menu');
+    }
+    public function updatemenu(Request $request)
+    {
+        $gid=$request->input('m_id1');
+        $data = Menu::find($gid);
+        $data->m_name = $request->input('m_name1');
+        $data->m_url = $request->input('m_url1');
+        $data->g_id = $request->input('g_id1');
+        $data->save();
+        return redirect('/dashboard/Menu');
+    }
+    public function deletemenu($id)
+    {
+        $product = Menu::find($id);
+        $product->delete();
+        
+        return redirect('/dashboard/Menu');
+    }
+    /////menu/////menu/////menu/////menu/////menu/////menu
+
+     /////หลักสูตร/////หลักสูตร/////หลักสูตร/////หลักสูตร/////หลักสูตร/////หลักสูตร
+     public function getcourse()
+     {
+         $course = Course::where('course_id',$id)->get();
+         return $course;
+     }
+     public function addcourse(Request $request)
+     {
+         $data['m_name']=$request->m_name;
+         $data['m_url']=$request->m_url;
+         $data['g_id']=$request->g_id;
+         Course::insert($data);
+         return redirect('/dashboard/Menu');
+     }
+     public function updatecourse(Request $request)
+     {
+         $gid=$request->input('m_id1');
+         $data = Course::find($gid);
+         $data->m_name = $request->input('m_name1');
+         $data->m_url = $request->input('m_url1');
+         $data->g_id = $request->input('g_id1');
+         $data->save();
+         return redirect('/dashboard/Menu');
+     }
+     public function deletecourse($id)
+     {
+         $product = Course::find($id);
+         $product->delete();
+         
+         return redirect('/dashboard/Menu');
+     }
+     /////หลักสูตร/////หลักสูตร/////หลักสูตร/////หลักสูตร/////หลักสูตร/////หลักสูตร
+     
 }

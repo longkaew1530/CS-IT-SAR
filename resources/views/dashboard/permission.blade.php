@@ -1,7 +1,7 @@
 @extends('layout.admid_layout')
 
 @section('content')
-<div class="box box-warning marginl wid50">
+<div class="box box-warning marginl ">
             <div class="box-header">
               <h2 class="box-title">กำหนดสิทธิ์ผู้ใช้งาน</h2>
             </div>
@@ -11,9 +11,10 @@
             <table id="example2" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                  <th>ID</th>
-                  <th width="60%">กลุ่มผู้ใช้งาน</th>
-                  <th>กำหนดสิทธิ์</th>
+                  <th width="5%">ID</th>
+                  <th width="20%">กลุ่มผู้ใช้งาน</th>
+                  <th width="60%">สิทธิ์ที่ได้รับ</th>
+                  <th width="10%">กำหนดสิทธิ์</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -21,7 +22,14 @@
                 <tr>
                   <td>{{$row['user_group_id']}}</td>
                   <td>{{$row['user_group_name']}}</td>
-                  <td><button class="btn btn-warning" type="button" data-id="{{$row['user_group_id']}}"  data-toggle="modal" data-target="#modal-info" ><i class='fa fas fa-edit'></i>กำหนดสิทธิ์</button></td>
+                  <td>
+                    @foreach($getper as $value)
+                      @if($value['user_group_id']==$row['user_group_id'])
+                        <span class="badge bg-green pd-1">{{$value['m_name']}}</span>
+                      @endif
+                    @endforeach
+                  </td>
+                  <td class="text-center"><button class="btn btn-warning" type="button" data-id="{{$row['user_group_id']}}"  data-toggle="modal" data-target="#modal-info" ><i class='fa fas fa-edit'></i></button></td>
                 </tr>
                 @endforeach
                 </tbody>
@@ -96,6 +104,9 @@
 }
 .mt20{
   margin-top:50px
+}
+.pd-1{
+  padding:5px;
 }
 .ml-1{
   margin-left:10px

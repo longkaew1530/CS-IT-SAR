@@ -5,7 +5,7 @@
             <div class="box-header">
               <h2 class="box-title">กลุ่มเมนู</h2>
             </div>
-            <button  class="btn btn-success ml-1" type="button"   data-toggle="modal" data-target="#modal-info"><i class="glyphicon glyphicon-plus-sign"></i> เพิ่มข้อมูล</button>
+            <button  class="btn btn-success ml-1" type="button"   data-toggle="modal" data-target="#modal-info"><i class="fa fa-plus"></i> เพิ่มข้อมูล</button>
             <!-- /.box-header -->
             <div class="box-body">
             <!-- /.box-header -->
@@ -20,9 +20,9 @@
                 </tr>
                 </thead>
                 <tbody>
-                  @foreach($getgroupmenu as $row)
+                  @foreach($getgroupmenu as $key=>$row)
                 <tr>
-                  <td>{{$row['g_id']}}</td>
+                  <td>{{$key+1}}</td>
                   <td>{{$row['g_name']}}</td>  
                   <td><i class="{{$row['g_icon']}}"></i></td>          
                   <td class="text-center"><button class="btn btn-warning" type="button"   data-toggle="modal" data-target="#modal-edit" data-id="{{$row['g_id']}}"><i class='fa fas fa-edit'></i></button></td>
@@ -76,12 +76,13 @@
                   <span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">เพิ่มข้อมูลกลุ่มเมนู</h4>
               </div>
-              <form  method="POST" action="/updategroupmenu/{{$row['g_id']}}">
+              <form  method="POST" action="/updategroupmenu">
               @csrf
               {{ method_field('PUT') }}
               <div class="box-body">
                 <div class="form-group">
                   <label for="exampleInputEmail1">กลุ่มเมนู</label>
+                  <input type="hidden" class="form-control" id="g_id" name="g_id" >
                   <input type="text" class="form-control" id="g_name" name="g_name" placeholder="กลุ่มเมนู">
                 </div>
                 <div class="form-group">
@@ -169,6 +170,7 @@ var url = "/getgroupmenu";
         $.get(url + '/' + id, function (data) {
             //success data
             console.log(data)
+            $("#g_id").val(data[0].g_id);
             $("#g_name").val(data[0].g_name);
             $("#g_icon").val(data[0].g_icon);
         }) 
