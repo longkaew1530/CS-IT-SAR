@@ -92,6 +92,10 @@ Route::post('/addusergroup', 'APIController@addusergroup');
 Route::delete('/deleteusergroup/{id}', 'APIController@deleteusergroup');
 Route::put('/updateusergroup','APIController@updateusergroup');
 Route::get('/getusergroup/{id}','APIController@getusergroup');
+/////nextyear
+Route::put('/nextyear','APIController@nextyear');
+/////backyear
+Route::put('/backyear','APIController@backyear');
 
 
 Route::get('/getrolepermisson/{id}','APIController@getrolepermission');

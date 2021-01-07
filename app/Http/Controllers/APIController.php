@@ -9,6 +9,7 @@ use App\Groupmenu;
 use App\Course;
 use App\Faculty;
 use App\groupuser;
+use App\Year;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 class APIController extends Controller
@@ -238,4 +239,33 @@ class APIController extends Controller
      }
      /////กลุ่มผู้ใช้งาน/////กลุ่มผู้ใช้งาน/////กลุ่มผู้ใช้งาน/////กลุ่มผู้ใช้งาน/////กลุ่มผู้ใช้งาน/////กลุ่มผู้ใช้งาน
      
+     /////ปีถัดไป/////ปีถัดไป/////ปีถัดไป/////ปีถัดไป/////ปีถัดไป/////ปีถัดไป
+     public function nextyear()
+     {
+         $getyear=Year::all();
+         foreach($getyear as $value){
+             $nextyear=$value['year_name'];
+         }
+         $queryyaer=Year::find(1);
+         $nextyear++;
+         $queryyaer->year_name=$nextyear;
+         $queryyaer->save();
+         return $queryyaer;
+     }
+     /////ปีถัดไป/////ปีถัดไป/////ปีถัดไป/////ปีถัดไป/////ปีถัดไป/////ปีถัดไป
+
+     /////ปีก่อนหน้า/////ปีก่อนหน้า/////ปีก่อนหน้า/////ปีก่อนหน้า/////ปีก่อนหน้า/////ปีก่อนหน้า
+     public function backyear()
+     {
+         $getyear=Year::all();
+         foreach($getyear as $value){
+             $backyear=$value['year_name'];
+         }
+         $queryyaer=Year::find(1);
+         $backyear--;
+         $queryyaer->year_name=$backyear;
+         $queryyaer->save();
+         return $queryyaer;
+     }
+     /////ปีก่อนหน้า/////ปีก่อนหน้า/////ปีก่อนหน้า/////ปีก่อนหน้า/////ปีก่อนหน้า/////ปีก่อนหน้า
 }
