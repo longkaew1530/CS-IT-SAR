@@ -26,7 +26,8 @@ Route::get('/dashboard/board', 'DashboardController@index9');
 Route::get('/dashboard/category', 'DashboardController@index10');
 Route::get('/dashboard/Indicator', 'DashboardController@index11');
 Route::get('/dashboard/usercategory', 'DashboardController@index12');
-
+Route::get('/dashboard/faculty', 'DashboardController@index13');
+Route::get('/dashboard/usergroup', 'DashboardController@index14');
 /////หมวด1-2
 Route::get('/category/indicator1-1', 'CategoryController@indicator1_1');
 Route::get('/category/category1', 'CategoryController@category1');
@@ -76,6 +77,21 @@ Route::post('/addmenu', 'APIController@addmenu');
 Route::delete('/deletemenu/{id}', 'APIController@deletemenu');
 Route::put('/updatemenu','APIController@updatemenu');
 Route::get('/getmenu/{id}','APIController@getmenu');
+/////course
+Route::post('/addcourse', 'APIController@addcourse');
+Route::delete('/deletecourse/{id}', 'APIController@deletecourse');
+Route::put('/updatecourse','APIController@updatecourse');
+Route::get('/getcourse/{id}','APIController@getcourse');
+/////faculty
+Route::post('/addfaculty', 'APIController@addfaculty');
+Route::delete('/deletefaculty/{id}', 'APIController@deletefaculty');
+Route::put('/updatefaculty','APIController@updatefaculty');
+Route::get('/getfaculty/{id}','APIController@getfaculty');
+/////usergroup
+Route::post('/addusergroup', 'APIController@addusergroup');
+Route::delete('/deleteusergroup/{id}', 'APIController@deleteusergroup');
+Route::put('/updateusergroup','APIController@updateusergroup');
+Route::get('/getusergroup/{id}','APIController@getusergroup');
 
 
 Route::get('/getrolepermisson/{id}','APIController@getrolepermission');

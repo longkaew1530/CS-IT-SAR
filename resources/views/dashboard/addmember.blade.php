@@ -6,7 +6,7 @@
               <h2 class="box-title">รายชื่อผู้ใช้งานทั้งหมด</h2>
             </div>
             <a href="{{url('/dashboard/index3')}}">
-            <button type="submit" class="btn btn-success ml-1"><i class="glyphicon glyphicon-plus-sign"></i> เพิ่มข้อมูล</button>
+            <button type="submit" class="btn btn-success ml-1"><i class="fa fa-plus"></i> เพิ่มข้อมูล</button>
             </a>
             <!-- /.box-header -->
             <div class="box-body">
@@ -33,8 +33,8 @@
                   <td>{{$row['email']}}</td>
                   <td>{{$row['password']}}</td>
                   
-                  <td><button class="btn btn-warning"><i class='fa fas fa-edit'></i> แก้ไข</button></td>
-                  <td><button class="btn btn-danger"><i class='fa fa-trash'></i> ลบ</button></td>
+                  <td><button class="btn btn-warning"><i class='fa fas fa-edit'></i></button></td>
+                  <td><button class="btn btn-danger"><i class='fa fa-trash'></i></button></td>
                 </tr>
                 @endforeach
                 </tbody>

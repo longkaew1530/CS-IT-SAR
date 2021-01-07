@@ -11,6 +11,8 @@ use App\Tps;
 use App\usergroup;
 use App\Menu;
 use App\rolepermission;
+use App\Faculty;
+use App\groupuser;
 use App\course_responsible_teacher;
 use App\Educational_background;
 use Illuminate\Support\Facades\Hash;
@@ -38,7 +40,7 @@ class DashboardController extends Controller
         $user=auth()->user();
         $user_course=$user->user_course;
         $user_group=$user->user_group_id;
-        $year=Year::where('year_name',2563)->get();
+        $year=Year::all();
         foreach($year as $value){
             $y_name=$value['year_name'];
             $y_id=$value['year_id'];
@@ -54,7 +56,7 @@ class DashboardController extends Controller
          }
         session()->put('groupmenu',$groupmenu);
         session()->put('roleper',$rolepermiss);
-        return view('dashboard/year');
+        return view('dashboard/year',compact('year'));
     }
     public function index2()
     {
@@ -101,10 +103,10 @@ class DashboardController extends Controller
         dd($role);
     }
     public function index8()
-    {
+    {   $faculty=Faculty::all();
         $course=Course::leftjoin('faculty','course.faculty_id','=','faculty.faculty_id')
         ->get();
-        return view('dashboard/course',compact('course'));
+        return view('dashboard/course',compact('course','faculty'));
     }
     public function index9()
     {
@@ -126,5 +128,14 @@ class DashboardController extends Controller
         
         return view('dashboard/usercategory');
     }
-    
+    public function index13()
+    {
+        $faculty=Faculty::all();
+        return view('dashboard/faculty',compact('faculty'));
+    }
+    public function index14()
+    {
+        $groupuser=groupuser::all();
+        return view('dashboard/addgroupmember',compact('groupuser'));
+    }
 }

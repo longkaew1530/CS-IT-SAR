@@ -29,9 +29,9 @@
                   <td>{{$row['faculty_name']}}</td>
                   <td>{{$row['course_code']}}</td>
                   <td>{{$row['branch']}}</td>          
-                  <td class="text-center"><button class="btn btn-warning" type="button"   data-toggle="modal" data-target="#modal-edit" data-id="{{$row['g_id']}}"><i class='fa fas fa-edit'></i></button></td>
+                  <td class="text-center"><button class="btn btn-warning" type="button"   data-toggle="modal" data-target="#modal-edit" data-id="{{$row['course_id']}}"><i class='fa fas fa-edit'></i></button></td>
                   <td class="text-center">
-                                      <form id="delete-form" method="POST" action="/deletegroupmenu/{{$row['g_id']}}">
+                                      <form id="delete-form" method="POST" action="/deletecourse/{{$row['course_id']}}">
                                         {{ csrf_field() }}
                                         {{ method_field('DELETE') }}
                                       <button type="submit" class="btn btn-danger"><i class='fa fa-trash'></i></button></form>
@@ -45,16 +45,36 @@
                   <span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">เพิ่มข้อมูลกลุ่มเมนู</h4>
               </div>
-              <form  method="POST" action="/addgroupmenu">
+              <form  method="POST" action="/addcourse">
               @csrf
               <div class="box-body">
                 <div class="form-group">
                   <label for="exampleInputEmail1">หลักสูตร</label>
-                  <input type="text" class="form-control" id="group" name="group" placeholder="หลักสูตร">
+                  <input type="text" class="form-control" id="course_name" name="course_name" placeholder="หลักสูตร">
                 </div>
                 <div class="form-group">
-                  <label for="exampleInputPassword1">icon</label>
-                  <input type="text" class="form-control" id="icon" name="icon" placeholder="icon">
+                  <label for="exampleInputPassword1">สาขา</label>
+                  <input type="text" class="form-control" id="branch" name="branch" placeholder="สาขา">
+                </div>
+                <div class="form-group">
+                <label for="exampleInputPassword1">คณะ</label>
+                                  <select class="form-control"  id="faculty_id"  class="form-control @error('role') is-invalid @enderror" name="faculty_id">
+                                    @foreach($faculty as $value)
+                                    <option value="{{$value['faculty_id']}}">{{$value['faculty_name']}}</option>
+                                    @endforeach
+                                  </select>
+                                  </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">รหัสหลักสูตร</label>
+                  <input type="text" class="form-control" id="course_code" name="course_code" placeholder="รหัสหลักสูตร">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">หลักสูตรปรับปรุง</label>
+                  <input type="text" class="form-control" id="update_course" name="update_course" placeholder="หลักสูตรปรับปรุง">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">สถานที่</label>
+                  <input type="text" class="form-control" id="place" name="place" placeholder="สถานที่">
                 </div>
               </div>
             
@@ -80,18 +100,38 @@
                   <span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">เพิ่มข้อมูลกลุ่มเมนู</h4>
               </div>
-              <form  method="POST" action="/updategroupmenu">
+              <form  method="POST" action="/updatecourse">
               @csrf
               {{ method_field('PUT') }}
               <div class="box-body">
-                <div class="form-group">
-                  <label for="exampleInputEmail1">กลุ่มเมนู</label>
-                  <input type="hidden" class="form-control" id="g_id" name="g_id" >
-                  <input type="text" class="form-control" id="g_name" name="g_name" placeholder="กลุ่มเมนู">
+              <div class="form-group">
+              <input type="hidden" class="form-control" id="courseid" name="course_id" >
+                  <label for="exampleInputEmail1">หลักสูตร</label>
+                  <input type="text" class="form-control" id="coursename" name="course_name" placeholder="หลักสูตร">
                 </div>
                 <div class="form-group">
-                  <label for="exampleInputPassword1">icon</label>
-                  <input type="text" class="form-control" id="g_icon" name="g_icon" placeholder="icon">
+                  <label for="exampleInputPassword1">สาขา</label>
+                  <input type="text" class="form-control" id="branch1" name="branch" placeholder="สาขา">
+                </div>
+                <div class="form-group">
+                <label for="exampleInputPassword1">คณะ</label>
+                                  <select class="form-control"  id="facultyid"  class="form-control @error('role') is-invalid @enderror" name="faculty_id">
+                                    @foreach($faculty as $value)
+                                    <option value="{{$value['faculty_id']}}">{{$value['faculty_name']}}</option>
+                                    @endforeach
+                                  </select>
+                                  </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">รหัสหลักสูตร</label>
+                  <input type="text" class="form-control" id="coursecode" name="course_code" placeholder="รหัสหลักสูตร">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">หลักสูตรปรับปรุง</label>
+                  <input type="text" class="form-control" id="updatecourse" name="update_course" placeholder="หลักสูตรปรับปรุง">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">สถานที่</label>
+                  <input type="text" class="form-control" id="place1" name="place" placeholder="สถานที่">
                 </div>
               </div>
             
@@ -170,13 +210,17 @@ var button = $(event.relatedTarget);
 var id= button.data('id');
 var modal = $(this);
 modal.find('#emp_id').val(id);
-var url = "/getgroupmenu";
+var url = "/getcourse";
         $.get(url + '/' + id, function (data) {
             //success data
             console.log(data)
-            $("#g_id").val(data[0].g_id);
-            $("#g_name").val(data[0].g_name);
-            $("#g_icon").val(data[0].g_icon);
+            $("#courseid").val(data[0].course_id);
+            $("#coursename").val(data[0].course_name);
+            $("#branch1").val(data[0].branch);
+            $("#facultyid").val(data[0].faculty_id);
+            $("#coursecode").val(data[0].course_code);
+            $("#updatecourse").val(data[0].update_course);
+            $("#place1").val(data[0].place);
         }) 
 });
 });

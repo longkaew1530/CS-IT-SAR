@@ -15,4 +15,5 @@ class Groupmenu extends Model
     {
         return $this->hasMany('App\Menu','g_id','g_id');
     }
+    public $timestamps = false;
 }

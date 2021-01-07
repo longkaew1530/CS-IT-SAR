@@ -7,6 +7,8 @@ use App\rolepermission;
 use App\Menu;
 use App\Groupmenu;
 use App\Course;
+use App\Faculty;
+use App\groupuser;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 class APIController extends Controller
@@ -140,36 +142,100 @@ class APIController extends Controller
     /////menu/////menu/////menu/////menu/////menu/////menu
 
      /////หลักสูตร/////หลักสูตร/////หลักสูตร/////หลักสูตร/////หลักสูตร/////หลักสูตร
-     public function getcourse()
+     public function getcourse($id)
      {
          $course = Course::where('course_id',$id)->get();
          return $course;
      }
      public function addcourse(Request $request)
      {
-         $data['m_name']=$request->m_name;
-         $data['m_url']=$request->m_url;
-         $data['g_id']=$request->g_id;
+         $data['course_name']=$request->course_name;
+         $data['faculty_id']=$request->faculty_id ;
+         $data['course_code']=$request->course_code;
+         $data['branch']=$request->branch;
+         $data['update_course']=$request->update_course;
+         $data['place']=$request->place;
          Course::insert($data);
-         return redirect('/dashboard/Menu');
+         return redirect('/dashboard/course');
      }
      public function updatecourse(Request $request)
      {
-         $gid=$request->input('m_id1');
-         $data = Course::find($gid);
-         $data->m_name = $request->input('m_name1');
-         $data->m_url = $request->input('m_url1');
-         $data->g_id = $request->input('g_id1');
+         $course_id=$request->input('course_id');
+         $data = Course::find($course_id);
+         $data->course_name = $request->input('course_name');
+         $data->faculty_id = $request->input('faculty_id');
+         $data->course_code = $request->input('course_code');
+         $data->branch = $request->input('branch');
+         $data->update_course = $request->input('update_course');
+         $data->place = $request->input('place');
          $data->save();
-         return redirect('/dashboard/Menu');
+         return redirect('/dashboard/course');
      }
      public function deletecourse($id)
      {
          $product = Course::find($id);
          $product->delete();
          
-         return redirect('/dashboard/Menu');
+         return redirect('/dashboard/course');
      }
      /////หลักสูตร/////หลักสูตร/////หลักสูตร/////หลักสูตร/////หลักสูตร/////หลักสูตร
+
+     /////คณะ/////คณะ/////คณะ/////คณะ/////คณะ/////คณะ
+     public function getfaculty($id)
+     {
+         $faculty = Faculty::where('faculty_id',$id)->get();
+         return $faculty;
+     }
+     public function addfaculty(Request $request)
+     {
+         $data['faculty_name']=$request->faculty_name;
+         Faculty::insert($data);
+         return redirect('/dashboard/faculty');
+     }
+     public function updatefaculty(Request $request)
+     {
+         $course_id=$request->input('faculty_id');
+         $data = Faculty::find($course_id);
+         $data->faculty_name = $request->input('faculty_name');
+         $data->save();
+         return redirect('/dashboard/faculty');
+     }
+     public function deletefaculty($id)
+     {
+         $product = Faculty::find($id);
+         $product->delete();
+         
+         return redirect('/dashboard/faculty');
+     }
+     /////คณะ/////คณะ/////คณะ/////คณะ/////คณะ/////คณะ
+
+     /////กลุ่มผู้ใช้งาน/////กลุ่มผู้ใช้งาน/////กลุ่มผู้ใช้งาน/////กลุ่มผู้ใช้งาน/////กลุ่มผู้ใช้งาน/////กลุ่มผู้ใช้งาน
+     public function getusergroup($id)
+     {
+         $groupuser = groupuser::where('user_group_id',$id)->get();
+         return $groupuser;
+     }
+     public function addusergroup(Request $request)
+     {
+         $data['user_group_name']=$request->user_group_name;
+         groupuser::insert($data);
+         return redirect('/dashboard/usergroup');
+     }
+     public function updateusergroup(Request $request)
+     {
+         $course_id=$request->input('user_group_id');
+         $data = groupuser::find($course_id);
+         $data->user_group_name = $request->input('user_group_name');
+         $data->save();
+         return redirect('/dashboard/usergroup');
+     }
+     public function deleteusergroup($id)
+     {
+         $product = groupuser::find($id);
+         $product->delete();
+         
+         return redirect('/dashboard/usergroup');
+     }
+     /////กลุ่มผู้ใช้งาน/////กลุ่มผู้ใช้งาน/////กลุ่มผู้ใช้งาน/////กลุ่มผู้ใช้งาน/////กลุ่มผู้ใช้งาน/////กลุ่มผู้ใช้งาน
      
 }

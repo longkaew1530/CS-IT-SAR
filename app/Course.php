@@ -9,7 +9,7 @@ class Course extends Model
     protected $table = 'course';
     protected $primaryKey = 'course_id';
     protected $fillable=[
-        'course_name','faculty_id'
+        'course_name','faculty_id','course_code','branch','update_course','place'
     ];
-    
+    public $timestamps = false;
 }
