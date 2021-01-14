@@ -10,6 +10,9 @@ use App\Course;
 use App\Faculty;
 use App\groupuser;
 use App\Year;
+use Validator;
+use File;
+use App\imagetest;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 class APIController extends Controller
@@ -268,4 +271,80 @@ class APIController extends Controller
          return $queryyaer;
      }
      /////ปีก่อนหน้า/////ปีก่อนหน้า/////ปีก่อนหน้า/////ปีก่อนหน้า/////ปีก่อนหน้า/////ปีก่อนหน้า
+
+
+     /////เพิ่มผู้ใช้งาน/////เพิ่มผู้ใช้งาน/////เพิ่มผู้ใช้งาน/////เพิ่มผู้ใช้งาน/////เพิ่มผู้ใช้งาน/////เพิ่มผู้ใช้งาน
+     public function getuser($id)
+     {
+         $user = User::where('id',$id)->get();
+         return $user;
+     }
+     public function adduser(Request $request)
+     {
+         
+        request()->validate([
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+       ]); 
+       $data = ['user_fullname' => $request->user_fullname,
+         'email' => $request->email,
+          'username' => $request->username,
+          'password' => Hash::make($request->password),
+          'user_faculty' => $request->user_faculty,
+          'user_course' => $request->user_course,
+          'user_group_id' => $request->user_group_id,
+          'academic_position' => $request->academic_position,
+        ];
+        if ($files = $request->file('image')) {
+            
+           //delete old file
+           \File::delete('public/user/'.$request->hidden_image);
+         
+           //insert new file
+           $destinationPath = 'public/user/'; // upload path
+           $profileImage = date('YmdHis') . "." . $files->getClientOriginalExtension();
+           $files->move($destinationPath, $profileImage);
+           $data['image'] = "$profileImage";
+        }
+        
+        User::insert($data);  
+    
+        
+     }
+     public function updateuser(Request $request)
+     {
+        $user_id=$request->input('userid');
+        $data = User::find($user_id);
+         request()->validate([
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+       ]); 
+       $data->user_fullname = $request->input('user_fullname');
+       $data->email = $request->input('email');
+       $data->username = $request->input('username');
+       if($request->input('password')){
+        $data->password = Hash::make($request->input('password'));
+       }
+       $data->user_faculty = $request->input('user_faculty');
+       $data->user_course = $request->input('user_course');
+       $data->user_group_id = $request->input('user_group_id');
+       $data->academic_position = $request->input('academic_position');
+        if ($files = $request->file('image')) {
+           //delete old file
+           \File::delete('public/user/'.$request->hidden_image);
+           //insert new file
+           $destinationPath = 'public/user/'; // upload path
+           $profileImage = date('YmdHis') . "." . $files->getClientOriginalExtension();
+           $files->move($destinationPath, $profileImage);
+           $data->image = "$profileImage";
+        }
+        $data->save();
+        return redirect('/dashboard/addmember'); 
+     }
+     public function deleteuser($id)
+     {
+         $product = User::find($id);
+         $product->delete();
+         
+         
+     }
+     /////เพิ่มผู้ใช้งาน/////เพิ่มผู้ใช้งาน/////เพิ่มผู้ใช้งาน/////เพิ่มผู้ใช้งาน/////เพิ่มผู้ใช้งาน/////เพิ่มผู้ใช้งาน
 }

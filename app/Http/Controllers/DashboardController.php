@@ -60,9 +60,14 @@ class DashboardController extends Controller
     }
     public function index2()
     {
-        
-        $Getall=User::all();
-        return view('dashboard.addmember',compact('Getall'));
+        $course=Course::all();
+        $faculty=Faculty::all();
+        $groupuser=groupuser::all();
+        $user=User::leftjoin('course','users.user_course','=','course.course_id')
+        ->leftjoin('faculty','users.user_faculty','=','faculty.faculty_id')
+        ->leftjoin('user_group','users.user_group_id','=','user_group.user_group_id')
+        ->get();
+        return view('dashboard.addmember',compact('user','course','faculty','groupuser'));
     }
     public function index3()
     {

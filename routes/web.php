@@ -28,6 +28,8 @@ Route::get('/dashboard/Indicator', 'DashboardController@index11');
 Route::get('/dashboard/usercategory', 'DashboardController@index12');
 Route::get('/dashboard/faculty', 'DashboardController@index13');
 Route::get('/dashboard/usergroup', 'DashboardController@index14');
+/////อาจารย์
+Route::get('/educational_background', 'AJController@educational_background');
 /////หมวด1-2
 Route::get('/category/indicator1-1', 'CategoryController@indicator1_1');
 Route::get('/category/category1', 'CategoryController@category1');
@@ -96,7 +98,16 @@ Route::get('/getusergroup/{id}','APIController@getusergroup');
 Route::put('/nextyear','APIController@nextyear');
 /////backyear
 Route::put('/backyear','APIController@backyear');
-
+/////user
+Route::post('/adduser','APIController@adduser');
+Route::delete('/deleteuser/{id}', 'APIController@deleteuser');
+Route::get('/getuser/{id}','APIController@getuser');
+Route::put('/updateuser','APIController@updateuser');
+/////user
+Route::post('/addeducational_background','APIAJController@addeducational_background');
+Route::delete('/deleteeducational_background/{id}', 'APIAJController@deleteeducational_background');
+Route::get('/geteducational_background/{id}','APIAJController@geteducational_background');
+Route::put('/updateeducational_background','APIAJController@updateeducational_background');
 
 Route::get('/getrolepermisson/{id}','APIController@getrolepermission');
 Auth::routes();

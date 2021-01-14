@@ -18,7 +18,7 @@ class User extends Authenticatable
     protected $table = 'users';
     protected $primaryKey = 'id';
     protected $fillable = [
-        'user_fullname', 'username', 'password','email','user_faculty','user_ course','user_group_id'
+        'user_fullname', 'username', 'password','email','user_faculty','user_ course','user_group_id','academic_position','image'
     ];
     public function educational_background()
     {

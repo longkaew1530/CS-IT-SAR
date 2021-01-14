@@ -6,7 +6,7 @@
               <h2 class="box-title">จัดการปีการศึกษา</h2>
             </div>
             <button type="submit" class="btn btn-danger ml-1" id="back"><i class="fa  fa-minus mr-1"></i>  ปีการศึกษาก่อนหน้า</button>
-            <meta name="csrf-token" content="{{ csrf_token() }}">
+            
             <button type="button" class="btn btn-success ml-1" id="next"><i class="fa fa-plus mr-1"></i>  ปีการศึกษาถัดไป</button>
             <!-- /.box-header -->
             <div class="box-body">
@@ -16,9 +16,7 @@
             <div class="inner">
             @foreach($year as $value)
                <p>ปีการศึกษา</p>
-              <h3>{{$value['year_name']}}</h3>
-
-              
+              <h3>{{$value['year_name']}}</h3>   
             @endforeach
             </div>
             <div class="icon">
@@ -97,11 +95,13 @@ var url = "/getusergroup";
         },
            success:function(data){
             swal({
-            title: "เพิ่มข้อมูลเรียบร้อยแล้ว",
+              title: "เพิ่มข้อมูลเรียบร้อยแล้ว",
             text: "",
             icon: "success",
             button: "ตกลง",
-            });
+           }).then(function() {
+              window.location = "/";
+           });
            }
         });
 	});
@@ -123,11 +123,13 @@ var url = "/getusergroup";
         },
            success:function(data){
             swal({
-            title: "เพิ่มข้อมูลเรียบร้อยแล้ว",
+              title: "เพิ่มข้อมูลเรียบร้อยแล้ว",
             text: "",
             icon: "success",
             button: "ตกลง",
-            });
+           }).then(function() {
+              window.location = "/";
+           });
            }
         });
 	});
