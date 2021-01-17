@@ -7,7 +7,7 @@ use App\DocPDCA;
 use App\Groupmenu;
 use App\Course;
 use App\categoty_researh;
-use App\Research_results;
+use App\ModelAJ\Research_results;
 use App\Year;
 use App\Tps;
 use App\indicator4_3;

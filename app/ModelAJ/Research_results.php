@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\ModelAJ;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,4 +19,5 @@ class Research_results extends Model
     {
         return $this->belongsTo('App\ModelAJ\categoty_researh');
     }
+    public $timestamps = false;
 }

@@ -30,6 +30,8 @@ Route::get('/dashboard/faculty', 'DashboardController@index13');
 Route::get('/dashboard/usergroup', 'DashboardController@index14');
 /////อาจารย์
 Route::get('/educational_background', 'AJController@educational_background');
+Route::get('/research_results', 'AJController@research_results');
+Route::get('/addpdca', 'AJController@addpdca');
 /////หมวด1-2
 Route::get('/category/indicator1-1', 'CategoryController@indicator1_1');
 Route::get('/category/category1', 'CategoryController@category1');
@@ -103,11 +105,22 @@ Route::post('/adduser','APIController@adduser');
 Route::delete('/deleteuser/{id}', 'APIController@deleteuser');
 Route::get('/getuser/{id}','APIController@getuser');
 Route::put('/updateuser','APIController@updateuser');
-/////user
+/////educational_background
 Route::post('/addeducational_background','APIAJController@addeducational_background');
-Route::delete('/deleteeducational_background/{id}', 'APIAJController@deleteeducational_background');
+Route::post('/deleteeducational_background/{id}', 'APIAJController@deleteeducational_background');
 Route::get('/geteducational_background/{id}','APIAJController@geteducational_background');
 Route::put('/updateeducational_background','APIAJController@updateeducational_background');
+/////research_results
+Route::post('/addresearch_results','APIAJController@addresearch_results');
+Route::post('/deleteresearch_results/{id}', 'APIAJController@deleteresearch_results');
+Route::get('/getresearch_results/{id}','APIAJController@getresearch_results');
+Route::put('/updateresearch_results','APIAJController@updateresearch_results');
+
+/////pdca
+Route::post('/addpdca','APIAJController@addpdca');
+Route::post('/deletepdca/{id}', 'APIAJController@deletepdca');
+Route::get('/getpdca/{id}','APIAJController@getpdca');
+Route::put('/updatepdca','APIAJController@updatepdca');
 
 Route::get('/getrolepermisson/{id}','APIController@getrolepermission');
 Auth::routes();

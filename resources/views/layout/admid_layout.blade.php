@@ -26,7 +26,7 @@
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="{{url('/')}}/dist/css/skins/_all-skins.min.css">
   <link rel="stylesheet" href="{{url('/')}}/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
-
+  <link rel="stylesheet" href="{{url('/')}}/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 
@@ -352,6 +352,38 @@
 <script src="{{url('/')}}/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="{{url('/')}}/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="{{url('/')}}/bower_components/ckeditor/ckeditor.js"></script>
+<script src="{{url('/')}}/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+<script>
+  $(function () {
+    // Replace the <textarea id="editor1"> with a CKEditor
+    // instance, using default configuration.
+    CKEDITOR.replace('editor1')
+    //bootstrap WYSIHTML5 - text editor
+    $('.textarea').wysihtml5()
+  })
+  $(function () {
+    // Replace the <textarea id="editor1"> with a CKEditor
+    // instance, using default configuration.
+    CKEDITOR.replace('editor2')
+    //bootstrap WYSIHTML5 - text editor
+    $('.textarea').wysihtml5()
+  })
+  $(function () {
+    // Replace the <textarea id="editor1"> with a CKEditor
+    // instance, using default configuration.
+    CKEDITOR.replace('editor3')
+    //bootstrap WYSIHTML5 - text editor
+    $('.textarea').wysihtml5()
+  })
+  $(function () {
+    // Replace the <textarea id="editor1"> with a CKEditor
+    // instance, using default configuration.
+    CKEDITOR.replace('editor4')
+    //bootstrap WYSIHTML5 - text editor
+    $('.textarea').wysihtml5()
+  })
+</script>
 <script>
   $(function () {
     $('#example1').DataTable({

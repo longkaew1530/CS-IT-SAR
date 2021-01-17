@@ -26,7 +26,7 @@ class User extends Authenticatable
     }
     public function research_results()
     {
-        return $this->belongsToMany('App\Research_results');
+        return $this->belongsToMany('App\ModelAJ\Research_results');
     }
     /**
      * The attributes that should be hidden for arrays.

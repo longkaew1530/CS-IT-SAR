@@ -126,8 +126,6 @@ var modal = $(this);
 modal.find('#emp_id').val(id);
 var url = "/getrolepermisson";
         $.get(url + '/' + id, function (data) {
-            //success data
-            console.log(id);
         }) 
 });
 });

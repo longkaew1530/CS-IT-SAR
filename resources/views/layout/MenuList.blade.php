@@ -131,6 +131,7 @@
             <li class="active"><a href="/category7/strength"><i class="fa fa-circle-o text-red"></i>หมวดที่7</a></li>
           </ul>
         </li> -->
+        <li><a href="/"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
         @foreach(session()->get('groupmenu')  as $value)
         <li class="active treeview menu-open">
         @foreach(session()->get('roleper')  as $value1)
@@ -154,10 +155,21 @@
               @endforeach
             @endforeach
           </ul>
-          
+         
+        @endforeach
+        <li class="active treeview menu-open">
+          <a href="">
+            <i class=""></i><span>หมวดที่2</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="active"><a href="/addpdca"><i class="fa fa-circle-o text-red"></i>การรับและแต่งตั้งอาจารย์ผู้รับผิดชอบหลักสูตร</a></li>
+          </ul>
+        </li>
           
         </li>
-        @endforeach
         <li class="header">LABELS</li>
         <li><a href="{{ route('logout') }}"  onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
         <i class="fa fa-sign-out"></i> <span>ออกจากระบบ</span></a></li>
