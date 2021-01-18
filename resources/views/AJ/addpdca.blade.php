@@ -126,7 +126,7 @@
         formData.append('files' + i, files.files[i]);
       }
       formData.append('TotalFiles', TotalFiles);
-      
+
       $.ajax({
         type: 'POST',
         url: "/addpdca",
@@ -136,8 +136,14 @@
         processData: false,
         dataType: 'json',
         success: (data) => {
-          
-          alert('Files has been uploaded using jQuery ajax');
+          swal({
+          title: "เพิ่มข้อมูลเรียบร้อยแล้ว",
+          text: "",
+          icon: "success",
+          button: "ตกลง",
+        }).then(function() {
+          window.location = "/pdca";
+        });
         },
         error: function(data) {
           alert(data.responseJSON.errors.files[0]);

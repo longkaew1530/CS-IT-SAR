@@ -15,4 +15,5 @@ class PDCA extends Model
     {
         return $this->hasMany('App\docpdca','pdca_id','pdca_id');
     }
+    public $timestamps = false;
 }

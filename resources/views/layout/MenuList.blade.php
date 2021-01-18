@@ -165,7 +165,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="active"><a href="/addpdca"><i class="fa fa-circle-o text-red"></i>การรับและแต่งตั้งอาจารย์ผู้รับผิดชอบหลักสูตร</a></li>
+            <li class="active"><a href="/pdca"><i class="fa fa-circle-o text-red"></i>การรับและแต่งตั้งอาจารย์ผู้รับผิดชอบหลักสูตร</a></li>
           </ul>
         </li>
           

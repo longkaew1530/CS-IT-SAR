@@ -123,32 +123,36 @@ class APIAJController extends Controller
             'doc_file' => 'required',
             'doc_file.*' => 'mimes:csv,txt,xlx,xls,pdf'
             ]);
-     
+        $data=new PDCA;
+        $data->p=$request->p;
+        $data->d=$request->d;
+        $data->c=$request->c;
+        $data->a=$request->a;
+        $data->save();
+        print($request->p);
+        $querymaxiddoc = docpdca::whereRaw('doc_id = (select max(`doc_id`) from doc_pdca)')->get();
+        $maxiddoc=$querymaxiddoc[0]['doc_id'];
             if($request->TotalFiles > 0)
             {
                     
                for ($x = 0; $x < $request->TotalFiles; $x++) 
                {
-                   if ($request->hasFile('doc_file'.$x)) 
+                   if ($request->hasFile('doc_file')) 
                     {
-                        $file = $request->file('doc_file'.$x);
-     
-                        $path = $file->store('public/files');
-                        $name = $file->getClientOriginalName();
-                        
-                        $insert['doc_file'] = $name;
-                        $insert['doc_name'] = $path;
-                    }
-               }
-               $insert['pdca_id'] = '20';
-               $insert['doc_id'] = '20';
+                        $getfile = $request->file('doc_file');
+                        $path = 'public/PDCA';
+                        $name = $getfile[$x]->getClientOriginalName();
+                        $fullfile=$path."/".$name;
+                        $getfile[$x]->move($path, $name);                 
+                        $insert[$x]['doc_file'] = $fullfile;
+                        $insert[$x]['doc_name'] = $name;
+                        $insert[$x]['pdca_id'] = $data->pdca_id;
+                        $insert[$x]['doc_id'] = $maxiddoc+($x+1);                     
+                    }            
+               }           
                docpdca::insert($insert);
-                return response()->json(['success'=>'Ajax Multiple fIle has been uploaded']);
             }
-            else
-            {
-               return response()->json(["message" => "Please try again."]);
-            }    
+  
     }
     public function updatpdca(Request $request)
     {

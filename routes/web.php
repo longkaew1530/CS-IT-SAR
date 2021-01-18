@@ -31,7 +31,7 @@ Route::get('/dashboard/usergroup', 'DashboardController@index14');
 /////อาจารย์
 Route::get('/educational_background', 'AJController@educational_background');
 Route::get('/research_results', 'AJController@research_results');
-Route::get('/addpdca', 'AJController@addpdca');
+Route::get('/pdca', 'AJController@addpdca');
 /////หมวด1-2
 Route::get('/category/indicator1-1', 'CategoryController@indicator1_1');
 Route::get('/category/category1', 'CategoryController@category1');
