@@ -102,5 +102,6 @@
 <script src="{{url('/')}}/dist3/js/demo.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{url('/')}}/dist3/js/pages/dashboard.js"></script>
+
 </body>
 </html>

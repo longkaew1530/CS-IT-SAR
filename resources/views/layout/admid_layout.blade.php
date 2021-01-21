@@ -349,11 +349,12 @@
 <!-- AdminLTE for demo purposes -->
 <script src="{{url('/')}}/dist/js/demo.js"></script>
 <!-- DataTables -->
-<script src="{{url('/')}}/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
-<script src="{{url('/')}}/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<script src="{{url('/')}}/bower_components/datatables.net/js/jquery.dataTables.min.js" ></script>
+<script src="{{url('/')}}/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js" ></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="{{url('/')}}/bower_components/ckeditor/ckeditor.js"></script>
 <script src="{{url('/')}}/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+
 <script>
   $(function () {
     // Replace the <textarea id="editor1"> with a CKEditor

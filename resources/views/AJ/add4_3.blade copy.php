@@ -6,7 +6,7 @@
     <div class="box-body">
       <div class="col-sm-2" align="right"></div>
       <div class="col-sm-8" align="center">
-        <h3><i class=""></i>{{$menuname[0]['m_name']}}</h3>
+        <h3><i class=""></i>เพิ่มผลการดำเนินงาน</h3>
         <hr>
       </div>
     </div>
@@ -15,12 +15,12 @@
       <div class="data">
         <div class="col-md-12">
           <div class="box-header col-md-12 col-sm-9 col-xs-12">
-            <h3 class="box-title">ขั้นตอนการวางแผน (P)</h3>
-            <input type="hidden" class="form-control" id="category_pdca" name="category_pdca" value="{{$menuname[0]['m_name']}}"/>
+            <h3 class="box-title">อัตราการคงอยู่ของอาจารย์</h3>
           </div>
           <div id="body">
             <div class="col-md-12 col-sm-9 col-xs-12">
-              <textarea id="editor1" name="editor1" rows="10" cols="80">
+              <textarea id="editor1" name="p" rows="10" cols="80">
+
               </textarea>
             </div>
           </div>
@@ -30,12 +30,11 @@
       <div class="data">
         <div class="col-md-12">
           <div class="box-header col-md-12 col-sm-9 col-xs-12">
-            <h3 class="box-title">การดำเนินงานตามแผน (D)</h3>
+            <h3 class="box-title">หลักฐานอ้างอิง</h3>
           </div>
           <div id="body">
             <div class="col-md-12 col-sm-9 col-xs-12">
-              <textarea id="editor2" name="editor2" rows="10" cols="80">
-                           </textarea>
+            <input multiple="true" type="file" id="doc_file" name="doc_file[]">
             </div>
           </div>
 
@@ -44,25 +43,11 @@
       <div class="data">
         <div class="col-md-12">
           <div class="box-header col-md-12 col-sm-9 col-xs-12">
-            <h3 class="box-title">การประเมินกระบวนการ (C)</h3>
+            <h3 class="box-title">ความพึงพอใจของอาจารย์ต่อการบริหารหลักสูตร</h3>
           </div>
           <div id="body">
             <div class="col-md-12 col-sm-9 col-xs-12">
-              <textarea id="editor3" name="editor3" rows="10" cols="80">
-                           </textarea>
-            </div>
-          </div>
-
-        </div>
-      </div>
-      <div class="data">
-        <div class="col-md-12">
-          <div class="box-header col-md-12 col-sm-9 col-xs-12">
-            <h3 class="box-title">การปรับปรุง/พัฒนา/บูรณาการกระบวนการจากผลการประเมิน (A)</h3>
-          </div>
-          <div id="body">
-            <div class="col-md-12 col-sm-9 col-xs-12">
-              <textarea id="editor4" name="editor4" rows="10" cols="80">
+              <textarea id="editor3" name="c" rows="10" cols="80">
                            </textarea>
             </div>
           </div>
@@ -76,12 +61,13 @@
           </div>
           <div id="body">
             <div class="col-md-12 col-sm-9 col-xs-12">
-              <input multiple="true" type="file" id="doc_file" name="doc_file[]">
+            <input multiple="true" type="file" id="doc_file" name="doc_file[]">
             </div>
           </div>
 
         </div>
       </div>
+
 
 
       <div class="col-md-12">
@@ -126,6 +112,7 @@
         formData.append('files' + i, files.files[i]);
       }
       formData.append('TotalFiles', TotalFiles);
+
       $.ajax({
         type: 'POST',
         url: "/addpdca",
@@ -141,7 +128,7 @@
           icon: "success",
           button: "ตกลง",
         }).then(function() {
-          window.location = "/category3/pdca/{id}{{$menuname[0]['m_id']}}";
+          window.location = "/pdca";
         });
         },
         error: function(data) {

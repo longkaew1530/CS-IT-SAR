@@ -7,6 +7,7 @@ use App\ModelAJ\Educational_background;
 use App\ModelAJ\Research_results;
 use App\ModelAJ\categoty_researh;
 use App\User;
+use App\Menu;
 class AJController extends Controller
 {
     public function __construct()
@@ -31,8 +32,13 @@ class AJController extends Controller
         $category=categoty_researh::all();
         return view('AJ/research_results',compact('researchresults','category','userall'));
     }
-    public function addpdca()
+    public function addpdca($id)
     {
-        return view('AJ/addpdca');
+        $menuname=Menu::where('m_id',$id)->get();
+        return view('AJ/addpdca',compact('menuname'));
+    }
+    public function add4_3()
+    {
+        return view('AJ/add4_3');
     }
 }

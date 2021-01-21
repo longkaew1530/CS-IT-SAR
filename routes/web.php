@@ -19,7 +19,7 @@ Route::get('/dashboard/addmember', 'DashboardController@index2');
 Route::get('/dashboard/index3', 'DashboardController@index3');
 Route::get('/dashboard/permission', 'DashboardController@index4');
 Route::get('/dashboard/MenuGroup', 'DashboardController@index5');
-Route::get('/dashboard/Menu', 'DashboardController@index6');
+Route::get('/Menu', 'DashboardController@index6');
 Route::get('/dashboard/permission', 'DashboardController@index7');
 Route::get('/dashboard/course', 'DashboardController@index8');
 Route::get('/dashboard/board', 'DashboardController@index9');
@@ -31,7 +31,8 @@ Route::get('/dashboard/usergroup', 'DashboardController@index14');
 /////อาจารย์
 Route::get('/educational_background', 'AJController@educational_background');
 Route::get('/research_results', 'AJController@research_results');
-Route::get('/pdca', 'AJController@addpdca');
+Route::get('/pdca/{id}', 'AJController@addpdca');
+Route::get('/addindicator4-3', 'AJController@add4_3');
 /////หมวด1-2
 Route::get('/category/indicator1-1', 'CategoryController@indicator1_1');
 Route::get('/category/category1', 'CategoryController@category1');
@@ -121,6 +122,8 @@ Route::post('/addpdca','APIAJController@addpdca');
 Route::post('/deletepdca/{id}', 'APIAJController@deletepdca');
 Route::get('/getpdca/{id}','APIAJController@getpdca');
 Route::put('/updatepdca','APIAJController@updatepdca');
+//////getidmenu
+Route::get('/getidmenu/{id}','APIAJController@getidmenu');
 
 Route::get('/getrolepermisson/{id}','APIController@getrolepermission');
 Auth::routes();

@@ -146,11 +146,15 @@
           @break
          @endif
          @endforeach
-          <ul class="treeview-menu">
+          <ul class="treeview-menu" >
             @foreach($value->menu as $row)
               @foreach(session()->get('roleper')  as $value)
               @if($value['m_id']==$row['m_id'])
-               <li class="active"><a href="{{$row['m_url']}}"><i class="fa fa-circle-o text-red"></i>{{$row['m_name']}}</a></li>
+                @if($row['m_url']=="/pdca")
+                <li  class="active"><a   href="{{$row['m_url']}}/{{$row['m_id']}}" ><i class="fa fa-circle-o text-red"></i>{{$row['m_name']}}</a></li>
+                @else
+               <li  class="active"><a  href="{{$row['m_url']}}" ><i class="fa fa-circle-o text-red"></i>{{$row['m_name']}}</a></li>
+                @endif
               @endif
               @endforeach
             @endforeach
@@ -159,13 +163,14 @@
         @endforeach
         <li class="active treeview menu-open">
           <a href="">
-            <i class=""></i><span>หมวดที่2</span>
+            <i class=""></i><span>หมวดที่2{{request()->segment(2)}}</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
             <li class="active"><a href="/pdca"><i class="fa fa-circle-o text-red"></i>การรับและแต่งตั้งอาจารย์ผู้รับผิดชอบหลักสูตร</a></li>
+            <li class="active"><a  href="/addindicator4-3"><i class="fa fa-circle-o text-red"></i>ตัวบ่งชี้ที่4.3</a></li>
           </ul>
         </li>
           

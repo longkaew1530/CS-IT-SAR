@@ -124,10 +124,13 @@ class APIAJController extends Controller
             'doc_file.*' => 'mimes:csv,txt,xlx,xls,pdf'
             ]);
         $data=new PDCA;
-        $data->p=$request->p;
-        $data->d=$request->d;
-        $data->c=$request->c;
-        $data->a=$request->a;
+        $data->course_id=session()->get('usercourse');
+        $data->year_id=session()->get('year_id');
+        $data->category_pdca=$request->category_pdca;
+        $data->p=$request->editor1;
+        $data->d=$request->editor2;
+        $data->c=$request->editor3;
+        $data->a=$request->editor4;
         $data->save();
         print($request->p);
         $querymaxiddoc = docpdca::whereRaw('doc_id = (select max(`doc_id`) from doc_pdca)')->get();
@@ -150,9 +153,9 @@ class APIAJController extends Controller
                         $insert[$x]['doc_id'] = $maxiddoc+($x+1);                     
                     }            
                }           
-               docpdca::insert($insert);
+               $success=docpdca::insert($insert);
             }
-  
+        return $success;
     }
     public function updatpdca(Request $request)
     {
@@ -175,4 +178,9 @@ class APIAJController extends Controller
         return redirect('/educational_background');
     }
     /////pdca/////pdca/////pdca/////pdca/////pdca/////pdca
+
+    public function getidmenu($id)
+    {
+        session()->put('test',$id);
+    }
 }
