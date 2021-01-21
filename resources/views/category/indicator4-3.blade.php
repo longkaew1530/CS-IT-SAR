@@ -4,6 +4,7 @@
 <div class="box box-warning marginl">
             <div class="box-header">
               <h1 class="box-title"><li>ผลที่เกิดกับอาจารย์ (ตัวบ่งชี้ที่ 4.3)</li></h1>
+              <button class="btn btn-warning fr" type="button"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</button>
               <br><br><br>
             <ins>เกณฑ์การประเมิน</ins><br>
               - มีการรายงานผลการดำเนินงานครบทุกเรื่องตามคำอธิบายในตัวบ่งชี้ (อัตราการคงอยู่ของอาจารย์, ความพึงพอใจของอาจารย์ต่อการบริหารหลักสูตร)<br>
@@ -21,12 +22,12 @@
                 @foreach($in4_3 as $value)
               <tr>
                 <td><b>{{$value['category_retention_rate']}}</b><br>
-                {{$value['retention_rate']}}
+                {!!$value['retention_rate']!!}
                 
                 </td>
                 <td>
                 @foreach($value->docindicator4_3 as $row)
-                {{$row['doc_name']}}
+                {!!$row['doc_name']!!}
                 @endforeach
                 </td>
               </tr>
@@ -34,29 +35,7 @@
               </tbody></table>
             </div> 
 
-            <ins>ผลการประเมินตนเอง</ins>
-            <div class="box-body">
-              <table class="table table-bordered text-center">
-                <tbody><tr>
-                  <th width="30%" >ตัวบ่งชี้</th>
-                  <th width="20%">เป้าหมาย</th>
-                  <th  width="20%">ผลการดำเนินงาน</th>
-                  <th width="20%">คะแนนอิงเกณฑ์ สกอ.</th>
-                </tr>
-                @foreach($pdca as $key =>$row )
-                <tr >
-                  <td rowspan="2">ตัวบ่งชี้ที่ {{$row['Indicator_id']." ".$row['Indicator_name']}}</td>           
-                  <td rowspan="2">{{$row['target']}}</td>
-             
-                  <td rowspan="2">{{$row['score']}}</td>
-                </tr>
-                <tr>
-                <td>{{$row['performance3']}}</td>
-                </tr>
-                <tr>
-                @endforeach
-              </tbody></table>
-            </div>
+            
           </div>
           </div>
 <style>
@@ -89,6 +68,9 @@
 }
 .mt-3{
   margin-top:30px;
+}
+.fr{
+  float:right;
 }
 </style>
 @endsection

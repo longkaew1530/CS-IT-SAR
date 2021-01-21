@@ -38,7 +38,7 @@ Route::get('/category/indicator1-1', 'CategoryController@indicator1_1');
 Route::get('/category/category1', 'CategoryController@category1');
 Route::get('/category/indicator4-1/{id}', 'CategoryController@indicator4_1');
 Route::get('/category/indicator4-2/{id}', 'CategoryController@indicator4_2');
-Route::get('/category/indicator4-3/{id}', 'CategoryController@indicator4_3');
+Route::get('/category/indicator4-3', 'CategoryController@indicator4_3');
 
 //////หมวด3
 Route::get('/category3/graduatesqty', 'Category3Controller@graduatesqty');
@@ -122,8 +122,11 @@ Route::post('/addpdca','APIAJController@addpdca');
 Route::post('/deletepdca/{id}', 'APIAJController@deletepdca');
 Route::get('/getpdca/{id}','APIAJController@getpdca');
 Route::put('/updatepdca','APIAJController@updatepdca');
-//////getidmenu
-Route::get('/getidmenu/{id}','APIAJController@getidmenu');
+/////addindicator4_3
+Route::post('/addindicator4_3','APIAJController@addindicator4_3');
+Route::post('/deletepdca/{id}', 'APIAJController@deleteaddindicator4_3');
+Route::get('/getpdca/{id}','APIAJController@getaddindicator4_3');
+Route::put('/updatepdca','APIAJController@updateaddindicator4_3');
 
 Route::get('/getrolepermisson/{id}','APIController@getrolepermission');
 Auth::routes();

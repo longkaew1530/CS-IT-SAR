@@ -12,21 +12,20 @@
     </div>
     <form id="adddata" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data">
     @csrf
-      <div class="data">
+      
         <div class="col-md-12">
           <div class="box-header col-md-12 col-sm-9 col-xs-12">
             <h3 class="box-title">อัตราการคงอยู่ของอาจารย์</h3>
           </div>
-          <div id="body">
+          
             <div class="col-md-12 col-sm-9 col-xs-12">
-              <textarea id="editor1" name="p" rows="10" cols="80">
-
+              <textarea  id="editor5" name="retention_rate1" rows="10" cols="80">
               </textarea>
             </div>
-          </div>
+          
 
         </div>
-      </div>
+      
       <div class="data">
         <div class="col-md-12">
           <div class="box-header col-md-12 col-sm-9 col-xs-12">
@@ -34,7 +33,7 @@
           </div>
           <div id="body">
             <div class="col-md-12 col-sm-9 col-xs-12">
-            <input multiple="true" type="file" id="doc_file" name="doc_file[]">
+            <input multiple="true"  type="file" id="doc_file1" name="doc_file1[]">
             </div>
           </div>
 
@@ -45,12 +44,12 @@
           <div class="box-header col-md-12 col-sm-9 col-xs-12">
             <h3 class="box-title">ความพึงพอใจของอาจารย์ต่อการบริหารหลักสูตร</h3>
           </div>
-          <div id="body">
+          
             <div class="col-md-12 col-sm-9 col-xs-12">
-              <textarea id="editor3" name="c" rows="10" cols="80">
+              <textarea  id="editor6" name="retention_rate2" rows="10" cols="80">
                            </textarea>
             </div>
-          </div>
+          
 
         </div>
       </div>
@@ -61,7 +60,7 @@
           </div>
           <div id="body">
             <div class="col-md-12 col-sm-9 col-xs-12">
-            <input multiple="true" type="file" id="doc_file" name="doc_file[]">
+            <input multiple="true"  type="file" id="doc_file2" name="doc_file2[]">
             </div>
           </div>
 
@@ -98,6 +97,10 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script type="text/javascript">
   $(document).ready(function(e) {
+
+       
+
+
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -105,17 +108,26 @@
     });
     $('#adddata').submit(function(e) {
       e.preventDefault();
+      for (instance in CKEDITOR.instances) {
+                CKEDITOR.instances[instance].updateElement();
+        }
       var formData = new FormData(this);
-      let TotalFiles = $('#doc_file')[0].files.length; //Total files
-      let files = $('#doc_file')[0];
-      for (let i = 0; i < TotalFiles; i++) {
-        formData.append('files' + i, files.files[i]);
+      let TotalFiles1 = $('#doc_file1')[0].files.length; //Total files
+      let files1 = $('#doc_file1')[0];
+      for (let i = 0; i < TotalFiles1; i++) {
+        formData.append('files1' + i, files1.files[i]);
       }
-      formData.append('TotalFiles', TotalFiles);
+      formData.append('TotalFiles1', TotalFiles1);
 
+      let TotalFiles2 = $('#doc_file2')[0].files.length; //Total files
+      let files2 = $('#doc_file2')[0];
+      for (let i2 = 0; i2 < TotalFiles2; i2++) {
+        formData.append('files2' + i2, files2.files[i2]);
+      }
+      formData.append('TotalFiles2', TotalFiles2);
       $.ajax({
         type: 'POST',
-        url: "/addpdca",
+        url: "/addindicator4_3",
         data: formData,
         cache: false,
         contentType: false,
@@ -128,15 +140,16 @@
           icon: "success",
           button: "ตกลง",
         }).then(function() {
-          window.location = "/pdca";
+          window.location = "/category/indicator4-3";
         });
         },
         error: function(data) {
-          alert(data.responseJSON.errors.files[0]);
+          alert(data.responseJSON.errors.files1[0]);
           console.log(data.responseJSON.errors);
         }
       });
     });
   });
+  
 </script>
 @endsection

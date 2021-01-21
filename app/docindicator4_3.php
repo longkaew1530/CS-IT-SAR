@@ -15,4 +15,5 @@ class docindicator4_3 extends Model
     {
         return $this->hasMany('App\indicator4_3','doc_id');
     }
+    public $timestamps = false;
 }
