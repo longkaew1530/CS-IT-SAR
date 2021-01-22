@@ -8,6 +8,7 @@ use App\ModelAJ\Research_results;
 use App\ModelAJ\categoty_researh;
 use App\User;
 use App\Menu;
+use App\indicator4_3;
 class AJController extends Controller
 {
     public function __construct()
@@ -39,6 +40,14 @@ class AJController extends Controller
     }
     public function add4_3()
     {
-        return view('AJ/add4_3');
+        $in4_3 = indicator4_3::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        if(count($in4_3)===0){
+            return view('AJ/add4_3');
+        }
+        else{
+            return view('category/indicator4-3',compact('in4_3'));
+        }
     }
 }

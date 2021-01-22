@@ -125,8 +125,8 @@ Route::put('/updatepdca','APIAJController@updatepdca');
 /////addindicator4_3
 Route::post('/addindicator4_3','APIAJController@addindicator4_3');
 Route::post('/deletepdca/{id}', 'APIAJController@deleteaddindicator4_3');
-Route::get('/getpdca/{id}','APIAJController@getaddindicator4_3');
-Route::put('/updatepdca','APIAJController@updateaddindicator4_3');
+Route::get('/getindicator4_3','APIAJController@getaddindicator4_3');
+Route::post('/updateindicator4_3','APIAJController@updateaddindicator4_3');
 
 Route::get('/getrolepermisson/{id}','APIController@getrolepermission');
 Auth::routes();

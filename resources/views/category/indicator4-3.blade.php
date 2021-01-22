@@ -4,7 +4,7 @@
 <div class="box box-warning marginl">
             <div class="box-header">
               <h1 class="box-title"><li>ผลที่เกิดกับอาจารย์ (ตัวบ่งชี้ที่ 4.3)</li></h1>
-              <button class="btn btn-warning fr" type="button"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</button>
+              <a href="/getindicator4_3" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>
               <br><br><br>
             <ins>เกณฑ์การประเมิน</ins><br>
               - มีการรายงานผลการดำเนินงานครบทุกเรื่องตามคำอธิบายในตัวบ่งชี้ (อัตราการคงอยู่ของอาจารย์, ความพึงพอใจของอาจารย์ต่อการบริหารหลักสูตร)<br>
@@ -73,4 +73,5 @@
   float:right;
 }
 </style>
+
 @endsection

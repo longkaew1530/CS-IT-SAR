@@ -12,6 +12,7 @@ use App\PDCA;
 use App\docpdca;
 use App\indicator4_3;
 use App\docindicator4_3;
+use File;
 class APIAJController extends Controller
 {
     /////วุติการศึกษา/////วุติการศึกษา/////วุติการศึกษา/////วุติการศึกษา/////วุติการศึกษา/////วุติการศึกษา
@@ -182,10 +183,12 @@ class APIAJController extends Controller
     /////pdca/////pdca/////pdca/////pdca/////pdca/////pdca
 
     /////addindicator4_3/////addindicator4_3/////addindicator4_3/////addindicator4_3/////addindicator4_3/////addindicator4_3
-    public function getaddindicator4_3($id)
+    public function getaddindicator4_3()
     {
-        $groupmenu = indicator4_3::where('id',$id)->get();
-        return $groupmenu;
+        $editdata = indicator4_3::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        return view('AJ/edit4_3',compact('editdata'));
     }
     public function addindicator4_3(Request $request)
     {
@@ -219,7 +222,7 @@ class APIAJController extends Controller
                         $insert[$x]['doc_file'] = $fullfile;
                         $insert[$x]['doc_name'] = $name;
                         $insert[$x]['doc_id'] = $data->id;
-                        $insert[$x]['Indicator_id'] = $maxiddoc+($x+1);                     
+                        $insert[$x]['Indicator_id'] = $maxiddoc+$x+1;                     
                     }            
                }           
                $success=docindicator4_3::insert($insert);
@@ -252,7 +255,7 @@ class APIAJController extends Controller
                         $insert1[$x1]['doc_file'] = $fullfile1;
                         $insert1[$x1]['doc_name'] = $name1;
                         $insert1[$x1]['doc_id'] = $data1->id;
-                        $insert1[$x1]['Indicator_id'] = $maxiddoc+($x1+1);                     
+                        $insert1[$x1]['Indicator_id'] = $maxiddoc+$x+1;                     
                     }            
                }           
                $success1=docindicator4_3::insert($insert1);
@@ -261,16 +264,64 @@ class APIAJController extends Controller
         return $success1;
     }
     public function updateaddindicator4_3(Request $request)
-    {
-        $id=$request->input('id');
-        $data = indicator4_3::find($id);
-        $data->eb_yearsuccess = $request->input('eb_yearsuccess');
-        $data->eb_name = $request->input('eb_name');
-        $data->eb_fieldofstudy = $request->input('eb_fieldofstudy');
-        $data->abbreviations = $request->input('abbreviations');
-        $data->education = $request->input('education');
+    {   
+        $validatedData = $request->validate([
+            'doc_file1.*' => 'mimes:csv,txt,xlsx,xls,pdf,docx',
+            'doc_file2.*' => 'mimes:csv,txt,xlsx,xls,pdf,docx'
+            ]);
+        $data=indicator4_3::find($request->id);
+        $data->course_id=session()->get('usercourse');
+        $data->year_id=session()->get('year_id');
+        $data->retention_rate=$request->retention_rate1;
+        $data->category_retention_rate="อัตราการคงอยู่ของอาจารย์";
         $data->save();
-        return redirect('/educational_background');
+            if($request->TotalFiles1 > 0)
+            {
+                    
+               for ($x = 0; $x < $request->TotalFiles1; $x++) 
+               {
+                   if ($request->hasFile('doc_file1')) 
+                    {
+                        $getfile = $request->file('doc_file1');
+                        $path = 'public/indicator';
+                        $name = $getfile[$x]->getClientOriginalName();
+                        $fullfile=$path."/".$name;
+                        File::delete('public/indicator/'.$name);
+                        $getfile[$x]->move($path, $name);  
+                        $insert=docindicator4_3::find($request->id);               
+                        $insert->doc_file = $fullfile;
+                        $insert->doc_name = $name;
+                        $insert->save();                   
+                    }         
+               }            
+            }
+        $data1=indicator4_3::find($request->id2);
+        $data1->course_id=session()->get('usercourse');
+        $data1->year_id=session()->get('year_id');
+        $data1->retention_rate=$request->retention_rate2;
+        $data1->category_retention_rate="ความพึงพอใจของอาจารย์ต่อการบริหารหลักสูตร";
+        $data1->save();
+            if($request->TotalFiles2 > 0)
+            {
+                    
+               for ($x1 = 0; $x1 < $request->TotalFiles2; $x1++) 
+               {
+                   if ($request->hasFile('doc_file2')) 
+                    {
+                        $getfile1 = $request->file('doc_file2');
+                        $path1 = 'public/indicator';
+                        $name1 = $getfile1[$x1]->getClientOriginalName();
+                        $fullfile1=$path1."/".$name1;
+                        $getfile1[$x]->move($path1, $name1);
+                        File::delete('public/indicator/'.$name1);
+                        $insert1=docindicator4_3::find($request->id2);                 
+                        $insert1->doc_file = $fullfile1;
+                        $insert1->doc_name = $name1;
+                        $insert1->save();                     
+                    }              
+               }             
+            }
+        return "success";
     }
     public function deleteaddindicator4_3($id)
     {
