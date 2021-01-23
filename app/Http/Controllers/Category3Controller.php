@@ -15,6 +15,7 @@ use App\indicator2_1;
 use App\indicator2_2;
 use App\performance3_3;
 use App\category3_GD;
+use App\Menu;
 use App\course_responsible_teacher;
 use App\Educational_background;
 use Illuminate\Support\Facades\Hash;
@@ -98,17 +99,23 @@ class Category3Controller extends Controller
     }
     public function getpdca()
     {
+        $menuname=Menu::where('m_id',$id)
+        ->get();
+
         $pdca=PDCA::leftjoin('indicator','pdca.Indicator_id','=','indicator.indicator_id')
-        ->where('pdca.Indicator_id',$id)
+        ->where('pdca.Indicator_id',$menuname[0]['Indicator_id'])
         ->where('pdca.course_id',session()->get('usercourse'))
         ->where('pdca.year_id',1)
         ->get();
         return view('category3/pdca',compact('pdca'));
     }
     public function showpdca($id)
-    {
+    {   
+        $menuname=Menu::where('m_id',$id)
+        ->get();
+
         $pdca=PDCA::leftjoin('indicator','pdca.Indicator_id','=','indicator.indicator_id')
-        ->where('pdca.Indicator_id',$id)
+        ->where('pdca.Indicator_id',$menuname[0]['Indicator_id'])
         ->where('pdca.course_id',session()->get('usercourse'))
         ->where('pdca.year_id',1)
         ->get();

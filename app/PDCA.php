@@ -9,7 +9,7 @@ class PDCA extends Model
     protected $table = 'pdca';
     protected $primaryKey = 'pdca_id';
     protected $fillable=[
-        'Indicator_id','course_id','year_id','category_pdca','p','d','c','a','target','performance','score'
+        'Indicator_id','course_id','year_id','category_pdca','p','d','c','a','target','performance','score','m_id'
     ];
     public function docpdca()
     {

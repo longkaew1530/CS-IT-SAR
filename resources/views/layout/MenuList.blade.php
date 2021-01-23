@@ -163,7 +163,7 @@
         @endforeach
         <li class="active treeview menu-open">
           <a href="">
-            <i class=""></i><span>หมวดที่2{{request()->segment(2)}}</span>
+            <i class=""></i><span>หมวดที่2</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>

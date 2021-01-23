@@ -6,7 +6,8 @@
     <div class="box-body">
       <div class="col-sm-2" align="right"></div>
       <div class="col-sm-8" align="center">
-        <h3><i class=""></i>{{$menuname[0]['m_name']}}</h3>
+      @foreach($pdca as $value)
+        <h3><i class=""></i>{{$value['category_pdca']}}</h3>
         <hr>
       </div>
     </div>
@@ -16,13 +17,13 @@
         <div class="col-md-12">
           <div class="box-header col-md-12 col-sm-9 col-xs-12">
             <h3 class="box-title">ขั้นตอนการวางแผน (P)</h3>
-            <input type="hidden" class="form-control" id="category_pdca" name="category_pdca" value="{{$menuname[0]['m_name']}}"/>
-            <input type="hidden" class="form-control" id="Indicator_id" name="Indicator_id" value="{{$menuname[0]['Indicator_id']}}"/>
-            <input type="hidden" class="form-control" id="m_id" name="m_id" value="{{$menuname[0]['m_id']}}"/>
+            <input type="hidden" class="form-control" id="pdca_id" name="pdca_id" value="{{$value['pdca_id']}}"/>
+            
           </div>
           <div id="body">
             <div class="col-md-12 col-sm-9 col-xs-12">
               <textarea id="editor1" name="editor1" rows="10" cols="80">
+              {{$value['p']}}
               </textarea>
             </div>
           </div>
@@ -37,6 +38,7 @@
           <div id="body">
             <div class="col-md-12 col-sm-9 col-xs-12">
               <textarea id="editor2" name="editor2" rows="10" cols="80">
+              {{$value['d']}}
                            </textarea>
             </div>
           </div>
@@ -51,6 +53,7 @@
           <div id="body">
             <div class="col-md-12 col-sm-9 col-xs-12">
               <textarea id="editor3" name="editor3" rows="10" cols="80">
+              {{$value['c']}}
                            </textarea>
             </div>
           </div>
@@ -65,6 +68,7 @@
           <div id="body">
             <div class="col-md-12 col-sm-9 col-xs-12">
               <textarea id="editor4" name="editor4" rows="10" cols="80">
+              {{$value['a']}}
                            </textarea>
             </div>
           </div>
@@ -84,7 +88,7 @@
 
         </div>
       </div>
-
+  @endforeach
 
       <div class="col-md-12">
         <div id="body">
@@ -133,7 +137,7 @@
       formData.append('TotalFiles', TotalFiles);
       $.ajax({
         type: 'POST',
-        url: "/addpdca",
+        url: "/updatepdca",
         data: formData,
         cache: false,
         contentType: false,
@@ -146,7 +150,7 @@
           icon: "success",
           button: "ตกลง",
         }).then(function() {
-          window.location = "/category3/pdca/{{$menuname[0]['m_id']}}";
+          window.location = "/category3/pdca/{{$pdca[0]['m_id']}}";
         });
         },
         error: function(data) {

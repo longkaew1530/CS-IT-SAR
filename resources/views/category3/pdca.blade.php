@@ -9,6 +9,7 @@
                 </tr>
                 @foreach($pdca as $key =>$row )
                 <tr>
+                @if($row['p']!=null)
                   <td><b>{{$row['category_pdca']}}</b><br>
                   <ins><b>ขั้นตอนการวางแผน (P)</b></ins><br>
                   {{$row['p']}}<br><br>
@@ -20,11 +21,13 @@
                   {{$row['a']}}</b><br><br>
                   </td>        
                   <td>
+                  <a href="/getpdca/{{$row['pdca_id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>
                   @foreach($row->docpdca as $key =>$row)
                   -{{$row['doc_name']}}<br>
                   @endforeach
                   </td>
                 </tr>
+                @endif
                 <tr>
                 @endforeach
               </tbody></table>

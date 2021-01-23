@@ -9,6 +9,7 @@ use App\ModelAJ\categoty_researh;
 use App\User;
 use App\Menu;
 use App\indicator4_3;
+use App\PDCA;
 class AJController extends Controller
 {
     public function __construct()
@@ -35,8 +36,33 @@ class AJController extends Controller
     }
     public function addpdca($id)
     {
-        $menuname=Menu::where('m_id',$id)->get();
-        return view('AJ/addpdca',compact('menuname'));
+        $menuname=Menu::where('m_id',$id)
+        ->get();
+        $pdca=PDCA::leftjoin('indicator','pdca.Indicator_id','=','indicator.indicator_id')
+        ->where('pdca.Indicator_id',$menuname[0]['Indicator_id'])
+        ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.year_id',1)
+        ->get();
+        $name="";
+        $id="";
+        foreach($pdca as $value)
+        {
+            $name=$value['Indicator_name'];
+            $id=$value['Indicator_id'];
+        }
+        $getpdca = PDCA::where('course_id',session()->get('usercourse'))
+        ->where('category_pdca',$menuname[0]['m_name'])
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        if(!count($getpdca)){
+            return view('AJ/addpdca',compact('menuname'));   
+        }
+        else if($getpdca[0]['p']==null&&$getpdca[0]['d']==null&&$getpdca[0]['c']==null&&$getpdca[0]['a']==null){
+            return view('AJ/addpdca',compact('menuname'));
+        }
+        else{
+            return view('category3/showpdca',compact('pdca','name','id'));
+        }
     }
     public function add4_3()
     {

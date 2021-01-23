@@ -117,27 +117,26 @@ class APIAJController extends Controller
     /////pdca/////pdca/////pdca/////pdca/////pdca/////pdca
     public function getpdca($id)
     {
-        $groupmenu = Research_results::where('id',$id)->get();
-        return $groupmenu;
+        $pdca = PDCA::where('pdca_id',$id)->get();
+        return view('AJ/editpdca',compact('pdca'));
     }
     public function addpdca(Request $request)
     {
         $validatedData = $request->validate([
             'doc_file' => 'required',
-            'doc_file.*' => 'mimes:csv,txt,xlx,xls,pdf'
+            'doc_file.*' => 'mimes:csv,txt,xlsx,xls,pdf,docx'
             ]);
         $data=new PDCA;
         $data->course_id=session()->get('usercourse');
         $data->year_id=session()->get('year_id');
         $data->category_pdca=$request->category_pdca;
+        $data->Indicator_id=$request->Indicator_id;
+        $data->m_id=$request->m_id;
         $data->p=$request->editor1;
         $data->d=$request->editor2;
         $data->c=$request->editor3;
         $data->a=$request->editor4;
         $data->save();
-        print($request->p);
-        $querymaxiddoc = docpdca::whereRaw('doc_id = (select max(`doc_id`) from doc_pdca)')->get();
-        $maxiddoc=$querymaxiddoc[0]['doc_id'];
             if($request->TotalFiles > 0)
             {
                     
@@ -152,25 +151,49 @@ class APIAJController extends Controller
                         $getfile[$x]->move($path, $name);                 
                         $insert[$x]['doc_file'] = $fullfile;
                         $insert[$x]['doc_name'] = $name;
-                        $insert[$x]['pdca_id'] = $data->pdca_id;
-                        $insert[$x]['doc_id'] = $maxiddoc+($x+1);                     
+                        $insert[$x]['pdca_id'] = $data->pdca_id;                    
                     }            
                }           
                $success=docpdca::insert($insert);
             }
         return $success;
     }
-    public function updatpdca(Request $request)
+    public function updatepdca(Request $request)
     {
-        $id=$request->input('id');
-        $data = Research_results::find($id);
-        $data->eb_yearsuccess = $request->input('eb_yearsuccess');
-        $data->eb_name = $request->input('eb_name');
-        $data->eb_fieldofstudy = $request->input('eb_fieldofstudy');
-        $data->abbreviations = $request->input('abbreviations');
-        $data->education = $request->input('education');
+        $validatedData = $request->validate([
+            'doc_file.*' => 'mimes:csv,txt,xlsx,xls,pdf,docx',
+            ]);
+            if($request->TotalFiles > 0)
+            {      
+               for ($x = 0; $x < $request->TotalFiles; $x++) 
+               {
+                   if ($request->hasFile('doc_file')) 
+                    {
+                        $getfile = $request->file('doc_file');
+                        $path = 'public/pdca';
+                        $name = $getfile[$x]->getClientOriginalName();
+                        $fullfile=$path."/".$name;
+                        File::delete('public/pdca/'.$name);
+                        $getfile[$x]->move($path, $name);
+                        $insert3=docpdca::find($request->pdca_id);
+                        if (isset($insert3)) {
+                            $insert3->delete();
+                         }              
+                        $insert[$x]['doc_file'] = $fullfile;
+                        $insert[$x]['doc_name'] = $name;
+                        $insert[$x]['pdca_id'] = $request->pdca_id;                     
+                    }              
+               } 
+               docpdca::insert($insert);            
+            }
+        $data=PDCA::find($request->pdca_id);
+        $data->p=$request->editor1;
+        $data->d=$request->editor2;
+        $data->c=$request->editor3;
+        $data->a=$request->editor4;
         $data->save();
-        return redirect('/educational_background');
+
+        return $data;
     }
     public function deletepdca($id)
     {
@@ -194,9 +217,9 @@ class APIAJController extends Controller
     {
         $validatedData = $request->validate([
             'doc_file1' => 'required',
-            'doc_file1.*' => 'mimes:csv,txt,xlsx,xls,pdf',
+            'doc_file1.*' => 'mimes:csv,txt,xlsx,xls,pdf,docx',
             'doc_file2' => 'required',
-            'doc_file2.*' => 'mimes:csv,txt,xlsx,xls,pdf'
+            'doc_file2.*' => 'mimes:csv,txt,xlsx,xls,pdf,docx'
             ]);
         $data=new indicator4_3;
         $data->course_id=session()->get('usercourse');
@@ -204,9 +227,6 @@ class APIAJController extends Controller
         $data->retention_rate=$request->retention_rate1;
         $data->category_retention_rate="อัตราการคงอยู่ของอาจารย์";
         $data->save();
-        $querymaxiddoc=0;
-        $querymaxiddoc = docindicator4_3::whereRaw('Indicator_id = (select max(`Indicator_id`) from doc_indicator4_3)')->get();
-        $maxiddoc=$querymaxiddoc[0]['Indicator_id'];
             if($request->TotalFiles1 > 0)
             {
                     
@@ -221,8 +241,7 @@ class APIAJController extends Controller
                         $getfile[$x]->move($path, $name);                 
                         $insert[$x]['doc_file'] = $fullfile;
                         $insert[$x]['doc_name'] = $name;
-                        $insert[$x]['doc_id'] = $data->id;
-                        $insert[$x]['Indicator_id'] = $maxiddoc+$x+1;                     
+                        $insert[$x]['doc_id'] = $data->id;                     
                     }            
                }           
                $success=docindicator4_3::insert($insert);
@@ -235,11 +254,6 @@ class APIAJController extends Controller
         $data1->retention_rate=$request->retention_rate2;
         $data1->category_retention_rate="ความพึงพอใจของอาจารย์ต่อการบริหารหลักสูตร";
         $data1->save();
-        $querymaxiddoc = docindicator4_3::whereRaw('Indicator_id = (select max(`Indicator_id`) from doc_indicator4_3)')->get();
-        if (count($querymaxiddoc) === 0) {
-            $querymaxiddoc=0;
-        }
-        $maxiddoc=$querymaxiddoc[0]['Indicator_id'];
             if($request->TotalFiles1 > 0)
             {
                     
@@ -254,8 +268,7 @@ class APIAJController extends Controller
                         $getfile1[$x1]->move($path1, $name1);                 
                         $insert1[$x1]['doc_file'] = $fullfile1;
                         $insert1[$x1]['doc_name'] = $name1;
-                        $insert1[$x1]['doc_id'] = $data1->id;
-                        $insert1[$x1]['Indicator_id'] = $maxiddoc+$x+1;                     
+                        $insert1[$x1]['doc_id'] = $data1->id;                     
                     }            
                }           
                $success1=docindicator4_3::insert($insert1);
@@ -265,19 +278,13 @@ class APIAJController extends Controller
     }
     public function updateaddindicator4_3(Request $request)
     {   
+        $querymaxiddoc = docindicator4_3::whereRaw('Indicator_id = (select max(`Indicator_id`) from doc_indicator4_3)')->get();
         $validatedData = $request->validate([
             'doc_file1.*' => 'mimes:csv,txt,xlsx,xls,pdf,docx',
             'doc_file2.*' => 'mimes:csv,txt,xlsx,xls,pdf,docx'
             ]);
-        $data=indicator4_3::find($request->id);
-        $data->course_id=session()->get('usercourse');
-        $data->year_id=session()->get('year_id');
-        $data->retention_rate=$request->retention_rate1;
-        $data->category_retention_rate="อัตราการคงอยู่ของอาจารย์";
-        $data->save();
             if($request->TotalFiles1 > 0)
-            {
-                    
+            {  
                for ($x = 0; $x < $request->TotalFiles1; $x++) 
                {
                    if ($request->hasFile('doc_file1')) 
@@ -288,22 +295,19 @@ class APIAJController extends Controller
                         $fullfile=$path."/".$name;
                         File::delete('public/indicator/'.$name);
                         $getfile[$x]->move($path, $name);  
-                        $insert=docindicator4_3::find($request->id);               
-                        $insert->doc_file = $fullfile;
-                        $insert->doc_name = $name;
-                        $insert->save();                   
+                        $insert2=docindicator4_3::find($request->id);
+                        if (isset($insert2)) {
+                            $insert2->delete();
+                         }              
+                        $insert[$x]['doc_file'] = $fullfile;
+                        $insert[$x]['doc_name'] = $name;
+                        $insert[$x]['doc_id'] = $request->id;                
                     }         
-               }            
+               } 
+                 docindicator4_3::insert($insert);           
             }
-        $data1=indicator4_3::find($request->id2);
-        $data1->course_id=session()->get('usercourse');
-        $data1->year_id=session()->get('year_id');
-        $data1->retention_rate=$request->retention_rate2;
-        $data1->category_retention_rate="ความพึงพอใจของอาจารย์ต่อการบริหารหลักสูตร";
-        $data1->save();
             if($request->TotalFiles2 > 0)
-            {
-                    
+            {      
                for ($x1 = 0; $x1 < $request->TotalFiles2; $x1++) 
                {
                    if ($request->hasFile('doc_file2')) 
@@ -312,16 +316,26 @@ class APIAJController extends Controller
                         $path1 = 'public/indicator';
                         $name1 = $getfile1[$x1]->getClientOriginalName();
                         $fullfile1=$path1."/".$name1;
-                        $getfile1[$x]->move($path1, $name1);
                         File::delete('public/indicator/'.$name1);
-                        $insert1=docindicator4_3::find($request->id2);                 
-                        $insert1->doc_file = $fullfile1;
-                        $insert1->doc_name = $name1;
-                        $insert1->save();                     
+                        $getfile1[$x1]->move($path1, $name1);
+                        $insert3=docindicator4_3::find($request->id2);
+                        if (isset($insert3)) {
+                            $insert3->delete();
+                         }              
+                        $insert1[$x1]['doc_file'] = $fullfile1;
+                        $insert1[$x1]['doc_name'] = $name1;
+                        $insert1[$x1]['doc_id'] = $request->id2;                     
                     }              
-               }             
+               } 
+               docindicator4_3::insert($insert1);            
             }
-        return "success";
+        $data=indicator4_3::find($request->id);
+        $data->retention_rate=$request->retention_rate1;
+        $data->save();
+        $data1=indicator4_3::find($request->id2);
+        $data1->retention_rate=$request->retention_rate2;
+        $data1->save();
+        return $data1;
     }
     public function deleteaddindicator4_3($id)
     {

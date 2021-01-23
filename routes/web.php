@@ -121,7 +121,7 @@ Route::put('/updateresearch_results','APIAJController@updateresearch_results');
 Route::post('/addpdca','APIAJController@addpdca');
 Route::post('/deletepdca/{id}', 'APIAJController@deletepdca');
 Route::get('/getpdca/{id}','APIAJController@getpdca');
-Route::put('/updatepdca','APIAJController@updatepdca');
+Route::post('/updatepdca','APIAJController@updatepdca');
 /////addindicator4_3
 Route::post('/addindicator4_3','APIAJController@addindicator4_3');
 Route::post('/deletepdca/{id}', 'APIAJController@deleteaddindicator4_3');

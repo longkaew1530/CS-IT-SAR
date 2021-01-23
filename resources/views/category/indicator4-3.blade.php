@@ -69,9 +69,7 @@
 .mt-3{
   margin-top:30px;
 }
-.fr{
-  float:right;
-}
+
 </style>
 
 @endsection
