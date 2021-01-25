@@ -13,6 +13,9 @@ use App\docpdca;
 use App\indicator4_3;
 use App\docindicator4_3;
 use File;
+use Maatwebsite\Excel\Facades\Excel;
+use App\ModelAJ\category3_inforstudent;
+use App\Imports\AddstdImport;
 class APIAJController extends Controller
 {
     /////วุติการศึกษา/////วุติการศึกษา/////วุติการศึกษา/////วุติการศึกษา/////วุติการศึกษา/////วุติการศึกษา
@@ -347,5 +350,17 @@ class APIAJController extends Controller
     }
     /////addindicator4_3/////addindicator4_3/////addindicator4_3/////addindicator4_3/////addindicator4_3/////addindicator4_3
 
+    function addinfostd(Request $request)
+    {
+     $this->validate($request, [
+      'infostd'  => 'required|mimes:xls,xlsx'
+     ]);
+
+     $path = $request->file('infostd')->getRealPath();
+
+     $data = Excel::import(new AddstdImport,$path);
+        
+     return true;
+    }
 
 }

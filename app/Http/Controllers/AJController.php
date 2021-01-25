@@ -76,4 +76,14 @@ class AJController extends Controller
             return view('category/indicator4-3',compact('in4_3'));
         }
     }
+    public function addinfostd()
+    {
+            return view('AJ/addinfostd');
+    }
+    public function addfactor($id)
+    {
+        $menuname=Menu::where('m_id',$id)
+        ->get();
+            return view('AJ/addfactor',compact('menuname'));
+    }
 }

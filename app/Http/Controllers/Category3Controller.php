@@ -16,6 +16,7 @@ use App\indicator2_2;
 use App\performance3_3;
 use App\category3_GD;
 use App\Menu;
+use App\ModelAJ\category3_inforstudent;
 use App\course_responsible_teacher;
 use App\Educational_background;
 use Illuminate\Support\Facades\Hash;
@@ -38,9 +39,9 @@ class Category3Controller extends Controller
     }
     public function Studentsinfo()
     {
-        $gd=category3_GD::all();
+        $infostd=category3_inforstudent::all();
         
-        return view('category3/infostudents',compact('gd'));
+        return view('category3/infostudents',compact('infostd'));
     }
     public function Impactfactors()
     {

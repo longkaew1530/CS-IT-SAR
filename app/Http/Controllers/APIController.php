@@ -69,7 +69,16 @@ class APIController extends Controller
           rolepermission::insert($item);
         }
         }
-        
+        $user=auth()->user();
+        $user_group=$user->user_group_id;
+        $groupmenu=Groupmenu::all();
+        $rolepermiss=rolepermission::where('user_group_id',$user_group)->get();
+       
+         foreach ($groupmenu as $key => $value){
+            $value->menu->first(); 
+         }
+        session()->put('groupmenu',$groupmenu);
+        session()->put('roleper',$rolepermiss);
         return redirect('dashboard/permission');
     }
     public function getrolepermission($id)
@@ -124,7 +133,7 @@ class APIController extends Controller
         $data['m_url']=$request->m_url;
         $data['g_id']=$request->g_id;
         Menu::insert($data);
-        return redirect('/dashboard/Menu');
+        return redirect('/Menu');
     }
     public function updatemenu(Request $request)
     {
@@ -134,14 +143,14 @@ class APIController extends Controller
         $data->m_url = $request->input('m_url1');
         $data->g_id = $request->input('g_id1');
         $data->save();
-        return redirect('/dashboard/Menu');
+        return redirect('/Menu');
     }
     public function deletemenu($id)
     {
         $product = Menu::find($id);
         $product->delete();
         
-        return redirect('/dashboard/Menu');
+        return redirect('/Menu');
     }
     /////menu/////menu/////menu/////menu/////menu/////menu
 

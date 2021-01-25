@@ -33,6 +33,8 @@ Route::get('/educational_background', 'AJController@educational_background');
 Route::get('/research_results', 'AJController@research_results');
 Route::get('/pdca/{id}', 'AJController@addpdca');
 Route::get('/addindicator4-3', 'AJController@add4_3');
+Route::get('/addinfostudent', 'AJController@addinfostd');
+Route::get('/addimpactfactor/{id}', 'AJController@addfactor');
 /////หมวด1-2
 Route::get('/category/indicator1-1', 'CategoryController@indicator1_1');
 Route::get('/category/category1', 'CategoryController@category1');
@@ -49,7 +51,7 @@ Route::get('/category3/assessment/{id}', 'Category3Controller@showassess');
 Route::get('/category3/indicator2-2', 'Category3Controller@indicator2_2');
 Route::get('/category3/pdca/{id}', 'Category3Controller@showpdca');
 Route::get('/category3/performance', 'Category3Controller@indicator3_3');
-
+Route::get('/category3/studentinfomation', 'Category3Controller@Studentsinfo');
 ////หมวด4
 Route::get('/category4/course_summary', 'Category4Controller@coursesummary');
 Route::get('/category4/notcourse_summary', 'Category4Controller@notcoursesummary');
@@ -127,6 +129,9 @@ Route::post('/addindicator4_3','APIAJController@addindicator4_3');
 Route::post('/deletepdca/{id}', 'APIAJController@deleteaddindicator4_3');
 Route::get('/getindicator4_3','APIAJController@getaddindicator4_3');
 Route::post('/updateindicator4_3','APIAJController@updateaddindicator4_3');
+
+/////addindicator4_3
+Route::post('/addinfostd','APIAJController@addinfostd');
 
 Route::get('/getrolepermisson/{id}','APIController@getrolepermission');
 Auth::routes();

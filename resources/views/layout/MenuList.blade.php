@@ -150,10 +150,10 @@
             @foreach($value->menu as $row)
               @foreach(session()->get('roleper')  as $value)
               @if($value['m_id']==$row['m_id'])
-                @if($row['m_url']=="/pdca")
-                <li  class="active"><a   href="{{$row['m_url']}}/{{$row['m_id']}}" ><i class="fa fa-circle-o text-red"></i>{{$row['m_name']}}</a></li>
+                @if($row['m_url']=="/pdca"||$row['m_url']=="/addimpactfactor")
+                <li  class="active"><a   href="{{$row['m_url']}}/{{$row['m_id']}}" ><i class="fa fa-circle-o text-red"></i>{!!$row['m_name']!!}</a></li>
                 @else
-               <li  class="active"><a  href="{{$row['m_url']}}" ><i class="fa fa-circle-o text-red"></i>{{$row['m_name']}}</a></li>
+               <li  class="active"><a  href="{{$row['m_url']}}" ><i class="fa fa-circle-o text-red"></i>{!!$row['m_name']!!}</a></li>
                 @endif
               @endif
               @endforeach
@@ -169,8 +169,19 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="active"><a href="/pdca"><i class="fa fa-circle-o text-red"></i>การรับและแต่งตั้งอาจารย์ผู้รับผิดชอบหลักสูตร</a></li>
             <li class="active"><a  href="/addindicator4-3"><i class="fa fa-circle-o text-red"></i>ตัวบ่งชี้ที่4.3</a></li>
+          </ul>
+        </li>
+        <li class="active treeview menu-open">
+          <a href="">
+            <i class=""></i><span>หมวดที่3</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="active"><a href="/addinfostudent"><i class="fa fa-circle-o text-red"></i>ข้อมูลนักศึกษา</a></li>
+            <li class="active"><a href="/addimpactfactor"><i class="fa fa-circle-o text-red"></i>ปัจจัยที่มีผลกระทบต่อจำนวนนักศึกษา</a></li>
           </ul>
         </li>
           
