@@ -33,8 +33,11 @@ Route::get('/educational_background', 'AJController@educational_background');
 Route::get('/research_results', 'AJController@research_results');
 Route::get('/pdca/{id}', 'AJController@addpdca');
 Route::get('/addindicator4-3', 'AJController@add4_3');
+Route::get('/addindicator3-3', 'AJController@addindicator3_3');
 Route::get('/addinfostudent', 'AJController@addinfostd');
 Route::get('/addimpactfactor/{id}', 'AJController@addfactor');
+Route::get('/addindicator2-1', 'AJController@addindicator2_1');
+Route::get('/addindicator2-2', 'AJController@addindicator2_2');
 /////หมวด1-2
 Route::get('/category/indicator1-1', 'CategoryController@indicator1_1');
 Route::get('/category/category1', 'CategoryController@category1');
@@ -126,12 +129,27 @@ Route::get('/getpdca/{id}','APIAJController@getpdca');
 Route::post('/updatepdca','APIAJController@updatepdca');
 /////addindicator4_3
 Route::post('/addindicator4_3','APIAJController@addindicator4_3');
-Route::post('/deletepdca/{id}', 'APIAJController@deleteaddindicator4_3');
 Route::get('/getindicator4_3','APIAJController@getaddindicator4_3');
 Route::post('/updateindicator4_3','APIAJController@updateaddindicator4_3');
 
 /////addindicator4_3
 Route::post('/addinfostd','APIAJController@addinfostd');
+/////addfactor
+Route::post('/addfactor','APIAJController@addfactor');
+Route::get('/getfactor/{id}','APIAJController@getfactor');
+Route::post('/updatefactor','APIAJController@updatefactor');
+/////addindicator2_1
+Route::post('/addindicator2_1','APIAJController@addindicator2_1');
+Route::get('/getindicator2_1/{id}','APIAJController@getindicator2_1');
+Route::post('/updateindicator2_1','APIAJController@updateindicator2_1');
+/////addindicator2_2
+Route::post('/addindicator2_2','APIAJController@addindicator2_2');
+Route::get('/getindicator2_2/{id}','APIAJController@getindicator2_2');
+Route::post('/updateindicator2_2','APIAJController@updateindicator2_2');
+/////addindicator2_2
+Route::post('/addindicator3_3','APIAJController@addindicator3_3');
+Route::get('/getindicator3_3','APIAJController@getindicator3_3');
+Route::post('/updateindicator3_3','APIAJController@updateindicator3_3');
 
 Route::get('/getrolepermisson/{id}','APIController@getrolepermission');
 Auth::routes();

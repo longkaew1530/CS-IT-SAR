@@ -10,6 +10,7 @@ use App\User;
 use App\Menu;
 use App\indicator4_3;
 use App\PDCA;
+use App\category3_GD;
 class AJController extends Controller
 {
     public function __construct()
@@ -84,6 +85,33 @@ class AJController extends Controller
     {
         $menuname=Menu::where('m_id',$id)
         ->get();
+
+        $factor=category3_GD::where('category_factor',$menuname[0]['m_name'])
+        ->where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        if(count($factor)===0){
             return view('AJ/addfactor',compact('menuname'));
+        }
+        else{
+            if($menuname[0]['category_factor']=="ปัจจัยที่มีผลกระทบต่อจำนวนนักศึกษา"){
+                return view('category3/Impactfactors',compact('factor'));
+            }
+            else{
+                return view('category3/Impactgraduation',compact('factor'));
+            }
+        }
+    }
+    public function addindicator2_1()
+    {
+            return view('AJ/addindicator2-1');
+    }
+    public function addindicator2_2()
+    {
+            return view('AJ/addindicator2-2');
+    }
+    public function addindicator3_3()
+    {
+            return view('AJ/add3_3');
     }
 }

@@ -54,7 +54,7 @@ class Category3Controller extends Controller
     }
     public function Impactgraduation()
     {
-        $factor=category3_GD::where('category_factor','ปัจจัยที่มีผลกระทบต่อการสำเร็จการศึกษา')
+        $factor=category3_GD::where('category_factor','ปัยจัยที่มีผลกระทบต่อการสำเร็จการศึกษา')
         ->where('course_id',session()->get('usercourse'))
          ->where('year_id',session()->get('year_id'))
          ->get();
@@ -62,8 +62,7 @@ class Category3Controller extends Controller
     }
     public function indicator2_1()
     {
-        $factor=indicator2_1::where('Indicator_id','2.1')
-        ->where('course_id',session()->get('usercourse'))
+        $factor=indicator2_1::where('course_id',session()->get('usercourse'))
          ->where('year_id',session()->get('year_id'))
          ->get();
         return view('category3/indicator2-1',compact('factor'));

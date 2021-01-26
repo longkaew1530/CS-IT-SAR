@@ -15,4 +15,5 @@ class doc_performance3_3 extends Model
     {
         return $this->hasMany('App\performance3_3','doc_id');
     }
+    public $timestamps = false;
 }

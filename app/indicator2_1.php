@@ -11,4 +11,5 @@ class indicator2_1 extends Model
     protected $fillable=[
         'qtyall','qtyrate','persen','sumscore','resultscore'
     ];
+    public $timestamps = false;
 }

@@ -10,15 +10,17 @@
     </div>
     <form id="adddata" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data">
     @csrf
+    @foreach($editdata as $row)
       <div class="data">
         <div class="col-md-12">
           <div class="box-header col-md-12 col-sm-9 col-xs-12">
-            <h3 class="box-title">{{$menuname[0]['m_name']}}</h3>
-            <input type="hidden" class="form-control" id="category_factor" name="category_factor" value="{{$menuname[0]['m_name']}}"/>
+            <h3 class="box-title">{{$row['category_factor']}}</h3>
+            <input type="hidden" class="form-control" id="id" name="id" value="{{$row['id']}}"/>
           </div>
           <div id="body">
             <div class="col-md-12 col-sm-9 col-xs-12">
               <textarea id="editor1" name="factor" rows="10" cols="80">
+              {{$row['factor']}}
               </textarea>
             </div>
           </div>
@@ -36,6 +38,7 @@
 
         </div>
       </div>
+      @endforeach
     </form>
 
   </div>
@@ -67,7 +70,7 @@
       var formData = new FormData(this);
       $.ajax({
         type: 'POST',
-        url: "/addfactor",
+        url: "/updatefactor",
         data: formData,
         cache: false,
         contentType: false,
@@ -75,7 +78,7 @@
         dataType: 'json',
         success: (data) => {
           swal({
-          title: "เพิ่มข้อมูลเรียบร้อยแล้ว",
+          title: "แก้ไขข้อมูลเรียบร้อยแล้ว",
           text: "",
           icon: "success",
           button: "ตกลง",

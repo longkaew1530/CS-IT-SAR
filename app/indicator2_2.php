@@ -12,4 +12,5 @@ class indicator2_2 extends Model
         'total','answer','job','straight_line','not_straight_line','freelance','before'
         ,'continue_study','ordain','soldier','unemployed'
     ];
+    public $timestamps = false;
 }

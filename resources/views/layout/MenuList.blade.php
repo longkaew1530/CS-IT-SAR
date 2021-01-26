@@ -182,6 +182,9 @@
           <ul class="treeview-menu">
             <li class="active"><a href="/addinfostudent"><i class="fa fa-circle-o text-red"></i>ข้อมูลนักศึกษา</a></li>
             <li class="active"><a href="/addimpactfactor"><i class="fa fa-circle-o text-red"></i>ปัจจัยที่มีผลกระทบต่อจำนวนนักศึกษา</a></li>
+            <li class="active"><a href="/addindicator2-1"><i class="fa fa-circle-o text-red"></i>คุณภาพบัณฑิต</a></li>
+            <li class="active"><a href="/addindicator2-2"><i class="fa fa-circle-o text-red"></i>ตัวบ่งชี้ที่ 2.2</a></li>
+            <li class="active"><a href="/addindicator3-3"><i class="fa fa-circle-o text-red"></i>ตัวบ่งชี้ที่ 3.3</a></li>
           </ul>
         </li>
           
