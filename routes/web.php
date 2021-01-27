@@ -38,6 +38,8 @@ Route::get('/addinfostudent', 'AJController@addinfostd');
 Route::get('/addimpactfactor/{id}', 'AJController@addfactor');
 Route::get('/addindicator2-1', 'AJController@addindicator2_1');
 Route::get('/addindicator2-2', 'AJController@addindicator2_2');
+Route::get('/addcourse_results', 'AJController@addcourse_results');
+Route::get('/addindicator5-4', 'AJController@addindicator5_4');
 /////หมวด1-2
 Route::get('/category/indicator1-1', 'CategoryController@indicator1_1');
 Route::get('/category/category1', 'CategoryController@category1');
@@ -132,7 +134,7 @@ Route::post('/addindicator4_3','APIAJController@addindicator4_3');
 Route::get('/getindicator4_3','APIAJController@getaddindicator4_3');
 Route::post('/updateindicator4_3','APIAJController@updateaddindicator4_3');
 
-/////addindicator4_3
+/////addinfostd
 Route::post('/addinfostd','APIAJController@addinfostd');
 /////addfactor
 Route::post('/addfactor','APIAJController@addfactor');
@@ -150,6 +152,10 @@ Route::post('/updateindicator2_2','APIAJController@updateindicator2_2');
 Route::post('/addindicator3_3','APIAJController@addindicator3_3');
 Route::get('/getindicator3_3','APIAJController@getindicator3_3');
 Route::post('/updateindicator3_3','APIAJController@updateindicator3_3');
+/////addcourse_results
+Route::post('/addcourse_results','APIAJController@addcourse_results');
+Route::get('/getcourse_results','APIAJController@getcourse_results');
+Route::post('/updatecourse_results','APIAJController@updatecourse_results');
 
 Route::get('/getrolepermisson/{id}','APIController@getrolepermission');
 Auth::routes();

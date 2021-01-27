@@ -11,6 +11,9 @@ use App\Menu;
 use App\indicator4_3;
 use App\PDCA;
 use App\category3_GD;
+use App\performance3_3;
+use App\category4_course_results;
+use App\in_index;
 class AJController extends Controller
 {
     public function __construct()
@@ -111,7 +114,35 @@ class AJController extends Controller
             return view('AJ/addindicator2-2');
     }
     public function addindicator3_3()
-    {
+    {   
+        $in3_3=performance3_3::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        if(count($in3_3)===0){
             return view('AJ/add3_3');
+        }
+        else{
+            return view('category3/perfoment3_3',compact('in3_3'));
+        }
+            
+    }
+    public function addcourse_results()
+    {
+        $ccr=category4_course_results::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        if(count($ccr)===0){
+            return view('AJ/addcourse_results');
+        }
+        else{
+            return view('category4/course_summary',compact('ccr'));
+        }
+            
+    }
+    public function addindicator5_4()
+    {
+        $get=in_index::all();
+            return view('AJ/add5_4',compact('get'));
+            
     }
 }

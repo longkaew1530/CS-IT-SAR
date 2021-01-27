@@ -16,10 +16,12 @@ use App\indicator2_2;
 use App\performance3_3;
 use App\docindicator4_3;
 use App\doc_performance3_3;
+use App\category4_course_results;
 use File;
 use Maatwebsite\Excel\Facades\Excel;
 use App\ModelAJ\category3_inforstudent;
 use App\Imports\AddstdImport;
+use App\Imports\Addcourse_results;
 use App\category3_GD;
 class APIAJController extends Controller
 {
@@ -688,4 +690,39 @@ class APIAJController extends Controller
         return $data2;
     }
     /////addindicator3_3/////addindicator3_3/////addindicator3_3/////addindicator3_3/////addindicator3_3/////addindicator3_3
+
+    /////addcourse_results/////addcourse_results/////addcourse_results/////addcourse_results/////addcourse_results/////addcourse_results
+    public function getcourse_results()
+    {
+        return view('AJ/editcourse_results');
+    }
+    function addcourse_results(Request $request)
+    {
+     $this->validate($request, [
+      'infostd'  => 'required|mimes:xls,xlsx'
+     ]);
+
+     $path = $request->file('infostd')->getRealPath();
+
+     $data = Excel::import(new Addcourse_results,$path);
+        
+     return true;
+    }
+    public function updatecourse_results(Request $request)
+    {
+        $getdata=category4_course_results::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'));
+        $getdata->delete();
+        
+        $this->validate($request, [
+            'infostd'  => 'required|mimes:xls,xlsx'
+           ]);
+      
+           $path = $request->file('infostd')->getRealPath();
+      
+           $data = Excel::import(new Addcourse_results,$path);
+              
+           return true;
+    }
+     /////addcourse_results/////addcourse_results/////addcourse_results/////addcourse_results/////addcourse_results/////addcourse_results
 }

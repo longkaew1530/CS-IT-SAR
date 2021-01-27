@@ -181,13 +181,25 @@
           </a>
           <ul class="treeview-menu">
             <li class="active"><a href="/addinfostudent"><i class="fa fa-circle-o text-red"></i>ข้อมูลนักศึกษา</a></li>
-            <li class="active"><a href="/addimpactfactor"><i class="fa fa-circle-o text-red"></i>ปัจจัยที่มีผลกระทบต่อจำนวนนักศึกษา</a></li>
             <li class="active"><a href="/addindicator2-1"><i class="fa fa-circle-o text-red"></i>คุณภาพบัณฑิต</a></li>
             <li class="active"><a href="/addindicator2-2"><i class="fa fa-circle-o text-red"></i>ตัวบ่งชี้ที่ 2.2</a></li>
             <li class="active"><a href="/addindicator3-3"><i class="fa fa-circle-o text-red"></i>ตัวบ่งชี้ที่ 3.3</a></li>
           </ul>
         </li>
           
+        <li class="active treeview menu-open">
+          <a href="">
+            <i class=""></i><span>หมวดที่4</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="active"><a href="/addcourse_results"><i class="fa fa-circle-o text-red"></i>สรุปผลรายวิชาที่เปิดสอน</a></li>
+            <li class="active"><a href="/addindicator5-4"><i class="fa fa-circle-o text-red"></i>ผลการดำเนินงานตามกรอบมาตรฐานคุณวุติ</a></li>
+          </ul>
+        </li>
+
         </li>
         <li class="header">LABELS</li>
         <li><a href="{{ route('logout') }}"  onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
