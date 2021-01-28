@@ -9,6 +9,7 @@ use App\ModelAJ\categoty_researh;
 use App\User;
 use App\Menu;
 use App\indicator4_3;
+use App\indicator5_4;
 use App\PDCA;
 use App\category3_GD;
 use App\performance3_3;
@@ -142,7 +143,26 @@ class AJController extends Controller
     public function addindicator5_4()
     {
         $get=in_index::all();
-            return view('AJ/add5_4',compact('get'));
+        $check=indicator5_4::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        $getdata[0]=0;
+        $getdata[1]=0;
+        $getdata[2]=0;
+        $getdata[3]=0;
+        $getdata[4]=0;
+        $getdata[5]=0;
+        $getdata[6]=0;
+        $getdata[7]=0;
+        $getdata[8]=0;
+        $getdata[9]=0;
+        $getdata[10]=0;
+        $getdata[11]=0;
+        $getdata[12]=0;
+        foreach($check as $key=>$row){
+                $getdata[$key]=$row['category'];          
+        }
+            return view('AJ/add5_4',compact('get','getdata'));
             
     }
 }

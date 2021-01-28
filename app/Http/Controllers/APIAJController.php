@@ -13,10 +13,13 @@ use App\docpdca;
 use App\indicator4_3;
 use App\indicator2_1;
 use App\indicator2_2;
+use App\indicator5_4;
 use App\performance3_3;
 use App\docindicator4_3;
+use App\doc_indicator5_4;
 use App\doc_performance3_3;
 use App\category4_course_results;
+use App\in_index;
 use File;
 use Maatwebsite\Excel\Facades\Excel;
 use App\ModelAJ\category3_inforstudent;
@@ -725,4 +728,113 @@ class APIAJController extends Controller
            return true;
     }
      /////addcourse_results/////addcourse_results/////addcourse_results/////addcourse_results/////addcourse_results/////addcourse_results
+
+     /////addindicator5_4/////addindicator5_4/////addindicator5_4/////addindicator5_4/////addindicator5_4/////addindicator5_4
+    public function getindicator5_4($id)
+    {
+        $get=in_index::all();
+        $check=indicator5_4::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        $query=indicator5_4::where('id',$id)
+        ->where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        $getdata[0]=0;
+        $getdata[1]=0;
+        $getdata[2]=0;
+        $getdata[3]=0;
+        $getdata[4]=0;
+        $getdata[5]=0;
+        $getdata[6]=0;
+        $getdata[7]=0;
+        $getdata[8]=0;
+        $getdata[9]=0;
+        $getdata[10]=0;
+        $getdata[11]=0;
+        $getdata[12]=0;
+        foreach($check as $key=>$row){
+                $getdata[$key]=$row['category'];          
+        }
+        if($query[0]['status']==1){
+            $status1=1;
+            $status2=0;
+        }
+        else{
+            $status1=0;
+            $status2=1;
+        }
+        
+        return view('AJ/edit5_4',compact('get','getdata','query','status1','status2'));
+    }
+    public function addindicator5_4(Request $request)
+    {
+        $validatedData = $request->validate([
+            'doc_file' => 'required',
+            'doc_file.*' => 'mimes:csv,txt,xlsx,xls,pdf,docx',
+            ]);
+        $data=new indicator5_4;
+        $data->course_id=session()->get('usercourse');
+        $data->year_id=session()->get('year_id');
+        $data->performance=$request->performance;
+        $data->status=$request->status;
+        $data->category=$request->category;
+        $data->save();
+            if($request->TotalFiles > 0)
+            {
+                    
+               for ($x = 0; $x < $request->TotalFiles; $x++) 
+               {
+                   if ($request->hasFile('doc_file')) 
+                    {
+                        $getfile = $request->file('doc_file');
+                        $path = 'public/indicator';
+                        $name = $getfile[$x]->getClientOriginalName();
+                        $fullfile=$path."/".$name;
+                        $getfile[$x]->move($path, $name);                 
+                        $insert[$x]['doc_file'] = $fullfile;
+                        $insert[$x]['doc_name'] = $name;
+                        $insert[$x]['doc_id'] = $data->id;                     
+                    }            
+               }           
+               $success=doc_indicator5_4::insert($insert);
+            }
+        return $success;
+    }
+    public function updateindicator5_4(Request $request)
+    {   
+        $validatedData = $request->validate([
+            'doc_file.*' => 'mimes:csv,txt,xlsx,xls,pdf,docx',
+            ]);
+            if($request->TotalFiles > 0)
+            {  
+               for ($x = 0; $x < $request->TotalFiles; $x++) 
+               {
+                   if ($request->hasFile('doc_file')) 
+                    {
+                        $getfile = $request->file('doc_file');
+                        $path = 'public/indicator';
+                        $name = $getfile[$x]->getClientOriginalName();
+                        $fullfile=$path."/".$name;
+                        File::delete('public/indicator/'.$name);
+                        $getfile[$x]->move($path, $name);  
+                        $insert2=doc_indicator5_4::find($request->id);
+                        if (isset($insert2)) {
+                            $insert2->delete();
+                         }              
+                        $insert[$x]['doc_file'] = $fullfile;
+                        $insert[$x]['doc_name'] = $name;
+                        $insert[$x]['doc_id'] = $request->id;                
+                    }         
+               } 
+               doc_indicator5_4::insert($insert);           
+            }
+        $data=indicator5_4::find($request->id);
+        $data->performance=$request->performance;
+        $data->status=$request->status;
+        $data->category=$request->category;
+        $data->save();
+        return $data;
+    }
+    /////addindicator5_4/////addindicator5_4/////addindicator5_4/////addindicator5_4/////addindicator5_4/////addindicator5_4
 }

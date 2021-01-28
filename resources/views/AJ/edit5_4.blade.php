@@ -12,18 +12,24 @@
     </div>
     <form id="adddata" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data">
     @csrf
+    <input type="hidden" class="form-control" id="id" name="id" value="{{$query[0]['id']}}">
            <div class="col-md-12">
           <div class="box-header col-md-12 col-sm-9 col-xs-12">
             <h3 class="box-title">ผลการดำเนินงาน</h3>
           </div>
             <div class="col-md-12 col-sm-9 col-xs-12">
             <select class="form-control"  id="category"  class="form-control @error('role') is-invalid @enderror" name="category">
-                                    @foreach($get as $value) 
+                        
+                                    @foreach($get as $key=>$value) 
+                                      @if($key+1==$query[0]['category'])
+                                       <option value="{{$value['id']}}"  selected>{{$value['name']}}</option>
+                                      @else 
                                         @if($value['id']!==$getdata[0]&&$value['id']!==$getdata[1]&&$value['id']!==$getdata[2]&&$value['id']!==$getdata[3]&&
                                         $value['id']!==$getdata[4]&&$value['id']!==$getdata[5]&&$value['id']!==$getdata[6]&&$value['id']!==$getdata[7]&&
                                         $value['id']!==$getdata[8]&&$value['id']!==$getdata[9]&&$value['id']!==$getdata[10]&&$value['id']!==$getdata[11])
                                         <option value="{{$value['id']}}">{{$value['name']}}</option>
                                         @endif
+                                    @endif
                                     @endforeach
               </select>
             </div>
@@ -35,6 +41,7 @@
           </div>
             <div class="col-md-12 col-sm-9 col-xs-12">
               <textarea  id="editor5" name="performance" rows="10" cols="80">
+              {{$query[0]['performance']}}
               </textarea>
             </div>
         </div>
@@ -43,12 +50,12 @@
           <div class="box-header col-md-12 col-sm-9 col-xs-12">
           </div>
             <div class="col-md-12 col-sm-9 col-xs-12">
-            <label>
-                      <input type="radio" name="status" id="optionsRadios1" value="1" checked="">
+                    <label>
+                      <input type="radio" name="status" id="optionsRadios1" value="1" @if($status1) checked @endif>
                       เป็นไปตามเกณฑ์
                     </label>
                     <label>
-                      <input type="radio" name="status" id="optionsRadios1" value="0" checked="">
+                      <input type="radio" name="status" id="optionsRadios1" value="0" @if($status2) checked @endif>
                       ไม่เป็นไปตามเกณฑ์
                     </label>
             </div>
@@ -114,7 +121,7 @@
       formData.append('TotalFiles', TotalFiles);
       $.ajax({
         type: 'POST',
-        url: "/addindicator5_4",
+        url: "/updateindicator5_4",
         data: formData,
         cache: false,
         contentType: false,
@@ -122,7 +129,7 @@
         dataType: 'json',
         success: (data) => {
           swal({
-          title: "เพิ่มข้อมูลเรียบร้อยแล้ว",
+          title: "แก้ไขข้อมูลเรียบร้อยแล้ว",
           text: "",
           icon: "success",
           button: "ตกลง",

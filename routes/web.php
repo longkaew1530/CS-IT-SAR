@@ -156,6 +156,11 @@ Route::post('/updateindicator3_3','APIAJController@updateindicator3_3');
 Route::post('/addcourse_results','APIAJController@addcourse_results');
 Route::get('/getcourse_results','APIAJController@getcourse_results');
 Route::post('/updatecourse_results','APIAJController@updatecourse_results');
+/////addindicator5_4
+Route::post('/addindicator5_4','APIAJController@addindicator5_4');
+Route::get('/getindicator5_4/{id}','APIAJController@getindicator5_4');
+Route::post('/updateindicator5_4','APIAJController@updateindicator5_4');
+
 
 Route::get('/getrolepermisson/{id}','APIController@getrolepermission');
 Auth::routes();

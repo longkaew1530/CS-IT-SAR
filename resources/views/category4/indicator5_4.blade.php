@@ -4,7 +4,7 @@
 <div class="box box-warning marginl">
 <div class="box-header">
             <div class="box-body">
-            <br><br><b><h4>ผลการดำเนินงานหลักสูตรตามกรอบมาตรฐานคุณวุฒิระดับอุดมศึกษาแห่งชาติ (ตัวบ่งชี้ที่ 5.4)</h4></b><br><br>
+           <b><h4>ผลการดำเนินงานหลักสูตรตามกรอบมาตรฐานคุณวุฒิระดับอุดมศึกษาแห่งชาติ (ตัวบ่งชี้ที่ 5.4)</h4></b><br>
             <table class="table table-bordered" >
                 <tbody ><tr>
                   <th  class="text-center" colspan="3">ผลการดำเนินงานตามกรอบมาตรฐานคุณวุฒิ</th>
@@ -40,11 +40,15 @@
                         @endforeach
                         </td>
                         <td>
+                        
                         @foreach($perfor as $row)
                             @if($row['category']==$value['id'])
+                            <a href="/getindicator5_4/{{$row['id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i></a>
                                 @foreach($row->doc_indicator5_4 as $row1)
-                                -{{$row1['doc_name']}}<br>
+                                -{{$row1['doc_name']}}
+                                <br>
                                 @endforeach
+                                
                             @endif
                         @endforeach
                         </td>

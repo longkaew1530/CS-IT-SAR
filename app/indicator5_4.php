@@ -15,4 +15,5 @@ class indicator5_4 extends Model
     {
         return $this->hasMany('App\doc_indicator5_4','doc_id','id');
     }
+    public $timestamps = false;
 }
