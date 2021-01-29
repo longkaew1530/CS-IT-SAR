@@ -40,6 +40,9 @@ Route::get('/addindicator2-1', 'AJController@addindicator2_1');
 Route::get('/addindicator2-2', 'AJController@addindicator2_2');
 Route::get('/addcourse_results', 'AJController@addcourse_results');
 Route::get('/addindicator5-4', 'AJController@addindicator5_4');
+Route::get('/addacademic_performance', 'AJController@addacademic_performance');
+Route::get('/addnot_offered', 'AJController@addnot_offered');
+Route::get('/addincomplete_content', 'AJController@addincomplete_content');
 /////หมวด1-2
 Route::get('/category/indicator1-1', 'CategoryController@indicator1_1');
 Route::get('/category/category1', 'CategoryController@category1');
@@ -65,7 +68,8 @@ Route::get('/category4/teachingquality', 'Category4Controller@teachingquality');
 Route::get('/category4/effectiveness', 'Category4Controller@effectiveness');
 Route::get('/category4/newteacher', 'Category4Controller@newteacher');
 Route::get('/category4/activity', 'Category4Controller@activity');
-
+Route::get('/category4/academic_performance', 'Category4Controller@academic_performance');
+Route::get('/category4/incomplete_content', 'Category4Controller@incomplete_content');
 ////หมวด5
 Route::get('/category5/course_administration', 'Category5Controller@course_administration');
 
@@ -160,7 +164,18 @@ Route::post('/updatecourse_results','APIAJController@updatecourse_results');
 Route::post('/addindicator5_4','APIAJController@addindicator5_4');
 Route::get('/getindicator5_4/{id}','APIAJController@getindicator5_4');
 Route::post('/updateindicator5_4','APIAJController@updateindicator5_4');
-
+/////addacademic_performance
+Route::post('/addacademic_performance','APIAJController@addacademic_performance');
+Route::get('/getacademic_performance','APIAJController@getacademic_performance');
+Route::post('/updateacademic_performance','APIAJController@updateacademic_performance');
+/////addnot_offered
+Route::post('/addnot_offered','APIAJController@addnot_offered');
+Route::get('/getnot_offered','APIAJController@getnot_offered');
+Route::post('/updatenot_offered','APIAJController@updatenot_offered');
+/////incomplete_content
+Route::post('/addincomplete_content','APIAJController@addincomplete_content');
+Route::get('/getincomplete_content','APIAJController@getincomplete_content');
+Route::post('/updateincomplete_content','APIAJController@updateincomplete_content');
 
 Route::get('/getrolepermisson/{id}','APIController@getrolepermission');
 Auth::routes();

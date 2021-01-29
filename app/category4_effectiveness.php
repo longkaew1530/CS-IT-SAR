@@ -11,4 +11,5 @@ class category4_effectiveness extends Model
     protected $fillable=[
         'learning_standards','comment','solution'
     ];
+    public $timestamps = false;
 }

@@ -4,7 +4,8 @@
 <div class="box box-warning marginl">
 <div class="box-header">
             <div class="box-body">
-            <br><br><b><h4>รายวิชาที่ไม่ได้เปิดสอนในปีการศึกษา</h4></b><br><br>
+            <a href="/getnot_offered" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>
+            <h4>รายวิชาที่ไม่ได้เปิดสอนในปีการศึกษา</h4></b>
             <table class="table table-bordered" >
                 <tbody><tr>
                   <th width="20%" class="text-center">รหัส ชื่อวิชา</th>
@@ -14,8 +15,13 @@
                 </tr>
                 @foreach($ccr as $value)
               <tr>
-                <td><b>{{$value['course_code']}}</b><br>
-                       {{$value['course_code']}}
+                <td>{{$value['code_name']}}
+                </td>
+                <td>{{$value['term']}}
+                </td>
+                <td>{{$value['description']}}
+                </td>
+                <td>{{$value['measure']}}
                 </td>
               </tr>
               @endforeach

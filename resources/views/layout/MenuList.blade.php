@@ -197,6 +197,9 @@
           <ul class="treeview-menu">
             <li class="active"><a href="/addcourse_results"><i class="fa fa-circle-o text-red"></i>สรุปผลรายวิชาที่เปิดสอน</a></li>
             <li class="active"><a href="/addindicator5-4"><i class="fa fa-circle-o text-red"></i>ผลการดำเนินงานตามกรอบมาตรฐานคุณวุติ</a></li>
+            <li class="active"><a href="/addacademic_performance"><i class="fa fa-circle-o text-red"></i>การวิเคราะห์รายวิชาที่มีผลการเรียนที่ไม่ปกติ</a></li>
+            <li class="active"><a href="/addnot_offered"><i class="fa fa-circle-o text-red"></i>รายวิชาที่ไม่ได้เปิดสอนในปีการศึกษา</a></li>
+            <li class="active"><a href="/addincomplete_content"><i class="fa fa-circle-o text-red"></i>รายวิชาที่สอนเนื้อหาไม่ครบในปีการศึกษา</a></li>
           </ul>
         </li>
 

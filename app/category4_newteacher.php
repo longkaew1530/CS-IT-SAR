@@ -11,4 +11,5 @@ class category4_newteacher extends Model
     protected $fillable=[
         'point_out','new_teacher_qty','teacher_point_out_qty'
     ];
+    public $timestamps = false;
 }

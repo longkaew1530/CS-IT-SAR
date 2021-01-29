@@ -4,6 +4,7 @@
 <div class="box box-warning marginl">
 <div class="box-header">
             <div class="box-body">
+            <a href="{{ URL::previous() }}" class="btn btn-primary fr"><i class='fa fa-arrow-left'></i> ย้อนกลับ</a>
            <b><h4>ผลการดำเนินงานหลักสูตรตามกรอบมาตรฐานคุณวุฒิระดับอุดมศึกษาแห่งชาติ (ตัวบ่งชี้ที่ 5.4)</h4></b><br>
             <table class="table table-bordered" >
                 <tbody ><tr>
@@ -21,7 +22,7 @@
                         <ins>ผลการดำเนินงาน</ins><br>
                         @foreach($perfor as $row)
                         @if($row['category']==$value['id'])
-                            {{$row['performance']}}<br><br>
+                            {!!$row['performance']!!}<br><br>
                         @endif
                         @endforeach
                     </td>

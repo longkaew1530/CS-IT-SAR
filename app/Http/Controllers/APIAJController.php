@@ -19,6 +19,9 @@ use App\docindicator4_3;
 use App\doc_indicator5_4;
 use App\doc_performance3_3;
 use App\category4_course_results;
+use App\category4_notcourse_results;
+use App\ModelAJ\category4_academic_performance;
+use App\ModelAJ\category4_incomplete_content;
 use App\in_index;
 use File;
 use Maatwebsite\Excel\Facades\Excel;
@@ -837,4 +840,112 @@ class APIAJController extends Controller
         return $data;
     }
     /////addindicator5_4/////addindicator5_4/////addindicator5_4/////addindicator5_4/////addindicator5_4/////addindicator5_4
+
+    /////academic_performance/////academic_performance/////academic_performance/////academic_performance/////academic_performance/////academic_performance
+    public function getacademic_performance()
+    {
+        $editdata=category4_academic_performance::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        return view('AJ/editacademic_performance',compact('editdata'));
+    }
+    function addacademic_performance(Request $request)
+    {
+        $data=new category4_academic_performance;
+        $data->code_name=$request->code_name;
+        $data->term=$request->term;
+        $data->anomaly=$request->anomaly;
+        $data->tocheck=$request->tocheck;
+        $data->reason=$request->reason;
+        $data->plan_update=$request->plan_update;
+        $data->course_id=session()->get('usercourse');
+        $data->year_id=session()->get('year_id');
+        $data->save();
+
+     return $data;
+    }
+    public function updateacademic_performance(Request $request)
+    {
+        $data=category4_academic_performance::find($request->id);
+        $data->code_name=$request->code_name;
+        $data->term=$request->term;
+        $data->anomaly=$request->anomaly;
+        $data->tocheck=$request->tocheck;
+        $data->reason=$request->reason;
+        $data->plan_update=$request->plan_update;
+        $data->save();
+              
+        return $data;
+    }
+     /////academic_performance/////academic_performance/////academic_performance/////academic_performance/////academic_performance/////academic_performance
+
+     /////not_offered/////not_offered/////not_offered/////not_offered/////not_offered/////not_offered
+    public function getnot_offered()
+    {
+        $editdata=category4_notcourse_results::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        return view('AJ/editnot_offered',compact('editdata'));
+    }
+    function addnot_offered(Request $request)
+    {
+        $data=new category4_notcourse_results;
+        $data->code_name=$request->code_name;
+        $data->term=$request->term;
+        $data->description=$request->description;
+        $data->measure=$request->measure;
+        $data->course_id=session()->get('usercourse');
+        $data->year_id=session()->get('year_id');
+        $data->save();
+
+     return $data;
+    }
+    public function updatenot_offered(Request $request)
+    {
+        $data=category4_notcourse_results::find($request->id);
+        $data->code_name=$request->code_name;
+        $data->term=$request->term;
+        $data->description=$request->description;
+        $data->measure=$request->measure;
+        $data->save();
+              
+        return $data;
+    }
+    /////not_offered/////not_offered/////not_offered/////not_offered/////not_offered/////not_offered
+
+    /////incomplete_content/////incomplete_content/////incomplete_content/////incomplete_content/////incomplete_content/////incomplete_content
+    public function getincomplete_content()
+    {
+        $editdata=category4_incomplete_content::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        return view('AJ/editincomplete_content',compact('editdata'));
+    }
+    function addincomplete_content(Request $request)
+    {
+        $data=new category4_incomplete_content;
+        $data->code_name=$request->code_name;
+        $data->term=$request->term;
+        $data->topic=$request->topic;
+        $data->untraceable=$request->untraceable;
+        $data->plan_update=$request->plan_update;
+        $data->course_id=session()->get('usercourse');
+        $data->year_id=session()->get('year_id');
+        $data->save();
+
+     return $data;
+    }
+    public function updateincomplete_content(Request $request)
+    {
+        $data=category4_incomplete_content::find($request->id);
+        $data->code_name=$request->code_name;
+        $data->term=$request->term;
+        $data->topic=$request->topic;
+        $data->untraceable=$request->untraceable;
+        $data->plan_update=$request->plan_update;
+        $data->save();
+              
+        return $data;
+    }
+     /////incomplete_content/////incomplete_content/////incomplete_content/////incomplete_content/////incomplete_content/////incomplete_content
 }

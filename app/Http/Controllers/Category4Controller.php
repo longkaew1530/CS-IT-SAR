@@ -13,6 +13,8 @@ use App\category4_activity;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use App\ModelAJ\category4_academic_performance;
+use App\ModelAJ\category4_incomplete_content;
 use Illuminate\Http\Request;
 
 class Category4Controller extends Controller
@@ -97,5 +99,19 @@ class Category4Controller extends Controller
         ->where('year_id',session()->get('year_id'))
         ->get();
         return view('category4/activity',compact('activity'));
+    }
+    public function academic_performance()
+    {
+        $academic=category4_academic_performance::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        return view('category4/academic_performance',compact('academic'));
+    }
+    public function incomplete_content()
+    {
+        $academic=category4_incomplete_content::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        return view('category4/incomplete_content',compact('academic'));
     }
 }

@@ -14,6 +14,9 @@ use App\PDCA;
 use App\category3_GD;
 use App\performance3_3;
 use App\category4_course_results;
+use App\ModelAJ\category4_academic_performance;
+use App\ModelAJ\category4_incomplete_content;
+use App\category4_notcourse_results;
 use App\in_index;
 class AJController extends Controller
 {
@@ -162,7 +165,71 @@ class AJController extends Controller
         foreach($check as $key=>$row){
                 $getdata[$key]=$row['category'];          
         }
-            return view('AJ/add5_4',compact('get','getdata'));
-            
+        $indi=in_index::all();
+        $perfor=indicator5_4::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+
+        $result=0;
+        $resultpass1_5=0;
+        $resultpass1_5persen=0;
+        $resultpass1_5count=0;
+        $resultpassall=0;
+        $result=count($perfor);
+        foreach($perfor as $value){
+            if($value['category']==1||$value['category']==2||$value['category']==3||$value['category']==4||$value['category']==5){
+                $resultpass1_5count++;
+                if($value['status']==1){
+                    $resultpass1_5++;
+                }
+            }
+            if($value['status']==1){
+                $resultpassall++;
+            }
+        }
+        $resultpass1_5persen=($resultpass1_5count*100)/5;
+            if(count($check)===12){
+                return view('category4/indicator5_4',compact('indi','perfor','result','resultpass1_5','resultpass1_5persen','resultpassall'));
+            }
+            else{
+                return view('AJ/add5_4',compact('get','getdata'));
+            }
+    }
+    public function addacademic_performance()
+    {
+        $academic=category4_academic_performance::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        if(count($academic)===0){
+            return view('AJ/addacademic_performance');
+        }
+        else{
+            return view('category4/academic_performance',compact('academic'));
+        } 
+                      
+    }
+    public function addnot_offered()
+    {
+        $ccr=category4_notcourse_results::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        if(count($ccr)===0){
+            return view('AJ/addnot_offered');
+        }
+        else{
+            return view('category4/not_course_summary',compact('ccr'));
+        }               
+    }
+    public function addincomplete_content()
+    {
+        $ccr=category4_incomplete_content::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        if(count($ccr)===0){
+            return view('AJ/addincomplete_content');
+        }
+        else{
+            return view('category4/not_course_summary',compact('ccr'));
+        }               
     }
 }
