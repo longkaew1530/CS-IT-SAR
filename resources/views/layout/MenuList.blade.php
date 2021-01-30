@@ -200,6 +200,22 @@
             <li class="active"><a href="/addacademic_performance"><i class="fa fa-circle-o text-red"></i>การวิเคราะห์รายวิชาที่มีผลการเรียนที่ไม่ปกติ</a></li>
             <li class="active"><a href="/addnot_offered"><i class="fa fa-circle-o text-red"></i>รายวิชาที่ไม่ได้เปิดสอนในปีการศึกษา</a></li>
             <li class="active"><a href="/addincomplete_content"><i class="fa fa-circle-o text-red"></i>รายวิชาที่สอนเนื้อหาไม่ครบในปีการศึกษา</a></li>
+            <li class="active"><a href="/addeffectiveness"><i class="fa fa-circle-o text-red"></i>ประสิทธิผลของกลยุทธ์การสอน</a></li>
+            <li class="active"><a href="/addteacher_orientation"><i class="fa fa-circle-o text-red"></i>การปฐมนิเทศอาจารย์ใหม่</a></li>
+            <li class="active"><a href="/addactivity"><i class="fa fa-circle-o text-red"></i>กิจกรรมการพัฒนาวิชาชีพของอาจารย์</a></li>
+          </ul>
+        </li>
+
+
+        <li class="active treeview menu-open">
+          <a href="">
+            <i class=""></i><span>หมวดที่5</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="active"><a href="/addcourse_manage"><i class="fa fa-circle-o text-red"></i>การบริหารหลักสูตร</a></li>
           </ul>
         </li>
 

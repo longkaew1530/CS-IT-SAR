@@ -43,6 +43,10 @@ Route::get('/addindicator5-4', 'AJController@addindicator5_4');
 Route::get('/addacademic_performance', 'AJController@addacademic_performance');
 Route::get('/addnot_offered', 'AJController@addnot_offered');
 Route::get('/addincomplete_content', 'AJController@addincomplete_content');
+Route::get('/addeffectiveness', 'AJController@addeffectiveness');
+Route::get('/addteacher_orientation', 'AJController@addteacher_orientation');
+Route::get('/addactivity', 'AJController@addactivity');
+Route::get('/addcourse_manage', 'AJController@addcourse_manage');
 /////หมวด1-2
 Route::get('/category/indicator1-1', 'CategoryController@indicator1_1');
 Route::get('/category/category1', 'CategoryController@category1');
@@ -176,6 +180,22 @@ Route::post('/updatenot_offered','APIAJController@updatenot_offered');
 Route::post('/addincomplete_content','APIAJController@addincomplete_content');
 Route::get('/getincomplete_content','APIAJController@getincomplete_content');
 Route::post('/updateincomplete_content','APIAJController@updateincomplete_content');
+/////effectiveness
+Route::post('/addeffectiveness','APIAJController@addeffectiveness');
+Route::get('/geteffectiveness/{id}','APIAJController@geteffectiveness');
+Route::post('/updateeffectiveness','APIAJController@updateeffectiveness');
+/////teacher_orientation
+Route::post('/addteacher_orientation','APIAJController@addteacher_orientation');
+Route::get('/getteacher_orientation/{id}','APIAJController@getteacher_orientation');
+Route::post('/updateteacher_orientation','APIAJController@updateteacher_orientation');
+/////activity
+Route::post('/addactivity','APIAJController@addactivity');
+Route::get('/getactivity/{id}','APIAJController@getactivity');
+Route::post('/updateactivity','APIAJController@updateactivity');
+/////course_manage
+Route::post('/addcourse_manage','APIAJController@addcourse_manage');
+Route::get('/getcourse_manage/{id}','APIAJController@getcourse_manage');
+Route::post('/updatecourse_manage','APIAJController@updatecourse_manage');
 
 Route::get('/getrolepermisson/{id}','APIController@getrolepermission');
 Auth::routes();

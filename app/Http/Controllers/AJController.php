@@ -17,6 +17,9 @@ use App\category4_course_results;
 use App\ModelAJ\category4_academic_performance;
 use App\ModelAJ\category4_incomplete_content;
 use App\category4_notcourse_results;
+use App\category4_effectiveness;
+use App\category4_newteacher;
+use App\category4_activity;
 use App\in_index;
 class AJController extends Controller
 {
@@ -231,5 +234,45 @@ class AJController extends Controller
         else{
             return view('category4/not_course_summary',compact('ccr'));
         }               
+    }
+    public function addeffectiveness()
+    {
+        $effec=category4_effectiveness::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        if(count($effec)===0){
+            return view('AJ/addeffectiveness');
+        }
+        else{
+            return view('category4/effectiveness',compact('effec'));
+        }               
+    }
+    public function addteacher_orientation()
+    {
+        $th=category4_newteacher::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        $checkpass=false;
+        foreach($th as $row){
+            if($row['point_out']==1){
+                $checkpass=true;
+            }
+        }
+        if(count($th)===0){
+            return view('AJ/addteacher_orientation');
+        }
+        else{
+            return view('category4/newteacher',compact('th','checkpass'));
+        }               
+    }
+    public function addactivity()
+    {
+            return view('AJ/addactivity');
+             
+    }
+    public function addcourse_manage()
+    {
+            return view('AJ/addcourse_manage');
+             
     }
 }

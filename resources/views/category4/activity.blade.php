@@ -3,7 +3,9 @@
 @section('content')
 <div class="box box-warning marginl">
 <div class="box-header">
-            <div class="box-body"><h4 >กิจกรรมการพัฒนาวิชาชีพของอาจารย์และบุคลากรสายสนับสนุน</h4></b><br><br>
+            <div class="box-body">
+            <a href="/addactivity" class="btn btn-success fr ml-1"><i class='fa fa-plus'></i> เพิ่มข้อมูล</a>
+            <h4 >กิจกรรมการพัฒนาวิชาชีพของอาจารย์และบุคลากรสายสนับสนุน</h4></b>
             <table class="table table-bordered" >
                 <tbody ><tr>
                   <th width="25%" class="text-center" rowspan="2">กิจกรรมที่จัดหรือเข้าร่วม</th>
@@ -16,7 +18,7 @@
                   </tr>
                 @foreach($activity as $key=>$value)
                 <tr>
-                    <td >{{$value['organized_activities']}}</td>
+                    <td >{!!$value['organized_activities']!!}</td>
                     <td class="text-center">
                             @if($value['status']==1)
                             <i class="fa fa-check "></i>
@@ -27,7 +29,8 @@
                             <i class="fa fa-check "></i>
                             @endif
                     </td>
-                    <td>{{$value['comment']}}</td>
+                    <td><a href="/getactivity/{{$value['id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i></a>{!!$value['comment']!!}
+                    </td>
                 </tr>
                 @endforeach
               </tbody></table><br><br>

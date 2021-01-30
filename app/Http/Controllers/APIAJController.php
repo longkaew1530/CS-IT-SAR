@@ -19,7 +19,11 @@ use App\docindicator4_3;
 use App\doc_indicator5_4;
 use App\doc_performance3_3;
 use App\category4_course_results;
+use App\category4_activity;
+use App\category4_effectiveness;
 use App\category4_notcourse_results;
+use App\category5_course_manage;
+use App\category4_newteacher;
 use App\ModelAJ\category4_academic_performance;
 use App\ModelAJ\category4_incomplete_content;
 use App\in_index;
@@ -948,4 +952,140 @@ class APIAJController extends Controller
         return $data;
     }
      /////incomplete_content/////incomplete_content/////incomplete_content/////incomplete_content/////incomplete_content/////incomplete_content
+
+      /////effectiveness/////effectiveness/////effectiveness/////effectiveness/////effectiveness/////effectiveness
+    public function geteffectiveness($id)
+    {
+        $editdata=category4_effectiveness::where('id',$id)
+        ->get();
+        return view('AJ/editeffectiveness',compact('editdata'));
+    }
+    function addeffectiveness(Request $request)
+    {
+        $data=new category4_effectiveness;
+        $data->learning_standards=$request->learning_standards;
+        $data->comment=$request->comment;
+        $data->solution=$request->solution;
+        $data->course_id=session()->get('usercourse');
+        $data->year_id=session()->get('year_id');
+        $data->save();
+
+     return $data;
+    }
+    public function updateeffectiveness(Request $request)
+    {
+        $data=category4_effectiveness::find($request->id);
+        $data->learning_standards=$request->learning_standards;
+        $data->comment=$request->comment;
+        $data->solution=$request->solution;
+        $data->save();
+              
+        return $data;
+    }
+     /////effectiveness/////effectiveness/////effectiveness/////effectiveness/////effectiveness/////effectiveness
+
+      /////teacher_orientation/////teacher_orientation/////teacher_orientation/////teacher_orientation/////teacher_orientation/////teacher_orientation
+    public function getteacher_orientation($id)
+    {
+        $editdata=category4_newteacher::where('id',$id)
+        ->get();
+        $check=$editdata[0]['point_out'];
+        return view('AJ/editteacher_orientation',compact('editdata','check'));
+    }
+    function addteacher_orientation(Request $request)
+    {
+        $data=new category4_newteacher;
+        $data->point_out=$request->point_out;
+        $data->new_teacher_qty=$request->new_teacher_qty;
+        $data->teacher_point_out_qty=$request->teacher_point_out_qty;
+        $data->course_id=session()->get('usercourse');
+        $data->year_id=session()->get('year_id');
+        $data->save();
+
+     return $data;
+    }
+    public function updateteacher_orientation(Request $request)
+    {
+        $data=category4_newteacher::find($request->id);
+        $data->point_out=$request->point_out;
+        if(isset($request->new_teacher_qty)){
+            $data->new_teacher_qty=$request->new_teacher_qty;
+        }
+        else{
+            $data->new_teacher_qty="";
+        }
+        if(isset($request->teacher_point_out_qty)){
+            $data->teacher_point_out_qty=$request->teacher_point_out_qty;
+        }
+        else{
+            $data->teacher_point_out_qty="";
+        }
+        $data->save();
+              
+        return $data;
+    }
+     /////teacher_orientation/////teacher_orientation/////teacher_orientation/////teacher_orientation/////teacher_orientation/////teacher_orientation
+
+      /////activity/////activity/////activity/////activity/////activity/////activity
+    public function getactivity($id)
+    {
+        $editdata=category4_activity::where('id',$id)
+        ->get();
+        $check=$editdata[0]['status'];
+        return view('AJ/editactivity',compact('editdata','check'));
+    }
+    function addactivity(Request $request)
+    {
+        $data=new category4_activity;
+        $data->organized_activities=$request->organized_activities;
+        $data->status=$request->status;
+        $data->comment=$request->comment;
+        $data->course_id=session()->get('usercourse');
+        $data->year_id=session()->get('year_id');
+        $data->save();
+
+     return $data;
+    }
+    public function updateactivity(Request $request)
+    {
+        $data=category4_activity::find($request->id);
+        $data->organized_activities=$request->organized_activities;
+        $data->status=$request->status;
+        $data->comment=$request->comment;
+        $data->save();
+              
+        return $data;
+    }
+     /////activity/////activity/////activity/////activity/////activity/////activity
+
+     /////course_manage/////course_manage/////course_manage/////course_manage/////course_manage/////course_manage
+    public function getcourse_manage($id)
+    {
+        $editdata=category5_course_manage::where('id',$id)
+        ->get();
+        return view('AJ/editcourse_manage',compact('editdata'));
+    }
+    function addcourse_manage(Request $request)
+    {
+        $data=new category5_course_manage;
+        $data->problem=$request->problem;
+        $data->effect=$request->effect;
+        $data->solution=$request->solution;
+        $data->course_id=session()->get('usercourse');
+        $data->year_id=session()->get('year_id');
+        $data->save();
+
+     return $data;
+    }
+    public function updatecourse_manage(Request $request)
+    {
+        $data=category5_course_manage::find($request->id);
+        $data->problem=$request->problem;
+        $data->effect=$request->effect;
+        $data->solution=$request->solution;
+        $data->save();
+              
+        return $data;
+    }
+     /////activity/////activity/////activity/////activity/////activity/////activity
 }

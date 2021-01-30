@@ -4,7 +4,8 @@
 <div class="box box-warning marginl">
 <div class="box-header">
             <div class="box-body">
-            <br><br><b><h4>ประสิทธิผลของกลยุทธ์การสอน</h4></b><br><br>
+            <a href="/geteffectiveness/{{$effec[0]['id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>
+            <b><h4>ประสิทธิผลของกลยุทธ์การสอน</h4></b>
               <table class="table table-bordered" >
                 <tbody><tr>
                   <th width="30%" class="text-center" >มาตรฐานผลการเรียนรู้</th>
@@ -14,9 +15,9 @@
                 <tr></tr>
                 @foreach($effec as $value)
               <tr>
-                  <td >{{$value['learning_standards']}}</td>
-                  <td >{{$value['comment']}}</td>
-                  <td >{{$value['solution']}}</td>
+                  <td >{!!$value['learning_standards']!!}</td>
+                  <td >{!!$value['comment']!!}</td>
+                  <td >{!!$value['solution']!!}</td>
               </tr>
                 @endforeach
               </tbody></table>

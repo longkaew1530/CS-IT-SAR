@@ -11,4 +11,5 @@ class category4_activity extends Model
     protected $fillable=[
         'organized_activities','status','comment'
     ];
+    public $timestamps = false;
 }

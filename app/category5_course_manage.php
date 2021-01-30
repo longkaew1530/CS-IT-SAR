@@ -11,4 +11,5 @@ class category5_course_manage extends Model
     protected $fillable=[
         'problem','effect','solution'
     ];
+    public $timestamps = false;
 }
