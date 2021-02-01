@@ -150,7 +150,7 @@
             @foreach($value->menu as $row)
               @foreach(session()->get('roleper')  as $value)
               @if($value['m_id']==$row['m_id'])
-                @if($row['m_url']=="/pdca"||$row['m_url']=="/addimpactfactor")
+                @if($row['m_url']=="/pdca"||$row['m_url']=="/addimpactfactor"||$row['m_url']=="/addassessment_summary")
                 <li  class="active"><a   href="{{$row['m_url']}}/{{$row['m_id']}}" ><i class="fa fa-circle-o text-red"></i>{!!$row['m_name']!!}</a></li>
                 @else
                <li  class="active"><a  href="{{$row['m_url']}}" ><i class="fa fa-circle-o text-red"></i>{!!$row['m_name']!!}</a></li>
@@ -216,6 +216,43 @@
           </a>
           <ul class="treeview-menu">
             <li class="active"><a href="/addcourse_manage"><i class="fa fa-circle-o text-red"></i>การบริหารหลักสูตร</a></li>
+          </ul>
+        </li>
+
+        <li class="active treeview menu-open">
+          <a href="">
+            <i class=""></i><span>หมวดที่6</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="active"><a href="/addcomment_course"><i class="fa fa-circle-o text-red"></i>ข้อคิดเห็น และข้อเสนอแนะ</a></li>
+          </ul>
+        </li>
+
+        <li class="active treeview menu-open">
+          <a href="">
+            <i class=""></i><span>หมวดที่7</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="active"><a href="/addstrength"><i class="fa fa-circle-o text-red"></i>ความก้าวหน้าของการดำเนินงานตามแผนที่เสนอในรายงานของปีที่ผ่านมา</a></li>
+            <li class="active"><a href="/adddevelopment_proposal"><i class="fa fa-circle-o text-red"></i>ข้อเสนอในการพัฒนาหลักสูตร</a></li>
+          </ul>
+        </li>
+
+        <li class="active treeview menu-open">
+          <a href="">
+            <i class=""></i><span>รายงาน</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="active"><a href="/overview"><i class="fa fa-circle-o text-red"></i>ความคืบหน้าในภาพรวม</a></li>
           </ul>
         </li>
 

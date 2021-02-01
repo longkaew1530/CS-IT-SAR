@@ -47,6 +47,12 @@ Route::get('/addeffectiveness', 'AJController@addeffectiveness');
 Route::get('/addteacher_orientation', 'AJController@addteacher_orientation');
 Route::get('/addactivity', 'AJController@addactivity');
 Route::get('/addcourse_manage', 'AJController@addcourse_manage');
+Route::get('/addcomment_course', 'AJController@addcomment_course');
+Route::get('/addassessment_summary/{id}', 'AJController@addassessment_summary');
+Route::get('/addstrength', 'AJController@addstrength');
+Route::get('/adddevelopment_proposal', 'AJController@adddevelopment_proposal');
+/////รายงาน
+Route::get('/overview', 'ReportController@overview');
 /////หมวด1-2
 Route::get('/category/indicator1-1', 'CategoryController@indicator1_1');
 Route::get('/category/category1', 'CategoryController@category1');
@@ -83,7 +89,7 @@ Route::get('/category6/assessment_summary', 'Category6Controller@assessment_summ
 
 ////หมวด7
 Route::get('/category7/strength', 'Category7Controller@strength');
-
+Route::get('/category7/development_proposal', 'Category7Controller@development_proposal');
 ///API
 Route::post('/save', 'APIController@store');
 Route::post('/addper', 'APIController@addpermission');
@@ -196,6 +202,22 @@ Route::post('/updateactivity','APIAJController@updateactivity');
 Route::post('/addcourse_manage','APIAJController@addcourse_manage');
 Route::get('/getcourse_manage/{id}','APIAJController@getcourse_manage');
 Route::post('/updatecourse_manage','APIAJController@updatecourse_manage');
+/////comment_course
+Route::post('/addcomment_course','APIAJController@addcomment_course');
+Route::get('/getcomment_course/{id}','APIAJController@getcomment_course');
+Route::post('/updatecomment_course','APIAJController@updatecomment_course');
+/////assessment_summary
+Route::post('/addassessment_summary','APIAJController@addassessment_summary');
+Route::get('/getassessment_summary/{id}','APIAJController@getassessment_summary');
+Route::post('/updateassessment_summary','APIAJController@updateassessment_summary');
+/////strength
+Route::post('/addstrength','APIAJController@addstrength');
+Route::get('/getstrength','APIAJController@getstrength');
+Route::post('/updatestrength','APIAJController@updatestrength');
+/////development_proposal
+Route::post('/adddevelopment_proposal','APIAJController@adddevelopment_proposal');
+Route::get('/getdevelopment_proposal/{id}','APIAJController@getdevelopment_proposal');
+Route::post('/updatedevelopment_proposal','APIAJController@updatedevelopment_proposal');
 
 Route::get('/getrolepermisson/{id}','APIController@getrolepermission');
 Auth::routes();

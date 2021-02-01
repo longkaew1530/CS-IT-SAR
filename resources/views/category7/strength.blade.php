@@ -4,7 +4,8 @@
 <div class="box box-warning marginl">
 <div class="box-header">
             <div class="box-body">
-           <h4>ความก้าวหน้าของการดำเนินงานตามแผนที่เสนอในรายงานของปีที่ผ่านมา</h4></br>
+            <a href="/getstrength" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>
+           <h4>ความก้าวหน้าของการดำเนินงานตามแผนที่เสนอในรายงานของปีที่ผ่านมา</h4>
               <table class="table table-bordered" >
                 <tbody><tr>
                   <th width="30%" class="text-center" >แผนการดำเนินการ</th>
@@ -22,13 +23,7 @@
               </tr>
                 @endforeach
               </tbody></table>
-              <br><br><b><h4>ข้อเสนอในการพัฒนาหลักสูตร</h4></b>
-              @foreach($querydevelopment_proposal as $key=>$value)
-              <b>{{$key+1}}. {{$value['topic']}}</b><br>
-              @foreach($value->development_proposal_detail as $row)
-              - {{$row['detail']}}<br>
-              @endforeach
-              @endforeach
+
 
               <h4>แผนปฏิบัติการใหม่ สำหรับปี {{$year}}</h4></br>
               <table class="table table-bordered" >

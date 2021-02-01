@@ -23,6 +23,15 @@ class Category7Controller extends Controller
         ->get();
 
         $year=session()->get('year');
-        return view('category7/strength',compact('querystrength','querynewstrength','querydevelopment_proposal','year'));
+        return view('category7/strength',compact('querystrength','querynewstrength','year'));
+    }
+    public function development_proposal()
+    {
+        $querydevelopment_proposal=category7_development_proposal::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+
+        $year=session()->get('year');
+        return view('category7/development_proposal',compact('querydevelopment_proposal'));
     }
 }

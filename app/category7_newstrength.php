@@ -11,4 +11,5 @@ class category7_newstrength extends Model
     protected $fillable=[
         'composition','strength','should_develop'
     ];
+    public $timestamps = false;
 }

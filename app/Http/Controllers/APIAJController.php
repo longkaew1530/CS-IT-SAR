@@ -18,8 +18,13 @@ use App\performance3_3;
 use App\docindicator4_3;
 use App\doc_indicator5_4;
 use App\doc_performance3_3;
+use App\category6_comment_course;
+use App\category7_strength;
+use App\category6_assessment_summary;
 use App\category4_course_results;
 use App\category4_activity;
+use App\category7_development_proposal;
+use App\category7_development_proposal_detail;
 use App\category4_effectiveness;
 use App\category4_notcourse_results;
 use App\category5_course_manage;
@@ -32,6 +37,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\ModelAJ\category3_inforstudent;
 use App\Imports\AddstdImport;
 use App\Imports\Addcourse_results;
+use App\Imports\Addstrength;
 use App\category3_GD;
 class APIAJController extends Controller
 {
@@ -1088,4 +1094,139 @@ class APIAJController extends Controller
         return $data;
     }
      /////activity/////activity/////activity/////activity/////activity/////activity
+
+     /////comment-course/////comment-course/////comment-course/////comment-course/////comment-course/////comment-course
+    public function getcomment_course($id)
+    {
+        $editdata=category6_comment_course::where('id',$id)
+        ->get();
+        return view('AJ/editcomment_course',compact('editdata'));
+    }
+    function addcomment_course(Request $request)
+    {
+        $data=new category6_comment_course;
+        $data->comment_assessor=$request->comment_assessor;
+        $data->comment_course_responsible_person=$request->comment_course_responsible_person;
+        $data->update_course=$request->update_course;
+        $data->course_id=session()->get('usercourse');
+        $data->year_id=session()->get('year_id');
+        $data->save();
+
+     return $data;
+    }
+    public function updatecomment_course(Request $request)
+    {
+        $data=category6_comment_course::find($request->id);
+        $data->comment_assessor=$request->comment_assessor;
+        $data->comment_course_responsible_person=$request->comment_course_responsible_person;
+        $data->update_course=$request->update_course;
+        $data->save();
+              
+        return $data;
+    }
+     /////comment-course/////comment-course/////comment-course/////comment-course/////comment-course/////comment-course
+
+     
+     /////assessment_summary////assessment_summary/////assessment_summary/////assessment_summary/////assessment_summary/////assessment_summary
+    public function getassessment_summary($id)
+    {
+        $editdata=category6_assessment_summary::where('id',$id)
+        ->get();
+        return view('AJ/editassessment_summary',compact('editdata'));
+    }
+    function addassessment_summary(Request $request)
+    {
+        $data=new category6_assessment_summary;
+        $data->category_assessor=$request->category_assessor;
+        $data->evaluation_results=$request->evaluation_results;
+        $data->comment_faculty=$request->comment_faculty;
+        $data->change_proposal=$request->change_proposal;
+        $data->course_id=session()->get('usercourse');
+        $data->year_id=session()->get('year_id');
+        $data->save();
+
+     return $data;
+    }
+    public function updateassessment_summary(Request $request)
+    {
+        $data=category6_assessment_summary::find($request->id);
+        $data->evaluation_results=$request->evaluation_results;
+        $data->comment_faculty=$request->comment_faculty;
+        $data->change_proposal=$request->change_proposal;
+        $data->save();
+              
+        return $data;
+    }
+     /////assessment_summary/////assessment_summary/////assessment_summary/////assessment_summary/////assessment_summary/////assessment_summary
+
+     /////getstrength/////getstrength/////getstrength/////getstrength/////getstrength/////getstrength
+    public function getstrength()
+    {
+        return view('AJ/editstrength');
+    }
+    function addstrength(Request $request)
+    {
+     $this->validate($request, [
+      'infostd'  => 'required|mimes:xls,xlsx'
+     ]);
+
+     $path = $request->file('infostd')->getRealPath();
+
+     $data = Excel::import(new Addstrength,$path);
+        
+     return true;
+    }
+    public function updatestrength(Request $request)
+    {
+        $getdata=category7_strength::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'));
+        $getdata->delete();
+        
+        $this->validate($request, [
+            'infostd'  => 'required|mimes:xls,xlsx'
+           ]);
+      
+           $path = $request->file('infostd')->getRealPath();
+      
+           $data = Excel::import(new Addstrength,$path);
+              
+           return true;
+    }
+     /////getstrength/////getstrength/////getstrength/////getstrength/////getstrength/////getstrength
+
+     /////development_proposal////development_proposal/////development_proposal/////development_proposal/////development_proposal/////development_proposal
+    public function getdevelopment_proposal($id)
+    {
+        $editdata=category7_development_proposal::where('id',$id)
+        ->get();
+        return view('AJ/editdevelopment_proposal',compact('editdata'));
+    }
+    function adddevelopment_proposal(Request $request)
+    {
+        $data=new category7_development_proposal;
+        $data->topic=$request->topic;
+        $data->course_id=session()->get('usercourse');
+        $data->year_id=session()->get('year_id');
+        $data->save();
+        foreach($request->detail as $value){
+            $row=new category7_development_proposal_detail;
+            $row->detail=$value;
+            $row->proposal_id =$data->id;
+            $row->save();
+        }
+     return $data;
+    }
+    public function updatedevelopment_proposal(Request $request)
+    {
+        $data=category7_development_proposal::find($request->getid);
+        $data->topic=$request->topic;
+        $data->save();
+        foreach($request->detail as $key=>$value){
+            $row=category7_development_proposal_detail::find($request->id[$key+1]);
+            $row->detail=$value;
+            $row->save();
+        }      
+        return $data;
+    }
+     /////development_proposal/////development_proposal/////development_proposal/////development_proposal/////development_proposal/////development_proposal
 }

@@ -11,4 +11,5 @@ class category6_comment_course extends Model
     protected $fillable=[
         'comment_assessor','comment_course_responsible_person','update_course'
     ];
+    public $timestamps = false;
 }

@@ -15,4 +15,5 @@ class category7_development_proposal extends Model
     {
         return $this->hasMany('App\category7_development_proposal_detail','proposal_id');
     }
+    public $timestamps = false;
 }

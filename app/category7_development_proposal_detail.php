@@ -15,4 +15,5 @@ class category7_development_proposal_detail extends Model
     {
         return $this->belongsTo('App\development_proposal','proposal_id','id');
     }
+    public $timestamps = false;
 }

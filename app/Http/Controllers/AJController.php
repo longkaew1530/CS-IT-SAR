@@ -9,9 +9,12 @@ use App\ModelAJ\categoty_researh;
 use App\User;
 use App\Menu;
 use App\indicator4_3;
+use App\indicator2_2;
+use App\indicator2_1;
 use App\indicator5_4;
 use App\PDCA;
 use App\category3_GD;
+use App\category6_assessment_summary;
 use App\performance3_3;
 use App\category4_course_results;
 use App\ModelAJ\category4_academic_performance;
@@ -20,6 +23,9 @@ use App\category4_notcourse_results;
 use App\category4_effectiveness;
 use App\category4_newteacher;
 use App\category4_activity;
+use App\category7_strength;
+use App\category7_newstrength;
+use App\category7_development_proposal;
 use App\in_index;
 class AJController extends Controller
 {
@@ -114,11 +120,28 @@ class AJController extends Controller
     }
     public function addindicator2_1()
     {
+        $factor=indicator2_1::where('course_id',session()->get('usercourse'))
+         ->where('year_id',session()->get('year_id'))
+         ->get();
+        if(count($factor)===0){
             return view('AJ/addindicator2-1');
+        }
+        else{
+            return view('category3/indicator2-1',compact('factor'));
+        } 
+            
     }
     public function addindicator2_2()
     {
+        $factor=indicator2_2::where('course_id',session()->get('usercourse'))
+         ->where('year_id',session()->get('year_id'))
+         ->get();
+        if(count($factor)===0){
             return view('AJ/addindicator2-2');
+        }
+        else{
+            return view('category3/indicator2-2',compact('factor'));
+        }      
     }
     public function addindicator3_3()
     {   
@@ -273,6 +296,53 @@ class AJController extends Controller
     public function addcourse_manage()
     {
             return view('AJ/addcourse_manage');
+             
+    }
+    public function addcomment_course()
+    {
+            return view('AJ/addcomment_course');
+             
+    }
+    public function addassessment_summary($id)
+    {
+        $menuname=Menu::where('m_id',$id)
+        ->get();
+        $check=category6_assessment_summary::where('category_assessor',$menuname[0]['m_name'])
+        ->get();
+        $assessmentsummary=category6_assessment_summary::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+         if(count($check)===0){
+            return view('AJ/addassessment_summary',compact('menuname'));
+        }
+        else{
+            return view('category6/assessment_summary',compact('assessmentsummary'));
+        }
+    }
+    public function addstrength()
+    {
+        $querystrength=category7_strength::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        $querynewstrength=category7_newstrength::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+
+        $querydevelopment_proposal=category7_development_proposal::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        $year=session()->get('year');
+        if(count($querystrength)===0){
+            return view('AJ/addstrength');
+        }
+        else{
+            return view('category7/strength',compact('querystrength','querynewstrength','querydevelopment_proposal','year'));
+        }
+            
+    }
+    public function adddevelopment_proposal()
+    {
+            return view('AJ/adddevelopment_proposal');
              
     }
 }

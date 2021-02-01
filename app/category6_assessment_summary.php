@@ -11,4 +11,5 @@ class category6_assessment_summary extends Model
     protected $fillable=[
         'category_assessor','evaluation_results','comment_faculty','change_proposal'
     ];
+    public $timestamps = false;
 }
