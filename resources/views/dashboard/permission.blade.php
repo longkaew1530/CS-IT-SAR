@@ -12,8 +12,7 @@
                 <thead>
                 <tr>
                   <th width="5%">ID</th>
-                  <th width="20%">กลุ่มผู้ใช้งาน</th>
-                  <th width="60%">สิทธิ์ที่ได้รับ</th>
+                  <th >กลุ่มผู้ใช้งาน</th>
                   <th width="10%">กำหนดสิทธิ์</th>
                 </tr>
                 </thead>
@@ -22,13 +21,6 @@
                 <tr>
                   <td>{{$row['user_group_id']}}</td>
                   <td>{{$row['user_group_name']}}</td>
-                  <td>
-                    @foreach($getper as $value)
-                      @if($value['user_group_id']==$row['user_group_id'])
-                        <span class="badge bg-green pd-1">{{$value['m_name']}}</span>
-                      @endif
-                    @endforeach
-                  </td>
                   <td class="text-center"><button class="btn btn-warning" type="button" data-id="{{$row['user_group_id']}}"  data-toggle="modal" data-target="#modal-info" ><i class='fa fas fa-edit'></i></button></td>
                 </tr>
                 @endforeach
@@ -126,6 +118,7 @@ var modal = $(this);
 modal.find('#emp_id').val(id);
 var url = "/getrolepermisson";
         $.get(url + '/' + id, function (data) {
+          $("#modal-info").trigger("reset");
         }) 
 });
 });

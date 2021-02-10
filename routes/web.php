@@ -15,19 +15,20 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'DashboardController@index');
 Route::get('/dashboard', 'DashboardController@index');
-Route::get('/dashboard/addmember', 'DashboardController@index2');
-Route::get('/dashboard/index3', 'DashboardController@index3');
-Route::get('/dashboard/permission', 'DashboardController@index4');
-Route::get('/dashboard/MenuGroup', 'DashboardController@index5');
+Route::get('/addmember', 'DashboardController@index2');
+Route::get('/index3', 'DashboardController@index3');
+Route::get('/permission', 'DashboardController@index4');
+Route::get('/MenuGroup', 'DashboardController@index5');
 Route::get('/Menu', 'DashboardController@index6');
-Route::get('/dashboard/permission', 'DashboardController@index7');
-Route::get('/dashboard/course', 'DashboardController@index8');
-Route::get('/dashboard/board', 'DashboardController@index9');
-Route::get('/dashboard/category', 'DashboardController@index10');
-Route::get('/dashboard/Indicator', 'DashboardController@index11');
-Route::get('/dashboard/usercategory', 'DashboardController@index12');
-Route::get('/dashboard/faculty', 'DashboardController@index13');
-Route::get('/dashboard/usergroup', 'DashboardController@index14');
+Route::get('/permission', 'DashboardController@index7');
+Route::get('/course', 'DashboardController@index8');
+Route::get('/board', 'DashboardController@index9');
+Route::get('/category', 'DashboardController@index10');
+Route::get('/Indicator', 'DashboardController@index11');
+Route::get('/usercategory', 'DashboardController@index12');
+Route::get('/faculty', 'DashboardController@index13');
+Route::get('/usergroup', 'DashboardController@index14');
+Route::get('/branch', 'DashboardController@index15');
 /////อาจารย์
 Route::get('/educational_background', 'AJController@educational_background');
 Route::get('/research_results', 'AJController@research_results');
@@ -51,8 +52,11 @@ Route::get('/addcomment_course', 'AJController@addcomment_course');
 Route::get('/addassessment_summary/{id}', 'AJController@addassessment_summary');
 Route::get('/addstrength', 'AJController@addstrength');
 Route::get('/adddevelopment_proposal', 'AJController@adddevelopment_proposal');
+Route::get('/addnewstrength', 'AJController@addnewstrength');
 /////รายงาน
 Route::get('/overview', 'ReportController@overview');
+Route::get('/instructor', 'ReportController@instructor');
+Route::get('/performance_summary', 'ReportController@performance_summary');
 /////หมวด1-2
 Route::get('/category/indicator1-1', 'CategoryController@indicator1_1');
 Route::get('/category/category1', 'CategoryController@category1');
@@ -89,6 +93,7 @@ Route::get('/category6/assessment_summary', 'Category6Controller@assessment_summ
 
 ////หมวด7
 Route::get('/category7/strength', 'Category7Controller@strength');
+Route::get('/category7/newstrength', 'Category7Controller@newstrength');
 Route::get('/category7/development_proposal', 'Category7Controller@development_proposal');
 ///API
 Route::post('/save', 'APIController@store');
@@ -218,6 +223,20 @@ Route::post('/updatestrength','APIAJController@updatestrength');
 Route::post('/adddevelopment_proposal','APIAJController@adddevelopment_proposal');
 Route::get('/getdevelopment_proposal/{id}','APIAJController@getdevelopment_proposal');
 Route::post('/updatedevelopment_proposal','APIAJController@updatedevelopment_proposal');
+/////newstrength
+Route::post('/addnewstrength','APIAJController@addnewstrength');
+Route::get('/getnewstrength','APIAJController@getnewstrength');
+Route::post('/updatenewstrength','APIAJController@updatenewstrength');
+/////category
+Route::post('/addcategory', 'APIController@addcategory');
+Route::delete('/deletecategory/{id}', 'APIController@deletecategory');
+Route::put('/updatecategory','APIController@updatecategory');
+Route::get('/getcategory/{id}','APIController@getcategory');
+/////branch
+Route::post('/addbranch', 'APIController@addbranch');
+Route::delete('/deletebranch/{id}', 'APIController@deletebranch');
+Route::put('/updatebranch','APIController@updatebranch');
+Route::get('/getbranch/{id}','APIController@getbranch');
 
 Route::get('/getrolepermisson/{id}','APIController@getrolepermission');
 Auth::routes();

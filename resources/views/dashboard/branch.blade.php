@@ -3,7 +3,7 @@
 @section('content')
 <div class="box box-warning marginl ">
             <div class="box-header">
-              <h2 class="box-title">กลุ่มเมนู</h2>
+              <h2 class="box-title">สาขา</h2>
             </div>
             <button  class="btn btn-success ml-1" type="button"   data-toggle="modal" data-target="#modal-info"><i class="fa fa-plus"></i> เพิ่มข้อมูล</button>
             <!-- /.box-header -->
@@ -12,22 +12,22 @@
             <table id="example3" class="table table-bordered table-striped ">
                 <thead>
                 <tr>
-                  <th width="5%">No.</th>
-                  <th width="30%">กลุ่มเมนู</th>
-                  <th width="30%">icon</th>
+                  <th width="5%">ที่</th>
+                  <th width="30%">สาขา</th>
+                  <th width="30%">หลักสูตร</th>
                   <th width="5%" >แก้ไข</th>
                   <th width="5%">ลบ</th>
                 </tr>
                 </thead>
                 <tbody>
-                  @foreach($getgroupmenu as $key=>$row)
+                  @foreach($Branch as $key=>$row)
                 <tr>
                   <td>{{$key+1}}</td>
-                  <td>{{$row['g_name']}}</td>  
-                  <td><i class="{{$row['g_icon']}}"></i></td>          
-                  <td class="text-center"><button class="btn btn-warning" type="button"   data-toggle="modal" data-target="#modal-edit" data-id="{{$row['g_id']}}"><i class='fa fas fa-edit'></i></button></td>
+                  <td>{{$row['name']}}</td>
+                  <td>{{$row['course_name']}}</td>           
+                  <td class="text-center"><button class="btn btn-warning" type="button"   data-toggle="modal" data-target="#modal-edit" data-id="{{$row['id']}}"><i class='fa fas fa-edit'></i></button></td>
                   <td class="text-center">
-                                      <form id="delete-form" method="POST" action="/deletegroupmenu/{{$row['g_id']}}">
+                                      <form id="delete-form" method="POST" action="/deletebranch/{{$row['id']}}">
                                         {{ csrf_field() }}
                                         {{ method_field('DELETE') }}
                                       <button type="submit" class="btn btn-danger"><i class='fa fa-trash'></i></button></form>
@@ -39,19 +39,23 @@
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">เพิ่มข้อมูลกลุ่มเมนู</h4>
+                <h4 class="modal-title">เพิ่มสาขา</h4>
               </div>
-              <form  method="POST" action="/addgroupmenu">
+              <form  method="POST" action="/addbranch">
               @csrf
               <div class="box-body">
                 <div class="form-group">
-                  <label for="exampleInputEmail1">กลุ่มเมนู</label>
-                  <input type="text" class="form-control" id="group" name="group" placeholder="กลุ่มเมนู">
+                  <label for="exampleInputPassword1">สาขา</label>
+                  <input type="text" class="form-control" id="name" name="name" placeholder="สาขา">
                 </div>
                 <div class="form-group">
-                  <label for="exampleInputPassword1">icon</label>
-                  <input type="text" class="form-control" id="icon" name="icon" placeholder="icon">
-                </div>
+                <label for="exampleInputPassword1">หลักสูตร</label>
+                                  <select class="form-control"  id="course_id"  class="form-control @error('role') is-invalid @enderror" name="course_id">
+                                    @foreach($course as $value)
+                                    <option value="{{$value['course_id']}}">{{$value['course_name']}}</option>
+                                    @endforeach
+                                  </select>
+                                  </div>
               </div>
             
               <div class="modal-footer">
@@ -76,19 +80,23 @@
                   <span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">เพิ่มข้อมูลกลุ่มเมนู</h4>
               </div>
-              <form  method="POST" action="/updategroupmenu">
+              <form  method="POST" action="/updatebranch">
               @csrf
               {{ method_field('PUT') }}
               <div class="box-body">
-                <div class="form-group">
-                  <label for="exampleInputEmail1">กลุ่มเมนู</label>
-                  <input type="hidden" class="form-control" id="g_id" name="g_id" >
-                  <input type="text" class="form-control" id="g_name" name="g_name" placeholder="กลุ่มเมนู">
+              <div class="form-group">
+              <input type="hidden" class="form-control" id="id" name="id" >
+                  <label for="exampleInputEmail1">หมวด</label>
+                  <input type="text" class="form-control" id="bname" name="name" placeholder="หมวด">
                 </div>
                 <div class="form-group">
-                  <label for="exampleInputPassword1">icon</label>
-                  <input type="text" class="form-control" id="g_icon" name="g_icon" placeholder="icon">
-                </div>
+                <label for="exampleInputPassword1">หลักสูตร</label>
+                                  <select class="form-control"  id="course_id"  class="form-control @error('role') is-invalid @enderror" name="course_id">
+                                    @foreach($course as $value)
+                                    <option value="{{$value['course_id']}}">{{$value['course_name']}}</option>
+                                    @endforeach
+                                  </select>
+                                  </div>
               </div>
             
               <div class="modal-footer">
@@ -154,7 +162,7 @@
 <script>
   $(function () {
     $('#example3').DataTable({
-      lengthMenu: [ 5, 10, 50, 100]
+      lengthMenu: [ 8, 20, 50, 100]
     })
   })
 </script>
@@ -166,13 +174,13 @@ var button = $(event.relatedTarget);
 var id= button.data('id');
 var modal = $(this);
 modal.find('#emp_id').val(id);
-var url = "/getgroupmenu";
+var url = "/getbranch";
         $.get(url + '/' + id, function (data) {
             //success data
             console.log(data)
-            $("#g_id").val(data[0].g_id);
-            $("#g_name").val(data[0].g_name);
-            $("#g_icon").val(data[0].g_icon);
+            $("#id").val(data[0].id);
+            $("#bname").val(data[0].name);
+            $("#courseid").val(data[0].course_id);
         }) 
 });
 });

@@ -11,6 +11,7 @@ use App\Menu;
 use App\indicator4_3;
 use App\indicator2_2;
 use App\indicator2_1;
+use App\Course;
 use App\indicator5_4;
 use App\PDCA;
 use App\category3_GD;
@@ -71,6 +72,8 @@ class AJController extends Controller
         ->where('category_pdca',$menuname[0]['m_name'])
         ->where('year_id',session()->get('year_id'))
         ->get();
+        $getcourse=Course::where('course_id',session()->get('usercourse'))
+        ->get();
         if(!count($getpdca)){
             return view('AJ/addpdca',compact('menuname'));   
         }
@@ -78,7 +81,7 @@ class AJController extends Controller
             return view('AJ/addpdca',compact('menuname'));
         }
         else{
-            return view('category3/showpdca',compact('pdca','name','id'));
+            return view('category3/showpdca',compact('pdca','name','id','getcourse'));
         }
     }
     public function add4_3()
@@ -344,5 +347,18 @@ class AJController extends Controller
     {
             return view('AJ/adddevelopment_proposal');
              
+    }
+    public function addnewstrength()
+    {
+        $querynewstrength=category7_newstrength::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        if(count($querynewstrength)===0){
+            return view('AJ/addnewstrength');
+        }
+        else{
+            return view('category7/newstrength',compact('querynewstrength'));
+        }
+            
     }
 }

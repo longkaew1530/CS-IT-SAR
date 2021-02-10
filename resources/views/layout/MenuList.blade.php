@@ -131,13 +131,14 @@
             <li class="active"><a href="/category7/strength"><i class="fa fa-circle-o text-red"></i>หมวดที่7</a></li>
           </ul>
         </li> -->
-        <li><a href="/"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+        <!-- <li ><a href="/"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li> -->
+        <?php $acti="" ?>
         @foreach(session()->get('groupmenu')  as $value)
-        <li class="active treeview menu-open">
         @foreach(session()->get('roleper')  as $value1)
         @if($value1['g_id']==$value['g_id'])
+        <li class="active treeview ">
           <a href="">
-            <i class="{{$value['g_icon']}}"></i><span>{{$value['g_name']}}</span>
+            <i class="{{$value['g_icon']}}"></i><span>{{$value['g_name']}}{{$acti}}</span>
             
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
@@ -146,23 +147,23 @@
           @break
          @endif
          @endforeach
-          <ul class="treeview-menu" >
+          <ul class="treeview-menu" id="item_id">
             @foreach($value->menu as $row)
               @foreach(session()->get('roleper')  as $value)
               @if($value['m_id']==$row['m_id'])
                 @if($row['m_url']=="/pdca"||$row['m_url']=="/addimpactfactor"||$row['m_url']=="/addassessment_summary")
-                <li  class="active"><a   href="{{$row['m_url']}}/{{$row['m_id']}}" ><i class="fa fa-circle-o text-red"></i>{!!$row['m_name']!!}</a></li>
+                <li  class="{{ (request()->segment(2)==$row['m_id']) ? 'active' : '' }}"><a   href="{{$row['m_url']}}/{{$row['m_id']}}" ><i class="fa fa-circle-o text-red"></i>{!!$row['m_name']!!}</a></li>
                 @else
-               <li  class="active"><a  href="{{$row['m_url']}}" ><i class="fa fa-circle-o text-red"></i>{!!$row['m_name']!!}</a></li>
+               <li  class="{{ ('/'.request()->segment(1)==$row['m_url']) ? 'active' : ''}}"><a  href="{{$row['m_url']}}" ><i class="fa fa-circle-o text-red"></i>{!!$row['m_name']!!}</a></li>
                 @endif
               @endif
               @endforeach
             @endforeach
           </ul>
-         
+     
         @endforeach
-        <li class="active treeview menu-open">
-          <a href="">
+        <!-- <li class="active treeview menu-open">
+          <a href="#">
             <i class=""></i><span>หมวดที่2</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
@@ -241,6 +242,7 @@
           <ul class="treeview-menu">
             <li class="active"><a href="/addstrength"><i class="fa fa-circle-o text-red"></i>ความก้าวหน้าของการดำเนินงานตามแผนที่เสนอในรายงานของปีที่ผ่านมา</a></li>
             <li class="active"><a href="/adddevelopment_proposal"><i class="fa fa-circle-o text-red"></i>ข้อเสนอในการพัฒนาหลักสูตร</a></li>
+            <li class="active"><a href="/addnewstrength"><i class="fa fa-circle-o text-red"></i>แผนปฏิบัติการใหม่</a></li>
           </ul>
         </li>
 
@@ -253,8 +255,10 @@
           </a>
           <ul class="treeview-menu">
             <li class="active"><a href="/overview"><i class="fa fa-circle-o text-red"></i>ความคืบหน้าในภาพรวม</a></li>
+            <li class="active"><a href="/instructor"><i class="fa fa-circle-o text-red"></i>รายงานอาจารย์ผู้สอน</a></li>
+            <li class="active"><a href="/performance_summary"><i class="fa fa-circle-o text-red"></i>รายงานสรุปผลการดำเนินงาน</a></li>
           </ul>
-        </li>
+        </li> -->
 
         </li>
         <li class="header">LABELS</li>
@@ -267,3 +271,9 @@
     </section>
     <!-- /.sidebar -->
   </aside>
+<script>
+        $("#item_id li a").click(function() {
+            $(this).parent().addClass('active').siblings().removeClass('active');
+
+        });
+</script>

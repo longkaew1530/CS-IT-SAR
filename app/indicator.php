@@ -4,12 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class category7_newstrength extends Model
+class indicator extends Model
 {
-    protected $table = 'category7-newstrength';
+    protected $table = 'indicator';
     protected $primaryKey = 'id';
     protected $fillable=[
-        'composition','strength','should_develop','year_id','course_id'
+        'Indicator_name'
     ];
     public $timestamps = false;
 }

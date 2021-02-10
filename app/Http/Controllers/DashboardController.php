@@ -10,6 +10,9 @@ use App\Year;
 use App\Tps;
 use App\usergroup;
 use App\Menu;
+use App\category;
+use App\branch;
+use App\indicator;
 use App\rolepermission;
 use App\Faculty;
 use App\groupuser;
@@ -49,7 +52,9 @@ class DashboardController extends Controller
         session()->put('year',$y_name);
         session()->put('year_id',$y_id);
         $groupmenu=Groupmenu::all();
-        $rolepermiss=rolepermission::where('user_group_id',$user_group)->get();
+        $rolepermiss=rolepermission::leftjoin('menu','role_permission.m_id','=','menu.m_id')
+        ->where('user_group_id',$user_group)
+        ->get();
        
          foreach ($groupmenu as $key => $value){
             $value->menu->first(); 
@@ -86,7 +91,8 @@ class DashboardController extends Controller
     }
     public function index6()
     {
-        $getmenu=Menu::all();
+        $getmenu=Menu::leftjoin('menu_group','menu.g_id','=','menu_group.g_id')
+        ->get();
         $getgroupmenu=Groupmenu::all();
         return view('dashboard/Menu',compact('getmenu','getgroupmenu'));
     }
@@ -120,13 +126,13 @@ class DashboardController extends Controller
     }
     public function index10()
     {
-      
-        return view('dashboard/category');
+      $Category=category::all();
+      return view('dashboard/category',compact('Category'));
     }
     public function index11()
     {
-        
-        return view('dashboard/Indicator');
+        $indicator=indicator::all();
+        return view('dashboard/Indicator',compact('indicator'));
     }
     public function index12()
     {
@@ -142,5 +148,12 @@ class DashboardController extends Controller
     {
         $groupuser=groupuser::all();
         return view('dashboard/addgroupmember',compact('groupuser'));
+    }
+    public function index15()
+    {
+        $Branch=branch::leftjoin('course','branch.course_id','=','course.course_id')
+        ->get();
+        $course=Course::all();
+        return view('dashboard/branch',compact('Branch','course'));
     }
 }

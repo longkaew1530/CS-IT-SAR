@@ -16,7 +16,6 @@
                   <th width="30%">หลักสูตร</th>
                   <th width="30%">คณะ</th>
                   <th width="10%">รหัสหลักสูตร</th>
-                  <th width="30%">สาขา</th>
                   <th width="5%" >แก้ไข</th>
                   <th width="5%">ลบ</th>
                 </tr>
@@ -27,8 +26,7 @@
                   <td>{{$key+1}}</td>
                   <td>{{$row['course_name']}}</td>  
                   <td>{{$row['faculty_name']}}</td>
-                  <td>{{$row['course_code']}}</td>
-                  <td>{{$row['branch']}}</td>          
+                  <td>{{$row['course_code']}}</td>       
                   <td class="text-center"><button class="btn btn-warning" type="button"   data-toggle="modal" data-target="#modal-edit" data-id="{{$row['course_id']}}"><i class='fa fas fa-edit'></i></button></td>
                   <td class="text-center">
                                       <form id="delete-form" method="POST" action="/deletecourse/{{$row['course_id']}}">
@@ -51,10 +49,6 @@
                 <div class="form-group">
                   <label for="exampleInputEmail1">หลักสูตร</label>
                   <input type="text" class="form-control" id="course_name" name="course_name" placeholder="หลักสูตร">
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputPassword1">สาขา</label>
-                  <input type="text" class="form-control" id="branch" name="branch" placeholder="สาขา">
                 </div>
                 <div class="form-group">
                 <label for="exampleInputPassword1">คณะ</label>
@@ -108,10 +102,6 @@
               <input type="hidden" class="form-control" id="courseid" name="course_id" >
                   <label for="exampleInputEmail1">หลักสูตร</label>
                   <input type="text" class="form-control" id="coursename" name="course_name" placeholder="หลักสูตร">
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputPassword1">สาขา</label>
-                  <input type="text" class="form-control" id="branch1" name="branch" placeholder="สาขา">
                 </div>
                 <div class="form-group">
                 <label for="exampleInputPassword1">คณะ</label>
@@ -216,7 +206,6 @@ var url = "/getcourse";
             console.log(data)
             $("#courseid").val(data[0].course_id);
             $("#coursename").val(data[0].course_name);
-            $("#branch1").val(data[0].branch);
             $("#facultyid").val(data[0].faculty_id);
             $("#coursecode").val(data[0].course_code);
             $("#updatecourse").val(data[0].update_course);

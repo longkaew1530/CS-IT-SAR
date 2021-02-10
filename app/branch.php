@@ -4,12 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class category7_newstrength extends Model
+class branch extends Model
 {
-    protected $table = 'category7-newstrength';
+    protected $table = 'branch';
     protected $primaryKey = 'id';
     protected $fillable=[
-        'composition','strength','should_develop','year_id','course_id'
+        'name','course_id'
     ];
     public $timestamps = false;
 }

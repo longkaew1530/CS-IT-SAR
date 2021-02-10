@@ -5,9 +5,9 @@
             <div class="box-header">
               <h2 class="box-title">จัดการปีการศึกษา</h2>
             </div>
-            <button type="submit" class="btn btn-danger ml-1" id="back"><i class="fa  fa-minus mr-1"></i>  ปีการศึกษาก่อนหน้า</button>
+            <button type="submit" class="btn btn-danger ml-1" id="back"><i class="fa  fa-minus "></i>  ปีการศึกษาก่อนหน้า</button>
             
-            <button type="button" class="btn btn-success ml-1" id="next"><i class="fa fa-plus mr-1"></i>  ปีการศึกษาถัดไป</button>
+            <button type="button" class="btn btn-success " id="next"><i class="fa fa-plus mr-1"></i>  ปีการศึกษาถัดไป</button>
             <!-- /.box-header -->
             <div class="box-body">
             <div class=" wid100">

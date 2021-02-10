@@ -13,17 +13,7 @@ class Category7Controller extends Controller
         $querystrength=category7_strength::where('course_id',session()->get('usercourse'))
         ->where('year_id',session()->get('year_id'))
         ->get();
-
-        $querynewstrength=category7_newstrength::where('course_id',session()->get('usercourse'))
-        ->where('year_id',session()->get('year_id'))
-        ->get();
-
-        $querydevelopment_proposal=category7_development_proposal::where('course_id',session()->get('usercourse'))
-        ->where('year_id',session()->get('year_id'))
-        ->get();
-
-        $year=session()->get('year');
-        return view('category7/strength',compact('querystrength','querynewstrength','year'));
+        return view('category7/strength',compact('querystrength'));
     }
     public function development_proposal()
     {
@@ -33,5 +23,12 @@ class Category7Controller extends Controller
 
         $year=session()->get('year');
         return view('category7/development_proposal',compact('querydevelopment_proposal'));
+    }
+    public function newstrength()
+    {
+        $querynewstrength=category7_newstrength::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        return view('category7/newstrength',compact('querynewstrength'));
     }
 }

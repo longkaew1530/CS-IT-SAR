@@ -6,11 +6,14 @@ use App\User;
 use App\rolepermission;
 use App\Menu;
 use App\Groupmenu;
+use App\branch;
 use App\Course;
 use App\Faculty;
 use App\groupuser;
 use App\Year;
 use Validator;
+use App\category;
+use App\indicator;
 use File;
 use App\imagetest;
 use Illuminate\Support\Facades\Hash;
@@ -72,14 +75,16 @@ class APIController extends Controller
         $user=auth()->user();
         $user_group=$user->user_group_id;
         $groupmenu=Groupmenu::all();
-        $rolepermiss=rolepermission::where('user_group_id',$user_group)->get();
+        $rolepermiss=rolepermission::leftjoin('menu','role_permission.m_id','=','menu.m_id')
+        ->where('user_group_id',$user_group)
+        ->get();
        
          foreach ($groupmenu as $key => $value){
             $value->menu->first(); 
          }
         session()->put('groupmenu',$groupmenu);
         session()->put('roleper',$rolepermiss);
-        return redirect('dashboard/permission');
+        return redirect('/permission');
     }
     public function getrolepermission($id)
     {
@@ -101,7 +106,7 @@ class APIController extends Controller
         $data['g_name']=$request->group;
         $data['g_icon']=$request->icon;
         Groupmenu::insert($data);
-        return redirect('/dashboard/MenuGroup');
+        return redirect('/MenuGroup');
     }
     public function updategroupmenu(Request $request)
     {
@@ -110,14 +115,14 @@ class APIController extends Controller
         $data->g_name = $request->input('g_name');
         $data->g_icon = $request->input('g_icon');
         $data->save();
-        return redirect('/dashboard/MenuGroup');
+        return redirect('/MenuGroup');
     }
     public function deletegroupmenu($id)
     {
         $product = Groupmenu::find($id);
         $product->delete();
         
-        return redirect('/dashboard/MenuGroup');
+        return redirect('/MenuGroup');
     }
     /////groupmenu/////groupmenu/////groupmenu/////groupmenu/////groupmenu/////groupmenu
 
@@ -165,7 +170,6 @@ class APIController extends Controller
          $data['course_name']=$request->course_name;
          $data['faculty_id']=$request->faculty_id ;
          $data['course_code']=$request->course_code;
-         $data['branch']=$request->branch;
          $data['update_course']=$request->update_course;
          $data['place']=$request->place;
          Course::insert($data);
@@ -178,7 +182,6 @@ class APIController extends Controller
          $data->course_name = $request->input('course_name');
          $data->faculty_id = $request->input('faculty_id');
          $data->course_code = $request->input('course_code');
-         $data->branch = $request->input('branch');
          $data->update_course = $request->input('update_course');
          $data->place = $request->input('place');
          $data->save();
@@ -356,4 +359,65 @@ class APIController extends Controller
          
      }
      /////เพิ่มผู้ใช้งาน/////เพิ่มผู้ใช้งาน/////เพิ่มผู้ใช้งาน/////เพิ่มผู้ใช้งาน/////เพิ่มผู้ใช้งาน/////เพิ่มผู้ใช้งาน
+
+
+      /////หมวด/////หมวด/////หมวด/////หมวด/////หมวด/////หมวด
+      public function getcategory($id)
+      {
+          $course = category::where('category_id',$id)->get();
+          return $course;
+      }
+      public function addcategory(Request $request)
+      {
+          $data['category_name']=$request->category_name;
+          category::insert($data);
+          return redirect('/category');
+      }
+      public function updatecategory(Request $request)
+      {
+          $course_id=$request->input('category_id');
+          $data = category::find($course_id);
+          $data['category_name']=$request->category_name;
+          $data->save();
+          return redirect('/category');
+      }
+      public function deletecategory($id)
+      {
+          $product = category::find($id);
+          $product->delete();
+          
+          return redirect('/category');
+      }
+      /////หมวด/////หมวด/////หมวด/////หมวด/////หมวด/////หมวด
+
+      /////สาขา/////สาขา/////สาขา/////สาขา/////สาขา/////สาขา
+      public function getbranch($id)
+      {
+          $course = branch::where('id',$id)->get();
+          return $course;
+      }
+      public function addbranch(Request $request)
+      {
+          $data['name']=$request->name;
+          $data['course_id']=$request->course_id;
+          branch::insert($data);
+          return redirect('/branch');
+      }
+      public function updatebranch(Request $request)
+      {
+          $course_id=$request->input('id');
+          $data = branch::find($course_id);
+          $data['name']=$request->name;
+          $data['course_id']=$request->course_id;
+          $data->save();
+          return redirect('/branch');
+      }
+      public function deletebranch($id)
+      {
+          $product = branch::find($id);
+          $product->delete();
+          
+          return redirect('/branch');
+      }
+      /////สาขา/////สาขา/////สาขา/////สาขา/////สาขา/////สาขา
 }

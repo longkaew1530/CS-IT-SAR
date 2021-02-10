@@ -20,6 +20,7 @@ use App\doc_indicator5_4;
 use App\doc_performance3_3;
 use App\category6_comment_course;
 use App\category7_strength;
+use App\category7_newstrength;
 use App\category6_assessment_summary;
 use App\category4_course_results;
 use App\category4_activity;
@@ -38,6 +39,7 @@ use App\ModelAJ\category3_inforstudent;
 use App\Imports\AddstdImport;
 use App\Imports\Addcourse_results;
 use App\Imports\Addstrength;
+use App\Imports\Addnewstrength;
 use App\category3_GD;
 class APIAJController extends Controller
 {
@@ -1229,4 +1231,39 @@ class APIAJController extends Controller
         return $data;
     }
      /////development_proposal/////development_proposal/////development_proposal/////development_proposal/////development_proposal/////development_proposal
+
+     /////getnewstrength/////getnewstrength/////getnewstrength/////getnewstrength/////getnewstrength/////getnewstrength
+    public function getnewstrength()
+    {
+        return view('AJ/editnewstrength');
+    }
+    function addnewstrength(Request $request)
+    {
+     $this->validate($request, [
+      'infostd'  => 'required|mimes:xls,xlsx'
+     ]);
+
+     $path = $request->file('infostd')->getRealPath();
+
+     $data = Excel::import(new Addnewstrength,$path);
+        
+     return true;
+    }
+    public function updatenewstrength(Request $request)
+    {
+        $getdata=category7_newstrength::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'));
+        $getdata->delete();
+        
+        $this->validate($request, [
+            'infostd'  => 'required|mimes:xls,xlsx'
+           ]);
+      
+           $path = $request->file('infostd')->getRealPath();
+      
+           $data = Excel::import(new Addnewstrength,$path);
+              
+           return true;
+    }
+     /////getstrength/////getstrength/////getstrength/////getstrength/////getstrength/////getstrength
 }

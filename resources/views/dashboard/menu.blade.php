@@ -1,7 +1,7 @@
 @extends('layout.admid_layout')
 
 @section('content')
-<div class="box box-warning marginl wid50">
+<div class="box box-warning marginl ">
             <div class="box-header">
               <h1 class="box-title">เมนู</h1>
             </div>
@@ -28,7 +28,7 @@
                   <td>{{$key+1}}</td>
                   <td>{{$row['m_name']}}</td>
                   <td>{{$row['m_url']}}</td> 
-                  <td>{{$row['g_id']}}</td>              
+                  <td>{{$row['g_name']}}</td>              
                   <td class="text-center"><button class="btn btn-warning" type="button"   data-toggle="modal" data-target="#modal-edit" data-id="{{$row['m_id']}}"><i class='fa fas fa-edit'></i></button></td>
                   <td class="text-center">
                                       <form id="delete-form" method="POST" action="/deletemenu/{{$row['m_id']}}">
@@ -171,7 +171,7 @@
 <script>
   $(function () {
     $('#example3').DataTable({
-      lengthMenu: [ 8, 20, 50, 100]
+      lengthMenu: [ 5, 10, 50, 100]
     })
   })
 </script>

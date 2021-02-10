@@ -72,7 +72,7 @@ class Category3Controller extends Controller
         $pdca=PDCA::leftjoin('indicator','pdca.Indicator_id','=','indicator.indicator_id')
         ->where('pdca.Indicator_id',$id)
         ->where('pdca.course_id',session()->get('usercourse'))
-        ->where('pdca.year_id',1)
+        ->where('pdca.year_id',session()->get('year_id'))
         ->get();
         return view('category3/assessment',compact('pdca'));
     }
@@ -81,7 +81,7 @@ class Category3Controller extends Controller
         $pdca=PDCA::leftjoin('indicator','pdca.Indicator_id','=','indicator.indicator_id')
         ->where('pdca.Indicator_id',$id)
         ->where('pdca.course_id',session()->get('usercourse'))
-        ->where('pdca.year_id',1)
+        ->where('pdca.year_id',session()->get('year_id'))
         ->get();
         $per1="";
         foreach($pdca as $value)
@@ -105,9 +105,11 @@ class Category3Controller extends Controller
         $pdca=PDCA::leftjoin('indicator','pdca.Indicator_id','=','indicator.indicator_id')
         ->where('pdca.Indicator_id',$menuname[0]['Indicator_id'])
         ->where('pdca.course_id',session()->get('usercourse'))
-        ->where('pdca.year_id',1)
+        ->where('pdca.year_id',session()->get('year_id'))
         ->get();
-        return view('category3/pdca',compact('pdca'));
+        $getcourse=Course::where('course_id',session()->get('usercourse'))
+        ->get();
+        return view('category3/pdca',compact('pdca','getcourse'));
     }
     public function showpdca($id)
     {   
@@ -117,7 +119,9 @@ class Category3Controller extends Controller
         $pdca=PDCA::leftjoin('indicator','pdca.Indicator_id','=','indicator.indicator_id')
         ->where('pdca.Indicator_id',$menuname[0]['Indicator_id'])
         ->where('pdca.course_id',session()->get('usercourse'))
-        ->where('pdca.year_id',1)
+        ->where('pdca.year_id',session()->get('year_id'))
+        ->get();
+        $getcourse=Course::where('course_id',session()->get('usercourse'))
         ->get();
         $name="";
         $id="";
@@ -126,8 +130,7 @@ class Category3Controller extends Controller
             $name=$value['Indicator_name'];
             $id=$value['Indicator_id'];
         }
-       
-        return view('category3/showpdca',compact('pdca','name','id'));
+        return view('category3/showpdca',compact('pdca','name','id','getcourse'));
     }
     public function indicator3_3()
     {

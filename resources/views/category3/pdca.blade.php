@@ -11,6 +11,8 @@
                 <tr>
                 @if($row['p']!=null)
                   <td><b>{{$row['category_pdca']}}</b><br>
+                  &nbsp&nbsp&nbsp&nbsp&nbsp&nbspหลักสูตร{{$getcourse[0]['course_name']}} สาขา{{$getcourse[0]['branch']}}  มีการนำระบบกลไกในการ{{$row['category_pdca']}}
+                  โดยใช้กระบวนการ PDCA เป็นพื้นฐานและมีผลการดำเนินงานในปีการศึกษา {{ Session::get('year')}} ดังนี้ <br><br><br>
                   <ins><b>ขั้นตอนการวางแผน (P)</b></ins><br>
                   {!!$row['p']!!}<br><br>
                   <ins><b>การดำเนินงานตามแผน (D)</b></ins><br>
