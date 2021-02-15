@@ -15,5 +15,9 @@ class PDCA extends Model
     {
         return $this->hasMany('App\docpdca','pdca_id','pdca_id');
     }
+    public function categorypdca()
+    {
+        return $this->hasMany('App\categorypdca','category_pdca');
+    }
     public $timestamps = false;
 }

@@ -14,6 +14,7 @@ use App\category;
 use App\branch;
 use App\indicator;
 use App\rolepermission;
+use App\assessment_results;
 use App\Faculty;
 use App\groupuser;
 use App\course_responsible_teacher;
@@ -43,7 +44,9 @@ class DashboardController extends Controller
         $user=auth()->user();
         $user_course=$user->user_course;
         $user_group=$user->user_group_id;
-        $year=Year::all();
+        $year=Year::where('active',1)
+        ->get();
+        $getAllyear=Year::all();
         foreach($year as $value){
             $y_name=$value['year_name'];
             $y_id=$value['year_id'];
@@ -61,7 +64,7 @@ class DashboardController extends Controller
          }
         session()->put('groupmenu',$groupmenu);
         session()->put('roleper',$rolepermiss);
-        return view('dashboard/year',compact('year'));
+        return view('dashboard/year',compact('year','getAllyear'));
     }
     public function index2()
     {
@@ -155,5 +158,19 @@ class DashboardController extends Controller
         ->get();
         $course=Course::all();
         return view('dashboard/branch',compact('Branch','course'));
+    }
+    public function index16()
+    {
+        $Assessment_results=assessment_results::leftjoin('category','assessment_results.category_id','=','category.category_id')
+        ->where('assessment_results.year_id',session()->get('year_id'))
+        ->get();
+        $Category=category::all();
+        $ccate=count($Category);
+        $cAss=count($Assessment_results);
+        $dis="";
+        if($ccate==$cAss){
+            $dis="disabled";
+        }
+        return view('dashboard/assessment_results',compact('Assessment_results','Category','dis','cAss'));
     }
 }

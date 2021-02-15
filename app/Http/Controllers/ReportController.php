@@ -8,11 +8,13 @@ use App\PDCA;
 use App\composition;
 use App\indicator;
 use App\category;
+use App\assessment_results;
 class ReportController extends Controller
 {
     public function overview()
     {
-        $query=category::where('category_year_id',session()->get('year_id'))
+        $query=assessment_results::leftjoin('category','assessment_results.category_id','=','category.category_id')
+        ->where('assessment_results.year_id',session()->get('year_id'))
         ->get();
             return view('report/overview',compact('query'));
     }

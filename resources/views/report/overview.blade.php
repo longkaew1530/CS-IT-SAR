@@ -4,12 +4,13 @@
 <div class="box box-warning marginl">
 <div class="box-header">
             <div class="box-header">
-              <h3 class="box-title">ความคืบหน้าของผลการดำเนินงาน</h3>
+            <h3 class="box-title">ความคืบหน้าของผลการดำเนินงาน</h3>
             </div>
               <table class="table table-condensed">
                 <tbody><tr>
                   <th>หมวดที่</th>
                   <th>ความคืบหน้า</th>
+                  <th></th>
                 </tr>
                 @foreach($query as $key=>$row)
                 <div id="show{{$key}}">

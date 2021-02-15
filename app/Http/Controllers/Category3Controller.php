@@ -11,9 +11,11 @@ use App\ModelAJ\Research_results;
 use App\Year;
 use App\Tps;
 use App\indicator4_3;
+use App\indicator;
 use App\indicator2_1;
 use App\indicator2_2;
 use App\performance3_3;
+use App\categorypdca;
 use App\category3_GD;
 use App\Menu;
 use App\ModelAJ\category3_inforstudent;
@@ -115,7 +117,8 @@ class Category3Controller extends Controller
     {   
         $menuname=Menu::where('m_id',$id)
         ->get();
-
+        $getcategorypdca=indicator::where('Indicator_id',$menuname[0]['Indicator_id'])
+        ->get();
         $pdca=PDCA::leftjoin('indicator','pdca.Indicator_id','=','indicator.indicator_id')
         ->where('pdca.Indicator_id',$menuname[0]['Indicator_id'])
         ->where('pdca.course_id',session()->get('usercourse'))
@@ -130,7 +133,7 @@ class Category3Controller extends Controller
             $name=$value['Indicator_name'];
             $id=$value['Indicator_id'];
         }
-        return view('category3/showpdca',compact('pdca','name','id','getcourse'));
+        return view('category3/showpdca',compact('pdca','name','id','getcourse','getcategorypdca'));
     }
     public function indicator3_3()
     {

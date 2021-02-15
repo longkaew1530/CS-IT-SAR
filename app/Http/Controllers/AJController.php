@@ -13,6 +13,7 @@ use App\indicator2_2;
 use App\indicator2_1;
 use App\Course;
 use App\indicator5_4;
+use App\categorypdca;
 use App\PDCA;
 use App\category3_GD;
 use App\category6_assessment_summary;

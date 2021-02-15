@@ -29,6 +29,7 @@ Route::get('/usercategory', 'DashboardController@index12');
 Route::get('/faculty', 'DashboardController@index13');
 Route::get('/usergroup', 'DashboardController@index14');
 Route::get('/branch', 'DashboardController@index15');
+Route::get('/assessment_results', 'DashboardController@index16');
 /////อาจารย์
 Route::get('/educational_background', 'AJController@educational_background');
 Route::get('/research_results', 'AJController@research_results');
@@ -237,6 +238,8 @@ Route::post('/addbranch', 'APIController@addbranch');
 Route::delete('/deletebranch/{id}', 'APIController@deletebranch');
 Route::put('/updatebranch','APIController@updatebranch');
 Route::get('/getbranch/{id}','APIController@getbranch');
+/////assessment_results
+Route::post('/addassessment_results', 'APIController@addassessment_results');
 
 Route::get('/getrolepermisson/{id}','APIController@getrolepermission');
 Auth::routes();

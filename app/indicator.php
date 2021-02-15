@@ -11,5 +11,10 @@ class indicator extends Model
     protected $fillable=[
         'Indicator_name'
     ];
+    public function Categorypdca()
+    {
+        return $this->hasMany('App\categorypdca','Indicator_id','id');
+    }
     public $timestamps = false;
+    
 }

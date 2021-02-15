@@ -14,6 +14,7 @@ use App\Year;
 use Validator;
 use App\category;
 use App\indicator;
+use App\assessment_results;
 use File;
 use App\imagetest;
 use Illuminate\Support\Facades\Hash;
@@ -88,11 +89,13 @@ class APIController extends Controller
     }
     public function getrolepermission($id)
     {
+        $role=GroupMenu::all();
         $permiss = rolepermission::where('user_group_id',$id)->get();
-        session()->put('data',$permiss);
-       
+        $userid=$id;
+        $nameusergroup=groupuser::where('user_group_id',$id)
+        ->get();
         
-        return redirect('dashboard/permission');
+        return view('dashboard.showpermission',compact('permiss','role','userid','nameusergroup'));
     }
 
     /////groupmenu/////groupmenu/////groupmenu/////groupmenu/////groupmenu/////groupmenu
@@ -261,7 +264,7 @@ class APIController extends Controller
          foreach($getyear as $value){
              $nextyear=$value['year_name'];
          }
-         $queryyaer=Year::find(1);
+         $queryyaer= new Year;
          $nextyear++;
          $queryyaer->year_name=$nextyear;
          $queryyaer->save();
@@ -270,15 +273,18 @@ class APIController extends Controller
      /////ปีถัดไป/////ปีถัดไป/////ปีถัดไป/////ปีถัดไป/////ปีถัดไป/////ปีถัดไป
 
      /////ปีก่อนหน้า/////ปีก่อนหน้า/////ปีก่อนหน้า/////ปีก่อนหน้า/////ปีก่อนหน้า/////ปีก่อนหน้า
-     public function backyear()
+     public function backyear(Request $request)
      {
-         $getyear=Year::all();
-         foreach($getyear as $value){
-             $backyear=$value['year_name'];
+         $delete=Year::where('active',1)
+         ->get();
+         $get=new Year;
+         foreach($delete as $row){
+             $get=Year::find($row['year_id']);
+             $get['active']=0;
+             $get->save();
          }
-         $queryyaer=Year::find(1);
-         $backyear--;
-         $queryyaer->year_name=$backyear;
+         $queryyaer=Year::find($request->id);
+         $queryyaer['active']=1;
          $queryyaer->save();
          return $queryyaer;
      }
@@ -420,4 +426,18 @@ class APIController extends Controller
           return redirect('/branch');
       }
       /////สาขา/////สาขา/////สาขา/////สาขา/////สาขา/////สาขา
+
+      public function addassessment_results(Request $request)
+    {
+        $data=$request->all();
+        if(isset($data['per'])){
+        foreach($data['per'] as $value)
+        {
+          $item['category_id']=$value;
+          $item['year_id']=session()->get('year_id');
+          assessment_results::insert($item);
+        }
+        }
+        return redirect('/assessment_results');
+    }
 }

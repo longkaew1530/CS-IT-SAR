@@ -17,59 +17,15 @@
                 </tr>
                 </thead>
                 <tbody>
-                  @foreach($getusergroup as $row )
+                  @foreach($getusergroup as $key=>$row )
                 <tr>
-                  <td>{{$row['user_group_id']}}</td>
+                  <td>{{$key+1}}</td>
                   <td>{{$row['user_group_name']}}</td>
-                  <td class="text-center"><button class="btn btn-warning" type="button" data-id="{{$row['user_group_id']}}"  data-toggle="modal" data-target="#modal-info" ><i class='fa fas fa-edit'></i></button></td>
+                  <td class="text-center"><a href="/getrolepermisson/{{$row['user_group_id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> กำหนดสิทธิ์</a></td>
                 </tr>
                 @endforeach
                 </tbody>
               </table>
-              <div class="modal  fade" id="modal-info">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">กำหนดสิทธิ์ผู้ใช้งาน</h4>
-              </div>
-              <?php $checkrole=false ?>
-              <form method="POST" action="/addper">
-               @csrf
-                @foreach($role as $row )
-                <h4><p class="bginfo">{{$row['g_name']}}</p></h4>
-                <div class="form-group ml-1">
-                @foreach($row->menu as $value)
-                    @if(session()->get('data')!=null)
-                      @foreach(session()->get('data') as $row2)
-                         @if($row2['m_id']==$value['m_id'])
-                           <?php $checkrole=true; ?>
-                         @endif
-                      @endforeach
-                     @endif
-                  <div class="checkbox">
-                    <label>
-                      <input type="checkbox"  name="per[]" value="{{$value['m_id']}}" @if($checkrole) checked @endif> 
-                      <?php $checkrole=false; ?>      
-                      {{$value['m_name']}}
-                    </label>
-                  </div>
-                  @endforeach
-          </div>
-                 @endforeach
-              <div class="modal-footer">
-                <button type="button" class="btn btn-info pull-left" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-info">บันทึกข้อมูล</button>
-              </div>
-              <input type="hidden" class="form-control" name="id" id="emp_id" >
-              </form>
-            </div>
-            
-            <!-- /.modal-content -->
-          </div>
-          <!-- /.modal-dialog -->
-        </div>
             </div>
             <!-- /.box-body -->
           </div>

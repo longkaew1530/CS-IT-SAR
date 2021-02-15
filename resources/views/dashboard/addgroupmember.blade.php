@@ -50,7 +50,7 @@
               </div>
             
               <div class="modal-footer">
-                <button type="button" class="btn btn-info pull-left" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">ปิด</button>
                 <button type="submit" class="btn btn-info">บันทึกข้อมูล</button>
               </div>
               </form>
@@ -84,7 +84,7 @@
               </div>
             
               <div class="modal-footer">
-                <button type="button" class="btn btn-info pull-left" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">ปิด</button>
                 <button type="submit" class="btn btn-info">บันทึกข้อมูล</button>
               </div>
               </form>

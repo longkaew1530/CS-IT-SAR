@@ -1,33 +1,72 @@
 @extends('layout.admid_layout')
 
 @section('content')
-<div class="box box-warning marginl wid30">
+<div class="box box-warning  wid30 ml">
             <div class="box-header">
-              <h2 class="box-title">จัดการปีการศึกษา</h2>
-            </div>
-            <button type="submit" class="btn btn-danger ml-1" id="back"><i class="fa  fa-minus "></i>  ปีการศึกษาก่อนหน้า</button>
-            
-            <button type="button" class="btn btn-success " id="next"><i class="fa fa-plus mr-1"></i>  ปีการศึกษาถัดไป</button>
+              <h2 class="box-title">ปีการศึกษา</h2>
+            </div>          
             <!-- /.box-header -->
             <div class="box-body">
-            <div class=" wid100">
+                <div class=" wid100">
           <!-- small box -->
-          <div class="small-box bg-green ">
-            <div class="inner">
-            @foreach($year as $value)
-               <p>ปีการศึกษา</p>
-              <h3>{{$value['year_name']}}</h3>   
-            @endforeach
+                  <div class="small-box bg-green ">
+                      <div class="inner">
+                            @foreach($year as $value)
+                              <p></p>
+                              <h3>{{$value['year_name']}}</h3>   
+                            @endforeach
+                      </div>
+                      <div class="icon">
+                        <i class="fa fa-calendar"></i>
+                      </div>
+                      <a href="#" class="small-box-footer"><i class="fa fa-calendart"></i></a>
+                    </div>
+                 </div>
             </div>
-            <div class="icon">
-              <i class="fa fa-calendar"></i>
+</div>     
+<div class="box box-warning marginl wid90 fr">
+            <div class="box-header">
+            <button type="button" class="btn btn-success fr" id="next"><i class="fa fa-plus "></i>  เพิ่มปีการศึกษา</button>
+              <h2 class="box-title">จัดการปีการศึกษา</h2>
             </div>
-            <a href="#" class="small-box-footer"><i class="fa fa-calendart"></i></a>
-          </div>
-        </div>
+           
+            <!-- /.box-header -->
+            <div class="box-body">
+            <table id="example3" class="table table-bordered table-striped ">
+                <thead>
+                <tr>
+                  <th width="10%">ที่</th>
+                  <th>ปีการศึกษา</th>
+                  <th width="15%">เปิดใช้งาน</th>
+                  <th width="10%">ลบ</th>
+                </tr>
+                </thead>
+                <tbody>
+                  @foreach($getAllyear as $key=>$row)
+                <tr>
+                  <td>{{$key+1}}</td>
+                  <td>{{$row['year_name']}}</td>    
+                  <td>
+                  @if($row['active']==1)
+                  <button type="button" class="btn btn-success"  id="{{$row->year_id}}" disabled>กำลังใช้งาน</button>
+                  @else
+                  <button type="button" class="btn btn-primary aaa"  id="{{$row->year_id}}">เปิดใช้งาน</button>
+                  @endif
+                  </td>        
+                  <td class="text-center">
+                                      <form id="delete-form" method="POST" action="/deletecategory/{{$row['id']}}">
+                                        {{ csrf_field() }}
+                                        {{ method_field('DELETE') }}
+                                      <button type="submit" class="btn btn-danger"><i class='fa fa-trash'></i></button></form>
+                  </td>
+                </tr>
+                @endforeach
+                </tbody>
+              </table>
             </div>
-            </div>
-          </div>
+</div> 
+
+          
 <style>
 .marginl{
   padding:10px;
@@ -48,7 +87,7 @@
   width:50%;
 }
 .wid90{
-  width:80%;
+  width:68%;
 }
 .mt20{
   margin-top:50px
@@ -59,24 +98,76 @@
 .mr-1{
   margin-right:10px
 }
+.ml{
+  float:left;
+}
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script>
-$(document).ready(function() {
-$('#modal-edit').on('show.bs.modal', function (event) {
-var button = $(event.relatedTarget);
-var id= button.data('id');
-var modal = $(this);
-modal.find('#emp_id').val(id);
-var url = "/getusergroup";
-        $.get(url + '/' + id, function (data) {
-            //success data
-            console.log(data)
-            $("#usergroup_id").val(data[0].user_group_id);
-            $("#usergroup_name").val(data[0].user_group_name);
-        }) 
-});
-});
+  $(function () {
+    $('#example3').DataTable({
+      lengthMenu: [ 5, 10, 15, 100]
+    })
+  })
 </script>
 <script type="text/javascript">
     $.ajaxSetup({
@@ -105,25 +196,23 @@ var url = "/getusergroup";
            }
         });
 	});
-</script>
-<script type="text/javascript">
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    }); 
-    $("#back").click(function(e){
-      var token = $('meta[name="csrf-token"]').attr('content');
+  
+
+  $('.aaa').click(function(e){
+    var token = $('meta[name="csrf-token"]').attr('content');
+    var id = $(this).attr('id');
         e.preventDefault();
+        console.log(id);
         $.ajax({
            type:'PUT',
            url:'/backyear',
            data: {
-          _token : token 
+          _token : token,
+          id:id 
         },
            success:function(data){
             swal({
-              title: "เพิ่มข้อมูลเรียบร้อยแล้ว",
+              title: "เปิดใช้งานปีการศึกษาเรียบร้อยแล้ว",
             text: "",
             icon: "success",
             button: "ตกลง",
@@ -132,6 +221,6 @@ var url = "/getusergroup";
            });
            }
         });
-	});
+  });
 </script>
 @endsection
