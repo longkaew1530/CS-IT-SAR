@@ -117,6 +117,7 @@ class Category3Controller extends Controller
     {   
         $menuname=Menu::where('m_id',$id)
         ->get();
+        session()->put('idmenu',$id);
         $getcategorypdca=indicator::where('Indicator_id',$menuname[0]['Indicator_id'])
         ->get();
         $pdca=PDCA::leftjoin('indicator','pdca.Indicator_id','=','indicator.indicator_id')

@@ -9,6 +9,7 @@ use App\ModelAJ\categoty_researh;
 use App\User;
 use App\Menu;
 use App\indicator4_3;
+use App\indicator;
 use App\indicator2_2;
 use App\indicator2_1;
 use App\Course;
@@ -359,7 +360,43 @@ class AJController extends Controller
         }
         else{
             return view('category7/newstrength',compact('querynewstrength'));
-        }
-            
+        }  
+    }
+    public function addp($id)
+    {
+            $getindi=categorypdca::where('id',$id)
+            ->get();
+            $getcateid=indicator::where('id',$getindi[0]['Indicator_id'])
+            ->get();
+            return view('AJ/addp',compact('getindi','getcateid'));
+             
+    }
+    public function addd($id)
+    {
+            $getindi=categorypdca::where('id',$id)
+            ->get();
+            $getcateid=indicator::where('id',$getindi[0]['Indicator_id'])
+            ->get();
+            return view('AJ/addD',compact('getindi','getcateid'));
+             
+    }
+
+    public function addc($id)
+    {
+            $getindi=categorypdca::where('id',$id)
+            ->get();
+            $getcateid=indicator::where('id',$getindi[0]['Indicator_id'])
+            ->get();
+            return view('AJ/addC',compact('getindi','getcateid'));
+             
+    }
+    public function adda($id)
+    {
+            $getindi=categorypdca::where('id',$id)
+            ->get();
+            $getcateid=indicator::where('id',$getindi[0]['Indicator_id'])
+            ->get();
+            return view('AJ/addA',compact('getindi','getcateid'));
+             
     }
 }

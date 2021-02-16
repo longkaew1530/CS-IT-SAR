@@ -1266,4 +1266,399 @@ class APIAJController extends Controller
            return true;
     }
      /////getstrength/////getstrength/////getstrength/////getstrength/////getstrength/////getstrength
+
+     /////addp/////addp/////addp/////addp/////addp/////addp
+     public function getp($id)
+    {
+        $editdata=PDCA::leftjoin('categorypdca','pdca.category_pdca','=','categorypdca.id')
+        ->where('pdca_id',$id)
+        ->get();
+        // foreach($editdata as $row){
+        //     foreach($row->docpdca as $value){
+        //         if($value['categorypdca']=='p'){
+        //             $doc[$i]=
+        //         }
+        //     }
+        // }
+        return view('AJ/editp',compact('editdata'));
+    }
+     public function addp(Request $request)
+    {
+        $validatedData = $request->validate([
+            'doc_file' => 'required',
+            'doc_file.*' => 'mimes:csv,txt,xlsx,xls,pdf,docx'
+            ]);
+            $get= PDCA::where('Indicator_id',$request->Indicator_id)
+            ->where('category_pdca',$request->category_id)
+            ->get();
+        if(count($get)!=0){
+            $data= PDCA::where('Indicator_id',$request->Indicator_id)
+            ->where('category_pdca',$request->category_id)
+            ->first();
+            $data->course_id=session()->get('usercourse');
+            $data->year_id=session()->get('year_id');
+            $data->p=$request->editor1;
+            $data->save();
+        }
+        else{
+            $data=new PDCA;
+            $data->course_id=session()->get('usercourse');
+            $data->year_id=session()->get('year_id');
+            $data->category_pdca=$request->category_id;
+            $data->Indicator_id=$request->Indicator_id;
+            $data->m_id=$request->m_id;
+            $data->p=$request->editor1;
+            $data->save();
+        }
+            if($request->TotalFiles > 0)
+            {
+                    
+               for ($x = 0; $x < $request->TotalFiles; $x++) 
+               {
+                   if ($request->hasFile('doc_file')) 
+                    {
+                        $getfile = $request->file('doc_file');
+                        $path = 'public/PDCA';
+                        $name = $getfile[$x]->getClientOriginalName();
+                        $fullfile=$path."/".$name;
+                        $getfile[$x]->move($path, $name);                 
+                        $insert[$x]['doc_file'] = $fullfile;
+                        $insert[$x]['doc_name'] = $name;
+                        $insert[$x]['categorypdca'] = 'p';
+                        $insert[$x]['pdca_id'] = $data->pdca_id;                    
+                    }            
+               }           
+               $success=docpdca::insert($insert);
+            }
+        return $success;
+    }
+
+    public function updatep(Request $request)
+    {   
+        $validatedData = $request->validate([
+            'doc_file.*' => 'mimes:csv,txt,xlsx,xls,pdf,docx',
+            ]);
+            if($request->TotalFiles > 0)
+            {  
+               for ($x = 0; $x < $request->TotalFiles; $x++) 
+               {
+                   if ($request->hasFile('doc_file')) 
+                    {
+                        $getfile = $request->file('doc_file');
+                        $path = 'public/indicator';
+                        $name = $getfile[$x]->getClientOriginalName();
+                        $fullfile=$path."/".$name;
+                        File::delete('public/indicator/'.$name);
+                        $getfile[$x]->move($path, $name);                
+                        $insert[$x]['doc_file'] = $fullfile;
+                        $insert[$x]['doc_name'] = $name;
+                        $insert[$x]['categorypdca'] = 'p';
+                        $insert[$x]['pdca_id'] = $request->pdca_id;                
+                    }         
+               } 
+               docpdca::insert($insert);           
+            }
+        $data=PDCA::find($request->pdca_id);
+        $data->p=$request->editor1;
+        $data->save();
+        return $data;
+    }
+    /////addp/////addp/////addp/////addp/////addp/////addp
+
+    /////addd/////addd/////addd/////addd/////addd/////addd
+    public function getd($id)
+    {
+        $editdata=PDCA::leftjoin('categorypdca','pdca.category_pdca','=','categorypdca.id')
+        ->where('pdca_id',$id)
+        ->get();
+        // foreach($editdata as $row){
+        //     foreach($row->docpdca as $value){
+        //         if($value['categorypdca']=='p'){
+        //             $doc[$i]=
+        //         }
+        //     }
+        // }
+        return view('AJ/editD',compact('editdata'));
+    }
+    public function addd(Request $request)
+    {
+        $validatedData = $request->validate([
+            'doc_file' => 'required',
+            'doc_file.*' => 'mimes:csv,txt,xlsx,xls,pdf,docx'
+            ]);
+            $get= PDCA::where('Indicator_id',$request->Indicator_id)
+            ->where('category_pdca',$request->category_id)
+            ->get();
+        if(count($get)!=0){
+            $data= PDCA::where('Indicator_id',$request->Indicator_id)
+            ->where('category_pdca',$request->category_id)
+            ->first();
+            $data->course_id=session()->get('usercourse');
+            $data->year_id=session()->get('year_id');
+            $data->d=$request->editor1;
+            $data->save();
+        }
+        else{
+            $data=new PDCA;
+            $data->course_id=session()->get('usercourse');
+            $data->year_id=session()->get('year_id');
+            $data->category_pdca=$request->category_id;
+            $data->Indicator_id=$request->Indicator_id;
+            $data->d=$request->editor1;
+            $data->save();
+        }
+            if($request->TotalFiles > 0)
+            {
+                    
+               for ($x = 0; $x < $request->TotalFiles; $x++) 
+               {
+                   if ($request->hasFile('doc_file')) 
+                    {
+                        $getfile = $request->file('doc_file');
+                        $path = 'public/PDCA';
+                        $name = $getfile[$x]->getClientOriginalName();
+                        $fullfile=$path."/".$name;
+                        $getfile[$x]->move($path, $name);                 
+                        $insert[$x]['doc_file'] = $fullfile;
+                        $insert[$x]['doc_name'] = $name;
+                        $insert[$x]['categorypdca'] = 'd';
+                        $insert[$x]['pdca_id'] = $data->pdca_id;                    
+                    }            
+               }           
+               $success=docpdca::insert($insert);
+            }
+        return $success;
+    }
+    public function updated(Request $request)
+    {   
+        $validatedData = $request->validate([
+            'doc_file.*' => 'mimes:csv,txt,xlsx,xls,pdf,docx',
+            ]);
+            if($request->TotalFiles > 0)
+            {  
+               for ($x = 0; $x < $request->TotalFiles; $x++) 
+               {
+                   if ($request->hasFile('doc_file')) 
+                    {
+                        $getfile = $request->file('doc_file');
+                        $path = 'public/indicator';
+                        $name = $getfile[$x]->getClientOriginalName();
+                        $fullfile=$path."/".$name;
+                        File::delete('public/indicator/'.$name);
+                        $getfile[$x]->move($path, $name);                
+                        $insert[$x]['doc_file'] = $fullfile;
+                        $insert[$x]['doc_name'] = $name;
+                        $insert[$x]['categorypdca'] = 'd';
+                        $insert[$x]['pdca_id'] = $request->pdca_id;                
+                    }         
+               } 
+               docpdca::insert($insert);           
+            }
+        $data=PDCA::find($request->pdca_id);
+        $data->d=$request->editor1;
+        $data->save();
+        return $data;
+    }
+    /////addd/////addd/////addd/////addd/////addd/////addd
+
+      /////addc/////addc/////addc/////addc/////addc/////addc
+      public function getc($id)
+    {
+        $editdata=PDCA::leftjoin('categorypdca','pdca.category_pdca','=','categorypdca.id')
+        ->where('pdca_id',$id)
+        ->get();
+        // foreach($editdata as $row){
+        //     foreach($row->docpdca as $value){
+        //         if($value['categorypdca']=='p'){
+        //             $doc[$i]=
+        //         }
+        //     }
+        // }
+        return view('AJ/editC',compact('editdata'));
+    }
+      public function addc(Request $request)
+      {
+          $validatedData = $request->validate([
+              'doc_file' => 'required',
+              'doc_file.*' => 'mimes:csv,txt,xlsx,xls,pdf,docx'
+              ]);
+              $get= PDCA::where('Indicator_id',$request->Indicator_id)
+              ->where('category_pdca',$request->category_id)
+              ->get();
+          if(count($get)!=0){
+              $data= PDCA::where('Indicator_id',$request->Indicator_id)
+              ->where('category_pdca',$request->category_id)
+              ->first();
+              $data->course_id=session()->get('usercourse');
+              $data->year_id=session()->get('year_id');
+              $data->c=$request->editor1;
+              $data->save();
+          }
+          else{
+              $data=new PDCA;
+              $data->course_id=session()->get('usercourse');
+              $data->year_id=session()->get('year_id');
+              $data->category_pdca=$request->category_id;
+              $data->Indicator_id=$request->Indicator_id;
+              $data->m_id=$request->m_id;
+              $data->c=$request->editor1;
+              $data->save();
+          }
+              if($request->TotalFiles > 0)
+              {
+                      
+                 for ($x = 0; $x < $request->TotalFiles; $x++) 
+                 {
+                     if ($request->hasFile('doc_file')) 
+                      {
+                          $getfile = $request->file('doc_file');
+                          $path = 'public/PDCA';
+                          $name = $getfile[$x]->getClientOriginalName();
+                          $fullfile=$path."/".$name;
+                          $getfile[$x]->move($path, $name);                 
+                          $insert[$x]['doc_file'] = $fullfile;
+                          $insert[$x]['doc_name'] = $name;
+                          $insert[$x]['categorypdca'] = 'c';
+                          $insert[$x]['pdca_id'] = $data->pdca_id;                    
+                      }            
+                 }           
+                 $success=docpdca::insert($insert);
+              }
+          return $success;
+      }
+      public function updatec(Request $request)
+    {   
+        $validatedData = $request->validate([
+            'doc_file.*' => 'mimes:csv,txt,xlsx,xls,pdf,docx',
+            ]);
+            if($request->TotalFiles > 0)
+            {  
+               for ($x = 0; $x < $request->TotalFiles; $x++) 
+               {
+                   if ($request->hasFile('doc_file')) 
+                    {
+                        $getfile = $request->file('doc_file');
+                        $path = 'public/indicator';
+                        $name = $getfile[$x]->getClientOriginalName();
+                        $fullfile=$path."/".$name;
+                        File::delete('public/indicator/'.$name);
+                        $getfile[$x]->move($path, $name);                
+                        $insert[$x]['doc_file'] = $fullfile;
+                        $insert[$x]['doc_name'] = $name;
+                        $insert[$x]['categorypdca'] = 'c';
+                        $insert[$x]['pdca_id'] = $request->pdca_id;                
+                    }         
+               } 
+               docpdca::insert($insert);           
+            }
+        $data=PDCA::find($request->pdca_id);
+        $data->c=$request->editor1;
+        $data->save();
+        return $data;
+    }
+      /////addc/////addc/////addc/////addc/////addc/////addc
+
+      /////adda/////adda/////adda/////adda/////adda/////adda
+      public function geta($id)
+    {
+        $editdata=PDCA::leftjoin('categorypdca','pdca.category_pdca','=','categorypdca.id')
+        ->where('pdca_id',$id)
+        ->get();
+        // foreach($editdata as $row){
+        //     foreach($row->docpdca as $value){
+        //         if($value['categorypdca']=='p'){
+        //             $doc[$i]=
+        //         }
+        //     }
+        // }
+        return view('AJ/editA',compact('editdata'));
+    }
+      public function adda(Request $request)
+      {
+          $validatedData = $request->validate([
+              'doc_file' => 'required',
+              'doc_file.*' => 'mimes:csv,txt,xlsx,xls,pdf,docx'
+              ]);
+              $get= PDCA::where('Indicator_id',$request->Indicator_id)
+              ->where('category_pdca',$request->category_id)
+              ->get();
+          if(count($get)!=0){
+              $data= PDCA::where('Indicator_id',$request->Indicator_id)
+              ->where('category_pdca',$request->category_id)
+              ->first();
+              $data->course_id=session()->get('usercourse');
+              $data->year_id=session()->get('year_id');
+              $data->a=$request->editor1;
+              $data->save();
+          }
+          else{
+              $data=new PDCA;
+              $data->course_id=session()->get('usercourse');
+              $data->year_id=session()->get('year_id');
+              $data->category_pdca=$request->category_id;
+              $data->Indicator_id=$request->Indicator_id;
+              $data->m_id=$request->m_id;
+              $data->a=$request->editor1;
+              $data->save();
+          }
+              if($request->TotalFiles > 0)
+              {
+                      
+                 for ($x = 0; $x < $request->TotalFiles; $x++) 
+                 {
+                     if ($request->hasFile('doc_file')) 
+                      {
+                          $getfile = $request->file('doc_file');
+                          $path = 'public/PDCA';
+                          $name = $getfile[$x]->getClientOriginalName();
+                          $fullfile=$path."/".$name;
+                          $getfile[$x]->move($path, $name);                 
+                          $insert[$x]['doc_file'] = $fullfile;
+                          $insert[$x]['doc_name'] = $name;
+                          $insert[$x]['categorypdca'] = 'a';
+                          $insert[$x]['pdca_id'] = $data->pdca_id;                    
+                      }            
+                 }           
+                 $success=docpdca::insert($insert);
+              }
+          return $success;
+      }
+      public function updatea(Request $request)
+    {   
+        $validatedData = $request->validate([
+            'doc_file.*' => 'mimes:csv,txt,xlsx,xls,pdf,docx',
+            ]);
+            if($request->TotalFiles > 0)
+            {  
+               for ($x = 0; $x < $request->TotalFiles; $x++) 
+               {
+                   if ($request->hasFile('doc_file')) 
+                    {
+                        $getfile = $request->file('doc_file');
+                        $path = 'public/indicator';
+                        $name = $getfile[$x]->getClientOriginalName();
+                        $fullfile=$path."/".$name;
+                        File::delete('public/indicator/'.$name);
+                        $getfile[$x]->move($path, $name);                
+                        $insert[$x]['doc_file'] = $fullfile;
+                        $insert[$x]['doc_name'] = $name;
+                        $insert[$x]['categorypdca'] = 'a';
+                        $insert[$x]['pdca_id'] = $request->pdca_id;                
+                    }         
+               } 
+               docpdca::insert($insert);           
+            }
+        $data=PDCA::find($request->pdca_id);
+        $data->a=$request->editor1;
+        $data->save();
+        return $data;
+    }
+      /////adda/////adda/////adda/////adda/////adda/////adda
+      public function deletedoc($id)
+    {
+        $data=docpdca::where('doc_id',$id)
+        ->first();
+        $data->delete();
+        return $data;
+    }
 }

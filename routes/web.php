@@ -54,6 +54,10 @@ Route::get('/addassessment_summary/{id}', 'AJController@addassessment_summary');
 Route::get('/addstrength', 'AJController@addstrength');
 Route::get('/adddevelopment_proposal', 'AJController@adddevelopment_proposal');
 Route::get('/addnewstrength', 'AJController@addnewstrength');
+Route::get('/addp/{id}', 'AJController@addp');
+Route::get('/addd/{id}', 'AJController@addd');
+Route::get('/addc/{id}', 'AJController@addc');
+Route::get('/adda/{id}', 'AJController@adda');
 /////รายงาน
 Route::get('/overview', 'ReportController@overview');
 Route::get('/instructor', 'ReportController@instructor');
@@ -240,6 +244,23 @@ Route::put('/updatebranch','APIController@updatebranch');
 Route::get('/getbranch/{id}','APIController@getbranch');
 /////assessment_results
 Route::post('/addassessment_results', 'APIController@addassessment_results');
+/////addp
+Route::post('/addp','APIAJController@addp');
+Route::get('/getp/{id}','APIAJController@getp');
+Route::post('/updatep','APIAJController@updatep');
+Route::delete('/deletedoc/{id}','APIAJController@deletedoc');
+/////addd
+Route::post('/addd','APIAJController@addd');
+Route::get('/getd/{id}','APIAJController@getd');
+Route::post('/updated','APIAJController@updated');
+/////addc
+Route::post('/addc','APIAJController@addc');
+Route::get('/getc/{id}','APIAJController@getc');
+Route::post('/updatec','APIAJController@updatec');
+/////adda
+Route::post('/adda','APIAJController@adda');
+Route::get('/geta/{id}','APIAJController@geta');
+Route::post('/updatea','APIAJController@updatea');
 
 Route::get('/getrolepermisson/{id}','APIController@getrolepermission');
 Auth::routes();

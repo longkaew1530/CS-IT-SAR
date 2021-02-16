@@ -16,40 +16,55 @@
                   โดยใช้กระบวนการ PDCA เป็นพื้นฐานและมีผลการดำเนินงานในปีการศึกษา {{ Session::get('year')}} ดังนี้ <br><br><br>
                   @if(count($row->pdca)!=0)
                   @foreach($row->pdca as $row1)
-                  <a href="/getpdca/{{$value['Indicator_id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไข</a>
+                  @if($row1['p']!=null)<a href="/getp/{{$row1['pdca_id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไข</a>
+                  @else
+                  <a href="/addp/{{$row['id']}}" class="btn btn-success fr"><i class='fa fas fa-edit'></i> เพิ่ม</a>
+                  @endif
                   <ins><b>ขั้นตอนการวางแผน (P)</b></ins><br>
                   {!!$row1['p']!!}<br><br>
-                  <a href="/getpdca/{{$value['Indicator_id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไข</a>
+                  @if($row1['d']!=null)<a href="/getd/{{$row1['pdca_id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไข</a>
+                  @else
+                  <a href="/addd/{{$row['id']}}" class="btn btn-success fr"><i class='fa fas fa-edit'></i> เพิ่ม</a>
+                  @endif
                   <ins><b>การดำเนินงานตามแผน (D)</b></ins><br>
                   {!!$row1['d']!!}</b><br><br>
-                  <a href="/getpdca/{{$value['Indicator_id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไข</a>
+                  @if($row1['c']!=null)<a href="/getc/{{$row1['pdca_id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไข</a>
+                  @else
+                  <a href="/addc/{{$row['id']}}" class="btn btn-success fr"><i class='fa fas fa-edit'></i> เพิ่ม</a>
+                  @endif
                   <ins><b>การประเมินกระบวนการ (C)</b></ins><br>
                   {!!$row1['c']!!}</b><br><br>
-                  <a href="/getpdca/{{$value['Indicator_id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไข</a>
+                  @if($row1['a']!=null)<a href="/geta/{{$row1['pdca_id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไข</a>
+                  @else
+                  <a href="/adda/{{$row['id']}}" class="btn btn-success fr"><i class='fa fas fa-edit'></i> เพิ่ม</a>
+                  @endif
                   <ins><b>การปรับปรุง/พัฒนา/บูรณาการกระบวนการจากผลการประเมิน (A)</b></ins><br>
                   {!!$row1['a']!!}</b><br><br>
-                  </td> 
-                  @endforeach
-                  @else
-                  <a href="/getpdca/{{$value['Indicator_id']}}" class="btn btn-success fr"><i class='fa fas fa-edit'></i> เพิ่ม</a>
-                  <ins><b>ขั้นตอนการวางแผน (P)</b></ins><br>
-                  <br><br>
-                  <a href="/getpdca/{{$value['Indicator_id']}}" class="btn btn-success fr"><i class='fa fas fa-edit'></i> เพิ่ม</a>
-                  <ins><b>การดำเนินงานตามแผน (D)</b></ins><br>
-                  <br><br>
-                  <a href="/getpdca/{{$value['Indicator_id']}}" class="btn btn-success fr"><i class='fa fas fa-edit'></i> เพิ่ม</a>
-                  <ins><b>การประเมินกระบวนการ (C)</b></ins><br>
-                  <br><br>
-                  <a href="/getpdca/{{$value['Indicator_id']}}" class="btn btn-success fr"><i class='fa fas fa-edit'></i> เพิ่ม</a>
-                  <ins><b>การปรับปรุง/พัฒนา/บูรณาการกระบวนการจากผลการประเมิน (A)</b></ins><br>
-                  <br><br>
-                  </td> 
-                  @endif       
+                  </td>
                   <td>
                   @foreach($row1->docpdca as $key =>$row2)
                   -{{$row2['doc_name']}}<br>
                   @endforeach
+                  </td> 
+                  @endforeach
+                  @else
+                  <a href="/addp/{{$row['id']}}" class="btn btn-success fr"><i class='fa fas fa-edit'></i> เพิ่ม</a>
+                  <ins><b>ขั้นตอนการวางแผน (P)</b></ins><br>
+                  <br><br>
+                  <a href="/addd/{{$row['id']}}" class="btn btn-success fr"><i class='fa fas fa-edit'></i> เพิ่ม</a>
+                  <ins><b>การดำเนินงานตามแผน (D)</b></ins><br>
+                  <br><br>
+                  <a href="/addc/{{$row['id']}}" class="btn btn-success fr"><i class='fa fas fa-edit'></i> เพิ่ม</a>
+                  <ins><b>การประเมินกระบวนการ (C)</b></ins><br>
+                  <br><br>
+                  <a href="/adda/{{$row['id']}}" class="btn btn-success fr"><i class='fa fas fa-edit'></i> เพิ่ม</a>
+                  <ins><b>การปรับปรุง/พัฒนา/บูรณาการกระบวนการจากผลการประเมิน (A)</b></ins><br>
+                  <br><br>
+                  </td> 
+                  <td>
                   </td>
+                  @endif       
+                  
                 </tr>
                 @endforeach
                 <tr>

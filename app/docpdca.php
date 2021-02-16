@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class docpdca extends Model
 {
     protected $table = 'doc_pdca';
-    protected $primaryKey = 'pdca_id';
+    protected $primaryKey = 'doc_id';
     protected $fillable=[
-        'doc_name','doc_file'
+        'doc_name','doc_file','pdca_id'
     ];
     public function pdca()
     {

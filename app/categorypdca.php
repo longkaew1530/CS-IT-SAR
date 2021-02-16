@@ -17,6 +17,8 @@ class categorypdca extends Model
     }
     public function pdca()
     {
-        return $this->hasMany('App\PDCA','category_pdca','id');
+        return $this->hasMany('App\PDCA','category_pdca','id')
+        ->where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'));
     }
 }
