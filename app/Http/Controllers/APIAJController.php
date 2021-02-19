@@ -13,6 +13,7 @@ use App\docpdca;
 use App\indicator4_3;
 use App\indicator2_1;
 use App\indicator2_2;
+use App\composition;
 use App\indicator5_4;
 use App\performance3_3;
 use App\docindicator4_3;
@@ -24,6 +25,7 @@ use App\category7_newstrength;
 use App\category6_assessment_summary;
 use App\category4_course_results;
 use App\category4_activity;
+use App\category7_strengths_summary;
 use App\category7_development_proposal;
 use App\category7_development_proposal_detail;
 use App\category4_effectiveness;
@@ -85,8 +87,11 @@ class APIAJController extends Controller
     /////ผลงานวิจัย/////ผลงานวิจัย/////ผลงานวิจัย/////ผลงานวิจัย/////ผลงานวิจัย/////ผลงานวิจัย
     public function getresearch_results($id)
     {
-        $groupmenu = Research_results::where('id',$id)->get();
-        return $groupmenu;
+        $data = Research_results::join('research_results_user','research_results.research_results_id','=','research_results_user.research_results_research_results_id')
+        ->join('users','research_results_user.user_id','=','users.id')
+        ->where('research_results_user.research_results_research_results_id',$id)
+        ->get();
+        return $data;
     }
     public function addresearch_results(Request $request)
     {
@@ -1162,106 +1167,89 @@ class APIAJController extends Controller
      /////assessment_summary/////assessment_summary/////assessment_summary/////assessment_summary/////assessment_summary/////assessment_summary
 
      /////getstrength/////getstrength/////getstrength/////getstrength/////getstrength/////getstrength
-    public function getstrength()
+    public function getstrength($id)
     {
-        return view('AJ/editstrength');
+        $editdata=category7_strength::where('id',$id)
+        ->get();
+        return view('AJ/editstrength',compact('editdata'));
     }
     function addstrength(Request $request)
     {
-     $this->validate($request, [
-      'infostd'  => 'required|mimes:xls,xlsx'
-     ]);
-
-     $path = $request->file('infostd')->getRealPath();
-
-     $data = Excel::import(new Addstrength,$path);
-        
+        $data=new category7_strength;
+        $data->composition=$request->composition;
+        $data->strength=$request->strength;
+        $data->should_develop=$request->should_develop;
+        $data->development_approach=$request->development_approach;
+        $data->course_id=session()->get('usercourse');
+        $data->year_id=session()->get('year_id');
+        $data->save();
      return true;
     }
     public function updatestrength(Request $request)
     {
-        $getdata=category7_strength::where('course_id',session()->get('usercourse'))
-        ->where('year_id',session()->get('year_id'));
-        $getdata->delete();
-        
-        $this->validate($request, [
-            'infostd'  => 'required|mimes:xls,xlsx'
-           ]);
-      
-           $path = $request->file('infostd')->getRealPath();
-      
-           $data = Excel::import(new Addstrength,$path);
+        $data=category7_strength::find($request->id);
+        $data->composition=$request->composition;
+        $data->strength=$request->strength;
+        $data->should_develop=$request->should_develop;
+        $data->development_approach=$request->development_approach;
+        $data->save();
               
-           return true;
+        return $data;
     }
      /////getstrength/////getstrength/////getstrength/////getstrength/////getstrength/////getstrength
 
      /////development_proposal////development_proposal/////development_proposal/////development_proposal/////development_proposal/////development_proposal
     public function getdevelopment_proposal($id)
     {
-        $editdata=category7_development_proposal::where('id',$id)
+        $editdata=category7_development_proposal_detail::where('id',$id)
         ->get();
-        return view('AJ/editdevelopment_proposal',compact('editdata'));
+        return view('AJ/editdevelopment_proposal2',compact('editdata'));
     }
     function adddevelopment_proposal(Request $request)
     {
-        $data=new category7_development_proposal;
-        $data->topic=$request->topic;
-        $data->course_id=session()->get('usercourse');
-        $data->year_id=session()->get('year_id');
-        $data->save();
-        foreach($request->detail as $value){
             $row=new category7_development_proposal_detail;
-            $row->detail=$value;
-            $row->proposal_id =$data->id;
+            $row->detail=$request->editor1;
+            $row->topic=$request->topic;
+            $row->course_id=session()->get('usercourse');
+            $row->year_id=session()->get('year_id');
             $row->save();
-        }
-     return $data;
+     return $row;
     }
     public function updatedevelopment_proposal(Request $request)
     {
-        $data=category7_development_proposal::find($request->getid);
+        $data=category7_development_proposal_detail::find($request->getid);
+        $data->detail=$request->editor1;
         $data->topic=$request->topic;
-        $data->save();
-        foreach($request->detail as $key=>$value){
-            $row=category7_development_proposal_detail::find($request->id[$key+1]);
-            $row->detail=$value;
-            $row->save();
-        }      
+        $data->save();   
         return $data;
     }
      /////development_proposal/////development_proposal/////development_proposal/////development_proposal/////development_proposal/////development_proposal
 
      /////getnewstrength/////getnewstrength/////getnewstrength/////getnewstrength/////getnewstrength/////getnewstrength
-    public function getnewstrength()
+    public function getnewstrength($id)
     {
-        return view('AJ/editnewstrength');
+        $editdata=category7_newstrength::where('id',$id)
+        ->get();
+        return view('AJ/editnewstrength',compact('editdata'));
     }
     function addnewstrength(Request $request)
     {
-     $this->validate($request, [
-      'infostd'  => 'required|mimes:xls,xlsx'
-     ]);
-
-     $path = $request->file('infostd')->getRealPath();
-
-     $data = Excel::import(new Addnewstrength,$path);
-        
+        $data=new category7_newstrength;
+        $data->composition=$request->composition;
+        $data->strength=$request->strength;
+        $data->should_develop=$request->should_develop;
+        $data->course_id=session()->get('usercourse');
+        $data->year_id=session()->get('year_id');
+        $data->save();
      return true;
     }
     public function updatenewstrength(Request $request)
     {
-        $getdata=category7_newstrength::where('course_id',session()->get('usercourse'))
-        ->where('year_id',session()->get('year_id'));
-        $getdata->delete();
-        
-        $this->validate($request, [
-            'infostd'  => 'required|mimes:xls,xlsx'
-           ]);
-      
-           $path = $request->file('infostd')->getRealPath();
-      
-           $data = Excel::import(new Addnewstrength,$path);
+        $data=category7_newstrength::find($request->id);
+        $data->composition=$request->composition;
+        $data->strength=$request->strength;
+        $data->should_develop=$request->should_develop;
+        $data->save();
               
            return true;
     }
@@ -1661,4 +1649,50 @@ class APIAJController extends Controller
         $data->delete();
         return $data;
     }
+    /////strengths_summary/////strengths_summary/////strengths_summary/////strengths_summary/////strengths_summary/////strengths_summary
+    public function getstrengths_summary($id)
+    {
+        $get=composition::all();
+        $check=category7_strengths_summary::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        $query=category7_strengths_summary::where('id',$id)
+        ->where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        $getdata[0]=0;
+        $getdata[1]=0;
+        $getdata[2]=0;
+        $getdata[3]=0;
+        $getdata[4]=0;
+        $getdata[5]=0;
+        foreach($check as $key=>$row){
+                $getdata[$key]=$row['composition_id'];          
+        }
+        return view('AJ/editstrengths_summary',compact('get','getdata','query'));
+    }
+    function addstrengths_summary(Request $request)
+    {
+        $data=new category7_strengths_summary;
+        $data->strength=$request->strength;
+        $data->points_development=$request->points_development;
+        $data->development_approach=$request->development_approach;
+        $data->composition_id=$request->composition_id;
+        $data->course_id=session()->get('usercourse');
+        $data->year_id=session()->get('year_id');
+        $data->save();
+
+     return $data;
+    }
+    public function updatestrengths_summary(Request $request)
+    {
+        $data=category7_strengths_summary::find($request->id);
+        $data->strength=$request->strength;
+        $data->points_development=$request->points_development;
+        $data->development_approach=$request->development_approach;
+        $data->composition_id=$request->composition_id;
+        $data->save();
+        return $data;
+    }
+     /////strengths_summary/////strengths_summary/////strengths_summary/////strengths_summary/////strengths_summary/////strengths_summary
 }

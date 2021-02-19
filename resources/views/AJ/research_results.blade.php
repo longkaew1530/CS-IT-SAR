@@ -42,17 +42,25 @@
               <form id="formadd" method="POST" action="/addresearch_results">
                 @csrf
                 <div class="box-body">
-                  <div class="form-group">
-                    <label for="exampleInputPassword1">อาจารย์</label>
-                    @foreach($userall as $value)
-                    <div class="checkbox">
-                      <label>
-                        <input type="checkbox" value="{{$value['id']}}" id="teacher_name" name="teacher_name[]">
-                        {{$value['user_fullname']}}
-                      </label>
-                    </div>
-                    @endforeach
+                <div class="form-group">
+                    <label for="exampleInputPassword1">ชื่อผู้วิจัย</label>
+                    <select class="form-control" id="research_results_category" class="form-control @error('role') is-invalid @enderror" name="research_results_category">
+                      @foreach($userall as $value)
+                      <option value="{{$value['id']}}">{{$value['user_fullname']}}</option>
+                      @endforeach
+                    </select>
                   </div>
+                  
+                  <div class="form-group">
+                <label>ชื่อผู้ร่วมวิจัย</label>
+                <select class="form-control select2" name="teacher_name[]" multiple="multiple" data-placeholder="Select a State"
+                        style="width: 100%;">
+                        @foreach($userall as $value)
+                      <option value="{{$value['id']}}">{{$value['user_fullname']}}</option>
+                      @endforeach
+                </select>
+              </div>
+
                   <div class="form-group">
                     <label for="exampleInputPassword1">ประเภทผลงานวิจัย</label>
                     <select class="form-control" id="research_results_category" class="form-control @error('role') is-invalid @enderror" name="research_results_category">
@@ -105,33 +113,50 @@
                 @csrf
                 {{ method_field('PUT') }}
                 <div class="box-body">
-                  <div class="form-group">
                     <input type="hidden" class="form-control" id="id" name="id">
-                    <label for="exampleInputEmail1">ปีที่สำเร็จการศึกษา</label>
-                    <input type="text" class="form-control" id="eb_yearsuccess1" name="eb_yearsuccess" placeholder="ปีที่สำเร็จการศึกษา">
-                  </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">วุฒิการศึกษา</label>
-                    <select class="form-control" id="eb_name1" class="form-control @error('role') is-invalid @enderror" name="eb_name">
-                      <option value="ปริญญาตรี">ปริญญาตรี</option>
-                      <option value="ปริญญาโท">ปริญญาโท</option>
-                      <option value="ปริญญาเอก">ปริญญาเอก</option>
+                    <label for="exampleInputPassword1">ชื่อผู้วิจัย</label>
+                    <select class="form-control" id="research_results_category" class="form-control @error('role') is-invalid @enderror" name="research_results_category">
+                      @foreach($userall as $value)
+                      <option value="{{$value['id']}}">{{$value['user_fullname']}}</option>
+                      @endforeach
+                    </select>
+                  </div>
+                  
+                  <div class="form-group">
+                <label>ชื่อผู้ร่วมวิจัย</label>
+                <select class="form-control select2" id="select" name="teacher_name[]" multiple="multiple" data-placeholder="Select a State"
+                        style="width: 100%;">
+                        @foreach($userall as $value)
+                      <option value="{{$value['id']}}">{{$value['user_fullname']}}</option>
+                      @endforeach
+                </select>
+              </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">ประเภทผลงานวิจัย</label>
+                    <select class="form-control" id="research_results_category1" class="form-control @error('role') is-invalid @enderror" name="research_results_category">
+                      @foreach($category as $value)
+                      <option value="{{$value['id']}}">{{$value['name']}}</option>
+                      @endforeach
                     </select>
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">สาขา</label>
-                    <input type="text" class="form-control" id="eb_fieldofstudy1" name="eb_fieldofstudy" placeholder="สาขา">
+                    <label for="exampleInputPassword1">ปีที่ทำวิจัย/ตีพิมพ์</label>
+                    <input type="text" class="form-control" id="research_results_year1" name="research_results_year" placeholder="ปีที่จัดทำ">
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">ตัวย่อ</label>
-                    <input type="text" class="form-control" id="abbreviations1" name="abbreviations" placeholder="ตัวย่อ">
+                    <label for="exampleInputPassword1">ชื่อผลงาน</label>
+                    <input type="text" class="form-control" id="research_results_name1" name="research_results_name" placeholder="ชื่อผลงาน">
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">สถาบันการศึกษา</label>
-                    <input type="text" class="form-control" id="education1" name="education" placeholder="สถาบันการศึกษา">
+                    <label for="exampleInputPassword1">รายละเอียด</label>
+                    <textarea class="form-control" rows="3" placeholder="รายละเอียด" id="research_results_description1" name="research_results_description"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">งบประมาณ</label>
+                    <input type="text" class="form-control" id="research_results_salary1" name="research_results_salary" placeholder="งบประมาณ">
                   </div>
                 </div>
-
                 <div class="modal-footer">
                   <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Close</button>
                   <button type="submit" class="btn btn-info">บันทึกข้อมูล</button>
@@ -208,7 +233,13 @@
       lengthMenu: [8, 20, 50, 100]
     })
   })
+  $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+   
+  })
 </script>
+
 <script type="text/javascript">
   $('#formadd').ajaxForm(function() {
     swal({
@@ -237,17 +268,51 @@
       var button = $(event.relatedTarget);
       var id = button.data('id');
       var modal = $(this);
+      var studentSelect = $('#select');
       modal.find('#emp_id').val(id);
-      var url = "/geteducational_background";
+      var url = "/getresearch_results";
       $.get(url + '/' + id, function(data) {
         //success data
-        console.log(data)
         $("#id").val(data[0].id);
-        $("#eb_yearsuccess1").val(data[0].eb_yearsuccess);
-        $("#eb_name1").val(data[0].eb_name);
-        $("#eb_fieldofstudy1").val(data[0].eb_fieldofstudy);
-        $("#abbreviations1").val(data[0].abbreviations);
-        $("#education1").val(data[0].education);
+        $("#research_results_year1").val(data[0].research_results_year);
+        $("#research_results_category1").val(data[0].research_results_category);
+        $("#research_results_name1").val(data[0].research_results_name);
+        $("#research_results_description1").val(data[0].research_results_description);
+        $("#research_results_salary1").val(data[0].research_results_salary);
+        
+
+        // var option = new Option(data[0].user_fullname,data[0].id,true, true);
+        // studentSelect.append(option).trigger('change');
+        // studentSelect.trigger({
+        //     type: 'select2:select',
+        //     params: {
+        //         data: data
+        //     }
+        // });
+
+        $('#select').select2({
+        // ...
+        templateSelection: function (data, container) {
+          // Add custom attributes to the <option> tag for the selected option
+          $(data.id).attr('data-custom-attribute', data.customValue);
+          return data.text;
+        }
+      });
+
+      // Retrieve custom attribute value of the first selected element
+      // $('#mySelect2').find(':selected').data('custom-attribute');
+      //   for (const [key, value] of Object.entries(data)) {
+      //       var option = new Option(value.user_fullname, value.id,true, true);
+      //   studentSelect.append(option).trigger('change');
+      //   studentSelect.trigger({
+      //       type: 'select2:select',
+      //       params: {
+      //           data: data
+      //       }
+      //   });
+      //   }
+        
+        
       })
     });
   });
@@ -277,5 +342,6 @@
     });
 
   });
+  
 </script>
 @endsection

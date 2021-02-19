@@ -9,7 +9,7 @@ class category7_development_proposal_detail extends Model
     protected $table = 'category7-development_proposal_detail';
     protected $primaryKey = 'id';
     protected $fillable=[
-        'detail'
+        'detail','topic','year_id','course_id'
     ];
     public function development_proposal()
     {

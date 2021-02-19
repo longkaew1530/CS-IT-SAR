@@ -151,7 +151,7 @@
             @foreach($value->menu as $row)
               @foreach(session()->get('roleper')  as $value)
               @if($value['m_id']==$row['m_id'])
-                @if($row['m_url']=="/category3/pdca"||$row['m_url']=="/addimpactfactor"||$row['m_url']=="/addassessment_summary")
+                @if($row['m_url']=="/category3/pdca"||$row['m_url']=="/addimpactfactor"||$row['m_url']=="/addassessment_summary"||$row['m_url']=="/category/indicator4-2")
                 <li  class="{{ (request()->segment(2)==$row['m_id']) ? 'active' : '' }}"><a   href="{{$row['m_url']}}/{{$row['m_id']}}" ><i class="fa fa-circle-o text-red"></i>{!!$row['m_name']!!}</a></li>
                 @else
                <li  class="{{ ('/'.request()->segment(1)==$row['m_url']) ? 'active' : ''}}"><a  href="{{$row['m_url']}}" ><i class="fa fa-circle-o text-red"></i>{!!$row['m_name']!!}</a></li>

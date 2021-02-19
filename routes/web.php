@@ -30,6 +30,7 @@ Route::get('/faculty', 'DashboardController@index13');
 Route::get('/usergroup', 'DashboardController@index14');
 Route::get('/branch', 'DashboardController@index15');
 Route::get('/assessment_results', 'DashboardController@index16');
+Route::get('/dashboard', 'DashboardController@index17');
 /////อาจารย์
 Route::get('/educational_background', 'AJController@educational_background');
 Route::get('/research_results', 'AJController@research_results');
@@ -58,8 +59,10 @@ Route::get('/addp/{id}', 'AJController@addp');
 Route::get('/addd/{id}', 'AJController@addd');
 Route::get('/addc/{id}', 'AJController@addc');
 Route::get('/adda/{id}', 'AJController@adda');
+Route::get('/addstrengths_summary', 'AJController@addstrengths_summary');
 /////รายงาน
 Route::get('/overview', 'ReportController@overview');
+Route::get('/download', 'ReportController@download');
 Route::get('/instructor', 'ReportController@instructor');
 Route::get('/performance_summary', 'ReportController@performance_summary');
 /////หมวด1-2
@@ -100,6 +103,7 @@ Route::get('/category6/assessment_summary', 'Category6Controller@assessment_summ
 Route::get('/category7/strength', 'Category7Controller@strength');
 Route::get('/category7/newstrength', 'Category7Controller@newstrength');
 Route::get('/category7/development_proposal', 'Category7Controller@development_proposal');
+Route::get('/category7/strengths_summary', 'Category7Controller@strengths_summary');
 ///API
 Route::post('/save', 'APIController@store');
 Route::post('/addper', 'APIController@addpermission');
@@ -222,7 +226,7 @@ Route::get('/getassessment_summary/{id}','APIAJController@getassessment_summary'
 Route::post('/updateassessment_summary','APIAJController@updateassessment_summary');
 /////strength
 Route::post('/addstrength','APIAJController@addstrength');
-Route::get('/getstrength','APIAJController@getstrength');
+Route::get('/getstrength/{id}','APIAJController@getstrength');
 Route::post('/updatestrength','APIAJController@updatestrength');
 /////development_proposal
 Route::post('/adddevelopment_proposal','APIAJController@adddevelopment_proposal');
@@ -230,7 +234,7 @@ Route::get('/getdevelopment_proposal/{id}','APIAJController@getdevelopment_propo
 Route::post('/updatedevelopment_proposal','APIAJController@updatedevelopment_proposal');
 /////newstrength
 Route::post('/addnewstrength','APIAJController@addnewstrength');
-Route::get('/getnewstrength','APIAJController@getnewstrength');
+Route::get('/getnewstrength/{id}','APIAJController@getnewstrength');
 Route::post('/updatenewstrength','APIAJController@updatenewstrength');
 /////category
 Route::post('/addcategory', 'APIController@addcategory');
@@ -261,6 +265,13 @@ Route::post('/updatec','APIAJController@updatec');
 Route::post('/adda','APIAJController@adda');
 Route::get('/geta/{id}','APIAJController@geta');
 Route::post('/updatea','APIAJController@updatea');
+/////strengths_summary
+Route::post('/addstrengths_summary','APIAJController@addstrengths_summary');
+Route::get('/getstrengths_summary/{id}','APIAJController@getstrengths_summary');
+Route::post('/updatestrengths_summary','APIAJController@updatestrengths_summary');
+
+/////download
+Route::get('/dowloaddoxc','ReportController@generateDocx');
 
 Route::get('/getrolepermisson/{id}','APIController@getrolepermission');
 Auth::routes();

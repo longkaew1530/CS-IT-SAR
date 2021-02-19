@@ -2,7 +2,8 @@
 
 @section('content')
 <div class="box box-warning marginl">
-<div class="box-header">
+<div class="box-header" id="exportContent">
+<button onclick="Export2Word('exportContent');">ดาวโหลด</button>
               <h1 class="box-title">หมวดที่ 1 ข้อมูลทั่วไป</h1>
               @foreach($course as $key =>$value)
               <br><b>หลักสูตร{{$value['course_name']." สาขา".$value['branch']." หลักสูตรปรับปรุง พ.ศ. ".$value['update_course']}} ระดับปริญญาตรี</b><br>

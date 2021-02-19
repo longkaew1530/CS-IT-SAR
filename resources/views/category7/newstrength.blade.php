@@ -4,7 +4,7 @@
 <div class="box box-warning marginl">
 <div class="box-header">
             <div class="box-body">
-            <a href="/getnewstrength" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>
+            <a href="/getnewstrength/{{$querynewstrength[0]['id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>
               <h4>แผนปฏิบัติการใหม่ สำหรับปี {{ Session::get('year')}}</h4></br>
               <table class="table table-bordered" >
                 <tbody><tr>

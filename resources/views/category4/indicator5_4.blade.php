@@ -73,7 +73,10 @@
                 </tr>
                 <tr>
                     <td class="text-center">ร้อยละของตัวบ่งชี้ทั้งหมดในปีนี้</td>
-                    <td class="text-center" colspan="3"></td>
+                    <?php
+                    $get=$resultpassall*100/$result ?>
+                    <?php $result1 = round($get)  ?>
+                    <td class="text-center" colspan="3">{{$result1}}</td>
                 </tr>
               </tbody></table>
 </div></div>

@@ -5,6 +5,7 @@ use App\User;
 use App\PDCA;
 use App\DocPDCA;
 use App\Groupmenu;
+use App\Menu;
 use App\Course;
 use App\categoty_researh;
 use App\ModelAJ\Research_results;
@@ -271,9 +272,11 @@ class CategoryController extends Controller
         foreach($category_re as $value){
             $countcate=$countcate+$value['score'];
         }
+        $menuname=Menu::where('m_id',$id)
+        ->get();
 
         $pdca=PDCA::leftjoin('indicator','pdca.Indicator_id','=','indicator.indicator_id')
-        ->where('pdca.Indicator_id',$id)
+        ->where('pdca.Indicator_id',$menuname[0]['Indicator_id'])
         ->where('pdca.course_id',session()->get('usercourse'))
         ->where('pdca.year_id',1)
         ->get();

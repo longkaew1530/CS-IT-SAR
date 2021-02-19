@@ -64,7 +64,12 @@ class DashboardController extends Controller
          }
         session()->put('groupmenu',$groupmenu);
         session()->put('roleper',$rolepermiss);
-        return view('dashboard/year',compact('year','getAllyear'));
+        if($user_group==1){
+            return view('dashboard/year',compact('year','getAllyear'));
+        }
+       else{
+        return view('dashboard/dashboard');
+       }
     }
     public function index2()
     {
@@ -172,5 +177,9 @@ class DashboardController extends Controller
             $dis="disabled";
         }
         return view('dashboard/assessment_results',compact('Assessment_results','Category','dis','cAss'));
+    }
+    public function index17()
+    {
+        return view('dashboard/dashboard');
     }
 }

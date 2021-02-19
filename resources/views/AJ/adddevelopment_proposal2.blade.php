@@ -3,57 +3,36 @@
 @section('content')
 <div class="box box-warning marginl">
   <div class="box-header">
-  <a href="{{ URL::previous() }}" class="btn btn-primary fr"><i class='fa fa-arrow-left'></i> ย้อนกลับ</a>
     <div class="box-body">
-    
+    <a href="/category7/development_proposal" class="btn btn-info fr"><i class='fa fa-eye'></i> ดูรายงาน</a>
       <div class="col-sm-2" align="right"></div>
-      <div class="col-sm-9" align="center">
-        <h3><i class=""></i>ความก้าวหน้าของการดำเนินงานตามแผนที่เสนอในรายงานของปีที่ผ่านมา</h3>
+      <div class="col-sm-8" align="center">
+      
+        <h3><i class=""></i>ข้อเสนอในการพัฒนาหลักสูตร</h3>
         <hr>
       </div>
     </div>
     <form id="adddata" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data">
     @csrf
-    @foreach($editdata as $row)
-      <div class="data">
-      <input type="hidden" class="form-control" id="id" name="id" value="{{$row['id']}}"/>
+      <div id="show">
         <div class="col-md-12">
           <div class="box-header col-md-12 col-sm-9 col-xs-12">
-            <h3 class="box-title">แผนดำเนินการ</h3>
+            <h3 class="box-title">ข้อเสนอ</h3>
           </div>
-          <div id="body">
-            <div class="col-md-12 col-sm-9 col-xs-12">
-            <textarea class="form-control" rows="3" placeholder="แผนดำเนินการ" id="composition" name="composition">
-            {!!$row['composition']!!}
-            </textarea>
+            <div class="col-md-12 col-sm-9 col-xs-12" id="hed">
+            <input type="text" class="form-control" id="topic" name="topic" placeholder="ข้อเสนอ">
             </div>
-          </div>
         </div>
-      </div>
-      <div class="data">
         <div class="col-md-12">
           <div class="box-header col-md-12 col-sm-9 col-xs-12">
-            <h3 class="box-title">กำหนดเวลาที่แล้วเสร็จ</h3>
+            <h3 class="box-title">รายละเอียด</h3>
           </div>
-          <div id="body">
-            <div class="col-md-12 col-sm-9 col-xs-12">
-            <input type="text" class="form-control" id="strength" name="strength" placeholder="กำหนดเวลาที่แล้วเสร็จ" value="{{$row['strength']}}">
+            <div class="col-md-12 col-sm-9 col-xs-12" id="hed">
+            <textarea id="editor1"  name="editor1" rows="10" cols="80">
+              </textarea>
             </div>
-          </div>
         </div>
-      </div>
-      <div class="data">
-        <div class="col-md-12">
-          <div class="box-header col-md-12 col-sm-9 col-xs-12">
-            <h3 class="box-title">ผู้รับผิดชอบ</h3>
-          </div>
-          <div id="body">
-            <div class="col-md-12 col-sm-9 col-xs-12">
-            <input type="text" class="form-control" id="should_develop" name="should_develop" placeholder="ผู้รับผิดชอบ" value="{{$row['should_develop']}}">
-            </div>
-          </div>
         </div>
-      </div>
       <div class="col-md-12">
         <div id="body">
           <div class="col-md-12 col-sm-9 col-xs-12">
@@ -64,7 +43,6 @@
 
         </div>
       </div>
-      @endforeach
     </form>
 
   </div>
@@ -79,6 +57,9 @@
     margin: 1em 0;
     padding: 0;
   }
+  .mt{
+    margin-top:15px;
+  }
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script type="text/javascript">
@@ -90,26 +71,27 @@
     });
     $('#adddata').submit(function(e) {
       e.preventDefault();
+      for (instance in CKEDITOR.instances) {
+                CKEDITOR.instances[instance].updateElement();
+        }
       var formData = new FormData(this);
       $.ajax({
         type: 'POST',
-        url: "/updatenewstrength",
+        url: "/adddevelopment_proposal",
         data: formData,
         cache: false,
         contentType: false,
         processData: false,
         dataType: 'json',
         success: (data) => {
-          if(data){
-            swal({
+          swal({
           title: "เพิ่มข้อมูลเรียบร้อยแล้ว",
           text: "",
           icon: "success",
           button: "ตกลง",
         }).then(function() {
-          window.location = "/category7/newstrength";
+          window.location = "/category7/development_proposal";
         });
-          }
         },
         error: function(data) {
           alert(data.responseJSON.errors.files1[0]);
@@ -119,5 +101,20 @@
     });
   });
   
+</script>
+<script type="text/javascript">
+ $(document).ready(function(){      
+var url = "{{ url('add-remove-input-fields') }}";
+var i=1;  
+$('#add').click(function(){  
+var title = $("#term").val();
+i++;  
+$('#show').append('<div class="col-md-12 mt" id="row'+i+'"><div class="col-md-11 col-sm-9 col-xs-12" id="hed"><input type="text" class="form-control" id="detail" name="detail[]" placeholder="รายละเอียด"></div><div class="col-md-1"><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove"><i class="fa fa-minus"></i></button></div></div>');  
+});  
+$(document).on('click', '.btn_remove', function(){  
+var button_id = $(this).attr("id");   
+$('#row'+button_id+'').remove();  
+}); 
+ }); 
 </script>
 @endsection

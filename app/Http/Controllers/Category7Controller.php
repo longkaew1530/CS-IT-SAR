@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 use App\category7_strength;
 use App\category7_newstrength;
-use App\category7_development_proposal;
+use App\category7_development_proposal_detail;
+use App\composition;
+use App\category7_strengths_summary;
 use Illuminate\Http\Request;
 
 class Category7Controller extends Controller
@@ -17,7 +19,7 @@ class Category7Controller extends Controller
     }
     public function development_proposal()
     {
-        $querydevelopment_proposal=category7_development_proposal::where('course_id',session()->get('usercourse'))
+        $querydevelopment_proposal=category7_development_proposal_detail::where('course_id',session()->get('usercourse'))
         ->where('year_id',session()->get('year_id'))
         ->get();
 
@@ -30,5 +32,10 @@ class Category7Controller extends Controller
         ->where('year_id',session()->get('year_id'))
         ->get();
         return view('category7/newstrength',compact('querynewstrength'));
+    }
+    public function strengths_summary()
+    {
+        $querynewstrength=composition::all();
+        return view('category7/strengths_summary',compact('querynewstrength'));
     }
 }

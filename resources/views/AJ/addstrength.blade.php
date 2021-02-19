@@ -3,9 +3,10 @@
 @section('content')
 <div class="box box-warning marginl">
   <div class="box-header">
+  <a href="/category7/strength" class="btn btn-info fr"><i class='fa fa-eye'></i> ดูรายงาน</a>
     <div class="box-body">
       <div class="col-sm-2" align="right"></div>
-      <div class="col-sm-8" align="center">
+      <div class="col-sm-9" align="center">
         <h3><i class=""></i>ความก้าวหน้าของการดำเนินงานตามแผนที่เสนอในรายงานของปีที่ผ่านมา</h3>
         <hr>
       </div>
@@ -15,14 +16,49 @@
       <div class="data">
         <div class="col-md-12">
           <div class="box-header col-md-12 col-sm-9 col-xs-12">
-            <h3 class="box-title">ความก้าวหน้าของการดำเนินงานตามแผนที่เสนอในรายงานของปีที่ผ่านมา</h3>
+            <h3 class="box-title">แผนดำเนินการ</h3>
           </div>
           <div id="body">
             <div class="col-md-12 col-sm-9 col-xs-12">
-            <input   type="file" id="infostd" name="infostd">
+            <textarea class="form-control" rows="3" placeholder="แผนดำเนินการ" id="composition" name="composition"></textarea>
             </div>
           </div>
-
+        </div>
+      </div>
+      <div class="data">
+        <div class="col-md-12">
+          <div class="box-header col-md-12 col-sm-9 col-xs-12">
+            <h3 class="box-title">กำหนดเวลาที่แล้วเสร็จ</h3>
+          </div>
+          <div id="body">
+            <div class="col-md-12 col-sm-9 col-xs-12">
+            <input type="text" class="form-control" id="strength" name="strength" placeholder="กำหนดเวลาที่แล้วเสร็จ">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="data">
+        <div class="col-md-12">
+          <div class="box-header col-md-12 col-sm-9 col-xs-12">
+            <h3 class="box-title">ผู้รับผิดชอบ</h3>
+          </div>
+          <div id="body">
+            <div class="col-md-12 col-sm-9 col-xs-12">
+            <input type="text" class="form-control" id="should_develop" name="should_develop" placeholder="ผู้รับผิดชอบ">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="data">
+        <div class="col-md-12">
+          <div class="box-header col-md-12 col-sm-9 col-xs-12">
+            <h3 class="box-title">ความสำเร็จของแผน/เหตุผลที่ไม่สามารถดำเนินการได้สำเร็จ</h3>
+          </div>
+          <div id="body">
+            <div class="col-md-12 col-sm-9 col-xs-12">
+            <input type="text" class="form-control" id="development_approach" name="development_approach" placeholder="ความสำเร็จของแผน/เหตุผลที่ไม่สามารถดำเนินการได้สำเร็จ">
+            </div>
+          </div>
         </div>
       </div>
       <div class="col-md-12">

@@ -129,7 +129,7 @@ class Category3Controller extends Controller
         ->get();
         $name="";
         $id="";
-        foreach($pdca as $value)
+        foreach($getcategorypdca as $value)
         {
             $name=$value['Indicator_name'];
             $id=$value['Indicator_id'];

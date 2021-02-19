@@ -12,19 +12,21 @@
     </div>
     <form id="adddata" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data">
     @csrf
-      <div class="data">
-        <div class="col-md-12">
-          <div class="box-header col-md-12 col-sm-9 col-xs-12">
-            <h3 class="box-title">ข้อมูลนักศึกษา</h3>
-          </div>
-          <div id="body">
-            <div class="col-md-12 col-sm-9 col-xs-12">
-            <input   type="file" id="infostd" name="infostd">
-            </div>
-          </div>
+            <div class="box-body">
+              <table class="table table-bordered text-center">
+                <tbody><tr>
+                  <th width="10%" >ปีการศึกษาที่รับเข้า</th>
+                  <th  width="80%">ปีการศึกษาที่สำเร็จการศึกษา</th>
+                <tr>
 
-        </div>
-      </div>
+                            <td><input></td>
+                            <td><input></td>
+                            <td><input></td>
+
+
+                </tr>
+                </tr>
+              </tbody></table>
       <div class="col-md-12">
         <div id="body">
           <div class="col-md-12 col-sm-9 col-xs-12">

@@ -9,6 +9,7 @@ use App\composition;
 use App\indicator;
 use App\category;
 use App\assessment_results;
+use Exception;
 class ReportController extends Controller
 {
     public function overview()
@@ -40,5 +41,36 @@ class ReportController extends Controller
             $per1=$value['performance1'];
         }
             return view('report/performance_summary',compact('pdca','per1','getall'));
+    }
+    public function generateDocx()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+
+
+        $section = $phpWord->addSection();
+
+
+        
+
+
+
+        $section->addText($description);
+
+
+        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+        try {
+            $objWriter->save(storage_path('helloWorld.docx'));
+        } catch (Exception $e) {
+        }
+
+
+        return response()->download(storage_path('helloWorld.docx'));
+    }
+    public function download()
+    {
+        $query=assessment_results::leftjoin('category','assessment_results.category_id','=','category.category_id')
+        ->where('assessment_results.year_id',session()->get('year_id'))
+        ->get();
+            return view('report/download',compact('query'));
     }
 }

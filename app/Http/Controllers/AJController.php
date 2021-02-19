@@ -14,6 +14,8 @@ use App\indicator2_2;
 use App\indicator2_1;
 use App\Course;
 use App\indicator5_4;
+use App\composition;
+use App\category7_strengths_summary;
 use App\categorypdca;
 use App\PDCA;
 use App\category3_GD;
@@ -326,28 +328,12 @@ class AJController extends Controller
     }
     public function addstrength()
     {
-        $querystrength=category7_strength::where('course_id',session()->get('usercourse'))
-        ->where('year_id',session()->get('year_id'))
-        ->get();
-        $querynewstrength=category7_newstrength::where('course_id',session()->get('usercourse'))
-        ->where('year_id',session()->get('year_id'))
-        ->get();
-
-        $querydevelopment_proposal=category7_development_proposal::where('course_id',session()->get('usercourse'))
-        ->where('year_id',session()->get('year_id'))
-        ->get();
-        $year=session()->get('year');
-        if(count($querystrength)===0){
             return view('AJ/addstrength');
-        }
-        else{
-            return view('category7/strength',compact('querystrength','querynewstrength','querydevelopment_proposal','year'));
-        }
             
     }
     public function adddevelopment_proposal()
     {
-            return view('AJ/adddevelopment_proposal');
+            return view('AJ/adddevelopment_proposal2');
              
     }
     public function addnewstrength()
@@ -397,6 +383,24 @@ class AJController extends Controller
             $getcateid=indicator::where('id',$getindi[0]['Indicator_id'])
             ->get();
             return view('AJ/addA',compact('getindi','getcateid'));
+             
+    }
+    public function addstrengths_summary()
+    {
+        $get=composition::all();
+        $check=category7_strengths_summary::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        $getdata[0]=0;
+        $getdata[1]=0;
+        $getdata[2]=0;
+        $getdata[3]=0;
+        $getdata[4]=0;
+        $getdata[5]=0;
+        foreach($check as $key=>$row){
+                $getdata[$key]=$row['composition_id'];          
+        }
+            return view('AJ/addstrengths_summary',compact('get','getdata'));
              
     }
 }
