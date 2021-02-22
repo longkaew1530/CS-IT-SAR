@@ -67,8 +67,11 @@ class DashboardController extends Controller
         if($user_group==1){
             return view('dashboard/year',compact('year','getAllyear'));
         }
-       else{
+       else if($user_group==2||$user_group==3){
         return view('dashboard/dashboard');
+       }
+       else{
+        return view('dashboard/dashboard2');
        }
     }
     public function index2()
@@ -181,5 +184,19 @@ class DashboardController extends Controller
     public function index17()
     {
         return view('dashboard/dashboard');
+    }
+    public function index18()
+    {
+        return view('dashboard/profile');
+    }
+    public function index19()
+    {
+        $tc_course= User::leftjoin('course_teacher','users.id','=','course_teacher.user_id')
+         ->where('users.user_course',session()->get('usercourse'))
+         ->where('course_teacher.year_id',1)
+         ->get();
+        $tc=User::where('user_course',session()->get('usercourse'))
+        ->paginate(10);
+        return view('dashboard/tc_course',compact('tc_course','tc'));
     }
 }

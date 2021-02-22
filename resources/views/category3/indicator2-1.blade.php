@@ -3,7 +3,7 @@
 @section('content')
 <div class="box box-warning marginl">
 <div class="box-header">
-<b><li>คุณภาพบัณฑิตตามกรอบมาตรฐานคุณวุฒิระดับอุดมศึกษาแห่งชาติ (ตัวบ่งชี้ที่ 2.1) <a href="/getindicator2_1/{{$factor[0]['id']}}" class="btn btn-warning fr "><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a></li></b>
+<h3><b><li>คุณภาพบัณฑิตตามกรอบมาตรฐานคุณวุฒิระดับอุดมศึกษาแห่งชาติ (ตัวบ่งชี้ที่ 2.1) <a href="/getindicator2_1/{{$factor[0]['id']}}" class="btn btn-warning fr "><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a></li></b></h3>
 
             <div class="box-body">
               <table class="table table-bordered mt-3">
@@ -35,9 +35,6 @@
                 @endforeach
               </tbody></table></div></div>
    <style>
-   .b{
-     background-color:black;
-   }
    .ml-1{
   margin-left:10px
 }
@@ -46,6 +43,9 @@
 }
 .mt-3{
   margin-top:30px;
+}
+h3{
+  font-size: 15px;
 }
    </style>           
               

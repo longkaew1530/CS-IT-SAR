@@ -4,7 +4,9 @@
 <div class="box box-warning marginl">
 <div class="box-header">
             <div class="box-body">
-            <ins>ผลการดำเนินงาน</ins><a href="/getindicator2_2/{{$factor[0]['id']}}" class="btn btn-warning fr "><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>
+            <a href="/getindicator2_2/{{$factor[0]['id']}}" class="btn btn-warning fr "><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>
+            <h3><li ><b>ร้อยละของบัณฑิตปริญญาตรีที่ได้งานทำหรือประกอบอาชีพอิสระภายใน 1 ปี (ตัวบ่งชี้ 2.2)</b></li></h3>
+            <ins>ผลการดำเนินงาน</ins>
             <table class="table table-bordered mt-3">
                 <tbody><tr>
                   <th width="50%" class="text-center">ข้อมูลพื้นฐาน</th>
@@ -78,6 +80,7 @@
 <style>
    .b{
      background-color:black;
+     
    }
    .ml-1{
   margin-left:10px
@@ -87,6 +90,9 @@
 }
 .mt-3{
   margin-top:30px;
+}
+h3{
+  font-size: 15px;
 }
    </style>
               @endsection

@@ -31,6 +31,8 @@ Route::get('/usergroup', 'DashboardController@index14');
 Route::get('/branch', 'DashboardController@index15');
 Route::get('/assessment_results', 'DashboardController@index16');
 Route::get('/dashboard', 'DashboardController@index17');
+Route::get('/profile', 'DashboardController@index18');
+Route::get('/addcourseteacher', 'DashboardController@index19');
 /////อาจารย์
 Route::get('/educational_background', 'AJController@educational_background');
 Route::get('/research_results', 'AJController@research_results');

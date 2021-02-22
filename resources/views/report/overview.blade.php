@@ -3,7 +3,6 @@
 @section('content')
 <div class="box box-warning marginl">
 <div class="box-header">
-<button onclick="Export2Word('exportContent');">Export as .doc</button>
   <div id="exportContent">
             <div class="box-header" >
             <h3 class="box-title">ความคืบหน้าของผลการดำเนินงาน</h3>
@@ -24,7 +23,6 @@
                     </div>
                   </td>
                   <td><span class="badge bg-red">55%</span>&nbsp&nbsp&nbsp&nbsp<i class="fa fa-sort-down fa-lg" id="add" type="button" data-id="{{$key}}"></i></td>
-                  
                 </tr>
                 </div>
                 @endforeach
