@@ -540,7 +540,9 @@ class APIController extends Controller
           $role=category::leftjoin('assessment_results','category.category_id','=','assessment_results.category_id')
           ->where('year_id',session()->get('year_id'))
           ->get();
-          $permiss = user_permission::where('user_id',$id)->get();
+          $permiss = user_permission::where('user_id',$id)
+          ->where('year_id',session()->get('year_id'))
+          ->get();
           $userid=$id;
           
           

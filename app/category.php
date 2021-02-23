@@ -14,10 +14,11 @@ class category extends Model
     public function indicator()
     {
         return $this->hasMany('App\indicator','category_id','category_id')
-        ->select('indicator.id','indicator.Indicator_id','indicator.url','indicator.Indicator_name')
+        ->select('indicator.id','indicator.Indicator_id','indicator.url','indicator.Indicator_name','indicator.year_id','user_permission.user_id','user_permission.year_id')
         ->leftjoin('user_permission','indicator.id','=','user_permission.indicator_id')
         ->where('user_permission.user_id',$user=auth()->user()->id)
-        ->where('indicator.year_id',session()->get('year_id'));
+        ->where('indicator.year_id',session()->get('year_id'))
+        ->where('user_permission.year_id',session()->get('year_id'));
     }
     public function indicator2()
     {
