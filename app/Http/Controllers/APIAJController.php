@@ -1273,7 +1273,6 @@ class APIAJController extends Controller
      public function addp(Request $request)
     {
         $validatedData = $request->validate([
-            'doc_file' => 'required',
             'doc_file.*' => 'mimes:csv,txt,xlsx,xls,pdf,docx'
             ]);
             $get= PDCA::where('Indicator_id',$request->Indicator_id)
@@ -1318,7 +1317,12 @@ class APIAJController extends Controller
                }           
                $success=docpdca::insert($insert);
             }
-        return $success;
+            if($data){
+                return $data;
+            }
+            else{
+                return $success;
+            }
     }
 
     public function updatep(Request $request)
@@ -1371,7 +1375,6 @@ class APIAJController extends Controller
     public function addd(Request $request)
     {
         $validatedData = $request->validate([
-            'doc_file' => 'required',
             'doc_file.*' => 'mimes:csv,txt,xlsx,xls,pdf,docx'
             ]);
             $get= PDCA::where('Indicator_id',$request->Indicator_id)
@@ -1415,7 +1418,13 @@ class APIAJController extends Controller
                }           
                $success=docpdca::insert($insert);
             }
-        return $success;
+            if($data){
+                return $data;
+            }
+            else{
+                return $success;
+            }
+        
     }
     public function updated(Request $request)
     {   
@@ -1467,7 +1476,6 @@ class APIAJController extends Controller
       public function addc(Request $request)
       {
           $validatedData = $request->validate([
-              'doc_file' => 'required',
               'doc_file.*' => 'mimes:csv,txt,xlsx,xls,pdf,docx'
               ]);
               $get= PDCA::where('Indicator_id',$request->Indicator_id)
@@ -1512,7 +1520,12 @@ class APIAJController extends Controller
                  }           
                  $success=docpdca::insert($insert);
               }
-          return $success;
+            if($data){
+                return $data;
+            }
+            else{
+                return $success;
+            }
       }
       public function updatec(Request $request)
     {   
@@ -1564,7 +1577,6 @@ class APIAJController extends Controller
       public function adda(Request $request)
       {
           $validatedData = $request->validate([
-              'doc_file' => 'required',
               'doc_file.*' => 'mimes:csv,txt,xlsx,xls,pdf,docx'
               ]);
               $get= PDCA::where('Indicator_id',$request->Indicator_id)
@@ -1609,7 +1621,12 @@ class APIAJController extends Controller
                  }           
                  $success=docpdca::insert($insert);
               }
-          return $success;
+              if($data){
+                return $data;
+            }
+            else{
+                return $success;
+            }
       }
       public function updatea(Request $request)
     {   

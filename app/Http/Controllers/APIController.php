@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use App\rolepermission;
+use App\user_permission;
 use App\Menu;
 use App\Groupmenu;
 use App\branch;
+use App\instructor;
 use App\Course;
 use App\Faculty;
 use App\groupuser;
+use App\course_teacher;
 use App\Year;
 use Validator;
 use App\category;
@@ -440,4 +443,108 @@ class APIController extends Controller
         }
         return redirect('/assessment_results');
     }
+
+    /////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร
+    public function gettccourse($id)
+    {
+        $course = course_teacher::where('category_id',$id)->get();
+        return $course;
+    }
+    public function addtccourse(Request $request)
+    {
+        foreach($request->idall as $value){
+            $data['user_id']=$value;
+            $data['year_id']=session()->get('year_id');
+            $data['course_id']=session()->get('usercourse');
+            course_teacher::insert($data);
+        }
+        return $data;
+    }
+    public function deletetccourse($id)
+    {
+        $product = course_teacher::where('user_id',$id)
+        ->where('year_id',session()->get('year_id'))
+        ->where('course_id',session()->get('year_id'))
+        ->delete();
+        
+        return $product;
+    }
+    /////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร
+
+      /////เพิ่มอาจารย์ผู้สอน/////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร
+      public function getinstructor($id)
+      {
+          $course = instructor::where('category_id',$id)->get();
+          return $course;
+      }
+      public function addinstructor(Request $request)
+      {
+          foreach($request->idall as $value){
+              $data['user_id']=$value;
+              $data['year_id']=session()->get('year_id');
+              $data['course_id']=session()->get('usercourse');
+              instructor::insert($data);
+          }
+          return $data;
+      }
+      public function deleteinstructor($id)
+      {
+          $product = instructor::where('user_id',$id)
+          ->where('year_id',session()->get('year_id'))
+          ->where('course_id',session()->get('year_id'))
+          ->delete();
+          
+          return $product;
+      }
+      /////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร
+
+      /////มอบหมายตัวบ่งชี้/////มอบหมายตัวบ่งชี้/////มอบหมายตัวบ่งชี้/////มอบหมายตัวบ่งชี้/////มอบหมายตัวบ่งชี้/////มอบหมายตัวบ่งชี้
+      public function addindicator(Request $request)
+      {
+          $data=$request->all();
+          $userid=$request->id;
+          $deleterolepermission = rolepermission::find($userid);
+          if($deleterolepermission!=null){
+              $deleterolepermission->delete();
+          }
+          
+          if(isset($data['per'])){
+          foreach($data['per'] as $value)
+          {
+            $item['user_group_id']=$userid;
+            $querygroupid=Menu::select('g_id')->where('m_id',$value)->get();
+            foreach($querygroupid as $row){
+              $groupid=$row['g_id'];
+            }
+            $item['g_id']=$groupid;
+            $item['m_id']=$value;
+            rolepermission::insert($item);
+          }
+          }
+          $user=auth()->user();
+          $user_group=$user->user_group_id;
+          $groupmenu=Groupmenu::all();
+          $rolepermiss=rolepermission::leftjoin('menu','role_permission.m_id','=','menu.m_id')
+          ->where('user_group_id',$user_group)
+          ->get();
+         
+           foreach ($groupmenu as $key => $value){
+              $value->menu->first(); 
+           }
+          session()->put('groupmenu',$groupmenu);
+          session()->put('roleper',$rolepermiss);
+          return redirect('/permission');
+      }
+      public function getindicator($id)
+      {
+          $role=category::leftjoin('assessment_results','category.category_id','=','assessment_results.category_id')
+          ->where('year_id',session()->get('year_id'))
+          ->get();
+          $permiss = user_permission::where('user_id',$id)->get();
+          $userid=$id;
+          
+          
+          return view('dashboard.showaddindicator',compact('permiss','role','userid'));
+      }
+            /////มอบหมายตัวบ่งชี้/////มอบหมายตัวบ่งชี้/////มอบหมายตัวบ่งชี้/////มอบหมายตัวบ่งชี้/////มอบหมายตัวบ่งชี้/////มอบหมายตัวบ่งชี้
 }

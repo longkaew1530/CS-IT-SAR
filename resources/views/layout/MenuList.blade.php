@@ -132,13 +132,13 @@
           </ul>
         </li> -->
         <!-- <li ><a href="/"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li> -->
-        <?php $acti="" ?>
+        
         @foreach(session()->get('groupmenu')  as $value)
         @foreach(session()->get('roleper')  as $value1)
         @if($value1['g_id']==$value['g_id'])
         <li class="active treeview ">
           <a href="">
-            <i class="{{$value['g_icon']}}"></i><span>{{$value['g_name']}}{{$acti}}</span>
+            <i class="{{$value['g_icon']}}"></i><span>{{$value['g_name']}}</span>
             
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
@@ -158,6 +158,36 @@
                 @endif
               @endif
               @endforeach
+            @endforeach
+          </ul>
+     
+        @endforeach
+
+
+
+        @foreach(session()->get('category')  as $value)
+        @foreach(session()->get('roleindicator')  as $value1)
+        @if($value1['category_id']==$value['category_id'])
+        <li class="active treeview ">
+          <a href="">
+            <i class="{{$value['g_icon']}}"></i><span>{{$value['category_name']}}</span>
+            
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          @break
+         @endif
+         @endforeach
+          <ul class="treeview-menu" id="item_id">
+            @foreach($value->indicator as $row)
+            @if($row['url']=="/category3/pdca"||$row['url']=="/addimpactfactor"||$row['url']=="/addassessment_summary"||$row['url']=="/category/indicator4-2")
+                <li  class="{{ (request()->segment(2)==$row['m_id']) ? 'active' : '' }}"><a   href="{{$row['url']}}/{{$row['id']}}" ><i class="fa fa-circle-o text-red"></i>ตัวบ่งชี้ {!!$row['Indicator_id']!!}</a></li>
+                @else
+                <li  class="{{ ('/'.request()->segment(1)==$row['url']) ? 'active' : ''}}"><a  href="{{$row['url']}}" ><i class="fa fa-circle-o text-red"></i>ตัวบ่งชี้ {!!$row['Indicator_id']!!}</a></li>
+                @endif
+               
+              
             @endforeach
           </ul>
      

@@ -11,8 +11,10 @@ use App\Tps;
 use App\usergroup;
 use App\Menu;
 use App\category;
+use App\instructor;
 use App\branch;
 use App\indicator;
+use App\user_permission;
 use App\rolepermission;
 use App\assessment_results;
 use App\Faculty;
@@ -64,6 +66,17 @@ class DashboardController extends Controller
          }
         session()->put('groupmenu',$groupmenu);
         session()->put('roleper',$rolepermiss);
+
+        $category=category::all();
+        $roleindicator=user_permission::leftjoin('indicator','user_permission.indicator_id','=','indicator.id')
+        ->where('user_id',$user->id)
+        ->get();
+        foreach ($category as $key => $value){
+            $value->indicator->first(); 
+         }
+        session()->put('category',$category);
+        session()->put('roleindicator',$roleindicator);
+
         if($user_group==1){
             return view('dashboard/year',compact('year','getAllyear'));
         }
@@ -193,10 +206,34 @@ class DashboardController extends Controller
     {
         $tc_course= User::leftjoin('course_teacher','users.id','=','course_teacher.user_id')
          ->where('users.user_course',session()->get('usercourse'))
-         ->where('course_teacher.year_id',1)
+         ->where('course_teacher.year_id',session()->get('year_id'))
          ->get();
         $tc=User::where('user_course',session()->get('usercourse'))
         ->paginate(10);
         return view('dashboard/tc_course',compact('tc_course','tc'));
+    }
+    public function index20()
+    {
+        $tc_course= instructor::leftjoin('users','instructor.user_id','=','users.id')
+         ->where('instructor.course_id',session()->get('usercourse'))
+         ->where('instructor.year_id',session()->get('year_id'))
+         ->get();
+        $tc=User::where('user_course',session()->get('usercourse'))
+        ->paginate(10);
+        return view('dashboard/instructor1',compact('tc_course','tc'));
+    }
+    public function index21()
+    {
+        $getusergroup=User::where('user_course',session()->get('usercourse'))
+        ->get();
+        $role=GroupMenu::all();
+        $getper=rolepermission::leftjoin('menu','role_permission.m_id','=','menu.m_id')
+         ->get();
+         $user=auth()->user();
+        $user_group=$user->user_group_id;
+        $rolepermiss=rolepermission::where('user_group_id',$user_group)->get();
+
+        session()->put('roleper',$rolepermiss);
+        return view('dashboard/addindicator',compact('getusergroup','role','getper'));
     }
 }

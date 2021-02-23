@@ -115,13 +115,13 @@ class Category3Controller extends Controller
     }
     public function showpdca($id)
     {   
-        $menuname=Menu::where('m_id',$id)
-        ->get();
+        // $menuname=Menu::where('m_id',$id)
+        // ->get();
         session()->put('idmenu',$id);
-        $getcategorypdca=indicator::where('Indicator_id',$menuname[0]['Indicator_id'])
+        $getcategorypdca=indicator::where('id',$id)
         ->get();
         $pdca=PDCA::leftjoin('indicator','pdca.Indicator_id','=','indicator.indicator_id')
-        ->where('pdca.Indicator_id',$menuname[0]['Indicator_id'])
+        ->where('pdca.Indicator_id',$getcategorypdca[0]['Indicator_id'])
         ->where('pdca.course_id',session()->get('usercourse'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->get();

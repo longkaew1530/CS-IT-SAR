@@ -33,6 +33,8 @@ Route::get('/assessment_results', 'DashboardController@index16');
 Route::get('/dashboard', 'DashboardController@index17');
 Route::get('/profile', 'DashboardController@index18');
 Route::get('/addcourseteacher', 'DashboardController@index19');
+Route::get('/addinstructor', 'DashboardController@index20');
+Route::get('/assign_indicator', 'DashboardController@index21');
 /////อาจารย์
 Route::get('/educational_background', 'AJController@educational_background');
 Route::get('/research_results', 'AJController@research_results');
@@ -109,6 +111,7 @@ Route::get('/category7/strengths_summary', 'Category7Controller@strengths_summar
 ///API
 Route::post('/save', 'APIController@store');
 Route::post('/addper', 'APIController@addpermission');
+Route::get('/getrolepermisson/{id}','APIController@getrolepermission');
 /////groupmenu
 Route::post('/addgroupmenu', 'APIController@addgroupmenu');
 Route::delete('/deletegroupmenu/{id}', 'APIController@deletegroupmenu');
@@ -271,11 +274,20 @@ Route::post('/updatea','APIAJController@updatea');
 Route::post('/addstrengths_summary','APIAJController@addstrengths_summary');
 Route::get('/getstrengths_summary/{id}','APIAJController@getstrengths_summary');
 Route::post('/updatestrengths_summary','APIAJController@updatestrengths_summary');
-
+/////tccourse
+Route::post('/addtccourse','APIController@addtccourse');
+Route::delete('/deletetccourse/{id}','APIController@deletetccourse');
+/////instructor
+Route::post('/addinstructor','APIController@addinstructor');
+Route::delete('/deleteinstructor/{id}','APIController@deleteinstructor');
+///addindicatorpermiss
+Route::post('/save', 'APIController@store');
+Route::post('/addper', 'APIController@addpermission');
+Route::get('/getindicator/{id}','APIController@getindicator');
 /////download
 Route::get('/dowloaddoxc','ReportController@generateDocx');
 
-Route::get('/getrolepermisson/{id}','APIController@getrolepermission');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

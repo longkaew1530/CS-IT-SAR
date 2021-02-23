@@ -3,7 +3,7 @@
 @section('content')
 <div class="box box-warning marginl ">
             <div class="box-header">
-              <h2 class="box-title">รายชื่ออาจารย์ประจำหลักสูตร</h2>
+              <h2 class="box-title">รายชื่ออาจารย์ผู้สอน</h2>
             </div>
             
         <div class="modal  fade" id="modal-edit">
@@ -171,7 +171,7 @@
       var formData = new FormData(this);
       $.ajax({
         type: 'POST',
-        url: "/addtccourse",
+        url: "/addinstructor",
         data: formData,
         cache: false,
         contentType: false,
@@ -184,7 +184,7 @@
           icon: "success",
           button: "ตกลง",
         }).then(function() {
-          window.location = "/addcourseteacher";
+          window.location = "/addinstructor";
         });
         },
         error: function(data) {
@@ -199,7 +199,7 @@
       var id = $(this).attr('id');
       $.ajax({
         type: 'DELETE',
-        url: "/deletetccourse/"+id,
+        url: "/deleteinstructor/"+id,
         cache: false,
         contentType: false,
         processData: false,
@@ -211,7 +211,7 @@
           icon: "success",
           button: "ตกลง",
         }).then(function() {
-          window.location = "/addcourseteacher";
+          window.location = "/addinstructor";
         });
         },
         error: function(data) {
