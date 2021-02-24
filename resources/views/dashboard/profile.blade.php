@@ -1,7 +1,13 @@
 @extends('layout.admid_layout')
 
 @section('content')
+<div class="row">
+<div class="col-md-4">
+
+</div>
+<div class="col-md-4">
 <div class="box box-primary">
+    
             <div class="box-body box-profile">
               <img class="profile-user-img img-responsive img-circle" src="{{asset('public/user/' . Auth::user()->image)}}" alt="User profile picture">
 
@@ -32,6 +38,8 @@
               <a href="#" class="btn btn-primary btn-block"><b>ประวัติการเข้าใช้งาน</b></a>
             </div>
             <!-- /.box-body -->
+          </div>
+</div>
           </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script>

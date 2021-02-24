@@ -168,9 +168,9 @@
         @foreach(session()->get('category')  as $value)
         @foreach(session()->get('roleindicator')  as $value1)
         @if($value1['category_id']==$value['category_id'])
-        <li class="active treeview ">
+        <li class=" treeview ">
           <a href="">
-            <i class="{{$value['g_icon']}}"></i><span>{{$value['category_name']}}</span>
+            <i class="{{$value['icon']}}"></i><span>{{$value['category_name']}}</span>
             
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>

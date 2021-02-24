@@ -53,7 +53,7 @@
                 </tr>
                 @foreach($cate as $key =>$row)
                 <tr>
-                  <td>-ตัวบ่งชี้ที่{{$row['name']}}<br>
+                  <td>-{{$row['name']}}<br>
                      @foreach($category_re as $key =>$value)
                      @if($value['research_results_category']==$row['id'])
                        <li>{{$value['teacher_name'].". (".$value['research_results_year']

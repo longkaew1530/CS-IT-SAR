@@ -503,7 +503,7 @@ class APIController extends Controller
       {
           $data=$request->all();
           $userid=$request->id;
-          $deleterolepermission = rolepermission::find($userid);
+          $deleterolepermission = user_permission::find($userid);
           if($deleterolepermission!=null){
               $deleterolepermission->delete();
           }
@@ -511,29 +511,29 @@ class APIController extends Controller
           if(isset($data['per'])){
           foreach($data['per'] as $value)
           {
-            $item['user_group_id']=$userid;
-            $querygroupid=Menu::select('g_id')->where('m_id',$value)->get();
+            $item['user_id']=$userid;
+            $querygroupid=indicator::select('category_id')->where('id',$value)->get();
             foreach($querygroupid as $row){
-              $groupid=$row['g_id'];
+              $groupid=$row['category_id'];
             }
-            $item['g_id']=$groupid;
-            $item['m_id']=$value;
-            rolepermission::insert($item);
+            $item['category_id']=$groupid;
+            $item['Indicator_id']=$value;
+            $item['year_id']=session()->get('year_id');
+            user_permission::insert($item);
           }
           }
           $user=auth()->user();
           $user_group=$user->user_group_id;
-          $groupmenu=Groupmenu::all();
-          $rolepermiss=rolepermission::leftjoin('menu','role_permission.m_id','=','menu.m_id')
-          ->where('user_group_id',$user_group)
-          ->get();
-         
-           foreach ($groupmenu as $key => $value){
-              $value->menu->first(); 
-           }
-          session()->put('groupmenu',$groupmenu);
-          session()->put('roleper',$rolepermiss);
-          return redirect('/permission');
+        $category=category::all();
+        $roleindicator=user_permission::leftjoin('indicator','user_permission.indicator_id','=','indicator.id')
+        ->where('user_id',$user->id)
+        ->get();
+        foreach ($category as $key => $value){
+            $value->indicator->first(); 
+         }
+        session()->put('category',$category);
+        session()->put('roleindicator',$roleindicator);
+        return redirect('/assign_indicator');
       }
       public function getindicator($id)
       {

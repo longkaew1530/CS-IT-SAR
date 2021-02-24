@@ -9,11 +9,11 @@
             <!-- /.box-header -->
             <div class="box-body">
               <?php $checkrole=false ?>
-              <form method="POST" action="/addper" class="bd">
+              <form method="POST" action="/addindicator" class="bd">
                @csrf
                <input type="hidden" class="form-control" id="id" name="id" value="{{$userid}}"/>
                 @foreach($role as $row )
-                <h4><p class="bginfo"><i class="{{$row['g_icon']}}"></i> {{$row['category_name']}}</p></h4>
+                <h4><p class="bginfo"><i class="{{$row['icon']}}"></i> {{$row['category_name']}}</p></h4>
                 <div class="form-group ml-1">
                 @foreach($row->indicator2 as $value)
                     @if($permiss!=null)
@@ -25,7 +25,7 @@
                      @endif
                   <div class="checkbox">
                     <label>
-                      <input type="checkbox"   name="per[]" value="{{$value['m_id']}}" @if($checkrole) checked @endif> 
+                      <input type="checkbox"   name="per[]" value="{{$value['id']}}" @if($checkrole) checked @endif> 
                       <?php $checkrole=false; ?>      
                       <p class="bd">{{$value['Indicator_name']}}</p>
                     </label>

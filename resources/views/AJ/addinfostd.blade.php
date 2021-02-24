@@ -15,14 +15,36 @@
             <div class="box-body">
               <table class="table table-bordered text-center">
                 <tbody><tr>
-                  <th width="10%" >ปีการศึกษาที่รับเข้า</th>
-                  <th  width="80%">ปีการศึกษาที่สำเร็จการศึกษา</th>
+                  <th width="30%" >ปีการศึกษาที่รับเข้า</th>
+                  <th width="5%">2556</th>
+                  <th width="5%">2557</th>
+                  <th width="5%">2558</th>
+                  <th width="5%">2559</th>
+                  <th width="5%">2560</th>
+                  <th width="5%">2561</th>
+                  <th width="5%">2562</th>
                 <tr>
 
-                            <td><input></td>
-                            <td><input></td>
-                            <td><input></td>
+                            <td>2556</td>
+                            <td><input type="text" class="wid10"></td>
+                            <td><input type="text" class="wid10"></td>
+                            <td><input type="text" class="wid10"></td>
+                            <td><input type="text" class="wid10"></td>
+                            <td><input type="text" class="wid10"></td>
+                            <td><input type="text" class="wid10"></td>
+                            <td><input type="text" class="wid10"></td>
 
+                </tr>
+                <tr>
+
+                            <td>2557</td>
+                            <td><input type="text" class="wid10"></td>
+                            <td><input type="text" class="wid10"></td>
+                            <td><input type="text" class="wid10"></td>
+                            <td><input type="text" class="wid10"></td>
+                            <td><input type="text" class="wid10"></td>
+                            <td><input type="text" class="wid10"></td>
+                            <td><input type="text" class="wid10"></td>
 
                 </tr>
                 </tr>
@@ -50,6 +72,9 @@
     border-top: 1px solid #ccc;
     margin: 1em 0;
     padding: 0;
+  }
+  .wid10{
+    width:50px;
   }
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

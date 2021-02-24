@@ -282,7 +282,7 @@ Route::post('/addinstructor','APIController@addinstructor');
 Route::delete('/deleteinstructor/{id}','APIController@deleteinstructor');
 ///addindicatorpermiss
 Route::post('/save', 'APIController@store');
-Route::post('/addper', 'APIController@addpermission');
+Route::post('/addindicator', 'APIController@addindicator');
 Route::get('/getindicator/{id}','APIController@getindicator');
 /////download
 Route::get('/dowloaddoxc','ReportController@generateDocx');
