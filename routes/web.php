@@ -284,6 +284,10 @@ Route::delete('/deleteinstructor/{id}','APIController@deleteinstructor');
 Route::post('/save', 'APIController@store');
 Route::post('/addindicator', 'APIController@addindicator');
 Route::get('/getindicator/{id}','APIController@getindicator');
+///profile
+Route::get('/getprofile/{id}','APIController@getprofile');
+Route::post('/updateprofile','APIController@updateprofile');
+Route::post('/updatepassword','APIController@updatepassword');
 /////download
 Route::get('/dowloaddoxc','ReportController@generateDocx');
 

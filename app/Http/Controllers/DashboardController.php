@@ -200,7 +200,13 @@ class DashboardController extends Controller
     }
     public function index18()
     {
-        return view('dashboard/profile');
+        $user=auth()->user();
+        $user_id=$user->id;
+        $data=User::leftjoin('user_group','users.user_group_id','=','user_group.user_group_id')
+        ->leftjoin('course','users.user_course','=','course.course_id')
+        ->where('id',$user_id)
+        ->get();
+        return view('dashboard/profile',compact('data'));
     }
     public function index19()
     {

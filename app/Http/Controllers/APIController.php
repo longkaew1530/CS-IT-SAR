@@ -549,4 +549,35 @@ class APIController extends Controller
           return view('dashboard.showaddindicator',compact('permiss','role','userid'));
       }
             /////มอบหมายตัวบ่งชี้/////มอบหมายตัวบ่งชี้/////มอบหมายตัวบ่งชี้/////มอบหมายตัวบ่งชี้/////มอบหมายตัวบ่งชี้/////มอบหมายตัวบ่งชี้
+
+
+            /////profile/////profile/////profile/////profile/////profile/////profile
+            public function getprofile($id)
+            {
+                $data=User::leftjoin('user_group','users.user_group_id','=','user_group.user_group_id')
+                ->leftjoin('course','users.user_course','=','course.course_id')
+                ->where('id',$id)
+                ->get();
+                
+                return $data;
+            }
+            public function updateprofile(Request $request)
+            {
+                $user=auth()->user();
+                $data=User::find($user->id);
+                $data->user_fullname=$request->user_fullname;
+                $data->email=$request->email;
+                $data->academic_position=$request->academic_position;
+                $data->save();
+                return $data;
+            }
+            public function updatepassword(Request $request)
+            {
+                $user=auth()->user();
+                $data=User::find($user->id);
+                $data->password=Hash::make($request->password);
+                $data->save();
+                return $data;
+            }
+            /////profile/////profile/////profile/////profile/////profile/////profile
 }

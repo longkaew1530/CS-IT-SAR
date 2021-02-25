@@ -91,7 +91,7 @@
                 </div>
                 <div class="form-group">
                 <label for="exampleInputPassword1">หลักสูตร</label>
-                                  <select class="form-control"  id="course_id"  class="form-control @error('role') is-invalid @enderror" name="course_id">
+                                  <select class="form-control"  id="courseid"  class="form-control @error('role') is-invalid @enderror" name="course_id">
                                     @foreach($course as $value)
                                     <option value="{{$value['course_id']}}">{{$value['course_name']}}</option>
                                     @endforeach
