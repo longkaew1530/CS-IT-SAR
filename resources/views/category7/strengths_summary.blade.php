@@ -4,6 +4,7 @@
 <div class="box box-warning marginl">
 <div class="box-header">
             <div class="box-body">
+            <a href="/addstrengths_summary" class="btn btn-success fr ml-1"><i class='fa fa-plus'></i> เพิ่มข้อมูล</a>
               <h4>3.  สรุปจุดแข็ง จุดที่ควรพัฒนา และแนวทางการพัฒนา</h4></br>
               @foreach($querynewstrength as $key=>$value)
               @foreach($value->category7_strengths_summary as $row)

@@ -3,7 +3,7 @@
 @section('content')
 <div class="box box-warning marginl ">
             <div class="box-header">
-              <h2 class="box-title">รายชื่ออาจารย์ผู้สอน</h2>
+              <h2 class="box-title">รายชื่ออาจารย์ผู้รับผิดชอบหลักสูตร</h2>
             </div>
             
         <div class="modal  fade" id="modal-edit">
@@ -12,7 +12,7 @@
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">เพิ่มอาจารย์ผู้สอน</h4>
+                <h4 class="modal-title">เพิ่มอาจารย์ผู้รับผิดชอบหลักสูตร</h4>
               </div>
               <form  id="adddata" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data">
               @csrf
@@ -171,7 +171,7 @@
       var formData = new FormData(this);
       $.ajax({
         type: 'POST',
-        url: "/addinstructor",
+        url: "/addcourse_responsible_teacher",
         data: formData,
         cache: false,
         contentType: false,
@@ -184,7 +184,7 @@
           icon: "success",
           button: "ตกลง",
         }).then(function() {
-          window.location = "/addinstructor";
+          window.location = "/addcourse_responsible_teacher";
         });
         },
         error: function(data) {
@@ -199,7 +199,7 @@
       var id = $(this).attr('id');
       $.ajax({
         type: 'DELETE',
-        url: "/deleteinstructor/"+id,
+        url: "/deletecourse_responsible_teacher/"+id,
         cache: false,
         contentType: false,
         processData: false,
@@ -211,7 +211,7 @@
           icon: "success",
           button: "ตกลง",
         }).then(function() {
-          window.location = "/addinstructor";
+          window.location = "/addcourse_responsible_teacher";
         });
         },
         error: function(data) {

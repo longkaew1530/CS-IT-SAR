@@ -4,7 +4,7 @@
 <div class="box box-warning marginl">
   <div class="box-header">
     <div class="box-body">
-    <a href="/category5/course_administration" class="btn btn-info fr"><i class='fa fa-eye'></i> ดูรายงาน</a>
+    <a href="/category7/strengths_summary" class="btn btn-info fr"><i class='fa fa-eye'></i> ดูรายงาน</a>
       <div class="col-sm-2" align="right"></div>
       <div class="col-sm-8" align="center">
       

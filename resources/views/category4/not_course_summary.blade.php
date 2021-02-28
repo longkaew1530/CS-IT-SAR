@@ -19,9 +19,9 @@
                 </td>
                 <td>{{$value['term']}}
                 </td>
-                <td>{{$value['description']}}
+                <td>{{$value['topic']}}
                 </td>
-                <td>{{$value['measure']}}
+                <td>{{$value['plan_update']}}
                 </td>
               </tr>
               @endforeach

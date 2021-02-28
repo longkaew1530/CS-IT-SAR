@@ -4,7 +4,7 @@
 <div class="box box-warning marginl">
 <div class="box-header">
             <div class="box-body">
-            <a href="/getnewstrength/{{$querynewstrength[0]['id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>
+            <a href="/addnewstrength" class="btn btn-success fr ml-1"><i class='fa fa-plus'></i> เพิ่มข้อมูล</a>
               <h4>แผนปฏิบัติการใหม่ สำหรับปี {{ Session::get('year')}}</h4></br>
               <table class="table table-bordered" >
                 <tbody><tr>
@@ -17,7 +17,8 @@
               <tr>
                   <td >{{$key+1}}) {{$value['composition']}}</td>
                   <td >{{$value['strength']}}</td>
-                  <td >{{$value['should_develop']}}</td>
+                  <td > <a href="/getnewstrength/{{$value['id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>
+                  {{$value['should_develop']}}</td>
               </tr>
                 @endforeach
               </tbody></table>

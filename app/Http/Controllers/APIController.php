@@ -17,6 +17,7 @@ use App\Year;
 use Validator;
 use App\category;
 use App\indicator;
+use App\course_responsible_teacher;
 use App\assessment_results;
 use File;
 use App\imagetest;
@@ -292,6 +293,15 @@ class APIController extends Controller
          return $queryyaer;
      }
      /////ปีก่อนหน้า/////ปีก่อนหน้า/////ปีก่อนหน้า/////ปีก่อนหน้า/////ปีก่อนหน้า/////ปีก่อนหน้า
+
+      /////ลบปี/////ลบปี/////ลบปี/////ลบปี/////ลบปี/////ลบปี
+      public function deleteyear($id)
+      {
+          $delete=Year::find($id);
+          $delete->delete();
+          return $delete;
+      }
+      /////ลบปี/////ลบปี/////ลบปี/////ลบปี/////ลบปี/////ลบปี
 
 
      /////เพิ่มผู้ใช้งาน/////เพิ่มผู้ใช้งาน/////เพิ่มผู้ใช้งาน/////เพิ่มผู้ใช้งาน/////เพิ่มผู้ใช้งาน/////เพิ่มผู้ใช้งาน
@@ -580,4 +590,32 @@ class APIController extends Controller
                 return $data;
             }
             /////profile/////profile/////profile/////profile/////profile/////profile
+
+
+              /////เพิ่มอาจารย์ผู้สอน/////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร
+      public function getcourse_responsible_teacher($id)
+      {
+          $course = instructor::where('category_id',$id)->get();
+          return $course;
+      }
+      public function addcourse_responsible_teacher(Request $request)
+      {
+          foreach($request->idall as $value){
+              $data['user_id']=$value;
+              $data['year_id']=session()->get('year_id');
+              $data['course_id']=session()->get('usercourse');
+              course_responsible_teacher::insert($data);
+          }
+          return $data;
+      }
+      public function deletecourse_responsible_teacher($id)
+      {
+          $product = course_responsible_teacher::where('user_id',$id)
+          ->where('year_id',session()->get('year_id'))
+          ->where('course_id',session()->get('year_id'))
+          ->delete();
+          
+          return $product;
+      }
+      /////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร
 }

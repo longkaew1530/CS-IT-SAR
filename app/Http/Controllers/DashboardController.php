@@ -242,4 +242,14 @@ class DashboardController extends Controller
         session()->put('roleper',$rolepermiss);
         return view('dashboard/addindicator',compact('getusergroup','role','getper'));
     }
+    public function index22()
+    {
+        $tc_course= course_responsible_teacher::leftjoin('users','course_responsible_teacher.user_id','=','users.id')
+         ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
+         ->where('course_responsible_teacher.year_id',session()->get('year_id'))
+         ->get();
+        $tc=User::where('user_course',session()->get('usercourse'))
+        ->paginate(10);
+        return view('dashboard/crt',compact('tc_course','tc'));
+    }
 }

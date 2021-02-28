@@ -35,6 +35,7 @@ Route::get('/profile', 'DashboardController@index18');
 Route::get('/addcourseteacher', 'DashboardController@index19');
 Route::get('/addinstructor', 'DashboardController@index20');
 Route::get('/assign_indicator', 'DashboardController@index21');
+Route::get('/addcourse_responsible_teacher', 'DashboardController@index22');
 /////อาจารย์
 Route::get('/educational_background', 'AJController@educational_background');
 Route::get('/research_results', 'AJController@research_results');
@@ -141,6 +142,7 @@ Route::get('/getusergroup/{id}','APIController@getusergroup');
 Route::put('/nextyear','APIController@nextyear');
 /////backyear
 Route::put('/backyear','APIController@backyear');
+Route::delete('/deleteyear/{id}','APIController@deleteyear');
 /////user
 Route::post('/adduser','APIController@adduser');
 Route::delete('/deleteuser/{id}', 'APIController@deleteuser');
@@ -288,6 +290,9 @@ Route::get('/getindicator/{id}','APIController@getindicator');
 Route::get('/getprofile/{id}','APIController@getprofile');
 Route::post('/updateprofile','APIController@updateprofile');
 Route::post('/updatepassword','APIController@updatepassword');
+/////course_responsible_teacher
+Route::post('/addcourse_responsible_teacher','APIController@addcourse_responsible_teacher');
+Route::delete('/deletecourse_responsible_teacher/{id}','APIController@deletecourse_responsible_teacher');
 /////download
 Route::get('/dowloaddoxc','ReportController@generateDocx');
 

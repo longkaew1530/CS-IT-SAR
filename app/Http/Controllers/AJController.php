@@ -106,10 +106,10 @@ class AJController extends Controller
     }
     public function addfactor($id)
     {
-        $menuname=Menu::where('m_id',$id)
+        $menuname=indicator::where('id',$id)
         ->get();
 
-        $factor=category3_GD::where('category_factor',$menuname[0]['m_name'])
+        $factor=category3_GD::where('category_factor',$menuname[0]['Indicator_name'])
         ->where('course_id',session()->get('usercourse'))
         ->where('year_id',session()->get('year_id'))
         ->get();
@@ -338,15 +338,7 @@ class AJController extends Controller
     }
     public function addnewstrength()
     {
-        $querynewstrength=category7_newstrength::where('course_id',session()->get('usercourse'))
-        ->where('year_id',session()->get('year_id'))
-        ->get();
-        if(count($querynewstrength)===0){
             return view('AJ/addnewstrength');
-        }
-        else{
-            return view('category7/newstrength',compact('querynewstrength'));
-        }  
     }
     public function addp($id)
     {

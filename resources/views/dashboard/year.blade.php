@@ -54,10 +54,7 @@
                   @endif
                   </td>        
                   <td class="text-center">
-                                      <form id="delete-form" method="POST" action="/deletecategory/{{$row['id']}}">
-                                        {{ csrf_field() }}
-                                        {{ method_field('DELETE') }}
-                                      <button type="submit" class="btn btn-danger"><i class='fa fa-trash'></i></button></form>
+                                      <button type="button" class="btn btn-danger ddd" id="{{$row->year_id}}"><i class='fa fa-trash'></i></button>
                   </td>
                 </tr>
                 @endforeach
@@ -213,6 +210,30 @@ input:checked + .slider:before {
            success:function(data){
             swal({
               title: "เปิดใช้งานปีการศึกษาเรียบร้อยแล้ว",
+            text: "",
+            icon: "success",
+            button: "ตกลง",
+           }).then(function() {
+              window.location = "/";
+           });
+           }
+        });
+  });
+  $('.ddd').click(function(e){
+    var token = $('meta[name="csrf-token"]').attr('content');
+    var id = $(this).attr('id');
+        e.preventDefault();
+        console.log(id);
+        $.ajax({
+           type:'DELETE',
+           url:'/deleteyear/'+id,
+           data: {
+          _token : token,
+          id:id 
+        },
+           success:function(data){
+            swal({
+              title: "ลบข้อมูลเรียบร้อยแล้ว",
             text: "",
             icon: "success",
             button: "ตกลง",
