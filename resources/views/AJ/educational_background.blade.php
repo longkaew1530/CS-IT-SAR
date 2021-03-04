@@ -6,36 +6,7 @@
     <h2 class="box-title">ข้อมูลวุฒิการศึกษา</h2>
   </div>
   <button class="btn btn-success ml-1" type="button" data-toggle="modal" data-target="#modal-info"><i class="fa fa-plus"></i> เพิ่มข้อมูล</button>
-  <!-- /.box-header -->
-  <div class="box-body">
-    <!-- /.box-header -->
-    <table id="example3" class="table table-bordered table-striped ">
-      <thead>
-        <tr>
-          <th width="5%">ที่</th>
-          <th width="5%">ปี</th>
-          <th width="15%">วุฒิการศึกษา</th>
-          <th width="15%">สาขา</th>
-          <th width="30%">สถาบันการศึกษา</th>
-          <th width="5%">แก้ไข</th>
-          <th width="5%">ลบ</th>
-        </tr>
-      </thead>
-      <tbody>
-        @foreach($eductional as $key=>$row)
-        <tr>
-          <td>{{$key+1}}</td>
-          <td>{{$row['eb_yearsuccess']}}</td>
-          <td>{{$row['eb_name']}}</td>
-          <td>{{$row['eb_fieldofstudy']}}</td>
-          <td>{{$row['education']}}</td>
-          <td class="text-center"><button class="btn btn-warning" type="button" data-toggle="modal" data-target="#modal-edit" data-id="{{$row['id']}}"><i class='fa fas fa-edit'></i></button></td>
-          <td class="text-center">
-            <meta name="csrf-token" content="{{ csrf_token() }}">
-            <button type="button" class="btn btn-danger deletedata" data-id="{{$row['id']}}"><i class='fa fa-trash'></i></button>
-          </td>
-        </tr>
-        <div class="modal  fade" id="modal-info">
+  <div class="modal  fade" id="modal-info">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
@@ -85,6 +56,36 @@
           </div>
           <!-- /.modal-dialog -->
         </div>
+  <!-- /.box-header -->
+  <div class="box-body">
+    <!-- /.box-header -->
+    <table id="example3" class="table table-bordered table-striped ">
+      <thead>
+        <tr>
+          <th width="5%">ที่</th>
+          <th width="5%">ปี</th>
+          <th width="15%">วุฒิการศึกษา</th>
+          <th width="15%">สาขา</th>
+          <th width="30%">สถาบันการศึกษา</th>
+          <th width="5%">แก้ไข</th>
+          <th width="5%">ลบ</th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach($eductional as $key=>$row)
+        <tr>
+          <td>{{$key+1}}</td>
+          <td>{{$row['eb_yearsuccess']}}</td>
+          <td>{{$row['eb_name']}}</td>
+          <td>{{$row['eb_fieldofstudy']}}</td>
+          <td>{{$row['education']}}</td>
+          <td class="text-center"><button class="btn btn-warning" type="button" data-toggle="modal" data-target="#modal-edit" data-id="{{$row['id']}}"><i class='fa fas fa-edit'></i></button></td>
+          <td class="text-center">
+            <meta name="csrf-token" content="{{ csrf_token() }}">
+            <button type="button" class="btn btn-danger deletedata" data-id="{{$row['id']}}"><i class='fa fa-trash'></i></button>
+          </td>
+        </tr>
+       
 
         <div class="modal  fade" id="modal-edit">
           <div class="modal-dialog">

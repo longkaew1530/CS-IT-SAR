@@ -3,7 +3,7 @@
 @section('content')
 <div class="box box-warning marginl ">
             <div class="box-header">
-              <h2 class="box-title">ผลการประเมิน</h2>
+              <h2 class="box-title">เลือกหมวดการประเมินประจำปี</h2>
             </div>
             <button  class="btn btn-success ml-1" type="button" data-toggle="modal" data-target="#modal-info"><i class="fa fa-plus"></i> เพิ่มหมวด</button>
 

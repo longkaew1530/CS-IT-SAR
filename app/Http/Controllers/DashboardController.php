@@ -69,14 +69,19 @@ class DashboardController extends Controller
 
         $category=category::all();
         $roleindicator=user_permission::leftjoin('indicator','user_permission.indicator_id','=','indicator.id')
-        ->where('user_id',$user->id)
+        ->where('user_permission.user_id',$user->id)
+        ->where('user_permission.year_id',session()->get('year_id'))
         ->get();
         foreach ($category as $key => $value){
             $value->indicator->first(); 
          }
         session()->put('category',$category);
-        session()->put('roleindicator',$roleindicator);
-
+        if(count($roleindicator)!=0){
+            session()->put('roleindicator',$roleindicator);
+        }
+        else{
+            session()->put('roleindicator',"");
+        }
         if($user_group==1){
             return view('dashboard/year',compact('year','getAllyear'));
         }

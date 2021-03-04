@@ -6,7 +6,7 @@
 <h3><b><li>คุณภาพบัณฑิตตามกรอบมาตรฐานคุณวุฒิระดับอุดมศึกษาแห่งชาติ (ตัวบ่งชี้ที่ 2.1) <a href="/getindicator2_1/{{$factor[0]['id']}}" class="btn btn-warning fr "><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a></li></b></h3>
 
             <div class="box-body">
-              <table class="table table-bordered mt-3">
+              <table class="table table-bordered mt-1">
                 <tbody><tr>
                   <th width="80%" class="text-center">ข้อมูลพื้นฐาน</th>
                   <th width="10%" class="text-center">จำนวน</th>
@@ -41,8 +41,8 @@
 .ml-2{
   margin-left:20px
 }
-.mt-3{
-  margin-top:30px;
+.mt-1{
+  margin-top:10px;
 }
 h3{
   font-size: 15px;

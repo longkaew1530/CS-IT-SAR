@@ -3,6 +3,7 @@
 @section('content')
 <div class="box box-warning marginl">
   <div class="box-header">
+  <a href="/category4/effectiveness" class="btn btn-info fr"><i class='fa fa-eye'></i> ดูรายงาน</a>
     <div class="box-body">
       <div class="col-sm-2" align="right"></div>
       <div class="col-sm-8" align="center">

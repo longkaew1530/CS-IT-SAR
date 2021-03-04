@@ -49,9 +49,11 @@ class AJController extends Controller
     {
         $user=auth()->user();
         $userall=User::where('user_course',$user->user_course)->get();
-        $researchresults=Research_results::rightjoin('research_results_user','research_results_user.research_results_research_results_id','=','research_results.research_results_id')
-        ->leftjoin('category_research_results','category_research_results.id','=','research_results.research_results_category')
-        ->where('research_results_user.user_id',$user->id)
+        // $researchresults=Research_results::rightjoin('research_results_user','research_results_user.research_results_research_results_id','=','research_results.research_results_id')
+        // ->leftjoin('category_research_results','category_research_results.id','=','research_results.research_results_category')
+        // ->where('research_results_user.user_id',$user->id)
+        // ->get();
+        $researchresults=Research_results::where('owner',$user->id)
         ->get();
         $category=categoty_researh::all();
         return view('AJ/research_results',compact('researchresults','category','userall'));
@@ -267,15 +269,7 @@ class AJController extends Controller
     }
     public function addeffectiveness()
     {
-        $effec=category4_effectiveness::where('course_id',session()->get('usercourse'))
-        ->where('year_id',session()->get('year_id'))
-        ->get();
-        if(count($effec)===0){
-            return view('AJ/addeffectiveness');
-        }
-        else{
-            return view('category4/effectiveness',compact('effec'));
-        }               
+            return view('AJ/addeffectiveness');        
     }
     public function addteacher_orientation()
     {

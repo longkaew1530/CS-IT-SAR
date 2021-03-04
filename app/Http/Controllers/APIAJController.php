@@ -97,12 +97,14 @@ class APIAJController extends Controller
     {
         $getdata=$request->all();
         $countgetname=count($getdata['teacher_name']);
-        $text="";
+        $getname=User::where('id',$request->owner)
+        ->get();
+        $text=$getname[0]['user_fullname'];
         $i=1;
         foreach($getdata['teacher_name'] as $row){
             $query=User::find($row);
             if($i!=$countgetname){
-                $text=$text."".$query->user_fullname.", ";
+                $text=$text.", ".$query->user_fullname.", ";
             }
             else{
                 $text=$text." และ".$query->user_fullname;
@@ -110,6 +112,7 @@ class APIAJController extends Controller
             $i++;
         }
         $data=new Research_results;
+        $data->owner=$request->owner;
         $data->teacher_name=$text;
         $data->research_results_category=$request->research_results_category;
         $data->research_results_year=$request->research_results_year;

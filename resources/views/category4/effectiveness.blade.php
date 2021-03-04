@@ -4,7 +4,7 @@
 <div class="box box-warning marginl">
 <div class="box-header">
             <div class="box-body">
-            <a href="/geteffectiveness/{{$effec[0]['id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>
+            <a href="/addeffectiveness" class="btn btn-success fr ml-1"><i class='fa fa-plus'></i> เพิ่มข้อมูล</a>
             <b><h4>ประสิทธิผลของกลยุทธ์การสอน</h4></b>
               <table class="table table-bordered" >
                 <tbody><tr>
@@ -17,7 +17,8 @@
               <tr>
                   <td >{!!$value['learning_standards']!!}</td>
                   <td >{!!$value['comment']!!}</td>
-                  <td >{!!$value['solution']!!}</td>
+                  <td ><a href="/geteffectiveness/{{$value['id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>
+                  {!!$value['solution']!!}</td>
               </tr>
                 @endforeach
               </tbody></table>

@@ -7,6 +7,7 @@ use App\DocPDCA;
 use App\Groupmenu;
 use App\Menu;
 use App\Course;
+use App\indicator;
 use App\categoty_researh;
 use App\ModelAJ\Research_results;
 use App\Year;
@@ -29,7 +30,8 @@ class CategoryController extends Controller
     public function indicator1_1()
     {
         //ดึงค่าปี
-        $year=Year::where('year_name',2563)->get();
+        $year=Year::where('active',1)
+        ->get();
         foreach($year as $value){
             $y=$value['year_name'];
          }
@@ -110,7 +112,8 @@ class CategoryController extends Controller
         
         
         //ดึงค่าปี
-        $year=Year::where('year_name',2563)->get();
+        $year=Year::where('active',1)
+        ->get();
         foreach($year as $value){
             $y=$value['year_name'];
          }
@@ -216,25 +219,31 @@ class CategoryController extends Controller
 
         $cate=categoty_researh::all();
 
-        $category_re=Research_results::rightjoin('research_results_user', function($join1)
-            {
+        // $category_re=Research_results::rightjoin('research_results_user', function($join1)
+        //     {
                 
-                $join1->on('research_results.research_results_id', '=', 'research_results_user.research_results_research_results_id');
-                $join1->leftjoin('course_responsible_teacher', function($join2)
-                {
-                  $join2->where('course_responsible_teacher.course_id',session()->get('usercourse'));
-                  $join2->on('research_results_user.user_id', '=', 'course_responsible_teacher.user_id');
+        //         $join1->on('research_results.research_results_id', '=', 'research_results_user.research_results_research_results_id');
+        //         $join1->leftjoin('course_responsible_teacher', function($join2)
+        //         {
+        //           $join2->where('course_responsible_teacher.course_id',session()->get('usercourse'));
+        //           $join2->on('research_results_user.user_id', '=', 'course_responsible_teacher.user_id');
                   
-                });
-            })
-        ->groupBy('research_results_id')
+        //         });
+        //     })
+        // ->groupBy('research_results_id')
+        // ->leftjoin('category_research_results','research_results.research_results_category','=','category_research_results.id')
+        // ->get();
+        $category_re = Research_results::rightjoin('course_responsible_teacher','research_results.owner','=','course_responsible_teacher.user_id')
         ->leftjoin('category_research_results','research_results.research_results_category','=','category_research_results.id')
+        ->where('course_responsible_teacher.year_id',session()->get('year_id'))
+        ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
+        ->where('research_results.research_results_year',session()->get('year'))
         ->get();
     //    dd($category_re);
         //ดึงค่าตารางอาจารย์ผู้รับผิดชอบหลักสูตร
         $trc = course_responsible_teacher::join('year','course_responsible_teacher.year_id','=','year.year_id')
         ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
-        ->where('year.year_id',session()->get('year_id'))
+        ->where('course_responsible_teacher.year_id',session()->get('year_id'))
         ->get();
         ///นับอาจารย์ผู้รีบผิดชอบหลักสูตร
         $count=count($trc);
@@ -270,9 +279,12 @@ class CategoryController extends Controller
         }
         $countcate=0;
         foreach($category_re as $value){
-            $countcate=$countcate+$value['score'];
+            if($value['research_results_year']==session()->get('year')){
+                $countcate=$countcate+$value['score'];
+            }
+            
         }
-        $menuname=Menu::where('m_id',$id)
+        $menuname=indicator::where('id',$id)
         ->get();
 
         $pdca=PDCA::leftjoin('indicator','pdca.Indicator_id','=','indicator.indicator_id')
@@ -291,6 +303,15 @@ class CategoryController extends Controller
         ///ผลงานทางวิชาการ
         $E=($countcate*100)/$count;
         $qty3=($E*5)/20;
+        if($qty1>5){
+            $qty1=5;
+        }
+        else if($qty2>5){
+            $qty2=5;
+        }
+        else if($qty3>5){
+            $qty3=5;
+        }
         return view('category/indicator4-2',compact('category_re','count','counteb_name','countposition1','countposition2','countposition3'
                     ,'cate','qty1','B','qty2','C','qty3','E','pdca'));
     }

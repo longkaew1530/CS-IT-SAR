@@ -38,7 +38,6 @@
                   <th width="10%">ที่</th>
                   <th>ปีการศึกษา</th>
                   <th width="15%">เปิดใช้งาน</th>
-                  <th width="10%">ลบ</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -53,9 +52,6 @@
                   <button type="button" class="btn btn-primary aaa"  id="{{$row->year_id}}">เปิดใช้งาน</button>
                   @endif
                   </td>        
-                  <td class="text-center">
-                                      <button type="button" class="btn btn-danger ddd" id="{{$row->year_id}}"><i class='fa fa-trash'></i></button>
-                  </td>
                 </tr>
                 @endforeach
                 </tbody>

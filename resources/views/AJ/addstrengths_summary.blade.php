@@ -16,7 +16,7 @@
     @csrf
     <div class="col-md-12">
           <div class="box-header col-md-12 col-sm-9 col-xs-12">
-            <h3 class="box-title">ผลการดำเนินงาน</h3>
+            <h3 class="box-title">องค์ประกอบ</h3>
           </div>
             <div class="col-md-12 col-sm-9 col-xs-12">
             <select class="form-control"  id="composition_id"  class="form-control @error('role') is-invalid @enderror" name="composition_id">

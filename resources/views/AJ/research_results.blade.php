@@ -6,32 +6,7 @@
     <h2 class="box-title">ข้อมูลผลงานวิจัย</h2>
   </div>
   <button class="btn btn-success ml-1" type="button" data-toggle="modal" data-target="#modal-info"><i class="fa fa-plus"></i> เพิ่มข้อมูล</button>
-  <!-- /.box-header -->
-  <div class="box-body">
-    <!-- /.box-header -->
-    <table id="example3" class="table table-bordered table-striped ">
-      <thead>
-        <tr>
-          <th width="5%">ที่</th>
-          <th width="30%">ผลงานวิจัย</th>
-          <th width="30%">ประเภทผลงานวิจัย</th>
-          <th width="5%">แก้ไข</th>
-          <th width="5%">ลบ</th>
-        </tr>
-      </thead>
-      <tbody>
-        @foreach($researchresults as $key=>$row)
-        <tr>
-          <td>{{$key+1}}</td>
-          <td>{{$row['teacher_name'].".(".$row['research_results_year'].")".$row['research_results_name'].". ".$row['research_results_description']}}</td>
-          <td>{{$row['name']}}</td>
-          <td class="text-center"><button class="btn btn-warning" type="button" data-toggle="modal" data-target="#modal-edit" data-id="{{$row['research_results_id']}}"><i class='fa fas fa-edit'></i></button></td>
-          <td class="text-center">
-            <meta name="csrf-token" content="{{ csrf_token() }}">
-            <button type="button" class="btn btn-danger deletedata" data-id="{{$row['research_results_id']}}"><i class='fa fa-trash'></i></button>
-          </td>
-        </tr>
-        <div class="modal  fade" id="modal-info">
+  <div class="modal  fade" id="modal-info">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
@@ -44,7 +19,7 @@
                 <div class="box-body">
                 <div class="form-group">
                     <label for="exampleInputPassword1">ชื่อผู้วิจัย</label>
-                    <select class="form-control" id="research_results_category" class="form-control @error('role') is-invalid @enderror" name="research_results_category">
+                    <select class="form-control" id="owner" class="form-control @error('role') is-invalid @enderror" name="owner">
                       @foreach($userall as $value)
                       <option value="{{$value['id']}}">{{$value['user_fullname']}}</option>
                       @endforeach
@@ -100,6 +75,32 @@
           </div>
           <!-- /.modal-dialog -->
         </div>
+  <!-- /.box-header -->
+  <div class="box-body">
+    <!-- /.box-header -->
+    <table id="example3" class="table table-bordered table-striped ">
+      <thead>
+        <tr>
+          <th width="5%">ที่</th>
+          <th width="30%">ผลงานวิจัย</th>
+          <th width="30%">ประเภทผลงานวิจัย</th>
+          <th width="5%">แก้ไข</th>
+          <th width="5%">ลบ</th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach($researchresults as $key=>$row)
+        <tr>
+          <td>{{$key+1}}</td>
+          <td>{{$row['teacher_name'].".(".$row['research_results_year'].")".$row['research_results_name'].". ".$row['research_results_description']}}</td>
+          <td>{{$row['name']}}</td>
+          <td class="text-center"><button class="btn btn-warning" type="button" data-toggle="modal" data-target="#modal-edit" data-id="{{$row['research_results_id']}}"><i class='fa fas fa-edit'></i></button></td>
+          <td class="text-center">
+            <meta name="csrf-token" content="{{ csrf_token() }}">
+            <button type="button" class="btn btn-danger deletedata" data-id="{{$row['research_results_id']}}"><i class='fa fa-trash'></i></button>
+          </td>
+        </tr>
+        
 
         <div class="modal  fade" id="modal-edit">
           <div class="modal-dialog">

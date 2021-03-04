@@ -164,7 +164,7 @@
         @endforeach
 
 
-
+        @if(session()->get('roleindicator')!="")
         @foreach(session()->get('category')  as $value)
         @foreach(session()->get('roleindicator')  as $value1)
         @if($value1['category_id']==$value['category_id'])
@@ -190,8 +190,9 @@
               
             @endforeach
           </ul>
-     
+          
         @endforeach
+        @endif
         <!-- <li class="active treeview menu-open">
           <a href="#">
             <i class=""></i><span>หมวดที่2</span>

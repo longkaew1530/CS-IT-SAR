@@ -14,7 +14,7 @@
         <div class="col-md-12">
           <div class="box-header col-md-12 col-sm-9 col-xs-12">
             <h3 class="box-title">{{$menuname[0]['Indicator_name']}}</h3>
-            <input type="hidden" class="form-control" id="category_factor" name="category_factor" value="{{$menuname[0]['m_name']}}"/>
+            <input type="hidden" class="form-control" id="category_factor" name="category_factor" value="{{$menuname[0]['Indicator_name']}}"/>
           </div>
           <div id="body">
             <div class="col-md-12 col-sm-9 col-xs-12">
