@@ -14,14 +14,17 @@ use App\indicator4_3;
 use App\indicator2_1;
 use App\indicator2_2;
 use App\composition;
+use App\year_acceptance;
 use App\indicator5_4;
 use App\performance3_3;
+use App\indicator;
 use App\docindicator4_3;
 use App\doc_indicator5_4;
 use App\doc_performance3_3;
 use App\category6_comment_course;
 use App\category7_strength;
 use App\category7_newstrength;
+use App\category3_infostudent;
 use App\category6_assessment_summary;
 use App\category4_course_results;
 use App\category4_activity;
@@ -31,6 +34,7 @@ use App\category7_development_proposal_detail;
 use App\category4_effectiveness;
 use App\category4_notcourse_results;
 use App\category5_course_manage;
+use App\assessment_results;
 use App\category4_newteacher;
 use App\ModelAJ\category4_academic_performance;
 use App\ModelAJ\category4_incomplete_content;
@@ -1715,4 +1719,77 @@ class APIAJController extends Controller
         return $data;
     }
      /////strengths_summary/////strengths_summary/////strengths_summary/////strengths_summary/////strengths_summary/////strengths_summary
+
+     function addyear_acceptance(Request $request)
+    {
+        $get=year_acceptance::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        if(count($get)!=0){
+            $get=year_acceptance::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->delete();
+        }
+        $data=new year_acceptance;
+        $data->year_add=$request->year_add;
+        $data->reported_year=$request->reported_year;
+        $data->course_id=session()->get('usercourse');
+        $data->year_id=session()->get('year_id');
+        $data->save();
+     return true;
+    }
+    function addinfostudent(Request $request)
+    {
+        $get=year_acceptance::where('course_id',session()->get('usercourse'))
+            ->where('year_id',session()->get('year_id'))
+            ->get();
+        $getall=$request->all();
+        
+        for($i=$get[0]['year_add'];$i<=$get[0]['reported_year']; $i++){
+            foreach($getall['y'.$i] as $key=>$value){
+                if($value!=null){
+                    $data[$key]['reported_year']=$value;
+                }
+                else{
+                    $data[$key]['reported_year']=0;
+                }
+                $data[$key]['year_add']=$i;
+                $data[$key]['course_id']=session()->get('usercourse');
+                $data[$key]['year_id']=session()->get('year_id');
+            }
+            category3_infostudent::insert($data);
+        }
+         
+     return true;
+    }
+
+    public function getassessment_results()
+    {
+        $Assessment_results=assessment_results::leftjoin('category','assessment_results.category_id','=','category.category_id')
+        ->where('assessment_results.year_id',session()->get('year_id'))
+        ->where('assessment_results.course_id',session()->get('usercourse'))
+        ->get();
+        // foreach($Assessment_results as $key=>$value){
+        //     $row[$key] = array(
+        //         'name' => $value['category_id'],
+        //     );
+            
+        // }
+        return response()->json($Assessment_results);
+        
+    }
+    public function getclidincategory($id)
+    {
+        $clind=indicator::where('category_id',$id)
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        // foreach($Assessment_results as $key=>$value){
+        //     $row[$key] = array(
+        //         'name' => $value['category_id'],
+        //     );
+            
+        // }
+        return response()->json($clind);
+        
+    }
 }

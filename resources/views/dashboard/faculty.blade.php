@@ -1,7 +1,7 @@
 @extends('layout.admid_layout')
 
 @section('content')
-<div class="box box-warning marginl wid50">
+<div class="box box-warning marginl ">
             <div class="box-header">
               <h2 class="box-title">คณะ</h2>
             </div>
@@ -13,7 +13,7 @@
                 <thead>
                 <tr>
                   <th width="5%">ที่</th>
-                  <th width="30%">คณะ</th>
+                  <th >คณะ</th>
                   <th width="5%" >แก้ไข</th>
                   <th width="5%">ลบ</th>
                 </tr>

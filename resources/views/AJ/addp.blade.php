@@ -32,16 +32,53 @@
           <div class="box-header col-md-12 col-sm-9 col-xs-12">
             <h3 class="box-title">หลักฐานอ้างอิง</h3>
           </div>
+          <input type="hidden" class="form-control" name="doc[]" id="doc" >
+          <div id="show2"></div>
           <div id="body">
             <div class="col-md-12 col-sm-9 col-xs-12">
-              <input multiple="true" type="file" id="doc_file" name="doc_file[]">
+            <button class="btn btn-primary" type="button" id="add"  data-toggle="modal" data-target="#modal-edit" ><i class='fa fa-plus'></i> เพิ่ม</button>
+              <!-- <input multiple="true" type="file" id="doc_file" name="doc_file[]"> -->
             </div>
           </div>
 
         </div>
       </div>
 
-
+      <div class="modal  fade" id="modal-edit">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">เพิ่มหลักฐานอ้างอิง</h4>
+              </div>
+              <form  method="POST" action="/updateusergroup">
+              @csrf
+              {{ method_field('PUT') }}
+              <div class="box-body">
+              <div id="show"></div>
+              <div class="form-group">
+              <input type="hidden" class="form-control" id="usergroup_id" name="user_group_id" >
+                  <label for="exampleInputEmail1">หลักฐานอ้างอิง</label>
+                  <input multiple="true" type="file" id="doc_file" name="doc_file[]" onchange="example()">
+                </div>
+                
+              </div>
+            
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">ปิด</button>
+                <button type="button" onclick="example2()" class="btn btn-info">บันทึกข้อมูล</button>
+              </div>
+              </form>
+              <input type="hidden" class="form-control" name="id" id="emp_id" >
+              
+            </div>
+            
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        
+            </div>
       <div class="col-md-12">
         <div id="body">
           <div class="col-md-12 col-sm-9 col-xs-12">
@@ -49,10 +86,10 @@
             <button type="submit" class="btn btn-info pull-right">บันทึกข้อมูล</button>
             </textarea>
           </div>
-
         </div>
       </div>
     </form>
+    
 
   </div>
 </div>
@@ -112,5 +149,25 @@
       });
     });
   });
+  function example(){
+    var inp = document.getElementById('doc_file');
+      for (var i = 0; i < inp.files.length; ++i) {
+        var name = inp.files.item(i).name;
+        $('#show').append(name+'<div class="form-group"><input type="text" class="form-control" id="filename" name="filename[]" placeholder="ชื่อไฟล์"></div>');  
+      }
+       }
+  function example2(){
+    var values = $("input[name='filename[]']")
+              .map(function(){return $(this).val();}).get();
+    var inp = document.getElementById('doc_file');
+    document.getElementById("doc").value =inp;
+      for (var i = 0; i < inp.files.length; ++i) {
+        var name = inp.files.item(i).name;
+        $('#show2').append('<div class="col-md-12 col-sm-9 col-xs-12"><span class="badge bg-green">'+(i+1)+'. '+values[i]+'</span><input type="hidden" class="form-control" id="getfilename" name="getfilename[]" value="'+values[i]+'"></div>');  
+      }
+      $('#modal-edit').modal('toggle');
+      var myobj = document.getElementById("add");
+        myobj.remove();
+       }
 </script>
 @endsection

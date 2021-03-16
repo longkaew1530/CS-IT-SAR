@@ -187,6 +187,7 @@ class DashboardController extends Controller
     }
     public function index16()
     {
+        $course=Course::all();
         $Assessment_results=assessment_results::leftjoin('category','assessment_results.category_id','=','category.category_id')
         ->where('assessment_results.year_id',session()->get('year_id'))
         ->get();
@@ -197,7 +198,7 @@ class DashboardController extends Controller
         if($ccate==$cAss){
             $dis="disabled";
         }
-        return view('dashboard/assessment_results',compact('Assessment_results','Category','dis','cAss'));
+        return view('dashboard/assessment_results',compact('Assessment_results','Category','dis','cAss','course'));
     }
     public function index17()
     {

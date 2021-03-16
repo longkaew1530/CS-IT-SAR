@@ -13,7 +13,7 @@
                 <thead>
                 <tr>
                   <th width="5%">ที่</th>
-                  <th width="30%">หมวด</th>
+                  <th >หมวด</th>
                   <th width="5%" >แก้ไข</th>
                   <th width="5%">ลบ</th>
                 </tr>

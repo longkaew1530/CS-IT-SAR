@@ -10,6 +10,7 @@ use App\User;
 use App\Menu;
 use App\indicator4_3;
 use App\indicator;
+use App\year_acceptance;
 use App\indicator2_2;
 use App\indicator2_1;
 use App\Course;
@@ -104,7 +105,13 @@ class AJController extends Controller
     }
     public function addinfostd()
     {
-            return view('AJ/addinfostd');
+            $get=year_acceptance::where('course_id',session()->get('usercourse'))
+            ->where('year_id',session()->get('year_id'))
+            ->get();
+            if(count($get)==0){
+                $get="";
+            }
+            return view('AJ/addinfostd',compact('get'));
     }
     public function addfactor($id)
     {

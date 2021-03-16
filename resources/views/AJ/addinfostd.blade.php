@@ -10,45 +10,38 @@
         <hr>
       </div>
     </div>
-    <form id="adddata" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data">
-    @csrf
+    <div class="box-body">
+    <form id="adddata1" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data">
+            @csrf
+            ปีการศึกษาที่รับเข้า
+            <input type="text" name="year_add">
+            ถึงปีการศึกษาที่ต้องรายงาน
+            <input type="text" name="reported_year">
+            <button type="submit" >บันทึกข้อมูลใหม่</button>
+            </form>
+    </div>
             <div class="box-body">
+            
+            <form id="adddata" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data">
+            @csrf
+            @if($get!="")
               <table class="table table-bordered text-center">
                 <tbody><tr>
                   <th width="30%" >ปีการศึกษาที่รับเข้า</th>
-                  <th width="5%">2556</th>
-                  <th width="5%">2557</th>
-                  <th width="5%">2558</th>
-                  <th width="5%">2559</th>
-                  <th width="5%">2560</th>
-                  <th width="5%">2561</th>
-                  <th width="5%">2562</th>
+                  @for($i =$get[0]['year_add'];$i<=$get[0]['reported_year']; $i++)
+                  <th width="5%">{{$i}}</th>
+                  @endfor
+                  @for($i =$get[0]['year_add'];$i<=$get[0]['reported_year']; $i++)
                 <tr>
-
-                            <td>2556</td>
-                            <td><input type="text" class="wid10"></td>
-                            <td><input type="text" class="wid10"></td>
-                            <td><input type="text" class="wid10"></td>
-                            <td><input type="text" class="wid10"></td>
-                            <td><input type="text" class="wid10"></td>
-                            <td><input type="text" class="wid10"></td>
-                            <td><input type="text" class="wid10"></td>
-
+                            <td>{{$i}}</td>
+                            @for($x =$get[0]['year_add'];$x<=$get[0]['reported_year']; $x++)
+                            <td><input type="text" class="wid10" name="y{{$i}}[]"></td>
+                            @endfor
                 </tr>
-                <tr>
-
-                            <td>2557</td>
-                            <td><input type="text" class="wid10"></td>
-                            <td><input type="text" class="wid10"></td>
-                            <td><input type="text" class="wid10"></td>
-                            <td><input type="text" class="wid10"></td>
-                            <td><input type="text" class="wid10"></td>
-                            <td><input type="text" class="wid10"></td>
-                            <td><input type="text" class="wid10"></td>
-
-                </tr>
+                @endfor
                 </tr>
               </tbody></table>
+              @endif
       <div class="col-md-12">
         <div id="body">
           <div class="col-md-12 col-sm-9 col-xs-12">
@@ -90,7 +83,7 @@
       var formData = new FormData(this);
       $.ajax({
         type: 'POST',
-        url: "/addinfostd",
+        url: "/addinfostudent",
         data: formData,
         cache: false,
         contentType: false,
@@ -105,6 +98,36 @@
           button: "ตกลง",
         }).then(function() {
           window.location = "/category3/studentinfomation";
+        });
+          }
+        },
+        error: function(data) {
+          alert(data.responseJSON.errors.files1[0]);
+          console.log(data.responseJSON.errors);
+        }
+      });
+    });
+
+    $('#adddata1').submit(function(e) {
+      e.preventDefault();
+      var formData = new FormData(this);
+      $.ajax({
+        type: 'POST',
+        url: "/addyear_acceptance",
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        success: (data) => {
+          if(data){
+            swal({
+          title: "เพิ่มข้อมูลเรียบร้อยแล้ว",
+          text: "",
+          icon: "success",
+          button: "ตกลง",
+        }).then(function() {
+          window.location = "/addinfostudent";
         });
           }
         },

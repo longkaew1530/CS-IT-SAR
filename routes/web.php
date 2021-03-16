@@ -293,6 +293,15 @@ Route::post('/updatepassword','APIController@updatepassword');
 /////course_responsible_teacher
 Route::post('/addcourse_responsible_teacher','APIController@addcourse_responsible_teacher');
 Route::delete('/deletecourse_responsible_teacher/{id}','APIController@deletecourse_responsible_teacher');
+/////year_acceptance
+Route::post('/addyear_acceptance','APIAJController@addyear_acceptance');
+Route::delete('/deletecourse_responsible_teacher/{id}','APIAJController@deletecourse_responsible_teacher');
+/////addinfostudent
+Route::post('/addinfostudent','APIAJController@addinfostudent');
+Route::delete('/deletecourse_responsible_teacher/{id}','APIAJController@deletecourse_responsible_teacher');
+/////assessment_results
+Route::GET('/getassessment_results','APIAJController@getassessment_results');
+Route::GET('/getclidincategory/{id}','APIAJController@getclidincategory');
 /////download
 Route::get('/dowloaddoxc','ReportController@generateDocx');
 
