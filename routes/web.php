@@ -302,6 +302,8 @@ Route::delete('/deletecourse_responsible_teacher/{id}','APIAJController@deleteco
 /////assessment_results
 Route::GET('/getassessment_results','APIAJController@getassessment_results');
 Route::GET('/getclidincategory/{id}','APIAJController@getclidincategory');
+Route::put('/updateactive/{id}','APIAJController@updateactive');
+Route::put('/updateactive2/{id}','APIAJController@updateactive2');
 /////download
 Route::get('/dowloaddoxc','ReportController@generateDocx');
 

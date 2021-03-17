@@ -1792,4 +1792,18 @@ class APIAJController extends Controller
         return response()->json($clind);
         
     }
+    public function updateactive(Request $request ,$id)
+    {
+        $data=assessment_results::find($id);
+        $data->active=$request->value;
+        $data->save();
+        return $data;
+    }
+    public function updateactive2(Request $request ,$id)
+    {
+        $data=indicator::find($id);
+        $data->active=$request->value;
+        $data->save();
+        return $data;
+    }
 }

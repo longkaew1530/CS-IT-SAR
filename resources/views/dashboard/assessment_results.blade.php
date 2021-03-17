@@ -242,10 +242,10 @@ $(document).ready(function() {
         { data: "category_id" },
         {"data" : function(data) {
         if(data.active==1){
-          return '<label class="toggle" for="'+data.category_id+'"><input class="toggle__input"  type="checkbox" id="'+data.category_id+'"checked><div class="toggle__fill"></div></label>'
+          return '<label class="toggle" for="cate'+data.id+'"><input class="toggle__input add" onclick="calc('+data.id+');"  type="checkbox" id="cate'+data.id+'"checked><div class="toggle__fill"></div></label>'
         }
         else{
-          return '<label class="toggle" for="'+data.category_id+'"><input class="toggle__input"  type="checkbox" id="'+data.category_id+'"><div class="toggle__fill"></div></label>'
+          return '<label class="toggle" for="cate'+data.id+'"><input class="toggle__input add" onclick="calc('+data.id+');"  type="checkbox" id="cate'+data.id+'"><div class="toggle__fill"></div></label>'
         }
        }},
         { data: "category_name" },
@@ -270,21 +270,28 @@ function format ( d ) {
       if(value.active==1&&value.Indicator_id!=null){
         text=text+'<tr>'+
                 '<td width="5%"></td>'+
-                '<td width="5%"><label class="toggle" for="'+`${value.id}`+'"><input class="toggle__input"  type="checkbox" id="'+`${value.id}`+'" checked><div class="toggle__fill"></div></label>'+
+                '<td width="5%"><label class="toggle" for="'+`${value.id}`+'"><input class="toggle__input" onclick="calc2('+value.id+');"  type="checkbox" id="'+`${value.id}`+'" checked><div class="toggle__fill"></div></label>'+
                 '<td>'+"ตัวบ่งชี้"+`${value.Indicator_id} ${value.Indicator_name}`+'</td>'+
             '</tr>';
       }
       else if(value.Indicator_id!=null){
         text=text+'<tr>'+
                 '<td width="5%"></td>'+
-                '<td width="5%"><label class="toggle" for="'+`${value.id}`+'"><input class="toggle__input"  type="checkbox" id="'+`${value.id}`+'" ><div class="toggle__fill"></div></label>'+
+                '<td width="5%"><label class="toggle" for="'+`${value.id}`+'"><input class="toggle__input" onclick="calc2('+value.id+');"  type="checkbox" id="'+`${value.id}`+'" ><div class="toggle__fill"></div></label>'+
                 '<td>'+"ตัวบ่งชี้"+`${value.Indicator_id} ${value.Indicator_name}`+'</td>'+
+            '</tr>';
+      }
+      else if(value.active==1&&value.Indicator_id==null){
+        text=text+'<tr>'+
+                '<td width="5%"></td>'+
+                '<td width="5%"><label class="toggle" for="'+`${value.id}`+'"><input class="toggle__input" onclick="calc2('+value.id+');" type="checkbox" id="'+`${value.id}`+'" checked><div class="toggle__fill"></div></label>'+
+                '<td>'+`${value.Indicator_name}`+'</td>'+
             '</tr>';
       }
       else{
         text=text+'<tr>'+
                 '<td width="5%"></td>'+
-                '<td width="5%"><label class="toggle" for="'+`${value.id}`+'"><input class="toggle__input"  type="checkbox" id="'+`${value.id}`+'" ><div class="toggle__fill"></div></label>'+
+                '<td width="5%"><label class="toggle" for="'+`${value.id}`+'"><input class="toggle__input" onclick="calc2('+value.id+');" type="checkbox" id="'+`${value.id}`+'" ><div class="toggle__fill"></div></label>'+
                 '<td>'+`${value.Indicator_name}`+'</td>'+
             '</tr>';
       }
@@ -346,5 +353,92 @@ $('#myTable tbody').on('click', 'td.details-control', function () {
     })
   })
 </script>
-
+<script type="text/javascript">
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    }); 
+    $(".add").click(function(e){
+      var token = $('meta[name="csrf-token"]').attr('content');
+      var id = $(this).attr('id');
+        e.preventDefault();
+        console.log("asdasdasd")
+        // $.ajax({
+        //    type:'PUT',
+        //    url:'/nextyear',
+        //    data: {
+        //   _token : token 
+        // },
+        //    success:function(data){
+        //     swal({
+        //       title: "เพิ่มข้อมูลเรียบร้อยแล้ว",
+        //     text: "",
+        //     icon: "success",
+        //     button: "ตกลง",
+        //    }).then(function() {
+        //       window.location = "/";
+        //    });
+        //    }
+        // });
+	});
+function calc(id)
+{
+  var token = $('meta[name="csrf-token"]').attr('content');
+  var  cb = document.getElementById("cate"+id);
+  var getvalue=0;
+  if (cb.checked == true){
+    getvalue=1;
+  } else {
+    getvalue=0;
+  }
+  $.ajax({
+           type:'PUT',
+           url:'/updateactive/'+id,
+           data: {
+          _token : token,
+           value:getvalue,
+        },
+           success:function(data){
+            swal({
+              title: "อัปเดตข้อมูลเรียบร้อยแล้ว",
+            text: "",
+            icon: "success",
+            button: "ตกลง",
+           }).then(function() {
+              
+           });
+           }
+        });
+}
+function calc2(id)
+{
+  var token = $('meta[name="csrf-token"]').attr('content');
+  var  cb = document.getElementById(id);
+  var getvalue=0;
+  if (cb.checked == true){
+    getvalue=1;
+  } else {
+    getvalue=0;
+  }
+  $.ajax({
+           type:'PUT',
+           url:'/updateactive2/'+id,
+           data: {
+          _token : token,
+           value:getvalue,
+        },
+           success:function(data){
+            swal({
+              title: "อัปเดตข้อมูลเรียบร้อยแล้ว",
+            text: "",
+            icon: "success",
+            button: "ตกลง",
+           }).then(function() {
+              
+           });
+           }
+        });
+}
+</script>
 @endsection

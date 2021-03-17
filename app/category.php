@@ -23,7 +23,8 @@ class category extends Model
     public function indicator2()
     {
         return $this->hasMany('App\indicator','category_id','category_id')
-        ->where('year_id',session()->get('year_id'));
+        ->where('year_id',session()->get('year_id'))
+        ->where('active',1);
     }
     public $timestamps = false;
 }
