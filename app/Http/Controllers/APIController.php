@@ -543,7 +543,7 @@ class APIController extends Controller
          }
         session()->put('category',$category);
         session()->put('roleindicator',$roleindicator);
-        return redirect('/assign_indicator');
+        return $item;
       }
       public function getindicator($id)
       {

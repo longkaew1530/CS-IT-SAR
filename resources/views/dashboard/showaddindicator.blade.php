@@ -9,7 +9,7 @@
             <!-- /.box-header -->
             <div class="box-body">
               <?php $checkrole=false ?>
-              <form method="POST" action="/addindicator" class="bd">
+              <form  class="bd" id="adddata" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data">
                @csrf
                <input type="hidden" class="form-control" id="id" name="id" value="{{$userid}}"/>
                 @foreach($role as $row )
@@ -81,9 +81,61 @@
 .bd{
   background-color:#d3e0ea;
 }
+
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-
+<script type="text/javascript">
+  $(document).ready(function(e) {
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $('#adddata').submit(function(e) {
+      e.preventDefault();
+      var formData = new FormData(this);
+      swal({
+      title: "ยืนยันการบันทึก?",
+      icon: "warning",
+      buttons: true,
+      successMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        $.ajax({
+        type: 'POST',
+        url: "/addindicator",
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        success: (data) => {
+          if(data){
+            swal({
+          title: "เพิ่มข้อมูลสำเร็จ",
+          text: "Success",
+          icon: "success",
+          button: "ตกลง",
+          button: false,
+          showConfirmButton: false,
+          timer: 1500
+        });
+          }
+        },
+        error: function(data) {
+          alert(data.responseJSON.errors.files1[0]);
+          console.log(data.responseJSON.errors);
+        }
+      });
+      } else {
+        
+      }
+    });
+    });
+  });
+  
+</script>
 <script>
   $(function () {
     $('#example2').DataTable({

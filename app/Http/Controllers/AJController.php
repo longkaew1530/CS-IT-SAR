@@ -15,6 +15,7 @@ use App\indicator2_2;
 use App\indicator2_1;
 use App\Course;
 use App\indicator5_4;
+use App\category3_infostudent;
 use App\composition;
 use App\category7_strengths_summary;
 use App\categorypdca;
@@ -108,10 +109,11 @@ class AJController extends Controller
             $get=year_acceptance::where('course_id',session()->get('usercourse'))
             ->where('year_id',session()->get('year_id'))
             ->get();
+            $getinfo=category3_infostudent::all();
             if(count($get)==0){
                 $get="";
             }
-            return view('AJ/addinfostd',compact('get'));
+            return view('AJ/addinfostd',compact('get','getinfo'));
     }
     public function addfactor($id)
     {

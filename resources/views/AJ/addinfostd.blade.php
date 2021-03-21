@@ -31,12 +31,24 @@
                   @for($i =$get[0]['year_add'];$i<=$get[0]['reported_year']; $i++)
                   <th width="5%">{{$i}}</th>
                   @endfor
-                  @for($i =$get[0]['year_add'];$i<=$get[0]['reported_year']; $i++)
-                <tr>
-                            <td>{{$i}}</td>
+                  <?php $n=0 ?>
+                  @for($y=$get[0]['year_add'];$y<=$get[0]['reported_year']; $y++)
+                  <?php $data=$getinfo->where('year_add',$y); ?>
+                 <tr>
+                            <td>{{$y}}</td>
                             @for($x =$get[0]['year_add'];$x<=$get[0]['reported_year']; $x++)
-                            <td><input type="text" class="wid10" name="y{{$i}}[]"></td>
+                            <?php $data2=[] ?>
+                            <?php $data2=$data->where('reported_year',$x)->where('year_add',$y); ?>
+                            @if($data2!='[]')
+                                @foreach($data2 as $key=>$value)                 
+                                  <td><input type="text" class="wid10" name="y{{$y}}[]" value="{{$value['reported_year_qty']}}"></td>
+                                @endforeach  
+                            @else
+                                <td><input type="text" class="wid10" name="y{{$y}}[]" value="0"></td>
+                            @endif    
+                            <?php $n++ ?>                        
                             @endfor
+
                 </tr>
                 @endfor
                 </tr>

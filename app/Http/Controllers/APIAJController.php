@@ -1746,16 +1746,19 @@ class APIAJController extends Controller
         $getall=$request->all();
         
         for($i=$get[0]['year_add'];$i<=$get[0]['reported_year']; $i++){
+            $getcount=$get[0]['year_add'];
             foreach($getall['y'.$i] as $key=>$value){
                 if($value!=null){
-                    $data[$key]['reported_year']=$value;
+                    $data[$key]['reported_year_qty']=$value;
                 }
                 else{
                     $data[$key]['reported_year']=0;
                 }
                 $data[$key]['year_add']=$i;
+                $data[$key]['reported_year']=$getcount;
                 $data[$key]['course_id']=session()->get('usercourse');
                 $data[$key]['year_id']=session()->get('year_id');
+                $getcount++;
             }
             category3_infostudent::insert($data);
         }
