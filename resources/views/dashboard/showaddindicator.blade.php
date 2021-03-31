@@ -3,7 +3,7 @@
 @section('content')
 <div class="box box-warning ">
             <div class="box-header">
-            <a href="{{ URL::previous() }}" class="btn btn-primary fr"><i class='fa fa-arrow-left'></i> ย้อนกลับ</a>
+            <a href="{{ URL::previous() }}" class="btn btn-primary fr"><i class='fa fa-arrow-left'></i> กลับ</a>
               <h2 class="box-title">มอบหมายตัวบ่งชี้ </h2>
             </div>
             <!-- /.box-header -->

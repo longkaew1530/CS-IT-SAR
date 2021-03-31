@@ -7,7 +7,7 @@
             <a href="/getindicator2_2/{{$factor[0]['id']}}" class="btn btn-warning fr "><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>
             <h3><li ><b>ร้อยละของบัณฑิตปริญญาตรีที่ได้งานทำหรือประกอบอาชีพอิสระภายใน 1 ปี (ตัวบ่งชี้ 2.2)</b></li></h3>
             <ins>ผลการดำเนินงาน</ins>
-            <table class="table table-bordered mt-3">
+            <table class="table table-bordered">
                 <tbody><tr>
                   <th width="50%" class="text-center">ข้อมูลพื้นฐาน</th>
                   <th width="10%" class="text-center">จำนวน</th>

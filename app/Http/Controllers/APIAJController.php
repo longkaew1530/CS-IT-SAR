@@ -14,7 +14,10 @@ use App\indicator4_3;
 use App\indicator2_1;
 use App\indicator2_2;
 use App\composition;
+use App\category3_infostudent_qty;
+use App\year_acceptance_graduate;
 use App\year_acceptance;
+use App\category3_graduate;
 use App\indicator5_4;
 use App\performance3_3;
 use App\indicator;
@@ -1720,6 +1723,28 @@ class APIAJController extends Controller
     }
      /////strengths_summary/////strengths_summary/////strengths_summary/////strengths_summary/////strengths_summary/////strengths_summary
 
+
+     /////infostudent/////infostudent/////infostudent/////infostudent/////infostudent/////infostudent
+
+     public function getinfostudent()
+     {
+        $get=year_acceptance::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        $getinfo=category3_infostudent::where('course_id',session()->get('usercourse'))
+        ->get();
+        $getyear=category3_infostudent::where('course_id',session()->get('usercourse'))
+        ->where('year_add',session()->get('year'))
+        ->get();
+        if(count($get)==0){
+            $get="";
+        }
+       $getqty=category3_infostudent_qty::where('course_id',session()->get('usercourse'))
+       ->where('year_id',session()->get('year_id'))
+       ->get();
+        return view('AJ/editinfostd',compact('get','getinfo','getqty'));
+        
+     }
      function addyear_acceptance(Request $request)
     {
         $get=year_acceptance::where('course_id',session()->get('usercourse'))
@@ -1744,6 +1769,10 @@ class APIAJController extends Controller
             ->where('year_id',session()->get('year_id'))
             ->get();
         $getall=$request->all();
+        $checkdata=category3_infostudent::where('course_id',session()->get('usercourse'));
+        if(isset($checkdata)){
+            $checkdata->delete();
+        }
         
         for($i=$get[0]['year_add'];$i<=$get[0]['reported_year']; $i++){
             $getcount=$get[0]['year_add'];
@@ -1762,9 +1791,51 @@ class APIAJController extends Controller
             }
             category3_infostudent::insert($data);
         }
-         
-     return true;
+        $data2=new category3_infostudent_qty;
+        $data2->qty=$request->qty;
+        $data2->course_id=session()->get('usercourse');
+        $data2->year_id=session()->get('year_id');
+        $data2->save();
+     return $data2;
     }
+    public function updateinfostudent(Request $request)
+    {
+        $get=year_acceptance::where('course_id',session()->get('usercourse'))
+            ->where('year_id',session()->get('year_id'))
+            ->get();
+        $getall=$request->all();
+        $checkdata=category3_infostudent::where('course_id',session()->get('usercourse'));
+        if(isset($checkdata)){
+            $checkdata->delete();
+        }
+        
+        for($i=$get[0]['year_add'];$i<=$get[0]['reported_year']; $i++){
+            $getcount=$get[0]['year_add'];
+            foreach($getall['y'.$i] as $key=>$value){
+                if($value!=null){
+                    $data[$key]['reported_year_qty']=$value;
+                }
+                else{
+                    $data[$key]['reported_year']=0;
+                }
+                $data[$key]['year_add']=$i;
+                $data[$key]['reported_year']=$getcount;
+                $data[$key]['course_id']=session()->get('usercourse');
+                $data[$key]['year_id']=session()->get('year_id');
+                $getcount++;
+            }
+            category3_infostudent::insert($data);
+        }
+        $data2=category3_infostudent_qty::find($request->getid);
+        $data2->qty=$request->qty;
+        $data2->course_id=session()->get('usercourse');
+        $data2->year_id=session()->get('year_id');
+        $data2->save();
+     return $data2;
+    }
+        /////infostudent/////infostudent/////infostudent/////infostudent/////infostudent/////infostudent
+
+
 
     public function getassessment_results()
     {
@@ -1809,4 +1880,110 @@ class APIAJController extends Controller
         $data->save();
         return $data;
     }
+
+
+    /////graduate/////graduate/////graduate/////graduate/////graduate/////graduate
+
+    public function getgraduate()
+    {
+       $get=year_acceptance::where('course_id',session()->get('usercourse'))
+       ->where('year_id',session()->get('year_id'))
+       ->get();
+       $getinfo=category3_infostudent::where('course_id',session()->get('usercourse'))
+       ->get();
+       $getyear=category3_infostudent::where('course_id',session()->get('usercourse'))
+       ->where('year_add',session()->get('year'))
+       ->get();
+       if(count($get)==0){
+           $get="";
+       }
+      $getqty=category3_infostudent_qty::where('course_id',session()->get('usercourse'))
+      ->where('year_id',session()->get('year_id'))
+      ->get();
+       return view('AJ/editinfostd',compact('get','getinfo','getqty'));
+       
+    }
+    function addyear_graduate(Request $request)
+   {
+       $get=year_acceptance_graduate::where('course_id',session()->get('usercourse'))
+       ->where('year_id',session()->get('year_id'))
+       ->get();
+       if(count($get)!=0){
+           $get=year_acceptance_graduate::where('course_id',session()->get('usercourse'))
+       ->where('year_id',session()->get('year_id'))
+       ->delete();
+       }
+       $data=new year_acceptance_graduate;
+       $data->year_add=$request->year_add;
+       $data->reported_year=$request->reported_year;
+       $data->course_id=session()->get('usercourse');
+       $data->year_id=session()->get('year_id');
+       $data->save();
+    return true;
+   }
+   function addgraduate(Request $request)
+   {
+       $get=year_acceptance_graduate::where('course_id',session()->get('usercourse'))
+           ->where('year_id',session()->get('year_id'))
+           ->get();
+       $getall=$request->all();
+       $checkdata=category3_graduate::where('course_id',session()->get('usercourse'));
+       if(isset($checkdata)){
+           $checkdata->delete();
+       }
+       
+       for($i=$get[0]['year_add'];$i<=$get[0]['reported_year']; $i++){
+           $getcount=$get[0]['year_add'];
+           foreach($getall['y'.$i] as $key=>$value){
+               if($value!=null){
+                   $data[$key]['reported_year_qty']=$value;
+               }
+               else{
+                   $data[$key]['reported_year']=0;
+               }
+               $data[$key]['year_add']=$i;
+               $data[$key]['reported_year']=$getcount;
+               $data[$key]['course_id']=session()->get('usercourse');
+               $getcount++;
+           }
+           category3_graduate::insert($data);
+       }
+    return $data;
+   }
+   public function updategraduate(Request $request)
+   {
+       $get=year_acceptance::where('course_id',session()->get('usercourse'))
+           ->where('year_id',session()->get('year_id'))
+           ->get();
+       $getall=$request->all();
+       $checkdata=category3_infostudent::where('course_id',session()->get('usercourse'));
+       if(isset($checkdata)){
+           $checkdata->delete();
+       }
+       
+       for($i=$get[0]['year_add'];$i<=$get[0]['reported_year']; $i++){
+           $getcount=$get[0]['year_add'];
+           foreach($getall['y'.$i] as $key=>$value){
+               if($value!=null){
+                   $data[$key]['reported_year_qty']=$value;
+               }
+               else{
+                   $data[$key]['reported_year']=0;
+               }
+               $data[$key]['year_add']=$i;
+               $data[$key]['reported_year']=$getcount;
+               $data[$key]['course_id']=session()->get('usercourse');
+               $data[$key]['year_id']=session()->get('year_id');
+               $getcount++;
+           }
+           category3_infostudent::insert($data);
+       }
+       $data2=category3_infostudent_qty::find($request->getid);
+       $data2->qty=$request->qty;
+       $data2->course_id=session()->get('usercourse');
+       $data2->year_id=session()->get('year_id');
+       $data2->save();
+    return $data2;
+   }
+       /////infostudent/////infostudent/////infostudent/////infostudent/////infostudent/////infostudent
 }

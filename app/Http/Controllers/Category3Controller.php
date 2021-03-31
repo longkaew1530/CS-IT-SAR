@@ -14,6 +14,9 @@ use App\indicator4_3;
 use App\indicator;
 use App\indicator2_1;
 use App\indicator2_2;
+use App\category3_infostudent;
+use App\category3_infostudent_qty;
+use App\year_acceptance;
 use App\performance3_3;
 use App\categorypdca;
 use App\category3_GD;
@@ -41,9 +44,19 @@ class Category3Controller extends Controller
     }
     public function Studentsinfo()
     {
-        $infostd=category3_inforstudent::all();
-        
-        return view('category3/infostudents',compact('infostd'));
+        $get=year_acceptance::where('course_id',session()->get('usercourse'))
+            ->where('year_id',session()->get('year_id'))
+            ->get();
+        $getinfo=category3_infostudent::where('course_id',session()->get('usercourse'))
+            ->get();
+            if(count($get)==0){
+                $get="";
+            }
+        $getqty=category3_infostudent_qty::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        $countnumber=count($getinfo);
+        return view('category3/infostudents',compact('get','getinfo','getqty','countnumber'));
     }
     public function Impactfactors()
     {

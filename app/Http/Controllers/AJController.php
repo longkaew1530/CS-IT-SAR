@@ -11,11 +11,14 @@ use App\Menu;
 use App\indicator4_3;
 use App\indicator;
 use App\year_acceptance;
+use App\year_acceptance_graduate;
 use App\indicator2_2;
 use App\indicator2_1;
 use App\Course;
+use App\category3_graduate;
 use App\indicator5_4;
 use App\category3_infostudent;
+use App\category3_infostudent_qty;
 use App\composition;
 use App\category7_strengths_summary;
 use App\categorypdca;
@@ -109,11 +112,33 @@ class AJController extends Controller
             $get=year_acceptance::where('course_id',session()->get('usercourse'))
             ->where('year_id',session()->get('year_id'))
             ->get();
-            $getinfo=category3_infostudent::all();
+            $getinfo=category3_infostudent::where('course_id',session()->get('usercourse'))
+            ->get();
+            $getyear=category3_infostudent::where('course_id',session()->get('usercourse'))
+            ->where('year_add',session()->get('year'))
+            ->get();
             if(count($get)==0){
                 $get="";
             }
-            return view('AJ/addinfostd',compact('get','getinfo'));
+            if(count($getyear)===0){
+                return view('AJ/addinfostd',compact('get','getinfo'));
+            }
+            else{
+                $get=year_acceptance::where('course_id',session()->get('usercourse'))
+                    ->where('year_id',session()->get('year_id'))
+                    ->get();
+                $getinfo=category3_infostudent::where('course_id',session()->get('usercourse'))
+                    ->get();
+                    if(count($get)==0){
+                        $get="";
+                    }
+                $getqty=category3_infostudent_qty::where('course_id',session()->get('usercourse'))
+                ->where('year_id',session()->get('year_id'))
+                ->get();
+                $countnumber=count($getinfo);
+                return view('category3/infostudents',compact('get','getinfo','getqty','countnumber'));
+            }
+            
     }
     public function addfactor($id)
     {
@@ -396,6 +421,22 @@ class AJController extends Controller
                 $getdata[$key]=$row['composition_id'];          
         }
             return view('AJ/addstrengths_summary',compact('get','getdata'));
+             
+    }
+    public function addgraduate()
+    {
+        $get=year_acceptance_graduate::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        $getinfo=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->get();
+        $getyear=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->where('year_add',session()->get('year'))
+        ->get();
+        if(count($get)==0){
+            $get="";
+        }
+            return view('AJ/addgraduate',compact('get','getinfo','getyear'));
              
     }
 }

@@ -10,16 +10,6 @@
         <hr>
       </div>
     </div>
-    <div class="box-body">
-    <form id="adddata1" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data">
-            @csrf
-            ปีการศึกษาที่รับเข้า
-            <input type="text" name="year_add" >
-            ถึงปีการศึกษาที่ต้องรายงาน
-            <input type="text" name="reported_year">
-            <button type="submit" >บันทึกข้อมูลใหม่</button>
-            </form>
-    </div>
             <div class="box-body">
             
             <form id="adddata" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data">
@@ -57,7 +47,8 @@
               
             
             จำนวนนักศึกษาที่รับเข้าตามแผน (ตาม มคอ2 ของปีที่ประเมิน)
-            <input type="number" name="qty" >
+            <input type="hidden" class="form-control" id="getid" name="getid" value="{{$getqty[0]['id']}}"/>
+            <input type="number" name="qty" value="{{$getqty[0]['qty']}}">
             คน (กรุณาระบุเป็นตัวเลข)
             @endif
       <div class="col-md-12">
@@ -100,7 +91,7 @@
       var formData = new FormData(this);
       $.ajax({
         type: 'POST',
-        url: "/addinfostudent",
+        url: "/updateinfostudent",
         data: formData,
         cache: false,
         contentType: false,

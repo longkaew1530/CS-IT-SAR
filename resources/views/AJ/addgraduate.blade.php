@@ -6,14 +6,14 @@
     <div class="box-body">
       <div class="col-sm-2" align="right"></div>
       <div class="col-sm-8" align="center">
-        <h3><i class=""></i>ข้อมูลนักศึกษา</h3>
+        <h3><i class=""></i>จำนวนผู้สำเร็จการศึกษา</h3>
         <hr>
       </div>
     </div>
     <div class="box-body">
     <form id="adddata1" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data">
             @csrf
-            ปีการศึกษาที่รับเข้า
+            ปีการศึกษาที่เริ่มใช้หลักสูตร
             <input type="text" name="year_add" >
             ถึงปีการศึกษาที่ต้องรายงาน
             <input type="text" name="reported_year">
@@ -27,38 +27,43 @@
             @if($get!="")
               <table class="table table-bordered text-center">
                 <tbody><tr>
-                  <th width="30%" style="background-color:#9ddfd3">ปีการศึกษาที่รับเข้า</th>
+                  <th width="5%" rowspan="3" style="background-color:#9ddfd3">ปีการศึกษาที่รับเข้า</th>
                   @for($i =$get[0]['year_add'];$i<=$get[0]['reported_year']; $i++)
-                  <th width="5%" style="background-color:#9ddfd3">{{$i}}</th>
+                  <th width="5%" colspan="2" style="background-color:#9ddfd3">{{$i}}</th>
                   @endfor
+                  </tr>
+                  <tr>
+                  @for($i =$get[0]['year_add'];$i<=$get[0]['reported_year']; $i++)
+                  <th width="5%" rowspan="2" style="background-color:#9ddfd3">จำนวนผู้สำเร็จการศึกษา</th>
+                  <th width="5%" rowspan="2" style="background-color:#9ddfd3">ร้อยละ</th>
+                  @endfor
+                  </tr>
+                  <tr></tr>
+                  <tr>
                   <?php $n=0 ?>
                   @for($y=$get[0]['year_add'];$y<=$get[0]['reported_year']; $y++)
                   <?php $data=$getinfo->where('year_add',$y); ?>
-                 <tr>
+                
                             <td style="background-color:#9ddfd3">{{$y}}</td>
                             @for($x =$get[0]['year_add'];$x<=$get[0]['reported_year']; $x++)
                             <?php $data2=[] ?>
                             <?php $data2=$data->where('reported_year',$x)->where('year_add',$y); ?>
                             @if($data2!='[]')
                                 @foreach($data2 as $key=>$value)                 
-                                  <td><input type="number" class="form-control text-center" name="y{{$y}}[]" value="{{$value['reported_year_qty']}}"></td>
+                                  <td><input type="text" class="form-control text-center" name="y{{$y}}[]" value="{{$value['reported_year_qty']}}"></td>
+                                  <td><input type="text" class="form-control text-center" ></td>
                                 @endforeach  
                             @else
-                                <td ><input type="number" class="form-control text-center" name="y{{$y}}[]" value="0"></td>
+                                <td ><input type="text" class="form-control text-center" name="y{{$y}}[]" value="0"></td>
+                                <td><input type="text" class="form-control text-center" ></td>
                             @endif    
                             <?php $n++ ?>                        
                             @endfor
 
                 </tr>
                 @endfor
-                </tr>
+                
               </tbody></table>
-              
-              
-            
-            จำนวนนักศึกษาที่รับเข้าตามแผน (ตาม มคอ2 ของปีที่ประเมิน)
-            <input type="number" name="qty" >
-            คน (กรุณาระบุเป็นตัวเลข)
             @endif
       <div class="col-md-12">
         <div id="body">
@@ -100,7 +105,7 @@
       var formData = new FormData(this);
       $.ajax({
         type: 'POST',
-        url: "/addinfostudent",
+        url: "/addgraduate",
         data: formData,
         cache: false,
         contentType: false,
@@ -130,7 +135,7 @@
       var formData = new FormData(this);
       $.ajax({
         type: 'POST',
-        url: "/addyear_acceptance",
+        url: "/addyear_graduate",
         data: formData,
         cache: false,
         contentType: false,

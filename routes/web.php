@@ -65,13 +65,14 @@ Route::get('/addd/{id}', 'AJController@addd');
 Route::get('/addc/{id}', 'AJController@addc');
 Route::get('/adda/{id}', 'AJController@adda');
 Route::get('/addstrengths_summary', 'AJController@addstrengths_summary');
+Route::get('/graduate', 'AJController@addgraduate');
 /////รายงาน
 Route::get('/overview', 'ReportController@overview');
 Route::get('/download', 'ReportController@download');
 Route::get('/instructor', 'ReportController@instructor');
 Route::get('/performance_summary', 'ReportController@performance_summary');
 /////หมวด1-2
-Route::get('/category/indicator1-1', 'CategoryController@indicator1_1');
+Route::get('/category1/indicator1-1', 'CategoryController@indicator1_1');
 Route::get('/category/category1', 'CategoryController@category1');
 Route::get('/category/indicator4-1/{id}', 'CategoryController@indicator4_1');
 Route::get('/category/indicator4-2/{id}', 'CategoryController@indicator4_2');
@@ -297,8 +298,15 @@ Route::delete('/deletecourse_responsible_teacher/{id}','APIController@deletecour
 Route::post('/addyear_acceptance','APIAJController@addyear_acceptance');
 Route::delete('/deletecourse_responsible_teacher/{id}','APIAJController@deletecourse_responsible_teacher');
 /////addinfostudent
+Route::get('/getinfostudent','APIAJController@getinfostudent');
 Route::post('/addinfostudent','APIAJController@addinfostudent');
+Route::post('/updateinfostudent','APIAJController@updateinfostudent');
 Route::delete('/deletecourse_responsible_teacher/{id}','APIAJController@deletecourse_responsible_teacher');
+/////addgraduate
+Route::get('/getgraduate','APIAJController@getgraduate');
+Route::post('/addyear_graduate','APIAJController@addyear_graduate');
+Route::post('/addgraduate','APIAJController@addgraduate');
+Route::post('/updategraduate','APIAJController@updategraduate');
 /////assessment_results
 Route::GET('/getassessment_results','APIAJController@getassessment_results');
 Route::GET('/getclidincategory/{id}','APIAJController@getclidincategory');

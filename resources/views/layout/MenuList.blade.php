@@ -170,7 +170,7 @@
         @if($value1['category_id']==$value['category_id'])
         <li class="active treeview ">
           <a href="">
-            <i class="{{$value['icon']}}"></i><span>{{$value['category_name']}}</span>
+            <i class="{{$value['icon']}}"></i><span>หมวดที่ {{$value['category_id']}}</span>
             
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
