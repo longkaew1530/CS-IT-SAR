@@ -13,6 +13,7 @@ use App\ModelAJ\Research_results;
 use App\Year;
 use App\Tps;
 use App\indicator4_3;
+use App\indicator1_1;
 use App\course_responsible_teacher;
 use App\Educational_background;
 use Illuminate\Support\Facades\Hash;
@@ -84,7 +85,51 @@ class CategoryController extends Controller
          ->where('users.user_course',session()->get('usercourse'))
          ->where('special_teacher.year_id',session()->get('year_id'))
          ->get();
-        
+
+         $getresult=indicator1_1::where('year_id',session()->get('year_id'))
+         ->where('course_id',session()->get('usercourse'))
+         ->get();
+         foreach($getresult as $value){
+             $get1=$value['result1'];
+             $get2=$value['result2'];
+             $get3=$value['result3'];
+             $get4=$value['result4'];
+         }
+         if($get1==1){
+            $result1=1;
+            $result2=0;
+         }
+         else{
+            $result1=0;
+            $result2=1;
+         }
+        // ----------
+         if($get2==1){
+            $result3=1;
+            $result4=0;
+         }
+         else{
+            $result3=0;
+            $result4=1;
+         }
+        // ----------
+         if($get3==1){
+            $result5=1;
+            $result6=0;
+         }
+         else{
+            $result5=0;
+            $result6=1;
+         }
+          // ----------
+         if($get4==1){
+            $result7=1;
+            $result8=0;
+         }
+         else{
+            $result7=0;
+            $result8=1;
+         }
          ////ดึงผลการประเมินตนเอง ตัวบ่งชี้ที่ 1.1
         $inc= Tps::leftjoin('indicator','tps.indicator_id','=','indicator.indicator_id')
         ->where('tps.course_id',session()->get('usercourse'))
@@ -105,7 +150,7 @@ class CategoryController extends Controller
             $checkpass=false;
         }
         return view('category/indicator1-1',compact('c','count','nameteacher'
-        ,'educ_bg','y','checkpass','checknotpass','tc_course','instructor','specialinstructor','inc'));
+        ,'educ_bg','y','checkpass','checknotpass','tc_course','instructor','specialinstructor','inc','result1','result2','result3','result4','result5','result6','result7','result8'));
     }
     public function category1()
     {

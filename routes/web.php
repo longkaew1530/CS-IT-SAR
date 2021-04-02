@@ -312,6 +312,15 @@ Route::GET('/getassessment_results','APIAJController@getassessment_results');
 Route::GET('/getclidincategory/{id}','APIAJController@getclidincategory');
 Route::put('/updateactive/{id}','APIAJController@updateactive');
 Route::put('/updateactive2/{id}','APIAJController@updateactive2');
+/////overview
+Route::GET('/getoverview','APIAJController@getoverview');
+/////addresultindicator1_1
+Route::post('/addresultindicator1_1','APIController@addresultindicator1_1');
+/////defaulindicator
+Route::post('/adddefualindicator','APIAJController@adddefualindicator');
+Route::get('/getdefualindicator/{id}','APIAJController@getdefualindicator');
+Route::post('/updatedefualindicator','APIAJController@updatedefualindicator');
+Route::delete('/deletedefualindicator/{id}','APIAJController@deletedefualindicator');
 /////download
 Route::get('/dowloaddoxc','ReportController@generateDocx');
 

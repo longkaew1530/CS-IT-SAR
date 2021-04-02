@@ -18,12 +18,14 @@ class category extends Model
         ->leftjoin('user_permission','indicator.id','=','user_permission.indicator_id')
         ->where('user_permission.user_id',$user=auth()->user()->id)
         ->where('indicator.year_id',session()->get('year_id'))
+        ->where('indicator.course_id',session()->get('usercourse'))
         ->where('user_permission.year_id',session()->get('year_id'));
     }
     public function indicator2()
     {
         return $this->hasMany('App\indicator','category_id','category_id')
         ->where('year_id',session()->get('year_id'))
+        ->where('course_id',session()->get('usercourse'))
         ->where('active',1);
     }
     public $timestamps = false;

@@ -6,9 +6,11 @@ use App\PDCA;
 use App\DocPDCA;
 use App\Groupmenu;
 use App\Course;
+use App\composition;
 use App\Year;
 use App\Tps;
 use App\usergroup;
+use App\defaulindicator;
 use App\Menu;
 use App\category;
 use App\instructor;
@@ -160,8 +162,10 @@ class DashboardController extends Controller
     }
     public function index11()
     {
-        $indicator=indicator::all();
-        return view('dashboard/Indicator',compact('indicator'));
+        $indicator=defaulindicator::all();
+        $category=category::all();
+        $composition=composition::all();
+        return view('dashboard/Indicator',compact('indicator','category','composition'));
     }
     public function index12()
     {

@@ -60,7 +60,7 @@
               <div class="form-group">
               <input type="hidden" class="form-control" id="usergroup_id" name="user_group_id" >
                   <label for="exampleInputEmail1">หลักฐานอ้างอิง</label>
-                  <input multiple="true" type="file" id="doc_file" name="doc_file[]" onchange="example()">
+                  <input type="file" id="doc_file" name="doc_file[]" onchange="example()">
                 </div>
                 
               </div>
@@ -160,14 +160,14 @@
     var values = $("input[name='filename[]']")
               .map(function(){return $(this).val();}).get();
     var inp = document.getElementById('doc_file');
+    var i=0;
     document.getElementById("doc").value =inp;
-      for (var i = 0; i < inp.files.length; ++i) {
         var name = inp.files.item(i).name;
         $('#show2').append('<div class="col-md-12 col-sm-9 col-xs-12"><span class="badge bg-green">'+(i+1)+'. '+values[i]+'</span><input type="hidden" class="form-control" id="getfilename" name="getfilename[]" value="'+values[i]+'"></div>');  
-      }
+      i++;
       $('#modal-edit').modal('toggle');
-      var myobj = document.getElementById("add");
-        myobj.remove();
+      document.getElementById("doc_file").value = "";
+      document.getElementById('show').style.visibility = 'hidden';
        }
 </script>
 @endsection

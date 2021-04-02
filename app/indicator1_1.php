@@ -4,12 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class assessment_results extends Model
+class indicator1_1 extends Model
 {
-    protected $table = 'assessment_results';
+    protected $table = 'indicator1_1';
     protected $primaryKey = 'id';
     protected $fillable=[
-        'category_id','year_id','course_id','active'
+        'result1','result2','result3','result4','course_id','year_id'
     ];
     public $timestamps = false;
 }

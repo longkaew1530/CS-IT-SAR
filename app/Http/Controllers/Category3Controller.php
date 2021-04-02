@@ -23,6 +23,8 @@ use App\category3_GD;
 use App\Menu;
 use App\ModelAJ\category3_inforstudent;
 use App\course_responsible_teacher;
+use App\year_acceptance_graduate;
+use App\category3_graduate;
 use App\Educational_background;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
@@ -37,10 +39,17 @@ class Category3Controller extends Controller
     }
     public function graduatesQTY()
     {
-        $year = session()->get('year_id');
-        $gd=category3_GD::where('year_id',$year)
+        $get=year_acceptance_graduate::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
         ->get();
-        return view('category3/graduatesqty',compact('gd'));
+        $getinfo=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->get();
+        $getyear=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->where('year_add',session()->get('year'))
+        ->get();
+        $getinfo2=category3_infostudent::where('course_id',session()->get('usercourse'))
+            ->get();
+        return view('category3/graduatesqty',compact('get','getinfo','getyear','getinfo2'));
     }
     public function Studentsinfo()
     {

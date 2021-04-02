@@ -8,7 +8,7 @@
                   <th width="30%">หลักฐานอ้างอิง</th>
                 </tr>
                 @foreach($getcategorypdca as $key=>$value)
-                {{$value['Indicator_name']}}
+                
                 <tr>
                 @foreach($value->Categorypdca as $row)
                   <td><b>{{$row['category_name']}}</b><br>

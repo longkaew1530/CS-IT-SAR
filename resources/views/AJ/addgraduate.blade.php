@@ -119,7 +119,7 @@
           icon: "success",
           button: "ตกลง",
         }).then(function() {
-          window.location = "/category3/studentinfomation";
+          window.location = "/category3/graduatesqty";
         });
           }
         },

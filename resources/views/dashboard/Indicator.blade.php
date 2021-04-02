@@ -12,8 +12,8 @@
             <table id="example3" class="table table-bordered table-striped ">
                 <thead>
                 <tr>
-                  <th width="5%">ตัวบ่งชี้</th>
-                  <th width="30%">ชื่อตัวบ่งชี้</th>
+                  <th width="5%">ที่</th>
+                  <th >ตัวบ่งชี้</th>
                   <th width="5%" >แก้ไข</th>
                   <th width="5%">ลบ</th>
                 </tr>
@@ -21,14 +21,11 @@
                 <tbody>
                   @foreach($indicator as $key=>$row)
                 <tr>
-                  <td>{{$row['Indicator_id']}}</td>
-                  <td>{{$row['Indicator_name']}}</td>           
-                  <td class="text-center"><button class="btn btn-warning" type="button"   data-toggle="modal" data-target="#modal-edit" data-id="{{$row['course_id']}}"><i class='fa fas fa-edit'></i></button></td>
+                  <td>{{$key+1}}</td>
+                  <td>ตัวบ่งชี้ {{$row['Indicator_id']}} {{$row['Indicator_name']}}</td>           
+                  <td class="text-center"><button class="btn btn-warning" type="button"   data-toggle="modal" data-target="#modal-edit" data-id="{{$row['id']}}"><i class='fa fas fa-edit'></i></button></td>
                   <td class="text-center">
-                                      <form id="delete-form" method="POST" action="/deletecourse/{{$row['course_id']}}">
-                                        {{ csrf_field() }}
-                                        {{ method_field('DELETE') }}
-                                      <button type="submit" class="btn btn-danger"><i class='fa fa-trash'></i></button></form>
+                                      <button  id="{{$row->id}}" type="button" class="btn btn-danger ddd"><i class='fa fa-trash'></i></button>
                   </td>
                 </tr>
                 <div class="modal  fade" id="modal-info">
@@ -37,30 +34,38 @@
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">เพิ่มข้อมูลกลุ่มเมนู</h4>
+                <h4 class="modal-title">เพิ่มตัวบ่งชี้</h4>
               </div>
-              <form  method="POST" action="/addcourse">
+              <form  id="adddata" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data">
               @csrf
               <div class="box-body">
                 <div class="form-group">
-                  <label for="exampleInputEmail1">หลักสูตร</label>
-                  <input type="text" class="form-control" id="course_name" name="course_name" placeholder="หลักสูตร">
+                  <label for="exampleInputEmail1">ตัวบ่งชี้ที่</label>
+                  <input type="text" class="form-control" id="Indicator_id" name="Indicator_id" placeholder="ตัวบ่งชี้ที่">
                 </div>
                 <div class="form-group">
-                  <label for="exampleInputPassword1">สาขา</label>
-                  <input type="text" class="form-control" id="branch" name="branch" placeholder="สาขา">
+                  <label for="exampleInputPassword1">ชื่อตัวบ่งชี้</label>
+                  <input type="text" class="form-control" id="Indicator_name" name="Indicator_name" placeholder="ชื่อตัวบ่งชี้">
                 </div>
                 <div class="form-group">
-                  <label for="exampleInputPassword1">รหัสหลักสูตร</label>
-                  <input type="text" class="form-control" id="course_code" name="course_code" placeholder="รหัสหลักสูตร">
-                </div>
+                <label for="exampleInputPassword1">หมวด</label>
+                                  <select class="form-control"  id="category_id"  class="form-control @error('role') is-invalid @enderror" name="category_id">
+                                    @foreach($category as $value)
+                                    <option value="{{$value['category_id']}}">{{$value['category_name']}}</option>
+                                    @endforeach
+                                  </select>
+                                  </div>
+                 <div class="form-group">
+                <label for="exampleInputPassword1">องค์ประกอบ</label>
+                                  <select class="form-control"  id="composition_id"  class="form-control @error('role') is-invalid @enderror" name="composition_id">
+                                    @foreach($composition as $value)
+                                    <option value="{{$value['id']}}">{{$value['name']}}</option>
+                                    @endforeach
+                                  </select>
+                                  </div>
                 <div class="form-group">
-                  <label for="exampleInputPassword1">หลักสูตรปรับปรุง</label>
-                  <input type="text" class="form-control" id="update_course" name="update_course" placeholder="หลักสูตรปรับปรุง">
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputPassword1">สถานที่</label>
-                  <input type="text" class="form-control" id="place" name="place" placeholder="สถานที่">
+                  <label for="exampleInputPassword1">URL</label>
+                  <input type="text" class="form-control" id="url" name="url" placeholder="URL">
                 </div>
               </div>
             
@@ -77,7 +82,7 @@
           </div>
           <!-- /.modal-dialog -->
         </div>
-
+        
         <div class="modal  fade" id="modal-edit">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -86,30 +91,37 @@
                   <span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">เพิ่มข้อมูลกลุ่มเมนู</h4>
               </div>
-              <form  method="POST" action="/updatecourse">
+              <form  id="updatedata" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data">
               @csrf
-              {{ method_field('PUT') }}
               <div class="box-body">
               <div class="form-group">
-              <input type="hidden" class="form-control" id="courseid" name="course_id" >
-                  <label for="exampleInputEmail1">หลักสูตร</label>
-                  <input type="text" class="form-control" id="coursename" name="course_name" placeholder="หลักสูตร">
+              <input type="hidden" class="form-control" id="id" name="id" >
+                  <label for="exampleInputEmail1">ตัวบ่งชี้ที่</label>
+                  <input type="text" class="form-control" id="Indicatorid" name="Indicator_id" placeholder="ตัวบ่งชี้ที่">
                 </div>
                 <div class="form-group">
-                  <label for="exampleInputPassword1">สาขา</label>
-                  <input type="text" class="form-control" id="branch1" name="branch" placeholder="สาขา">
+                  <label for="exampleInputPassword1">ชื่อตัวบ่งชี้</label>
+                  <input type="text" class="form-control" id="Indicatorname" name="Indicator_name" placeholder="ชื่อตัวบ่งชี้">
                 </div>
                 <div class="form-group">
-                  <label for="exampleInputPassword1">รหัสหลักสูตร</label>
-                  <input type="text" class="form-control" id="coursecode" name="course_code" placeholder="รหัสหลักสูตร">
-                </div>
+                <label for="exampleInputPassword1">หมวด</label>
+                                  <select class="form-control"  id="categoryid"  class="form-control @error('role') is-invalid @enderror" name="category_id">
+                                    @foreach($category as $value)
+                                    <option value="{{$value['category_id']}}">{{$value['category_name']}}</option>
+                                    @endforeach
+                                  </select>
+                                  </div>
+                 <div class="form-group">
+                <label for="exampleInputPassword1">องค์ประกอบ</label>
+                                  <select class="form-control"  id="compositionid"  class="form-control @error('role') is-invalid @enderror" name="composition_id">
+                                    @foreach($composition as $value)
+                                    <option value="{{$value['id']}}">{{$value['name']}}</option>
+                                    @endforeach
+                                  </select>
+                                  </div>
                 <div class="form-group">
-                  <label for="exampleInputPassword1">หลักสูตรปรับปรุง</label>
-                  <input type="text" class="form-control" id="updatecourse" name="update_course" placeholder="หลักสูตรปรับปรุง">
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputPassword1">สถานที่</label>
-                  <input type="text" class="form-control" id="place1" name="place" placeholder="สถานที่">
+                  <label for="exampleInputPassword1">URL</label>
+                  <input type="text" class="form-control" id="uurl" name="url" placeholder="URL">
                 </div>
               </div>
             
@@ -188,19 +200,114 @@ var button = $(event.relatedTarget);
 var id= button.data('id');
 var modal = $(this);
 modal.find('#emp_id').val(id);
-var url = "/getcourse";
+var url = "/getdefualindicator";
         $.get(url + '/' + id, function (data) {
             //success data
             console.log(data)
-            $("#courseid").val(data[0].course_id);
-            $("#coursename").val(data[0].course_name);
-            $("#branch1").val(data[0].branch);
-            $("#facultyid").val(data[0].faculty_id);
-            $("#coursecode").val(data[0].course_code);
-            $("#updatecourse").val(data[0].update_course);
-            $("#place1").val(data[0].place);
+            $("#id").val(data[0].id);
+            $("#Indicatorid").val(data[0].Indicator_id);
+            $("#Indicatorname").val(data[0].Indicator_name);
+            $("#categoryid").val(data[0].category_id);
+            $("#compositionid").val(data[0].composition_id);
+            $("#uurl").val(data[0].url);
         }) 
 });
 });
+</script>
+<script type="text/javascript">
+  $(document).ready(function(e) {
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $('#adddata').submit(function(e) {
+      e.preventDefault();
+      for (instance in CKEDITOR.instances) {
+                CKEDITOR.instances[instance].updateElement();
+        }
+      var formData = new FormData(this);
+      $.ajax({
+        type: 'POST',
+        url: "/adddefualindicator",
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        success: (data) => {
+          swal({
+          title: "เพิ่มข้อมูลสำเร็จ",
+          text: "Success",
+          icon: "success",
+          button: "ตกลง",
+        }).then(function() {
+          window.location = "/Indicator";
+        });
+        },
+        error: function(data) {
+          alert(data.responseJSON.errors.files1[0]);
+          console.log(data.responseJSON.errors);
+        }
+      });
+    });
+    $('#updatedata').submit(function(e) {
+      e.preventDefault();
+      for (instance in CKEDITOR.instances) {
+                CKEDITOR.instances[instance].updateElement();
+        }
+      var formData = new FormData(this);
+      $.ajax({
+        type: 'POST',
+        url: "/updatedefualindicator",
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        success: (data) => {
+          swal({
+          title: "อัปเดตข้อมูลสำเร็จ",
+          text: "Success",
+          icon: "success",
+          button: "ตกลง",
+        }).then(function() {
+          window.location = "/Indicator";
+        });
+        },
+        error: function(data) {
+          alert(data.responseJSON.errors.files1[0]);
+          console.log(data.responseJSON.errors);
+        }
+      });
+    });
+    $('.ddd').click(function(e) {
+      e.preventDefault();
+      var id = $(this).attr('id');
+      $.ajax({
+        type: 'DELETE',
+        url: "/deletedefualindicator/"+id,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        success: (data) => {
+          swal({
+          title: "ลบข้อมูลเรียบร้อยแล้ว",
+          text: "",
+          icon: "success",
+          button: "ตกลง",
+        }).then(function() {
+          window.location = "/Indicator";
+        });
+        },
+        error: function(data) {
+          alert(data.responseJSON.errors.files1[0]);
+          console.log(data.responseJSON.errors);
+        }
+      });
+    });
+  });
+  
 </script>
 @endsection

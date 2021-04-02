@@ -9,7 +9,7 @@ class indicator extends Model
     protected $table = 'indicator';
     protected $primaryKey = 'id';
     protected $fillable=[
-        'Indicator_name'
+        'Indicator_id','Indicator_name','year_id','category_id','composition_id','url','active'
     ];
     public function Categorypdca()
     {

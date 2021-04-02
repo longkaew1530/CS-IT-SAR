@@ -7,12 +7,14 @@ use App\rolepermission;
 use App\user_permission;
 use App\Menu;
 use App\Groupmenu;
+use App\defaulindicator;
 use App\branch;
 use App\instructor;
 use App\Course;
 use App\Faculty;
 use App\groupuser;
 use App\course_teacher;
+use App\indicator1_1;
 use App\Year;
 use Validator;
 use App\category;
@@ -272,6 +274,30 @@ class APIController extends Controller
          $nextyear++;
          $queryyaer->year_name=$nextyear;
          $queryyaer->save();
+         $getall=defaulindicator::all();
+         $getcourse=Course::all();
+         foreach($getcourse as $row){
+            foreach($getall as $value){
+                    $data=new indicator;
+                    $data['Indicator_id']=$value['Indicator_id'];
+                    $data['Indicator_name']=$value['Indicator_name'];
+                    $data['category_id']=$value['category_id'];
+                    $data['composition_id']=$value['composition_id'];
+                    $data['url']=$value['url'];
+                    $data['active']=1;
+                    $data['year_id']=$queryyaer->year_id;
+                    $data['course_id']=session()->get('usercourse');
+                    $data->save();
+                    $data1=new assessment_results;
+                    $data1['category_id']=$value['category_id'];
+                    $data1['active']=1;
+                    $data1['year_id']=$queryyaer->year_id;
+                    $data1['course_id']=session()->get('usercourse');
+                    $data1->save();
+                    
+            }
+         }
+         
          return $queryyaer;
      }
      /////ปีถัดไป/////ปีถัดไป/////ปีถัดไป/////ปีถัดไป/////ปีถัดไป/////ปีถัดไป
@@ -614,10 +640,55 @@ class APIController extends Controller
       {
           $product = course_responsible_teacher::where('user_id',$id)
           ->where('year_id',session()->get('year_id'))
-          ->where('course_id',session()->get('year_id'))
+          ->where('course_id',session()->get('usercourse'))
           ->delete();
           
           return $product;
       }
       /////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร
+
+
+      public function addresultindicator1_1(Request $request)
+      {
+        $check=indicator1_1::where('year_id',session()->get('year_id'))
+        ->where('course_id',session()->get('usercourse'))
+        ->get();
+        if(isset($check)){
+            $data=indicator1_1::find($check[0]['id']);
+             if($request->name=="result1"){
+                $data['result1']=$request->value;
+              }
+              else if($request->name=="result2"){
+                $data['result2']=$request->value;
+              }
+              else if($request->name=="result3"){
+                $data['result3']=$request->value;
+             }
+              else if($request->name=="result4"){
+                $data['result4']=$request->value;
+             }
+             $data->save();
+        }
+        else{
+            $data=new indicator1_1;
+            if($request->name=="result1"){
+              $data['result1']=$request->value;
+            }
+            else if($request->name=="result2"){
+              $data['result2']=$request->value;
+            }
+            else if($request->name=="result3"){
+              $data['result3']=$request->value;
+           }
+            else if($request->name=="result4"){
+              $data['result4']=$request->value;
+           }
+           $data['year_id']=session()->get('year_id');
+           $data['course_id']=session()->get('usercourse');
+           $data->save();
+        }
+          
+         
+          return $data;
+      }
 }

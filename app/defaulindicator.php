@@ -4,12 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class assessment_results extends Model
+class defaulindicator extends Model
 {
-    protected $table = 'assessment_results';
+    protected $table = 'defaulindicator';
     protected $primaryKey = 'id';
     protected $fillable=[
-        'category_id','year_id','course_id','active'
+        'Indicator_id','Indicator_name','category_id','composition_id','url'
     ];
     public $timestamps = false;
 }

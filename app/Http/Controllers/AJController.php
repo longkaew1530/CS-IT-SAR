@@ -433,10 +433,19 @@ class AJController extends Controller
         $getyear=category3_graduate::where('course_id',session()->get('usercourse'))
         ->where('year_add',session()->get('year'))
         ->get();
+        $getinfo2=category3_infostudent::where('course_id',session()->get('usercourse'))
+            ->get();
         if(count($get)==0){
             $get="";
         }
+
+        if(count($getyear)===0){
             return view('AJ/addgraduate',compact('get','getinfo','getyear'));
+        }
+        else{
+            return view('category3/graduatesqty',compact('get','getinfo','getyear','getinfo2'));
+        }
+           
              
     }
 }

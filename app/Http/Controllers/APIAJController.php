@@ -10,9 +10,13 @@ use App\ModelAJ\categoty_researh;
 use App\User;
 use App\PDCA;
 use App\docpdca;
+use App\course_responsible_teacher;
 use App\indicator4_3;
+use App\course_teacher;
 use App\indicator2_1;
+use App\defaulindicator;
 use App\indicator2_2;
+use App\category;
 use App\composition;
 use App\category3_infostudent_qty;
 use App\year_acceptance_graduate;
@@ -1986,4 +1990,98 @@ class APIAJController extends Controller
     return $data2;
    }
        /////infostudent/////infostudent/////infostudent/////infostudent/////infostudent/////infostudent
+
+      public function getoverview()
+    {
+        $role=category::leftjoin('assessment_results','category.category_id','=','assessment_results.category_id')
+        ->where('year_id',session()->get('year_id'))
+        ->where('active',1)
+        ->orderBy('assessment_results.category_id','asc')
+        ->get();
+        $crt=course_responsible_teacher::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        $ct=course_teacher::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        if(count($crt)==5){
+            $crtscore=25;
+        }
+        else if(count($crt)==4){
+            $crtscore=20;
+        }
+        else if(count($crt)==3){
+            $crtscore=15;
+        }
+        else if(count($crt)==2){
+            $crtscore=10;
+        }
+        else if(count($crt)==1){
+            $crtscore=5;
+        }
+        else {
+            $crtscore=0;
+        }
+
+        if(count($ct)==5){
+            $crt=25;
+        }
+        else if(count($crt)==4){
+            $crt=20;
+        }
+        else if(count($crt)==3){
+            $crt=15;
+        }
+        else if(count($crt)==2){
+            $crt=10;
+        }
+        else if(count($crt)==1){
+            $crt=5;
+        }
+        else {
+            $crt=0;
+        }
+        $role[0]['score']=$crt+$crtscore;
+        $role[0]['color']='success';
+        $role[0]['color2']='green';
+       return $role;
+       
+    }
+     /////defualindicator/////defualindicator/////defualindicator/////defualindicator/////defualindicator/////defualindicator
+     public function getdefualindicator($id)
+     {
+         $editdata=defaulindicator::where('id',$id)
+         ->get();
+         return $editdata;
+     }
+     function adddefualindicator(Request $request)
+     {
+         $data=new defaulindicator;
+         $data->Indicator_id=$request->Indicator_id;
+         $data->Indicator_name=$request->Indicator_name;
+         $data->category_id=$request->category_id;
+         $data->composition_id=$request->composition_id;
+         $data->url=$request->url;
+         $data->save();
+        return  $data;
+     }
+     public function updatedefualindicator(Request $request)
+     {
+         $data=defaulindicator::find($request->id);
+         $data->Indicator_id=$request->Indicator_id;
+         $data->Indicator_name=$request->Indicator_name;
+         $data->category_id=$request->category_id;
+         $data->composition_id=$request->composition_id;
+         $data->url=$request->url;
+         $data->save();
+               
+         return $data;
+     }
+     public function deletedefualindicator($id)
+    {
+        $data = defaulindicator::find($id);
+        $data->delete();
+        return $data;
+    }
+      /////defualindicator/////defualindicator/////defualindicator/////defualindicator/////defualindicator/////defualindicator
 }
