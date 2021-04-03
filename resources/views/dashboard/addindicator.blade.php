@@ -11,8 +11,8 @@
             <table id="example2" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                  <th width="5%">ID</th>
-                  <th >กลุ่มผู้ใช้งาน</th>
+                  <th width="5%">ที่</th>
+                  <th >ชื่อ-สกุล</th>
                   <th width="10%">มอบหมายตัวบ่งชี้</th>
                 </tr>
                 </thead>

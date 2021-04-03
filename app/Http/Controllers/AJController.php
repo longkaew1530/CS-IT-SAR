@@ -212,57 +212,60 @@ class AJController extends Controller
         }
             
     }
-    public function addindicator5_4()
+    public function addindicator5_4($id)
     {
-        $get=in_index::all();
-        $check=indicator5_4::where('course_id',session()->get('usercourse'))
-        ->where('year_id',session()->get('year_id'))
+        $get=in_index::where('id',$id)
         ->get();
-        $getdata[0]=0;
-        $getdata[1]=0;
-        $getdata[2]=0;
-        $getdata[3]=0;
-        $getdata[4]=0;
-        $getdata[5]=0;
-        $getdata[6]=0;
-        $getdata[7]=0;
-        $getdata[8]=0;
-        $getdata[9]=0;
-        $getdata[10]=0;
-        $getdata[11]=0;
-        $getdata[12]=0;
-        foreach($check as $key=>$row){
-                $getdata[$key]=$row['category'];          
-        }
-        $indi=in_index::all();
-        $perfor=indicator5_4::where('course_id',session()->get('usercourse'))
-        ->where('year_id',session()->get('year_id'))
-        ->get();
+        return view('AJ/add5_4',compact('get'));
+        
+        // $check=indicator5_4::where('course_id',session()->get('usercourse'))
+        // ->where('year_id',session()->get('year_id'))
+        // ->get();
+        // $getdata[0]=0;
+        // $getdata[1]=0;
+        // $getdata[2]=0;
+        // $getdata[3]=0;
+        // $getdata[4]=0;
+        // $getdata[5]=0;
+        // $getdata[6]=0;
+        // $getdata[7]=0;
+        // $getdata[8]=0;
+        // $getdata[9]=0;
+        // $getdata[10]=0;
+        // $getdata[11]=0;
+        // $getdata[12]=0;
+        // foreach($check as $key=>$row){
+        //         $getdata[$key]=$row['category'];          
+        // }
+        // $indi=in_index::all();
+        // $perfor=indicator5_4::where('course_id',session()->get('usercourse'))
+        // ->where('year_id',session()->get('year_id'))
+        // ->get();
 
-        $result=0;
-        $resultpass1_5=0;
-        $resultpass1_5persen=0;
-        $resultpass1_5count=0;
-        $resultpassall=0;
-        $result=count($perfor);
-        foreach($perfor as $value){
-            if($value['category']==1||$value['category']==2||$value['category']==3||$value['category']==4||$value['category']==5){
-                $resultpass1_5count++;
-                if($value['status']==1){
-                    $resultpass1_5++;
-                }
-            }
-            if($value['status']==1){
-                $resultpassall++;
-            }
-        }
-        $resultpass1_5persen=($resultpass1_5count*100)/5;
-            if(count($check)===12){
-                return view('category4/indicator5_4',compact('indi','perfor','result','resultpass1_5','resultpass1_5persen','resultpassall'));
-            }
-            else{
-                return view('AJ/add5_4',compact('get','getdata'));
-            }
+        // $result=0;
+        // $resultpass1_5=0;
+        // $resultpass1_5persen=0;
+        // $resultpass1_5count=0;
+        // $resultpassall=0;
+        // $result=count($perfor);
+        // foreach($perfor as $value){
+        //     if($value['category']==1||$value['category']==2||$value['category']==3||$value['category']==4||$value['category']==5){
+        //         $resultpass1_5count++;
+        //         if($value['status']==1){
+        //             $resultpass1_5++;
+        //         }
+        //     }
+        //     if($value['status']==1){
+        //         $resultpassall++;
+        //     }
+        // }
+        // $resultpass1_5persen=($resultpass1_5count*100)/5;
+        //     if(count($check)===12){
+        //         return view('category4/indicator5_4',compact('indi','perfor','result','resultpass1_5','resultpass1_5persen','resultpassall'));
+        //     }
+        //     else{
+        //         return view('AJ/add5_4',compact('get','getdata'));
+        //     }
     }
     public function addacademic_performance()
     {

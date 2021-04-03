@@ -43,7 +43,7 @@ class Category4Controller extends Controller
         $perfor=indicator5_4::where('course_id',session()->get('usercourse'))
         ->where('year_id',session()->get('year_id'))
         ->get();
-
+        
         $result=0;
         $resultpass1_5=0;
         $resultpass1_5persen=0;
@@ -51,7 +51,7 @@ class Category4Controller extends Controller
         $resultpassall=0;
         $result=count($perfor);
         foreach($perfor as $value){
-            if($value['category']==1||$value['category']==2||$value['category']==3||$value['category']==4||$value['category']==5){
+            if($value['in_index_id']==1||$value['in_index_id']==2||$value['in_index_id']==3||$value['in_index_id']==4||$value['in_index_id']==5){
                 $resultpass1_5count++;
                 if($value['status']==1){
                     $resultpass1_5++;

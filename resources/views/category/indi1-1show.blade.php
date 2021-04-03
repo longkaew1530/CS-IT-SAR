@@ -234,7 +234,7 @@
                 <tr>
                   <td>ตัวบ่งชี้ที่{{$row['Indicator_id']." ".$row['Indicator_name']}}</td>             
                   <td>{{$row['target']}}</td>
-                  <td>{{$row['performance']}}</td>
+                  <td>{{$row['performance3']}}</td>
                   <td>{{$row['score']}}</td>
                 </tr>
                 <tr>

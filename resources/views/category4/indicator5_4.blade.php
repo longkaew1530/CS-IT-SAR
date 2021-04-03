@@ -4,7 +4,7 @@
 <div class="box box-warning marginl">
 <div class="box-header">
             <div class="box-body">
-            <a href="/addindicator5-4" class="btn btn-success fr ml-1"><i class='fa fa-plus'></i> เพิ่มข้อมูล</a>
+            
            <b><h4>ผลการดำเนินงานหลักสูตรตามกรอบมาตรฐานคุณวุฒิระดับอุดมศึกษาแห่งชาติ (ตัวบ่งชี้ที่ 5.4)</h4></b><br>
             <table class="table table-bordered" >
                 <tbody ><tr>
@@ -20,40 +20,42 @@
                 <tr>
                     <td ><b>{{($key + 1)}}) {{$value['name']}}</b><br>
                         <ins>ผลการดำเนินงาน</ins><br>
-                        @foreach($perfor as $row)
-                        @if($row['category']==$value['id'])
-                            {!!$row['performance']!!}<br><br>
-                        @endif
+                        @foreach($value->indicator5_4 as $row)
+                            {!!$row['performance']!!}<br><br>          
                         @endforeach
                     </td>
                         <td class="text-center">
-                        @foreach($perfor as $row)
-                            @if($row['status']==1&&$row['category']==$value['id'])
+                        @foreach($value->indicator5_4 as $row)
+                            @if($row['status']==1)
                             <i class="fa fa-check "></i>
                             @endif
-                        @endforeach
+                            @endforeach
                         </td>
+                        
                         <td class="text-center">
-                        @foreach($perfor as $row)
-                            @if($row['status']==0&&$row['category']==$value['id'])
+                        @foreach($value->indicator5_4 as $row)
+                            @if($row['status']==0)
                             <i class="fa fa-check"></i>
                             @endif
-                        @endforeach
+                            @endforeach
                         </td>
                         <td>
-                        
-                        @foreach($perfor as $row)
-                            @if($row['category']==$value['id'])
-                            <a href="/getindicator5_4/{{$row['id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i></a>
-                                @foreach($row->doc_indicator5_4 as $row1)
-                                -{{$row1['doc_name']}}
-                                <br>
-                                @endforeach
-                                
-                            @endif
-                        @endforeach
+                        <?php $getcount=count($value->indicator5_4);?>
+                                @if($getcount!=0)
+                                @foreach($value->indicator5_4 as $row)
+                                    <a href="/getindicator5_4/{{$row['id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i></a>                                                                  
+                                        @foreach($row->doc_indicator5_4 as $row1)
+                                        -{{$row1['doc_name']}}
+                                        <br>
+                                        @endforeach
+                                 @endforeach
+                                @else
+                                <a href="/addindicator5-4/{{$value['id']}}" class="btn btn-success fr ml-1"><i class='fa fa-plus'></i></a>
+                                @endif
                         </td>
+                        
                 </tr>
+                
                 @endforeach
                 <tr>
                     <td class="text-center">รวมตัวบ่งชี้ในปีนี้</td>

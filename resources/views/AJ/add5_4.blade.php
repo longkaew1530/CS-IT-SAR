@@ -12,24 +12,8 @@
     </div>
     <form id="adddata" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data">
     @csrf
-           <div class="col-md-12">
-          <div class="box-header col-md-12 col-sm-9 col-xs-12">
-            <h3 class="box-title">ผลการดำเนินงาน</h3>
-          </div>
-            <div class="col-md-12 col-sm-9 col-xs-12">
-            <select class="form-control"  id="category"  class="form-control @error('role') is-invalid @enderror" name="category">
-                                    @foreach($get as $value) 
-                                        @if($value['id']!==$getdata[0]&&$value['id']!==$getdata[1]&&$value['id']!==$getdata[2]&&$value['id']!==$getdata[3]&&
-                                        $value['id']!==$getdata[4]&&$value['id']!==$getdata[5]&&$value['id']!==$getdata[6]&&$value['id']!==$getdata[7]&&
-                                        $value['id']!==$getdata[8]&&$value['id']!==$getdata[9]&&$value['id']!==$getdata[10]&&$value['id']!==$getdata[11])
-                                        <option value="{{$value['id']}}">{{$value['name']}}</option>
-                                        @endif
-                                    @endforeach
-              </select>
-            </div>
-        </div>
-
         <div class="col-md-12">
+        <input type="hidden" class="form-control" id="id" name="id" value="{{$get[0]['id']}}">
           <div class="box-header col-md-12 col-sm-9 col-xs-12">
             <h3 class="box-title">ผลการดำเนินงาน</h3>
           </div>

@@ -17,33 +17,45 @@
                 @php
                 $i = $key
                 @endphp
-                @foreach($pdca as $row)
-                  @if($value['id']==$row['composition_id']&&$row['target']!=null)
-                <tr>
-                @if($i+1==$value['id'])
-                  <td rowspan="2">
-                  <ins><b>องประกอบที่ {{$value['id']}}{{$value['name']}}</b></ins><br><br>
-                  ตัวบ่งชี้ที่ {{$row['Indicator_id']." ".$row['Indicator_name']}}
-                  </td>
-                @else
-                  <td rowspan="2">
-                  ตัวบ่งชี้ที่ {{$row['Indicator_id']." ".$row['Indicator_name']}}
-                  </td>
-                @endif
-                  <td class="text-center" rowspan="2">{{$row['target']}}</td>  
-                  @if($row['performance1']!=null)<td class="text-center" >{{$row['performance1']}}</td>
-                  <td rowspan="2" class="text-center">{{$row['performance3']}}</td>
-                  @else
-                  <td colspan="2" class="text-center">{{$row['performance3']}}</td> 
-                  @endif
-                  
-                  <td class="text-center" rowspan="2">{{$row['score']}}</td> 
-                </tr>
-                <tr>
-                @if($row['performance1']!=null)
-                    <td class="text-center">{{$row['performance2']}}</td>
-                  @endif  
-                </tr>
+                @foreach($indicator as $row)
+                  @if($value['id']==$row['composition_id'])
+                    <tr>
+                    @if($i+1==$value['id'])
+                      <td rowspan="2">
+                      <ins><b>องประกอบที่ {{$value['id']}} {{$value['name']}}</b></ins><br><br>
+                      ตัวบ่งชี้ที่ {{$row['Indicator_id']." ".$row['Indicator_name']}}
+                      </td>
+                    @else
+                      <td rowspan="2">
+                      ตัวบ่งชี้ที่ {{$row['Indicator_id']." ".$row['Indicator_name']}}
+                      </td>
+                    @endif
+                    <?php $check=$pdca->where('Indicator_id',$row['Indicator_id']); ?>
+                    @if($check=='[]')
+                    <td rowspan="2" class="text-center">0</td>
+                    <td colspan="2" class="text-center">0</td>
+                    <td rowspan="2" class="text-center">0</td>
+                    </tr>
+                    <tr></tr>
+                    @endif
+                   @foreach($pdca as $row1)
+                      @if($row1['Indicator_id']==$row['Indicator_id'])
+                      <td class="text-center" rowspan="2">{{$row1['target']}}</td>  
+                      @if($row1['performance1']!=null)<td class="text-center" >{{$row1['performance1']}}</td>
+                      <td rowspan="2" class="text-center">{{$row1['performance3']}}</td>
+                      @else
+                      <td colspan="2" class="text-center">{{$row1['performance3']}}</td> 
+                      @endif
+                      
+                      <td class="text-center" rowspan="2">{{$row1['score']}}</td> 
+                    </tr>
+                    <tr>
+                      @if($row1['performance1']!=null)
+                          <td class="text-center">{{$row1['performance2']}}</td>
+                        @endif 
+                    </tr>    
+                    @endif
+                  @endforeach 
                   @php
                   $i++
                   @endphp

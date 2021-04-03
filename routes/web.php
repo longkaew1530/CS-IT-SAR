@@ -47,7 +47,7 @@ Route::get('/addimpactfactor/{id}', 'AJController@addfactor');
 Route::get('/addindicator2-1', 'AJController@addindicator2_1');
 Route::get('/addindicator2-2', 'AJController@addindicator2_2');
 Route::get('/addcourse_results', 'AJController@addcourse_results');
-Route::get('/addindicator5-4', 'AJController@addindicator5_4');
+Route::get('/addindicator5-4/{id}', 'AJController@addindicator5_4');
 Route::get('/addacademic_performance', 'AJController@addacademic_performance');
 Route::get('/addnot_offered', 'AJController@addnot_offered');
 Route::get('/addincomplete_content', 'AJController@addincomplete_content');

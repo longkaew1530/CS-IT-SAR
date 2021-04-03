@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use App\PDCA;
+use App\defaulindicator;
 use App\composition;
 use App\indicator;
 use App\category;
@@ -30,17 +31,20 @@ class ReportController extends Controller
     public function performance_summary()
     {
         $getall=composition::all();
+        $indicator=defaulindicator::where('Indicator_id','!=',null)
+        ->get();
         $pdca=indicator::leftjoin('pdca','indicator.Indicator_id','=','pdca.indicator_id')
         ->where('indicator.year_id',session()->get('year_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('target','!=',null)
         ->get();
         $per1="";
         foreach($pdca as $value)
         {
             $per1=$value['performance1'];
         }
-            return view('report/performance_summary',compact('pdca','per1','getall'));
+            return view('report/performance_summary',compact('pdca','per1','getall','indicator'));
     }
     public function generateDocx()
     {

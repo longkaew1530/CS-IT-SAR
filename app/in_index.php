@@ -11,5 +11,8 @@ class in_index extends Model
     protected $fillable=[
         'name'
     ];
-    
+    public function indicator5_4()
+    {
+        return $this->hasMany('App\indicator5_4','in_index_id','id');
+    }
 }

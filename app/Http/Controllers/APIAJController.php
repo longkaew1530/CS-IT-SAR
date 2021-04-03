@@ -766,30 +766,10 @@ class APIAJController extends Controller
      /////addindicator5_4/////addindicator5_4/////addindicator5_4/////addindicator5_4/////addindicator5_4/////addindicator5_4
     public function getindicator5_4($id)
     {
-        $get=in_index::all();
-        $check=indicator5_4::where('course_id',session()->get('usercourse'))
-        ->where('year_id',session()->get('year_id'))
-        ->get();
         $query=indicator5_4::where('id',$id)
         ->where('course_id',session()->get('usercourse'))
         ->where('year_id',session()->get('year_id'))
         ->get();
-        $getdata[0]=0;
-        $getdata[1]=0;
-        $getdata[2]=0;
-        $getdata[3]=0;
-        $getdata[4]=0;
-        $getdata[5]=0;
-        $getdata[6]=0;
-        $getdata[7]=0;
-        $getdata[8]=0;
-        $getdata[9]=0;
-        $getdata[10]=0;
-        $getdata[11]=0;
-        $getdata[12]=0;
-        foreach($check as $key=>$row){
-                $getdata[$key]=$row['category'];          
-        }
         if($query[0]['status']==1){
             $status1=1;
             $status2=0;
@@ -799,7 +779,7 @@ class APIAJController extends Controller
             $status2=1;
         }
         
-        return view('AJ/edit5_4',compact('get','getdata','query','status1','status2'));
+        return view('AJ/edit5_4',compact('query','status1','status2'));
     }
     public function addindicator5_4(Request $request)
     {
@@ -812,7 +792,7 @@ class APIAJController extends Controller
         $data->year_id=session()->get('year_id');
         $data->performance=$request->performance;
         $data->status=$request->status;
-        $data->category=$request->category;
+        $data->in_index_id=$request->id;
         $data->save();
             if($request->TotalFiles > 0)
             {
@@ -866,7 +846,6 @@ class APIAJController extends Controller
         $data=indicator5_4::find($request->id);
         $data->performance=$request->performance;
         $data->status=$request->status;
-        $data->category=$request->category;
         $data->save();
         return $data;
     }

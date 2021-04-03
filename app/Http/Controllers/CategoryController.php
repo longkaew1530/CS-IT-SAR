@@ -131,9 +131,10 @@ class CategoryController extends Controller
             $result8=1;
          }
          ////ดึงผลการประเมินตนเอง ตัวบ่งชี้ที่ 1.1
-        $inc= Tps::leftjoin('indicator','tps.indicator_id','=','indicator.indicator_id')
-        ->where('tps.course_id',session()->get('usercourse'))
-        ->where('tps.year_id',session()->get('year_id'))
+        $inc= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+        ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.year_id',session()->get('year_id'))
+        ->where('pdca.indicator_id',1.1)
         ->get();
          foreach ($educ_bg as $key => $value){
             $value->educational_background->first(); 
