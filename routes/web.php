@@ -40,7 +40,7 @@ Route::get('/addcourse_responsible_teacher', 'DashboardController@index22');
 Route::get('/educational_background', 'AJController@educational_background');
 Route::get('/research_results', 'AJController@research_results');
 Route::get('/pdca/{id}', 'AJController@addpdca');
-Route::get('/addindicator4-3', 'AJController@add4_3');
+Route::get('/addindicator4-3/{id}', 'AJController@add4_3');
 Route::get('/addindicator3-3', 'AJController@addindicator3_3');
 Route::get('/addinfostudent', 'AJController@addinfostd');
 Route::get('/addimpactfactor/{id}', 'AJController@addfactor');
@@ -71,6 +71,7 @@ Route::get('/overview', 'ReportController@overview');
 Route::get('/download', 'ReportController@download');
 Route::get('/instructor', 'ReportController@instructor');
 Route::get('/performance_summary', 'ReportController@performance_summary');
+Route::get('/course_overview', 'ReportController@course_overview');
 /////หมวด1-2
 Route::get('/category1/indicator1-1', 'CategoryController@indicator1_1');
 Route::get('/category/category1', 'CategoryController@category1');
@@ -167,7 +168,7 @@ Route::get('/getpdca/{id}','APIAJController@getpdca');
 Route::post('/updatepdca','APIAJController@updatepdca');
 /////addindicator4_3
 Route::post('/addindicator4_3','APIAJController@addindicator4_3');
-Route::get('/getindicator4_3','APIAJController@getaddindicator4_3');
+Route::get('/getindicator4_3/{id}','APIAJController@getaddindicator4_3');
 Route::post('/updateindicator4_3','APIAJController@updateaddindicator4_3');
 
 /////addinfostd
@@ -186,7 +187,7 @@ Route::get('/getindicator2_2/{id}','APIAJController@getindicator2_2');
 Route::post('/updateindicator2_2','APIAJController@updateindicator2_2');
 /////addindicator2_2
 Route::post('/addindicator3_3','APIAJController@addindicator3_3');
-Route::get('/getindicator3_3','APIAJController@getindicator3_3');
+Route::get('/getindicator3_3/{id}','APIAJController@getindicator3_3');
 Route::post('/updateindicator3_3','APIAJController@updateindicator3_3');
 /////addcourse_results
 Route::post('/addcourse_results','APIAJController@addcourse_results');
@@ -321,6 +322,12 @@ Route::post('/adddefualindicator','APIAJController@adddefualindicator');
 Route::get('/getdefualindicator/{id}','APIAJController@getdefualindicator');
 Route::post('/updatedefualindicator','APIAJController@updatedefualindicator');
 Route::delete('/deletedefualindicator/{id}','APIAJController@deletedefualindicator');
+/////addself_assessment_results
+Route::post('/addself_assessment_results','APIAJController@addself_assessment_results');
+Route::get('/getself_assessment_results/{id}','APIAJController@getself_assessment_results');
+Route::get('/getself_assessment_results2/{id}','APIAJController@getself_assessment_results2');
+Route::post('/updateself_assessment_results','APIAJController@updateself_assessment_results');
+Route::delete('/deleteself_assessment_results/{id}','APIAJController@deleteself_assessment_results');
 /////download
 Route::get('/dowloaddoxc','ReportController@generateDocx');
 

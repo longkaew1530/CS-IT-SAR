@@ -71,4 +71,41 @@
                 @endforeach
               </tbody></table>
             </div>
+            <div class="box-body">
+            <ins>ผลการประเมินตนเอง</ins>
+              <table class="table table-bordered">
+                <tbody><tr>
+                  <th width="30%">ตัวบ่งชี้</th>
+                  <th width="20%">เป้าหมาย</th>
+                  <th width="20%">ผลการดำเนินงาน</th>
+                  <th width="20%">คะแนนอิงเกณฑ์ สกอ.</th>
+                </tr>
+                @if($inc!="")
+                @foreach($inc as $key =>$row )
+                <tr>
+                  <td>ตัวบ่งชี้ที่{{$row['Indicator_id']." ".$row['Indicator_name']}}</td>             
+                  <td>{{$row['target']}}</td>
+                  <td>{{$row['performance3']}}</td>
+                  <td>            
+                  <a href="/getself_assessment_results2/{{$row['Indicator_id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไข</a>
+                  {{$row['score']}}</td>
+                </tr>
+                <tr>
+                @endforeach
+                @else
+                <tr>
+                  <td>ตัวบ่งชี้ที่ {{$id}} {{$name}} </td>             
+                  <td></td>
+                  <td></td>
+                  <td>            
+                  <a href="/getself_assessment_results/{{$id}}" class="btn btn-success fr ml-1"><i class='fa fa-plus'></i>เพิ่ม</a>
+                  </td>
+                </tr>
+                <tr>
+                @endif
+              </tbody></table>
+            </div>
+            
+                  
+                
 

@@ -221,21 +221,25 @@
           @endif
           
             <div class="box-body">
-            <a href="/getindicator4_3" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>
+            @if(isset($inc[0]['target']))
+            <a href="/getself_assessment_results2/1.1" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>
+            @else
+            <a href="/getself_assessment_results/1.1" class="btn btn-success fr ml-1"><i class='fa fa-plus'></i> เพิ่ม</a>
+            @endif
             <ins>ผลการประเมินตนเอง</ins>
               <table class="table table-bordered">
                 <tbody><tr>
-                  <th width="30%">ตัวบ่งชี้</th>
-                  <th width="20%">เป้าหมาย</th>
-                  <th width="20%">ผลการดำเนินงาน</th>
-                  <th width="20%">คะแนนอิงเกณฑ์ สกอ.</th>
+                  <th width="30%" class="text-center">ตัวบ่งชี้</th>
+                  <th width="20%" class="text-center">เป้าหมาย</th>
+                  <th width="20%" class="text-center">ผลการดำเนินงาน</th>
+                  <th width="20%" class="text-center">คะแนนอิงเกณฑ์ สกอ.</th>
                 </tr>
                 @foreach($inc as $key =>$row )
                 <tr>
                   <td>ตัวบ่งชี้ที่{{$row['Indicator_id']." ".$row['Indicator_name']}}</td>             
-                  <td>{{$row['target']}}</td>
-                  <td>{{$row['performance3']}}</td>
-                  <td>{{$row['score']}}</td>
+                  <td class="text-center">{{$row['target']}}</td>
+                  <td class="text-center">{{$row['performance3']}}</td>
+                  <td class="text-center">{{$row['score']}}</td>
                 </tr>
                 <tr>
                 @endforeach

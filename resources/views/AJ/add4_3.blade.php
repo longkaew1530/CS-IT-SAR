@@ -67,7 +67,50 @@
         </div>
       </div>
 
+      <div class="data">
+        <div class="col-md-12">
+          <div class="box-header col-md-12 col-sm-9 col-xs-12">
+            <h3 class="box-title">ผลการประเมินตนเอง</h3>
+          </div>
+          <div id="body">
+            <div class="col-md-12 col-sm-9 col-xs-12">
+            <table class="table table-bordered text-center">
+                <tbody><tr>
+                  <th width="30%" >ตัวบ่งชี้</th>
+                  <th width="10%">เป้าหมาย</th>
+                  @if($per1!=null)
+                      <th colspan="2" width="10%">ผลการดำเนินงาน</th>
+                  @else
+                      <th  width="10%">ผลการดำเนินงาน</th>
+                  @endif
+                  <th width="10%">คะแนนอิงเกณฑ์ สกอ.</th>
+                </tr>
+                @foreach($pdca as $row)
+                <input type="hidden" class="form-control" id="Indicator_id" name="Indicator_id" value="{{$row['Indicator_id']}}"/>
+                <tr>
+                  <td rowspan="2">ตัวบ่งชี้ที่ {{$row['Indicator_id']}} {{$row['Indicator_name']}}</td>           
+                  <td rowspan="2"><input type="number" class="form-control text-center" name="target" min="0" max="5"></td>
+                  @if($per1!=null)
+                    <td ><input type="number" class="form-control text-center" name="performance1" min="0" max="5"></td></td>
+                  @endif  
+                  <td rowspan="2"><input type="number" class="form-control text-center" name="performance3" min="0" max="5"></td>
+                  <td rowspan="2"><input type="number" class="form-control text-center" name="score" min="0" max="5"></td>
+                </tr>
+                <tr>
+                @if($per1!=null)
+                    <td ><input type="number" class="form-control text-center" name="performance2" min="0" max="5"></td></td>
+                  @endif  
+                </tr>
+                <tr>
+                @endforeach
+              </tbody></table>
 
+            </div>
+          </div>
+
+        </div>
+      </div>
+    
 
       <div class="col-md-12">
         <div id="body">

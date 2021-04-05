@@ -9,6 +9,7 @@ use App\ModelAJ\categoty_researh;
 use App\User;
 use App\Menu;
 use App\indicator4_3;
+use App\defaulindicator;
 use App\indicator;
 use App\year_acceptance;
 use App\year_acceptance_graduate;
@@ -95,16 +96,31 @@ class AJController extends Controller
             return view('category3/showpdca',compact('pdca','name','id','getcourse'));
         }
     }
-    public function add4_3()
+    public function add4_3($id)
     {
+        $menuname=indicator::where('id',$id)
+        ->get();
+        $pdca= defaulindicator::where('Indicator_id',$menuname[0]['Indicator_id'])
+        ->get();
+        $per1="";
+        if($id=="4.2"&&$id=="2.1"&&$id=="2.2"&&$id=="5.4")
+        {
+            $per1="asdsadsad";
+        }
         $in4_3 = indicator4_3::where('course_id',session()->get('usercourse'))
         ->where('year_id',session()->get('year_id'))
         ->get();
+        $inc= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+        ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.year_id',session()->get('year_id'))
+        ->where('pdca.indicator_id',4.3)
+        ->where('pdca.target','!=',null)
+        ->get();
         if(count($in4_3)===0){
-            return view('AJ/add4_3');
+            return view('AJ/add4_3',compact('pdca','per1'));
         }
         else{
-            return view('category/indicator4-3',compact('in4_3'));
+            return view('category/indicator4-3',compact('in4_3','inc'));
         }
     }
     public function addinfostd()
@@ -163,39 +179,48 @@ class AJController extends Controller
     }
     public function addindicator2_1()
     {
+        $pdca= defaulindicator::where('Indicator_id',2.1)
+        ->get();
+        $per1="asdsadsad";
         $factor=indicator2_1::where('course_id',session()->get('usercourse'))
          ->where('year_id',session()->get('year_id'))
          ->get();
         if(count($factor)===0){
-            return view('AJ/addindicator2-1');
+            return view('AJ/addindicator2-1',compact('pdca','per1'));
         }
         else{
-            return view('category3/indicator2-1',compact('factor'));
+            return view('category3/indicator2-1',compact('factor','pdca','per1'));
         } 
             
     }
     public function addindicator2_2()
     {
+        $pdca= defaulindicator::where('Indicator_id',2.2)
+        ->get();
+        $per1="asdsadsad";
         $factor=indicator2_2::where('course_id',session()->get('usercourse'))
          ->where('year_id',session()->get('year_id'))
          ->get();
         if(count($factor)===0){
-            return view('AJ/addindicator2-2');
+            return view('AJ/addindicator2-2',compact('pdca','per1'));
         }
         else{
-            return view('category3/indicator2-2',compact('factor'));
+            return view('category3/indicator2-2',compact('factor','pdca','per1'));
         }      
     }
     public function addindicator3_3()
     {   
+        $pdca= defaulindicator::where('Indicator_id',3.3)
+        ->get();
+        $per1="";
         $in3_3=performance3_3::where('course_id',session()->get('usercourse'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         if(count($in3_3)===0){
-            return view('AJ/add3_3');
+            return view('AJ/add3_3',compact('pdca','per1'));
         }
         else{
-            return view('category3/perfoment3_3',compact('in3_3'));
+            return view('category3/perfoment3_3',compact('in3_3','pdca','per1'));
         }
             
     }

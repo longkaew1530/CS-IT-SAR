@@ -4,7 +4,7 @@
 <div class="box box-warning marginl">
             <div class="box-header">
               <h1 class="box-title"><li>ผลที่เกิดกับอาจารย์ (ตัวบ่งชี้ที่ 4.3)</li></h1>
-              <a href="/getindicator4_3" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>
+              <a href="/getindicator4_3/{{$inc[0]['Indicator_id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>
               <br><br><br>
             <ins>เกณฑ์การประเมิน</ins><br>
               - มีการรายงานผลการดำเนินงานครบทุกเรื่องตามคำอธิบายในตัวบ่งชี้ (อัตราการคงอยู่ของอาจารย์, ความพึงพอใจของอาจารย์ต่อการบริหารหลักสูตร)<br>
@@ -34,9 +34,41 @@
               @endforeach
               </tbody></table>
             </div> 
-
-            
-          </div>
+         
+          <div class="box-body">
+         <br><b><ins>ผลการประเมินตนเอง</ins></b>
+              <table class="table table-bordered">
+                <tbody><tr>
+                  <th width="30%">ตัวบ่งชี้</th>
+                  <th width="20%">เป้าหมาย</th>
+                  <th width="20%">ผลการดำเนินงาน</th>
+                  <th width="20%">คะแนนอิงเกณฑ์ สกอ.</th>
+                </tr>
+                @if($inc!="")
+                @foreach($inc as $key =>$row )
+                <tr>
+                  <td>ตัวบ่งชี้ที่{{$row['Indicator_id']." ".$row['Indicator_name']}}</td>             
+                  <td>{{$row['target']}}</td>
+                  <td>{{$row['performance3']}}</td>
+                  <td>            
+                  
+                  {{$row['score']}}</td>
+                </tr>
+                <tr>
+                @endforeach
+                @else
+                <tr>
+                  <td>ตัวบ่งชี้ที่ {{$id}} {{$name}} </td>             
+                  <td></td>
+                  <td></td>
+                  <td>            
+                  
+                  </td>
+                </tr>
+                <tr>
+                @endif
+              </tbody></table>
+            </div>
           </div>
 <style>
 .marginl{

@@ -366,6 +366,12 @@ class CategoryController extends Controller
         $in4_3=indicator4_3::where('course_id',session()->get('usercourse'))
         ->where('year_id',session()->get('year_id'))
         ->get();
-        return view('category/indicator4-3',compact('in4_3'));
+        $inc= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+        ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.year_id',session()->get('year_id'))
+        ->where('pdca.indicator_id',4.3)
+        ->where('pdca.target','!=',null)
+        ->get();
+        return view('category/indicator4-3',compact('in4_3','inc'));
     }
 }

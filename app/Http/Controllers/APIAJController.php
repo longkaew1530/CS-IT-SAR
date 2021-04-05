@@ -253,12 +253,24 @@ class APIAJController extends Controller
     /////pdca/////pdca/////pdca/////pdca/////pdca/////pdca
 
     /////addindicator4_3/////addindicator4_3/////addindicator4_3/////addindicator4_3/////addindicator4_3/////addindicator4_3
-    public function getaddindicator4_3()
+    public function getaddindicator4_3($id)
     {
         $editdata = indicator4_3::where('course_id',session()->get('usercourse'))
         ->where('year_id',session()->get('year_id'))
         ->get();
-        return view('AJ/edit4_3',compact('editdata'));
+
+        $pdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+        ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.year_id',session()->get('year_id'))
+        ->where('pdca.indicator_id',$id)
+        ->where('pdca.target','!=',null)
+        ->get();
+        $per1="";
+        if($id=="4.2"&&$id=="2.1"&&$id=="2.2"&&$id=="5.4")
+        {
+            $per1="asdsadsad";
+        }
+        return view('AJ/edit4_3',compact('editdata','pdca','per1'));
     }
     public function addindicator4_3(Request $request)
     {
@@ -321,7 +333,15 @@ class APIAJController extends Controller
                $success1=docindicator4_3::insert($insert1);
             }
         
-        return $success1;
+            $data2=new PDCA;
+            $data2->Indicator_id=$request->Indicator_id;
+            $data2->target=$request->target;
+            $data2->performance3=$request->performance3;
+            $data2->score=$request->score;
+            $data2->course_id=session()->get('usercourse');
+            $data2->year_id=session()->get('year_id');
+            $data2->save();
+        return $data2;
     }
     public function updateaddindicator4_3(Request $request)
     {   
@@ -382,7 +402,12 @@ class APIAJController extends Controller
         $data1=indicator4_3::find($request->id2);
         $data1->retention_rate=$request->retention_rate2;
         $data1->save();
-        return $data1;
+        $data2=PDCA::find($request->Indicator_id);
+            $data2->target=$request->target;
+            $data2->performance3=$request->performance3;
+            $data2->score=$request->score;
+            $data2->save();
+        return $data2;
     }
     public function deleteaddindicator4_3($id)
     {
@@ -437,11 +462,17 @@ class APIAJController extends Controller
     /////indicator2_1/////indicator2_1/////indicator2_1/////indicator2_1/////indicator2_1/////indicator2_1
     public function getindicator2_1($id)
     {
-        $editdata = indicator2_1::where('id',$id)
-        ->where('course_id',session()->get('usercourse'))
+        $editdata = indicator2_1::where('course_id',session()->get('usercourse'))
         ->where('year_id',session()->get('year_id'))
         ->get();
-        return view('AJ/editindicator2-1',compact('editdata'));
+        $pdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+        ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.year_id',session()->get('year_id'))
+        ->where('pdca.indicator_id',$id)
+        ->where('pdca.target','!=',null)
+        ->get();
+        $per1="aaa";
+        return view('AJ/editindicator2-1',compact('editdata','pdca','per1'));
     }
     function addindicator2_1(Request $request)
     {
@@ -453,7 +484,17 @@ class APIAJController extends Controller
         $data->persen=$request->persen;
         $data->sumscore=$request->sumscore;
         $data->resultscore=$request->resultscore;
-        $data->save();     
+        $data->save();    
+        $data2=new PDCA;
+        $data2->Indicator_id=$request->Indicator_id;
+        $data2->target=$request->target;
+        $data2->performance1=$request->performance1;
+        $data2->performance2=$request->performance2;
+        $data2->performance3=$request->performance3;
+        $data2->score=$request->score;
+        $data2->course_id=session()->get('usercourse');
+        $data2->year_id=session()->get('year_id');
+        $data2->save(); 
         return $data;
     }
     function updateindicator2_1(Request $request)
@@ -464,7 +505,14 @@ class APIAJController extends Controller
         $data->persen=$request->persen;
         $data->sumscore=$request->sumscore;
         $data->resultscore=$request->resultscore;
-        $data->save();     
+        $data->save();  
+        $data2=PDCA::find($request->Indicator_id);
+            $data2->target=$request->target;
+            $data2->performance1=$request->performance1;
+            $data2->performance2=$request->performance2;
+            $data2->performance3=$request->performance3;
+            $data2->score=$request->score;
+            $data2->save();   
         return $data;
     }
     /////indicator2_1/////indicator2_1/////indicator2_1/////indicator2_1/////indicator2_1/////indicator2_1
@@ -541,12 +589,19 @@ class APIAJController extends Controller
      /////indicator2_1/////indicator2_1/////indicator2_1/////indicator2_1/////indicator2_1/////indicator2_1
 
      /////addindicator3_3/////addindicator3_3/////addindicator3_3/////addindicator3_3/////addindicator3_3/////addindicator3_3
-    public function getindicator3_3()
+    public function getindicator3_3($id)
     {
         $editdata = performance3_3::where('course_id',session()->get('usercourse'))
         ->where('year_id',session()->get('year_id'))
         ->get();
-        return view('AJ/edit3_3',compact('editdata'));
+        $pdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+        ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.year_id',session()->get('year_id'))
+        ->where('pdca.indicator_id',$id)
+        ->where('pdca.target','!=',null)
+        ->get();
+        $per1="";
+        return view('AJ/edit3_3',compact('editdata','pdca','per1'));
     }
     public function addindicator3_3(Request $request)
     {
@@ -636,8 +691,15 @@ class APIAJController extends Controller
                }           
                $success2=doc_performance3_3::insert($insert2);
             }
-        
-        return $success2;
+            $data3=new PDCA;
+            $data3->Indicator_id=$request->Indicator_id;
+            $data3->target=$request->target;
+            $data3->performance3=$request->performance3;
+            $data3->score=$request->score;
+            $data3->course_id=session()->get('usercourse');
+            $data3->year_id=session()->get('year_id');
+            $data3->save(); 
+        return $data3;
     }
     public function updateindicator3_3(Request $request)
     {   
@@ -724,6 +786,11 @@ class APIAJController extends Controller
         $data2=performance3_3::find($request->id3);
         $data2->retention_rate=$request->retention_rate3;
         $data2->save();
+        $data3=PDCA::find($request->Indicator_id);
+        $data3->target=$request->target;
+        $data3->performance3=$request->performance3;
+        $data3->score=$request->score;
+        $data3->save();
         return $data2;
     }
     /////addindicator3_3/////addindicator3_3/////addindicator3_3/////addindicator3_3/////addindicator3_3/////addindicator3_3
@@ -2063,4 +2130,56 @@ class APIAJController extends Controller
         return $data;
     }
       /////defualindicator/////defualindicator/////defualindicator/////defualindicator/////defualindicator/////defualindicator
+
+      /////self_assessment_results/////self_assessment_results/////self_assessment_results/////self_assessment_results/////self_assessment_results/////self_assessment_results
+      public function getself_assessment_results($id)
+      {
+         $pdca= defaulindicator::where('indicator_id',$id)
+        ->get();
+        $per1="";
+        if($id=="4.2"&&$id=="2.1"&&$id=="2.2"&&$id=="5.4")
+        {
+            $per1="asdsadsad";
+        }
+          return view('category3/addassessment_results',compact('pdca','per1'));
+      }
+      public function getself_assessment_results2($id)
+      {
+        $pdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+        ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.year_id',session()->get('year_id'))
+        ->where('pdca.indicator_id',$id)
+        ->where('pdca.target','!=',null)
+        ->get();
+        $per1="";
+        if($id=="4.2"&&$id=="2.1"&&$id=="2.2"&&$id=="5.4")
+        {
+            $per1="asdsadsad";
+        }
+          return view('category3/editassessment_results',compact('pdca','per1'));
+      }
+      function addself_assessment_results(Request $request)
+      {
+          $data=new PDCA;
+          $data->Indicator_id=$request->Indicator_id;
+          $data->target=$request->target;
+          $data->performance3=$request->performance3;
+          $data->score=$request->score;
+          $data->course_id=session()->get('usercourse');
+          $data->year_id=session()->get('year_id');
+          $data->save();
+  
+       return $data;
+      }
+      public function updateself_assessment_results(Request $request)
+      {
+          $data=PDCA::find($request->Indicator_id);
+          $data->target=$request->target;
+          $data->performance3=$request->performance3;
+          $data->score=$request->score;
+          $data->save();
+                
+          return $data;
+      }
+       /////assessment_results/////assessment_results/////assessment_results/////assessment_results/////assessment_results/////assessment_results
 }

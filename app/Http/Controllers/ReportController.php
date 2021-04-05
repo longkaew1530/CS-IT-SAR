@@ -77,4 +77,22 @@ class ReportController extends Controller
         ->get();
             return view('report/download',compact('query'));
     }
+    public function course_overview()
+    {
+        $getall=composition::all();
+        $indicator=defaulindicator::where('Indicator_id','!=',null)
+        ->get();
+        $pdca=indicator::leftjoin('pdca','indicator.Indicator_id','=','pdca.indicator_id')
+        ->where('indicator.year_id',session()->get('year_id'))
+        ->where('pdca.year_id',session()->get('year_id'))
+        ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('target','!=',null)
+        ->get();
+        $per1="";
+        foreach($pdca as $value)
+        {
+            $per1=$value['performance1'];
+        }
+            return view('report/course_overview',compact('pdca','per1','getall','indicator'));
+    }
 }

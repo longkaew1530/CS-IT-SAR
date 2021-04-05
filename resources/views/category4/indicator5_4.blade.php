@@ -81,5 +81,45 @@
                     <td class="text-center" colspan="3">{{$result1}}</td>
                 </tr>
               </tbody></table>
-</div></div>
+</div>
+<div class="box-body">
+             @if(isset($inc[0]['target']))
+            <a href="/getself_assessment_results2/1.1" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>
+            @else
+            <a href="/getself_assessment_results/1.1" class="btn btn-success fr ml-1"><i class='fa fa-plus'></i> เพิ่ม</a>
+            @endif
+            <ins>ผลการประเมินตนเอง</ins>
+            <table class="table table-bordered text-center">
+                <tbody><tr>
+                  <th width="30%" >ตัวบ่งชี้</th>
+                  <th width="20%">เป้าหมาย</th>
+                  @if($per1!=null)
+                      <th colspan="2" width="20%">ผลการดำเนินงาน</th>
+                  @else
+                      <th  width="20%">ผลการดำเนินงาน</th>
+                  @endif
+                  <th width="20%">คะแนนอิงเกณฑ์ สกอ.</th>
+                </tr>
+                @foreach($inc as $row)
+                @if($row['target']!="")
+                <tr>
+                  <td rowspan="2">ตัวบ่งชี้ที่ {{$row['Indicator_id']." ".$row['Indicator_name']}}</td>           
+                  <td rowspan="2">{{$row['target']}}</td>
+                  @if($per1!=null)
+                    <td >{{$row['performance1']}}</td>
+                  @endif  
+                  <td rowspan="2">{{$row['performance3']}}</td>
+                  <td rowspan="2">{{$row['score']}}</td>
+                </tr>
+                <tr>
+                @if($per1!=null)
+                    <td >{{$row['performance2']}}</td>
+                  @endif  
+                </tr>
+                <tr>
+                @endif
+                @endforeach
+              </tbody></table>
+            </div>
+</div>
               @endsection

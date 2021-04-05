@@ -8,6 +8,7 @@ use App\in_index;
 use App\indicator5_4;
 use App\category4_teaching_quality;
 use App\category4_effectiveness;
+use App\PDCA;
 use App\category4_newteacher;
 use App\category4_activity;
 use Illuminate\Support\Facades\Hash;
@@ -43,7 +44,13 @@ class Category4Controller extends Controller
         $perfor=indicator5_4::where('course_id',session()->get('usercourse'))
         ->where('year_id',session()->get('year_id'))
         ->get();
-        
+        $inc= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+        ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.year_id',session()->get('year_id'))
+        ->where('pdca.indicator_id',5.4)
+        ->where('pdca.target','!=',null)
+        ->get();
+        $per1="asdsad";
         $result=0;
         $resultpass1_5=0;
         $resultpass1_5persen=0;
@@ -62,7 +69,7 @@ class Category4Controller extends Controller
             }
         }
         $resultpass1_5persen=($resultpass1_5count*100)/5;
-        return view('category4/indicator5_4',compact('indi','perfor','result','resultpass1_5','resultpass1_5persen','resultpassall'));
+        return view('category4/indicator5_4',compact('indi','perfor','result','resultpass1_5','resultpass1_5persen','resultpassall','inc','per1'));
     }
     public function teachingquality()
     {

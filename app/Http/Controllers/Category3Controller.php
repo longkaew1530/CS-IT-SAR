@@ -89,7 +89,14 @@ class Category3Controller extends Controller
         $factor=indicator2_1::where('course_id',session()->get('usercourse'))
          ->where('year_id',session()->get('year_id'))
          ->get();
-        return view('category3/indicator2-1',compact('factor'));
+         $pdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+        ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.year_id',session()->get('year_id'))
+        ->where('pdca.indicator_id',2.1)
+        ->where('pdca.target','!=',null)
+        ->get();
+        $per1="ssssss";
+        return view('category3/indicator2-1',compact('factor','pdca','per1'));
     }
     public function assess()
     {
@@ -151,19 +158,34 @@ class Category3Controller extends Controller
         ->get();
         $name="";
         $id="";
+        ////ดึงผลการประเมินตนเอง ตัวบ่งชี้ที่ 1.1
+        $inc= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+        ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.year_id',session()->get('year_id'))
+        ->where('pdca.indicator_id',$getcategorypdca[0]['Indicator_id'])
+        ->where('pdca.target','!=',null)
+        ->get();
+        if(count($inc)==0){
+            $inc="";
+        }
         foreach($getcategorypdca as $value)
         {
             $name=$value['Indicator_name'];
             $id=$value['Indicator_id'];
         }
-        return view('category3/showpdca',compact('pdca','name','id','getcourse','getcategorypdca'));
+        return view('category3/showpdca',compact('pdca','name','id','getcourse','getcategorypdca','inc'));
     }
     public function indicator3_3()
     {
         $in3_3=performance3_3::where('course_id',session()->get('usercourse'))
         ->where('year_id',session()->get('year_id'))
         ->get();
-        
-        return view('category3/perfoment3_3',compact('in3_3'));
+        $inc= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+        ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.year_id',session()->get('year_id'))
+        ->where('pdca.indicator_id',3.3)
+        ->where('pdca.target','!=',null)
+        ->get();
+        return view('category3/perfoment3_3',compact('in3_3','inc'));
     }
 }

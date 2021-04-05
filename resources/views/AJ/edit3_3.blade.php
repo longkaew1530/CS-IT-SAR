@@ -42,7 +42,49 @@
       </div>
       @endforeach
 
+      <div class="data">
+        <div class="col-md-12">
+          <div class="box-header col-md-12 col-sm-9 col-xs-12">
+            <h3 class="box-title">ผลการประเมินตนเอง</h3>
+          </div>
+          <div id="body">
+            <div class="col-md-12 col-sm-9 col-xs-12">
+            <table class="table table-bordered text-center">
+                <tbody><tr>
+                  <th width="30%" >ตัวบ่งชี้</th>
+                  <th width="10%">เป้าหมาย</th>
+                  @if($per1!=null)
+                      <th colspan="2" width="10%">ผลการดำเนินงาน</th>
+                  @else
+                      <th  width="10%">ผลการดำเนินงาน</th>
+                  @endif
+                  <th width="10%">คะแนนอิงเกณฑ์ สกอ.</th>
+                </tr>
+                @foreach($pdca as $row)
+                <input type="hidden" class="form-control" id="Indicator_id" name="Indicator_id" value="{{$row['pdca_id']}}"/>
+                <tr>
+                  <td rowspan="2">ตัวบ่งชี้ที่ {{$row['Indicator_id']}} {{$row['Indicator_name']}}</td>           
+                  <td rowspan="2"><input type="text" class="form-control text-center" name="target"  value="{{$row['target']}}"></td>
+                  @if($per1!=null)
+                    <td ><input type="text" class="form-control text-center" id="performance1" name="performance1"  value="{{$row['performance1']}}" ></td></td>
+                  @endif  
+                  <td rowspan="2"><input type="text" class="form-control text-center" id="performance3" name="performance3"  value="{{$row['performance3']}}" ></td>
+                  <td rowspan="2"><input type="text" class="form-control text-center" id="score" name="score"  value="{{$row['score']}}" ></td>
+                </tr>
+                <tr>
+                @if($per1!=null)
+                    <td ><input type="text" class="form-control text-center" id="performance2" name="performance2"  value="{{$row['performance2']}}" ></td></td>
+                  @endif  
+                </tr>
+                <tr>
+                @endforeach
+              </tbody></table>
 
+            </div>
+          </div>
+
+        </div>
+      </div>
       <div class="col-md-12">
         <div id="body">
           <div class="col-md-12 col-sm-9 col-xs-12">
