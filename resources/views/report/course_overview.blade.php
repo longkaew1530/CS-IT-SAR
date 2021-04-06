@@ -19,13 +19,13 @@
                 <tr>
                 <td>{{$key+1}}. {{$value['name']}}</td>
                 @if($key+1==1)
-                <td colspan="5"></td>
+                <td colspan="5" class="text-center">{{$data[0]['o']}}</td>
                 @else
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td class="text-center">@if(isset($data[$key]['i'])){{$data[$key]['i']}}@else-@endif</td>
+                <td class="text-center">@if(isset($data[$key]['p'])){{$data[$key]['p']}}@else-@endif</td>
+                <td class="text-center">@if(isset($data[$key]['o'])){{$data[$key]['o']}}@else-@endif</td>
+                <td class="text-center">@if(isset($data[$key]['avr'])){{$data[$key]['avr']}}@else-@endif</td>
+                <td class="text-center">@if(isset($data[$key]['result'])){{$data[$key]['result']}}@endif</td>
                 @endif
                 </tr>
                 @endforeach
