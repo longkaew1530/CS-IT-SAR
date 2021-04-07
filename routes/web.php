@@ -66,6 +66,7 @@ Route::get('/addc/{id}', 'AJController@addc');
 Route::get('/adda/{id}', 'AJController@adda');
 Route::get('/addstrengths_summary', 'AJController@addstrengths_summary');
 Route::get('/graduate', 'AJController@addgraduate');
+Route::get('/addteachingquality', 'AJController@addteaching_quality');
 /////รายงาน
 Route::get('/overview', 'ReportController@overview');
 Route::get('/download', 'ReportController@download');
@@ -328,6 +329,10 @@ Route::get('/getself_assessment_results/{id}','APIAJController@getself_assessmen
 Route::get('/getself_assessment_results2/{id}','APIAJController@getself_assessment_results2');
 Route::post('/updateself_assessment_results','APIAJController@updateself_assessment_results');
 Route::delete('/deleteself_assessment_results/{id}','APIAJController@deleteself_assessment_results');
+/////addteaching_quality
+Route::get('/getteaching_quality','APIAJController@getteaching_quality');
+Route::post('/addteaching_quality','APIAJController@addteaching_quality');
+Route::post('/updateteaching_quality','APIAJController@updateteaching_quality');
 /////download
 Route::get('/dowloaddoxc','ReportController@generateDocx');
 

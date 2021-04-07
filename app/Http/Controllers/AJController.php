@@ -9,6 +9,7 @@ use App\ModelAJ\categoty_researh;
 use App\User;
 use App\Menu;
 use App\indicator4_3;
+use App\category4_course_results;
 use App\defaulindicator;
 use App\indicator;
 use App\year_acceptance;
@@ -27,7 +28,6 @@ use App\PDCA;
 use App\category3_GD;
 use App\category6_assessment_summary;
 use App\performance3_3;
-use App\category4_course_results;
 use App\ModelAJ\category4_academic_performance;
 use App\ModelAJ\category4_incomplete_content;
 use App\category4_notcourse_results;
@@ -474,6 +474,15 @@ class AJController extends Controller
             return view('category3/graduatesqty',compact('get','getinfo','getyear','getinfo2'));
         }
            
+             
+    }
+    public function addteaching_quality()
+    {
+        $data=category4_course_results::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->where('course_name','!=','รหัสชื่อวิชา')
+        ->get();
+            return view('AJ/addteaching_quality',compact('data'));
              
     }
 }

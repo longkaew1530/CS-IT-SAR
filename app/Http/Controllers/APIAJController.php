@@ -9,6 +9,7 @@ use App\ModelAJ\Research_results_user;
 use App\ModelAJ\categoty_researh;
 use App\User;
 use App\PDCA;
+use App\category4_teaching_quality;
 use App\docpdca;
 use App\course_responsible_teacher;
 use App\indicator4_3;
@@ -2182,4 +2183,50 @@ class APIAJController extends Controller
           return $data;
       }
        /////assessment_results/////assessment_results/////assessment_results/////assessment_results/////assessment_results/////assessment_results
+
+
+        /////teaching_quality/////teaching_quality/////teaching_quality/////teaching_quality/////teaching_quality/////teaching_quality
+     public function getteaching_quality($id)
+     {
+         $editdata=defaulindicator::where('id',$id)
+         ->get();
+         return $editdata;
+     }
+     function addteaching_quality(Request $request)
+     {  $data=category4_course_results::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->where('course_name','!=','รหัสชื่อวิชา')
+        ->get();
+        $getall=$request->all();
+        $numItems = count($data);
+        $i = 0;
+        foreach($data as $key=>$value){
+            $data1[$key]['student_year']=$getall['student_year'.$value['id']];
+            $data1[$key]['course_name']=$value['course_name'];
+            $data1[$key]['term_year']=$value['term_year'];
+            $data1[$key]['status']=$getall['result'.$value['id']];
+            $data1[$key]['description']=$getall['planupdate'.$value['id']];
+            $data1[$key]['result']="";
+            $data1[$key]['year_id']=session()->get('year_id');
+            $data1[$key]['course_id']=session()->get('usercourse');
+            if(++$i === $numItems) {
+                $data1[$key]['result']=$request->resultall;
+              }
+        }
+        category4_teaching_quality::insert($data1);
+        return  $data1;
+     }
+     public function updateteaching_quality(Request $request)
+     {
+         $data=defaulindicator::find($request->id);
+         $data->Indicator_id=$request->Indicator_id;
+         $data->Indicator_name=$request->Indicator_name;
+         $data->category_id=$request->category_id;
+         $data->composition_id=$request->composition_id;
+         $data->url=$request->url;
+         $data->save();
+               
+         return $data;
+     }
+      /////teaching_quality/////teaching_quality/////teaching_quality/////teaching_quality/////teaching_quality/////teaching_quality
 }
