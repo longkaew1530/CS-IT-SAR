@@ -1937,21 +1937,17 @@ class APIAJController extends Controller
 
     public function getgraduate()
     {
-       $get=year_acceptance::where('course_id',session()->get('usercourse'))
-       ->where('year_id',session()->get('year_id'))
-       ->get();
-       $getinfo=category3_infostudent::where('course_id',session()->get('usercourse'))
-       ->get();
-       $getyear=category3_infostudent::where('course_id',session()->get('usercourse'))
-       ->where('year_add',session()->get('year'))
-       ->get();
-       if(count($get)==0){
-           $get="";
-       }
-      $getqty=category3_infostudent_qty::where('course_id',session()->get('usercourse'))
-      ->where('year_id',session()->get('year_id'))
-      ->get();
-       return view('AJ/editinfostd',compact('get','getinfo','getqty'));
+        $get=year_acceptance_graduate::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        $getinfo=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->get();
+        $getyear=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->where('year_add',session()->get('year'))
+        ->get();
+        $getinfo2=category3_infostudent::where('course_id',session()->get('usercourse'))
+            ->get();
+       return view('AJ/editgraduate',compact('get','getinfo','getyear','getinfo2'));
        
     }
     function addyear_graduate(Request $request)
@@ -2003,38 +1999,32 @@ class APIAJController extends Controller
    }
    public function updategraduate(Request $request)
    {
-       $get=year_acceptance::where('course_id',session()->get('usercourse'))
-           ->where('year_id',session()->get('year_id'))
-           ->get();
-       $getall=$request->all();
-       $checkdata=category3_infostudent::where('course_id',session()->get('usercourse'));
-       if(isset($checkdata)){
-           $checkdata->delete();
-       }
-       
-       for($i=$get[0]['year_add'];$i<=$get[0]['reported_year']; $i++){
-           $getcount=$get[0]['year_add'];
-           foreach($getall['y'.$i] as $key=>$value){
-               if($value!=null){
-                   $data[$key]['reported_year_qty']=$value;
-               }
-               else{
-                   $data[$key]['reported_year']=0;
-               }
-               $data[$key]['year_add']=$i;
-               $data[$key]['reported_year']=$getcount;
-               $data[$key]['course_id']=session()->get('usercourse');
-               $data[$key]['year_id']=session()->get('year_id');
-               $getcount++;
-           }
-           category3_infostudent::insert($data);
-       }
-       $data2=category3_infostudent_qty::find($request->getid);
-       $data2->qty=$request->qty;
-       $data2->course_id=session()->get('usercourse');
-       $data2->year_id=session()->get('year_id');
-       $data2->save();
-    return $data2;
+            $get=year_acceptance_graduate::where('course_id',session()->get('usercourse'))
+            ->where('year_id',session()->get('year_id'))
+            ->get();
+        $getall=$request->all();
+        $checkdata=category3_graduate::where('course_id',session()->get('usercourse'));
+        if(isset($checkdata)){
+            $checkdata->delete();
+        }
+
+        for($i=$get[0]['year_add'];$i<=$get[0]['reported_year']; $i++){
+            $getcount=$get[0]['year_add'];
+            foreach($getall['y'.$i] as $key=>$value){
+                if($value!=null){
+                    $data[$key]['reported_year_qty']=$value;
+                }
+                else{
+                    $data[$key]['reported_year']=0;
+                }
+                $data[$key]['year_add']=$i;
+                $data[$key]['reported_year']=$getcount;
+                $data[$key]['course_id']=session()->get('usercourse');
+                $getcount++;
+            }
+            category3_graduate::insert($data);
+        }
+        return $data;
    }
        /////infostudent/////infostudent/////infostudent/////infostudent/////infostudent/////infostudent
 
@@ -2186,11 +2176,12 @@ class APIAJController extends Controller
 
 
         /////teaching_quality/////teaching_quality/////teaching_quality/////teaching_quality/////teaching_quality/////teaching_quality
-     public function getteaching_quality($id)
+     public function getteaching_quality()
      {
-         $editdata=defaulindicator::where('id',$id)
-         ->get();
-         return $editdata;
+        $data=category4_teaching_quality::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+         return view('AJ/editteaching_quality',compact('data'));
      }
      function addteaching_quality(Request $request)
      {  $data=category4_course_results::where('course_id',session()->get('usercourse'))
@@ -2202,6 +2193,7 @@ class APIAJController extends Controller
         $i = 0;
         foreach($data as $key=>$value){
             $data1[$key]['student_year']=$getall['student_year'.$value['id']];
+            $data1[$key]['stu_year_of_admission']=$value['id']; 
             $data1[$key]['course_name']=$value['course_name'];
             $data1[$key]['term_year']=$value['term_year'];
             $data1[$key]['status']=$getall['result'.$value['id']];
@@ -2217,16 +2209,35 @@ class APIAJController extends Controller
         return  $data1;
      }
      public function updateteaching_quality(Request $request)
-     {
-         $data=defaulindicator::find($request->id);
-         $data->Indicator_id=$request->Indicator_id;
-         $data->Indicator_name=$request->Indicator_name;
-         $data->category_id=$request->category_id;
-         $data->composition_id=$request->composition_id;
-         $data->url=$request->url;
-         $data->save();
-               
-         return $data;
+     {  
+        $checkdata=category4_teaching_quality::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'));
+        if(isset($checkdata)){
+            $checkdata->delete();
+        }
+        $data=category4_course_results::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->where('course_name','!=','รหัสชื่อวิชา')
+        ->get();
+        $getall=$request->all();
+        $numItems = count($data);
+        $i = 0;
+        foreach($data as $key=>$value){
+            $data1[$key]['student_year']=$getall['student_year'.$value['id']];
+            $data1[$key]['stu_year_of_admission']=$value['id']; 
+            $data1[$key]['course_name']=$value['course_name'];
+            $data1[$key]['term_year']=$value['term_year'];
+            $data1[$key]['status']=$getall['result'.$value['id']];
+            $data1[$key]['description']=$getall['planupdate'.$value['id']];
+            $data1[$key]['result']="";
+            $data1[$key]['year_id']=session()->get('year_id');
+            $data1[$key]['course_id']=session()->get('usercourse');
+            if(++$i === $numItems) {
+                $data1[$key]['result']=$request->resultall;
+              }
+        }
+        category4_teaching_quality::insert($data1);
+        return $data1;
      }
       /////teaching_quality/////teaching_quality/////teaching_quality/////teaching_quality/////teaching_quality/////teaching_quality
 }

@@ -3,7 +3,7 @@
 @section('content')
 <div class="box box-warning marginl">
 <div class="box-header">
-<a href="/getself_assessment_results2/1.1" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>
+<a href="/getteaching_quality" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>
             <div class="box-body"><h4 class="text-center">คุณภาพการสอน</h4></b><br><br>
             <b>การประเมินรายวิชาที่เปิดสอนในปีที่รายงาน<br>
             รายวิชาที่มีการประเมินคุณภาพการสอน และแผนการปรับปรุงจากผลการประเมิน</b><br>
@@ -35,7 +35,7 @@
                             <i class="fa fa-check "></i>
                             @endif
                         </td>
-                    <td>{{$row['description']}}</td>
+                    <td>{{$value['description']}}</td>
                     @endif
                 </tr>
                 @endforeach

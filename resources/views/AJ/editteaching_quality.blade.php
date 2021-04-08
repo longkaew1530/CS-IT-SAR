@@ -31,26 +31,35 @@
                 <td>{{$value['course_name']}}</td>
                 <td class="text-center">{{$value['term_year']}}</td>
                 <td class="text-center"><div class="form-group">
-                                  <select class="form-control"  id="student_year"  class="form-control @error('role') is-invalid @enderror" name="student_year{{$value['id']}}">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
+                                  <select class="form-control"  id="student_year"  class="form-control @error('role') is-invalid @enderror" name="student_year{{$value['stu_year_of_admission']}}">
+                                    <option <?php if($value['student_year']=="1"){ print ' selected'; }?> value="1">1</option>
+                                    <option <?php if($value['student_year']=="2"){ print ' selected'; }?> value="2">2</option>
+                                    <option <?php if($value['student_year']=="3"){ print ' selected'; }?> value="3">3</option>
+                                    <option <?php if($value['student_year']=="4"){ print ' selected'; }?> value="4">4</option>
                                   </select>
                                   </div></td>
                 <td class="text-center">
+                <?php if($value['status']==1){
+                      $check1=1;
+                      $check2=0;
+                } 
+                else{
+                  $check1=0;
+                  $check2=1;
+                }
+                ?>
                   <div class="radio">
                     <label>
-                      <input type="radio" name="result{{$value['id']}}" id="result7" value="1" >
+                      <input type="radio" name="result{{$value['stu_year_of_admission']}}" id="result7" value="1" @if($check1) checked @endif>
                     </label>
                   </div>
                 </td>
                 <td class="text-center"><div class="radio">
                     <label>
-                      <input type="radio" name="result{{$value['id']}}" id="result8" value="0" >   
+                      <input type="radio" name="result{{$value['stu_year_of_admission']}}" id="result8" value="0" @if($check2) checked @endif>   
                     </label>
                   </div></td>
-                <td><textarea class="form-control" rows="3" placeholder="แผนการปรับปรุง" name="planupdate{{$value['id']}}"></textarea></td>
+                <td><textarea class="form-control" rows="3" placeholder="แผนการปรับปรุง" name="planupdate{{$value['stu_year_of_admission']}}">{{$value['description']}}</textarea></td>
                   </tr>   
                 @endforeach         
               </tbody></table>
@@ -61,7 +70,7 @@
             <h3 class="box-title">ผลการประเมินคุณภาพการสอนโดยรวม</h3>
           </div>
             <div class="col-md-12 col-sm-9 col-xs-12">
-            <textarea class="form-control" rows="3" placeholder="ผลการประเมินคุณภาพการสอนโดยรวม" name="resultall"></textarea>
+            <textarea class="form-control" rows="3" placeholder="ผลการประเมินคุณภาพการสอนโดยรวม" name="resultall">{{$value['result']}}</textarea>
             </div>
         </div>
       <div class="col-md-12">
@@ -105,7 +114,7 @@
       var formData = new FormData(this);
       $.ajax({
         type: 'POST',
-        url: "/addteaching_quality",
+        url: "/updateteaching_quality",
         data: formData,
         cache: false,
         contentType: false,
@@ -113,8 +122,8 @@
         dataType: 'json',
         success: (data) => {
           swal({
-          title: "เพิ่มข้อมูลสำเร็จ",
-          text: "Success",
+          title: "อัปเดตข้อมูลสำเร็จ",
+          text: "",
           icon: "success",
           button: "ตกลง",
         }).then(function() {

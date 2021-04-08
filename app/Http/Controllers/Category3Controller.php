@@ -49,7 +49,10 @@ class Category3Controller extends Controller
         ->get();
         $getinfo2=category3_infostudent::where('course_id',session()->get('usercourse'))
             ->get();
-        return view('category3/graduatesqty',compact('get','getinfo','getyear','getinfo2'));
+        $gropby=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->groupBy('year_add')
+        ->get();
+        return view('category3/graduatesqty',compact('get','getinfo','getyear','getinfo2','gropby'));
     }
     public function Studentsinfo()
     {
@@ -92,7 +95,7 @@ class Category3Controller extends Controller
          $pdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
         ->where('pdca.year_id',session()->get('year_id'))
-        ->where('pdca.indicator_id',2.1)
+        ->where('pdca.Indicator_id',2.1)
         ->where('pdca.target','!=',null)
         ->get();
         $per1="ssssss";

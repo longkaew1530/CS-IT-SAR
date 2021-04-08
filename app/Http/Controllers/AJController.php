@@ -9,6 +9,7 @@ use App\ModelAJ\categoty_researh;
 use App\User;
 use App\Menu;
 use App\indicator4_3;
+use App\category4_teaching_quality;
 use App\category4_course_results;
 use App\defaulindicator;
 use App\indicator;
@@ -179,7 +180,11 @@ class AJController extends Controller
     }
     public function addindicator2_1()
     {
-        $pdca= defaulindicator::where('Indicator_id',2.1)
+        $pdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+        ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.year_id',session()->get('year_id'))
+        ->where('pdca.Indicator_id',2.1)
+        ->where('pdca.target','!=',null)
         ->get();
         $per1="asdsadsad";
         $factor=indicator2_1::where('course_id',session()->get('usercourse'))
@@ -463,6 +468,16 @@ class AJController extends Controller
         ->get();
         $getinfo2=category3_infostudent::where('course_id',session()->get('usercourse'))
             ->get();
+        $gropby=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->groupBy('year_add')
+        ->get();
+        foreach($gropby as $key=>$value){
+            $re[$key]=$value['reported_year'];
+        }
+        $getcount=count($gropby);
+        $getresult=$getcount-1;
+        $first=$gropby[0]['year_add'];
+        $last=$gropby[$getresult]['year_add'];
         if(count($get)==0){
             $get="";
         }
@@ -471,7 +486,7 @@ class AJController extends Controller
             return view('AJ/addgraduate',compact('get','getinfo','getyear'));
         }
         else{
-            return view('category3/graduatesqty',compact('get','getinfo','getyear','getinfo2'));
+            return view('category3/graduatesqty',compact('get','getinfo','getyear','getinfo2','gropby'));
         }
            
              
@@ -482,7 +497,19 @@ class AJController extends Controller
         ->where('year_id',session()->get('year_id'))
         ->where('course_name','!=','รหัสชื่อวิชา')
         ->get();
+        $teachqua=category4_teaching_quality::where('course_id',session()->get('usercourse'))
+       ->where('year_id',session()->get('year_id'))
+       ->get();
+       $teachquagroup=category4_teaching_quality::groupBy('student_year')
+       ->get();
+        
+        if(count($teachqua)===0){
             return view('AJ/addteaching_quality',compact('data'));
+        }
+        else{
+            return view('category4/teaching_quality',compact('teachqua','teachquagroup'));
+        }
+            
              
     }
 }
