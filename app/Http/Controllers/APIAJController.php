@@ -525,7 +525,14 @@ class APIAJController extends Controller
          ->where('course_id',session()->get('usercourse'))
          ->where('year_id',session()->get('year_id'))
          ->get();
-         return view('AJ/editindicator2-2',compact('editdata'));
+         $pdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+        ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.year_id',session()->get('year_id'))
+        ->where('pdca.indicator_id',2.2)
+        ->where('pdca.target','!=',null)
+        ->get();
+        $per1="aaa";
+         return view('AJ/editindicator2-2',compact('editdata','pdca','per1'));
      }
      function addindicator2_2(Request $request)
      {
@@ -556,7 +563,17 @@ class APIAJController extends Controller
          $data->unemployedpersen=$request->unemployedpersen;
          $data->result=$request->result;
          $data->save();     
-         return $data;
+         $data2=new PDCA;
+        $data2->Indicator_id=$request->Indicator_id;
+        $data2->target=$request->target;
+        $data2->performance1=$request->performance1;
+        $data2->performance2=$request->performance2;
+        $data2->performance3=$request->performance3;
+        $data2->score=$request->score;
+        $data2->course_id=session()->get('usercourse');
+        $data2->year_id=session()->get('year_id');
+        $data2->save(); 
+         return $data2;
      }
      function updateindicator2_2(Request $request)
      {
@@ -584,7 +601,14 @@ class APIAJController extends Controller
          $data->unemployed=$request->unemployed;
          $data->unemployedpersen=$request->unemployedpersen;
          $data->result=$request->result;
-         $data->save();     
+         $data2=PDCA::find($request->Indicator_id);
+            $data2->target=$request->target;
+            $data2->performance1=$request->performance1;
+            $data2->performance2=$request->performance2;
+            $data2->performance3=$request->performance3;
+            $data2->score=$request->score;
+            $data2->save(); 
+         $data2->save();     
          return $data;
      }
      /////indicator2_1/////indicator2_1/////indicator2_1/////indicator2_1/////indicator2_1/////indicator2_1
@@ -2128,7 +2152,7 @@ class APIAJController extends Controller
          $pdca= defaulindicator::where('indicator_id',$id)
         ->get();
         $per1="";
-        if($id=="4.2"&&$id=="2.1"&&$id=="2.2"&&$id=="5.4")
+        if($id=="4.2"||$id=="2.1"||$id=="2.2"||$id=="5.4")
         {
             $per1="asdsadsad";
         }
@@ -2143,7 +2167,7 @@ class APIAJController extends Controller
         ->where('pdca.target','!=',null)
         ->get();
         $per1="";
-        if($id=="4.2"&&$id=="2.1"&&$id=="2.2"&&$id=="5.4")
+        if($id=="4.2"||$id=="2.1"||$id=="2.2"||$id=="5.4")
         {
             $per1="asdsadsad";
         }
@@ -2154,6 +2178,12 @@ class APIAJController extends Controller
           $data=new PDCA;
           $data->Indicator_id=$request->Indicator_id;
           $data->target=$request->target;
+          if(isset($request->performance1)){
+            $data->performance1=$request->performance1;
+          }
+          if(isset($request->performance2)){
+            $data->performance2=$request->performance2;
+          }
           $data->performance3=$request->performance3;
           $data->score=$request->score;
           $data->course_id=session()->get('usercourse');

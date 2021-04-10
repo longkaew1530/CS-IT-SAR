@@ -69,6 +69,25 @@ class Category4Controller extends Controller
             }
         }
         $resultpass1_5persen=($resultpass1_5count*100)/5;
+        $resultavg=($resultpassall*100)/$result;
+        session()->put('resultpass',$resultpassall);
+        session()->put('result',$result);
+        if($resultavg>=1&&$resultavg<=20){
+            $resultavg2=1;
+           }
+           else if($resultavg>=21&&$resultavg<=40){
+            $resultavg2=2;
+           }
+           else if($resultavg>=41&&$resultavg<=60){
+            $resultavg2=3;
+          }
+          else if($resultavg>=61&&$resultavg<=80){
+            $resultavg2=4;
+          }
+          else if($resultavg>=81&&$resultavg<=100){
+            $resultavg2=5;
+          }
+        session()->put('resultavg',$resultavg2);
         return view('category4/indicator5_4',compact('indi','perfor','result','resultpass1_5','resultpass1_5persen','resultpassall','inc','per1'));
     }
     public function teachingquality()

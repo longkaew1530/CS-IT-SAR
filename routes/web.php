@@ -77,7 +77,7 @@ Route::get('/course_overview', 'ReportController@course_overview');
 Route::get('/category1/indicator1-1', 'CategoryController@indicator1_1');
 Route::get('/category/category1', 'CategoryController@category1');
 Route::get('/category/indicator4-1/{id}', 'CategoryController@indicator4_1');
-Route::get('/category/indicator4-2/{id}', 'CategoryController@indicator4_2');
+Route::get('/category/indicator4-2', 'CategoryController@indicator4_2');
 Route::get('/category/indicator4-3', 'CategoryController@indicator4_3');
 
 //////หมวด3

@@ -22,12 +22,12 @@
                 </tr>
                 <tr>
                 <td>จำนวนบัณฑิตที่ตอบแบบสำรวจ</td>
-                <td><input type="text" class="form-control" id="answer" name="answer" value="{{$row['answer']}}"/></td>
+                <td><input type="text" class="form-control" id="answer" name="answer" onchange="myScript1()" value="{{$row['answer']}}"/></td>
                 <td><input type="text" class="form-control" id="answerpersen" name="answerpersen" value="{{$row['answerpersen']}}"/></td>
                 </tr>
                 <tr>
                 <td>จำนวนบัณฑิตที่ได้งานทำหลังสำเร็จการศึกษา</td>
-                <td><input type="text" class="form-control" id="job" name="job" value="{{$row['job']}}"/></td>
+                <td><input type="text" class="form-control" id="job" name="job" onchange="myScript()" value="{{$row['job']}}"/></td>
                 <td><input type="text" class="form-control" id="jobpersen" name="jobpersen" value="{{$row['jobpersen']}}"/></td>
                 </tr>
                 <tr>
@@ -42,7 +42,7 @@
                 </tr>
                 <tr>
                 <td>จำนวนบัณฑิตที่ประกอบอาชีพอิสระ</td>
-                <td><input type="text" class="form-control" id="freelance" name="freelance" value="{{$row['freelance']}}"/></td>
+                <td><input type="text" class="form-control" id="freelance" name="freelance" onchange="myScript()" value="{{$row['freelance']}}"/></td>
                 <td><input type="text" class="form-control" id="freelancepersen" name="freelancepersen" value="{{$row['freelancepersen']}}"/></td>
                 </tr>
                 <tr>
@@ -85,6 +85,50 @@
             </div>
           </div>
           @endforeach
+
+          <div class="data">
+        <div class="col-md-12">
+          <div class="box-header col-md-12 col-sm-9 col-xs-12">
+            <h3 class="box-title">ผลการประเมินตนเอง</h3>
+          </div>
+          <div id="body">
+            <div class="col-md-12 col-sm-9 col-xs-12">
+            <table class="table table-bordered text-center">
+                <tbody><tr>
+                  <th width="30%" >ตัวบ่งชี้</th>
+                  <th width="10%">เป้าหมาย</th>
+                  @if($per1!=null)
+                      <th colspan="2" width="10%">ผลการดำเนินงาน</th>
+                  @else
+                      <th  width="10%">ผลการดำเนินงาน</th>
+                  @endif
+                  <th width="10%">คะแนนอิงเกณฑ์ สกอ.</th>
+                </tr>
+                @foreach($pdca as $row)
+                <input type="hidden" class="form-control" id="Indicator_id" name="Indicator_id" value="{{$row['pdca_id']}}"/>
+                <tr>
+                  <td rowspan="2">ตัวบ่งชี้ที่ {{$row['Indicator_id']}} {{$row['Indicator_name']}}</td>           
+                  <td rowspan="2"><input type="text" class="form-control text-center" name="target"  value="{{$row['target']}}"></td>
+                  @if($per1!=null)
+                    <td ><input type="text" class="form-control text-center" id="performance1" name="performance1"  value="{{$row['performance1']}}" readonly></td></td>
+                  @endif  
+                  <td rowspan="2"><input type="text" class="form-control text-center" id="performance3" name="performance3"  value="{{$row['performance3']}}" readonly></td>
+                  <td rowspan="2"><input type="text" class="form-control text-center" id="score" name="score"  value="{{$row['score']}}" readonly></td>
+                </tr>
+                <tr>
+                @if($per1!=null)
+                    <td ><input type="text" class="form-control text-center" id="performance2" name="performance2"  value="{{$row['performance2']}}" readonly></td></td>
+                  @endif  
+                </tr>
+                <tr>
+                @endforeach
+              </tbody></table>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
       <div class="col-md-12">
         <div id="body">
           <div class="col-md-12 col-sm-9 col-xs-12">
@@ -149,5 +193,76 @@
       });
     });
   });
+  function myScript() {
+    var id = document.getElementById("job");
+    var id2 = document.getElementById("freelance");
+    var id3 = document.getElementById("answer");
+    var result =parseInt(id.value);
+    var result2 =parseInt(id2.value);
+    var result3 =parseInt(id3.value);
+    document.getElementById("performance1").value =result+result2;
+    if(isNaN(result3)){
+      result3 =0;
+    }
+    else{
+      avg =((result+result2)*100)/result3;
+    }
+
+    if(avg>=1&&avg<=20){
+    document.getElementById("performance3").value =1;
+    document.getElementById("score").value =1;
+   }
+   else if(avg>=21&&avg<=40){
+    document.getElementById("performance3").value =2;
+    document.getElementById("score").value =2;
+   }
+   else if(avg>=41&&avg<=60){
+    document.getElementById("performance3").value =3;
+    document.getElementById("score").value =3;
+  }
+  else if(avg>=61&&avg<=80){
+    document.getElementById("performance3").value =4;
+    document.getElementById("score").value =4;
+  }
+  else if(avg>=81&&avg<=100){
+    document.getElementById("performance3").value =5;
+    document.getElementById("score").value =5;
+  }
+}
+function myScript1() {
+  var id = document.getElementById("job");
+    var id2 = document.getElementById("freelance");
+    var id3 = document.getElementById("answer");
+    var result =parseInt(id.value);
+    var result2 =parseInt(id2.value);
+    var result3 =parseInt(id3.value);
+    document.getElementById("performance2").value =result3;
+    if(isNaN(result)&&isNaN(result2)){
+      result3 =0;
+    }
+    else{
+      avg =((result+result2)*100)/result3;
+    }
+    if(avg>=1&&avg<=20){
+    document.getElementById("performance3").value =1;
+    document.getElementById("score").value =1;
+   }
+   else if(avg>=21&&avg<=40){
+    document.getElementById("performance3").value =2;
+    document.getElementById("score").value =2;
+   }
+   else if(avg>=41&&avg<=60){
+    document.getElementById("performance3").value =3;
+    document.getElementById("score").value =3;
+  }
+  else if(avg>=61&&avg<=80){
+    document.getElementById("performance3").value =4;
+    document.getElementById("score").value =4;
+  }
+  else if(avg>=81&&avg<=100){
+    document.getElementById("performance3").value =5;
+    document.getElementById("score").value =5;
+  }
+}
 </script>
 @endsection

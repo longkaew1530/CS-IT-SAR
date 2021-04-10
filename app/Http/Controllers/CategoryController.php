@@ -250,7 +250,7 @@ class CategoryController extends Controller
 
         return view('category/indicator4-1',compact('pdca'));
     }
-    public function indicator4_2($id)
+    public function indicator4_2()
     {
        
         //ดึงค่าปี
@@ -330,15 +330,14 @@ class CategoryController extends Controller
             }
             
         }
-        $menuname=indicator::where('id',$id)
-        ->get();
 
-        $pdca=PDCA::leftjoin('indicator','pdca.Indicator_id','=','indicator.indicator_id')
-        ->where('pdca.Indicator_id',$menuname[0]['Indicator_id'])
+        $inc= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
         ->where('pdca.year_id',session()->get('year_id'))
+        ->where('pdca.indicator_id',4.2)
+        ->where('pdca.target','!=',null)
         ->get();
-
+        session()->put('result',3);
         ///ที่มีวุติปริญญาเอก
         $B=($counteb_name*100)/$count;
         $qty1=($B*5)/20;
@@ -359,7 +358,7 @@ class CategoryController extends Controller
             $qty3=5;
         }
         return view('category/indicator4-2',compact('category_re','count','counteb_name','countposition1','countposition2','countposition3'
-                    ,'cate','qty1','B','qty2','C','qty3','E','pdca'));
+                    ,'cate','qty1','B','qty2','C','qty3','E','inc'));
     }
     public function indicator4_3()
     {

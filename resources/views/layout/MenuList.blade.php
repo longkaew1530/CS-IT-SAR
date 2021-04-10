@@ -181,7 +181,7 @@
          @endforeach
           <ul class="treeview-menu" id="item_id">
             @foreach($value->indicator as $row)
-            @if($row['url']=="/category3/pdca"||$row['url']=="/addimpactfactor"||$row['url']=="/addassessment_summary"||$row['url']=="/category/indicator4-2"||$row['url']=="/addindicator4-3")
+            @if($row['url']=="/category3/pdca"||$row['url']=="/addimpactfactor"||$row['url']=="/addassessment_summary"||$row['url']=="/addindicator4-3")
                 <li  class="{{ (request()->segment(2)==$row['m_id']) ? 'active' : '' }}"><a   href="{{$row['url']}}/{{$row['id']}}" ><i class="fa fa-circle-o text-red"></i>@if($row['Indicator_id']!="")ตัวบ่งชี้ {!!$row['Indicator_id']!!}@else{!!$row['Indicator_name']!!}@endif</a></li>
                 @else
                 <li  class="{{ ('/'.request()->segment(1)==$row['url']) ? 'active' : ''}}"><a  href="{{$row['url']}}" ><i class="fa fa-circle-o text-red"></i>@if($row['Indicator_id']!="")ตัวบ่งชี้ {!!$row['Indicator_id']!!}@else{!!$row['Indicator_name']!!}@endif</a></li>

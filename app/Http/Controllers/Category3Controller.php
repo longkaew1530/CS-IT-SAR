@@ -129,7 +129,14 @@ class Category3Controller extends Controller
         $factor=indicator2_2::where('course_id',session()->get('usercourse'))
          ->where('year_id',session()->get('year_id'))
          ->get();
-        return view('category3/indicator2-2',compact('factor'));
+         $pdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+        ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.year_id',session()->get('year_id'))
+        ->where('pdca.Indicator_id',2.2)
+        ->where('pdca.target','!=',null)
+        ->get();
+        $per1="ssssss";
+        return view('category3/indicator2-2',compact('factor','pdca','per1'));
     }
     public function getpdca()
     {

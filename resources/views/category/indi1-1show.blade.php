@@ -132,12 +132,7 @@
               </tbody></table>
             </div>
               
-                <h4><p class="bginfo"></p></h4>
-                <div class="form-group ml-1">
-                @foreach($row->educational_background as $value)
-                      {{$value['eb_name']}}
-                  @endforeach
-          </div>
+               
 
 
           <br><h4 class="box-title">4.คุณสมบัติของอาจารย์ผู้สอน</h4><br>
@@ -179,12 +174,7 @@
               </tbody></table>
             </div>
               
-                <h4><p class="bginfo"></p></h4>
-                <div class="form-group ml-1">
-                @foreach($row->educational_background as $value)
-                      {{$value['eb_name']}}
-                  @endforeach
-          </div>
+
                 
               4.2คุณสมบัติของอาจารย์ผู้สอนที่เป็นอาจารย์ประจำ<br>
               1) คุณวฒิระดับปริญญาโทหรือเทียบเท่า หรือคุณวุฒิปริญญาตรีหรือเทียบเท่า<br>

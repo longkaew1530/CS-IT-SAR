@@ -60,7 +60,8 @@ class AJController extends Controller
         // ->leftjoin('category_research_results','category_research_results.id','=','research_results.research_results_category')
         // ->where('research_results_user.user_id',$user->id)
         // ->get();
-        $researchresults=Research_results::where('owner',$user->id)
+        $researchresults=Research_results::leftjoin('category_research_results','category_research_results.id','=','research_results.research_results_category')
+        ->where('owner',$user->id)
         ->get();
         $category=categoty_researh::all();
         return view('AJ/research_results',compact('researchresults','category','userall'));
@@ -221,11 +222,17 @@ class AJController extends Controller
         $in3_3=performance3_3::where('course_id',session()->get('usercourse'))
         ->where('year_id',session()->get('year_id'))
         ->get();
+        $inc= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+        ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.year_id',session()->get('year_id'))
+        ->where('pdca.indicator_id',3.3)
+        ->where('pdca.target','!=',null)
+        ->get();
         if(count($in3_3)===0){
             return view('AJ/add3_3',compact('pdca','per1'));
         }
         else{
-            return view('category3/perfoment3_3',compact('in3_3','pdca','per1'));
+            return view('category3/perfoment3_3',compact('in3_3','pdca','per1','inc'));
         }
             
     }

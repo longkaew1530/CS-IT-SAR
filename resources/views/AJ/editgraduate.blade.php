@@ -104,8 +104,8 @@
         success: (data) => {
           if(data){
             swal({
-          title: "เพิ่มข้อมูลเรียบร้อยแล้ว",
-          text: "",
+          title: "แก้ไขข้อมูลสำเร็จ",
+          text: "Success",
           icon: "success",
           button: "ตกลง",
         }).then(function() {

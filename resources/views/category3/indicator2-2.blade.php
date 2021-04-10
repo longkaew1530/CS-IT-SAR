@@ -76,7 +76,42 @@
               <div class="mt-3"><b>การวิเคราะผลที่ได้</b><br>
               {!!$value['result']!!}</div>
               @endforeach
-</div></div>
+</div>
+<div class="box-body">
+            <ins>ผลการประเมินตนเอง</ins>
+            <table class="table table-bordered">
+                <tbody><tr>
+                  <th width="30%" class="text-center">ตัวบ่งชี้</th>
+                  <th width="15%" class="text-center">เป้าหมาย</th>
+                  @if($per1!=null)
+                      <th colspan="2" width="15%" class="text-center">ผลการดำเนินงาน</th>
+                  @else
+                      <th  width="15%" class="text-center">ผลการดำเนินงาน</th>
+                  @endif
+                  <th width="15%" class="text-center">คะแนนอิงเกณฑ์ สกอ.</th>
+                </tr>
+                @foreach($pdca as $row)
+                @if($row['target']!="")
+                <tr>
+                  <td rowspan="2" >ตัวบ่งชี้ที่ {{$row['Indicator_id']." ".$row['Indicator_name']}}</td>           
+                  <td rowspan="2" class="text-center">{{$row['target']}}</td>
+                  @if($per1!=null)
+                    <td class="text-center">{{$row['performance1']}}</td>
+                  @endif  
+                  <td rowspan="2" class="text-center">{{$row['performance3']}}</td>
+                  <td rowspan="2" class="text-center">{{$row['score']}}</td>
+                </tr>
+                <tr>
+                @if($per1!=null)
+                    <td class="text-center">{{$row['performance2']}}</td>
+                  @endif  
+                </tr>
+                <tr>
+                @endif
+                @endforeach
+              </tbody></table>
+            </div>
+</div>
 <style>
    .b{
      background-color:black;

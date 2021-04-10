@@ -165,10 +165,23 @@
                 <tr>
                   <td class="text-center" colspan="3">คะแนนเฉลี่ยรวม</td>  
                   <?php  $result4 = sprintf('%.2f',$qty1+$qty2+$qty3); ?>  
+                  <?php  session()->put('resultpass',$result4); ?>
+                  <?php
+                    $get=session()->get('resultpass');
+                    $get2=session()->get('result');
+                    $get3 = sprintf('%.2f',$get/$get2);
+                    session()->put('resultavg',$get3); 
+                    ?>
+                    {{$get3}}
                   <td>{{$result4}}</td>          
                 </tr>
               </tbody></table>
             </div>
+            @if(isset($inc[0]['target']))
+            <a href="/getself_assessment_results2/4.2" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>
+            @else
+            <a href="/getself_assessment_results/4.2" class="btn btn-success fr ml-1"><i class='fa fa-plus'></i> เพิ่ม</a>
+            @endif
             <ins>ผลการประเมินตนเอง</ins>
             <div class="box-body">
               <table class="table table-bordered text-center">
@@ -178,7 +191,7 @@
                   <th colspan="2" width="20%">ผลการดำเนินงาน</th>
                   <th width="20%">คะแนนอิงเกณฑ์ สกอ.</th>
                 </tr>
-                @foreach($pdca as $key =>$row )
+                @foreach($inc as $key =>$row )
                 <tr >
                   <td rowspan="2">ตัวบ่งชี้ที่ {{$row['Indicator_id']." ".$row['Indicator_name']}}</td>           
                   <td rowspan="2">{{$row['target']}}</td>

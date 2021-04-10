@@ -26,18 +26,19 @@
                 </tr>
                 @foreach($pdca as $row)
                 <input type="hidden" class="form-control" id="Indicator_id" name="Indicator_id" value="{{$row['pdca_id']}}"/>
+                <input type="hidden" class="form-control" id="check" name="check" value="{{$row['Indicator_id']}}"/>
                 <tr>
                   <td rowspan="2">ตัวบ่งชี้ที่ {{$row['Indicator_id']." ".$row['Indicator_name']}}</td>           
                   <td rowspan="2"><input class="form-control" name="target" value="{{$row['target']}}"></td>
                   @if($per1!=null)
-                    <td ><input class="form-control" name="performance1" value="{{$row['performance1']}}"></td></td>
+                    <td ><input class="form-control" name="performance1" value="{{$row['performance1']}}" readonly></td></td>
                   @endif  
-                  <td rowspan="2"><input class="form-control" name="performance3" value="{{$row['performance3']}}"></td>
+                  <td rowspan="2"><input class="form-control" name="performance3" value="{{$row['performance3']}}" readonly></td>
                   <td rowspan="2"><input class="form-control" name="score" value="{{$row['score']}}"></td>
                 </tr>
                 <tr>
                 @if($per1!=null)
-                    <td ><input class="form-control" name="performance2" value="{{$row['performance2']}}"></td></td>
+                    <td ><input class="form-control" name="performance2" value="{{$row['performance2']}}" readonly></td></td>
                   @endif  
                 </tr>
                 <tr>
@@ -152,6 +153,12 @@
         }).then(function() {
           if(id.value=='1.1'){
             window.location = "/category1/indicator1-1"; 
+          }
+          else if(id.value=='5.4'){
+            window.location = "/category4/indicator5_4"; 
+          }
+          else if(id.value=='4.2'){
+            window.location = "/category/indicator4-2"; 
           }
           else{
             window.location = "/category3/pdca/{{session()->get('idmenu')}}";

@@ -6,13 +6,13 @@
     <div class="box-body">
       <div class="col-sm-2" align="right"></div>
       <div class="col-sm-9" align="center">
-        <h3><i class=""></i>เพิ่มผลการประเมินตนเอง</h3>
+        <h3><i class=""></i>ผลการประเมินตนเอง</h3>
         <hr>
       </div>
     </div>
     <form id="adddata" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data">
     @csrf
-    @if($pdca[0]['Indicator_id']!='1.1')
+    @if($pdca[0]['Indicator_id']!='1.1'&&$pdca[0]['Indicator_id']!='5.4'&&$pdca[0]['Indicator_id']!='4.2')
     <table class="table table-bordered text-center">
                 <tbody><tr>
                   <th width="30%" >ตัวบ่งชี้</th>
@@ -26,18 +26,51 @@
                 </tr>
                 @foreach($pdca as $row)
                 <input type="hidden" class="form-control" id="Indicator_id" name="Indicator_id" value="{{$row['Indicator_id']}}"/>
+                <input type="hidden" class="form-control" id="check" name="check" value="{{$row['Indicator_id']}}"/>
                 <tr>
                   <td rowspan="2">ตัวบ่งชี้ที่ {{$row['Indicator_id']." ".$row['Indicator_name']}}</td>           
                   <td rowspan="2"><input class="form-control" name="target"></td>
                   @if($per1!=null)
-                    <td ><input class="form-control" name="performance1"></td></td>
+                    <td ><input class="form-control" name="performance1" readonly></td></td>
                   @endif  
-                  <td rowspan="2"><input class="form-control" name="performance3"></td>
+                  <td rowspan="2"><input class="form-control" name="performance3" readonly></td>
                   <td rowspan="2"><input class="form-control" name="score"></td>
                 </tr>
                 <tr>
                 @if($per1!=null)
-                    <td ><input class="form-control" name="performance2"></td></td>
+                    <td ><input class="form-control" name="performance2" readonly></td></td>
+                  @endif  
+                </tr>
+                <tr>
+                @endforeach
+              </tbody></table>
+          @elseif($pdca[0]['Indicator_id']=='5.4'||$pdca[0]['Indicator_id']=='4.2')
+          <table class="table table-bordered text-center">
+                <tbody><tr>
+                  <th width="30%" >ตัวบ่งชี้</th>
+                  <th width="10%">เป้าหมาย</th>
+                  @if($per1!=null)
+                      <th colspan="2" width="10%">ผลการดำเนินงาน</th>
+                  @else
+                      <th  width="10%">ผลการดำเนินงาน</th>
+                  @endif
+                  <th width="10%">คะแนนอิงเกณฑ์ สกอ.</th>
+                </tr>
+                @foreach($pdca as $row)
+                <input type="hidden" class="form-control" id="Indicator_id" name="Indicator_id" value="{{$row['Indicator_id']}}"/>
+                <input type="hidden" class="form-control" id="check" name="check" value="{{$row['Indicator_id']}}"/>
+                <tr>
+                  <td rowspan="2">ตัวบ่งชี้ที่ {{$row['Indicator_id']." ".$row['Indicator_name']}}</td>           
+                  <td rowspan="2"><input type="text" class="form-control" name="target"></td>
+                  @if($per1!=null)
+                    <td ><input type="text" class="form-control" name="performance1" value="{{session()->get('resultpass')}}" readonly ></td></td>
+                  @endif  
+                  <td rowspan="2"><input type="text" class="form-control" name="performance3" value="{{session()->get('resultavg')}}" readonly></td>
+                  <td rowspan="2"><input type="text" class="form-control" name="score"></td>
+                </tr>
+                <tr>
+                @if($per1!=null)
+                    <td ><input type="text" class="form-control" name="performance2" value="{{session()->get('result')}}"  readonly></td></td>
                   @endif  
                 </tr>
                 <tr>
@@ -152,6 +185,12 @@
         }).then(function() {
           if(id.value=='1.1'){
             window.location = "/category1/indicator1-1"; 
+          }
+          else if(id.value=='5.4'){
+            window.location = "/category4/indicator5_4"; 
+          }
+          else if(id.value=='4.2'){
+            window.location = "/category/indicator4-2"; 
           }
           else{
             window.location = "/category3/pdca/{{session()->get('idmenu')}}";

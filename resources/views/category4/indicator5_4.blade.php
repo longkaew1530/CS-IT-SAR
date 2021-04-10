@@ -84,9 +84,9 @@
 </div>
 <div class="box-body">
              @if(isset($inc[0]['target']))
-            <a href="/getself_assessment_results2/1.1" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>
+            <a href="/getself_assessment_results2/5.4" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>
             @else
-            <a href="/getself_assessment_results/1.1" class="btn btn-success fr ml-1"><i class='fa fa-plus'></i> เพิ่ม</a>
+            <a href="/getself_assessment_results/5.4" class="btn btn-success fr ml-1"><i class='fa fa-plus'></i> เพิ่ม</a>
             @endif
             <ins>ผลการประเมินตนเอง</ins>
             <table class="table table-bordered text-center">
