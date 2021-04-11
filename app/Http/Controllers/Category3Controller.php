@@ -6,6 +6,7 @@ use App\PDCA;
 use App\DocPDCA;
 use App\Groupmenu;
 use App\Course;
+use App\category3_resignation;
 use App\categoty_researh;
 use App\ModelAJ\Research_results;
 use App\Year;
@@ -53,6 +54,25 @@ class Category3Controller extends Controller
         ->groupBy('year_add')
         ->get();
         return view('category3/graduatesqty',compact('get','getinfo','getyear','getinfo2','gropby'));
+    }
+    public function resignation()
+    {
+        $get=year_acceptance_graduate::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        $getinfo=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->get();
+        $getyear=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->where('year_add',session()->get('year'))
+        ->get();
+        $getinfo2=category3_infostudent::where('course_id',session()->get('usercourse'))
+            ->get();
+        $gropby=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->groupBy('year_add')
+        ->get();
+        $re=category3_resignation::where('course_id',session()->get('usercourse'))
+        ->get();
+        return view('category3/resignation',compact('get','getinfo','getyear','getinfo2','gropby','re'));
     }
     public function Studentsinfo()
     {

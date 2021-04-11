@@ -276,6 +276,7 @@ class APIController extends Controller
          $queryyaer->save();
          $getall=defaulindicator::all();
          $getcourse=Course::all();
+         $categoryall=category::all();
          foreach($getcourse as $row){
             foreach($getall as $value){
                     $data=new indicator;
@@ -286,19 +287,21 @@ class APIController extends Controller
                     $data['url']=$value['url'];
                     $data['active']=1;
                     $data['year_id']=$queryyaer->year_id;
-                    $data['course_id']=session()->get('usercourse');
-                    $data->save();
+                    $data['course_id']=$row['course_id'];
+                    $data->save(); 
+            }
+         }
+         foreach($getcourse as $row){
+            foreach($categoryall as $value){
                     $data1=new assessment_results;
                     $data1['category_id']=$value['category_id'];
                     $data1['active']=1;
                     $data1['year_id']=$queryyaer->year_id;
-                    $data1['course_id']=session()->get('usercourse');
-                    $data1->save();
-                    
+                    $data1['course_id']=$row['course_id'];
+                    $data1->save();  
             }
          }
-         
-         return $queryyaer;
+         return $data1;
      }
      /////ปีถัดไป/////ปีถัดไป/////ปีถัดไป/////ปีถัดไป/////ปีถัดไป/////ปีถัดไป
 

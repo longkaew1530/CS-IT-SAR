@@ -11,6 +11,7 @@ use App\User;
 use App\PDCA;
 use App\category4_teaching_quality;
 use App\docpdca;
+use App\category3_resignation;
 use App\course_responsible_teacher;
 use App\indicator4_3;
 use App\course_teacher;
@@ -1931,6 +1932,7 @@ class APIAJController extends Controller
     {
         $clind=indicator::where('category_id',$id)
         ->where('year_id',session()->get('year_id'))
+        ->where('course_id',session()->get('usercourse'))
         ->get();
         // foreach($Assessment_results as $key=>$value){
         //     $row[$key] = array(
@@ -2270,4 +2272,70 @@ class APIAJController extends Controller
         return $data1;
      }
       /////teaching_quality/////teaching_quality/////teaching_quality/////teaching_quality/////teaching_quality/////teaching_quality
+
+
+      /////Resignation/////Resignation/////Resignation/////Resignation/////Resignation/////Resignation
+
+    public function getresignation()
+    {
+        $get=year_acceptance_graduate::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        $getinfo=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->get();
+        $getyear=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->where('year_add',session()->get('year'))
+        ->get();
+        $getinfo2=category3_infostudent::where('course_id',session()->get('usercourse'))
+            ->get();
+       return view('AJ/editgraduate',compact('get','getinfo','getyear','getinfo2'));
+       
+    }
+   function addresignation(Request $request)
+   {
+       $get=$request->all();
+       $check=category3_resignation::where('course_id',session()->get('usercourse'));
+       if(isset($check)){
+            $check->delete();
+       }
+       $s=count($get['qty']);
+       foreach($get['qty'] as $key=>$value){
+          $data=new category3_resignation;
+          $data->year_add=$get['yearadd'][$key];
+          $data->qty=$value;
+          $data->course_id=session()->get('usercourse');
+          $data->save();
+       }
+    return $data;
+   }
+   public function updateresignation(Request $request)
+   {
+            $get=year_acceptance_graduate::where('course_id',session()->get('usercourse'))
+            ->where('year_id',session()->get('year_id'))
+            ->get();
+        $getall=$request->all();
+        $checkdata=category3_graduate::where('course_id',session()->get('usercourse'));
+        if(isset($checkdata)){
+            $checkdata->delete();
+        }
+
+        for($i=$get[0]['year_add'];$i<=$get[0]['reported_year']; $i++){
+            $getcount=$get[0]['year_add'];
+            foreach($getall['y'.$i] as $key=>$value){
+                if($value!=null){
+                    $data[$key]['reported_year_qty']=$value;
+                }
+                else{
+                    $data[$key]['reported_year']=0;
+                }
+                $data[$key]['year_add']=$i;
+                $data[$key]['reported_year']=$getcount;
+                $data[$key]['course_id']=session()->get('usercourse');
+                $getcount++;
+            }
+            category3_resignation::insert($data);
+        }
+        return $data;
+   }
+       /////Resignation/////Resignation/////Resignation/////Resignation/////Resignation/////Resignation
 }

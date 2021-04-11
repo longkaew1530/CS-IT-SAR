@@ -8,6 +8,7 @@ use App\ModelAJ\Research_results;
 use App\ModelAJ\categoty_researh;
 use App\User;
 use App\Menu;
+use App\category3_resignation;
 use App\indicator4_3;
 use App\category4_teaching_quality;
 use App\category4_course_results;
@@ -516,6 +517,29 @@ class AJController extends Controller
         else{
             return view('category4/teaching_quality',compact('teachqua','teachquagroup'));
         }
+            
+             
+    }
+
+    public function addresignation()
+    {
+        $get=year_acceptance_graduate::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        $getinfo=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->get();
+        $getyear=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->where('year_add',session()->get('year'))
+        ->get();
+        $getinfo2=category3_infostudent::where('course_id',session()->get('usercourse'))
+            ->get();
+        $gropby=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->groupBy('year_add')
+        ->get();
+        $re=category3_resignation::where('course_id',session()->get('usercourse'))
+        ->get();
+            return view('AJ/addresignation',compact('get','getinfo','getyear','getinfo2','gropby','re'));
+   
             
              
     }

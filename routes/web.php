@@ -67,6 +67,7 @@ Route::get('/adda/{id}', 'AJController@adda');
 Route::get('/addstrengths_summary', 'AJController@addstrengths_summary');
 Route::get('/graduate', 'AJController@addgraduate');
 Route::get('/addteachingquality', 'AJController@addteaching_quality');
+Route::get('/addresignation', 'AJController@addresignation');
 /////รายงาน
 Route::get('/overview', 'ReportController@overview');
 Route::get('/download', 'ReportController@download');
@@ -90,6 +91,7 @@ Route::get('/category3/indicator2-2', 'Category3Controller@indicator2_2');
 Route::get('/category3/pdca/{id}', 'Category3Controller@showpdca');
 Route::get('/category3/performance', 'Category3Controller@indicator3_3');
 Route::get('/category3/studentinfomation', 'Category3Controller@Studentsinfo');
+Route::get('/category3/resignation', 'Category3Controller@resignation');
 ////หมวด4
 Route::get('/category4/course_summary', 'Category4Controller@coursesummary');
 Route::get('/category4/notcourse_summary', 'Category4Controller@notcoursesummary');
@@ -333,6 +335,10 @@ Route::delete('/deleteself_assessment_results/{id}','APIAJController@deleteself_
 Route::get('/getteaching_quality','APIAJController@getteaching_quality');
 Route::post('/addteaching_quality','APIAJController@addteaching_quality');
 Route::post('/updateteaching_quality','APIAJController@updateteaching_quality');
+/////resignation
+Route::get('/getresignation','APIAJController@getresignation');
+Route::post('/addresignation','APIAJController@addresignation');
+Route::post('/updateresignation','APIAJController@updateresignation');
 /////download
 Route::get('/dowloaddoxc','ReportController@generateDocx');
 
