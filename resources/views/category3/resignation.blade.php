@@ -3,7 +3,7 @@
 @section('content')
 <div class="box box-warning marginl">
 <div class="box-header">
-<a href="/addresignation" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>
+<a href="/getresignation" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>
 <b>จำนวนที่ลาออกและคัดชื่อออกสะสมจนถึงสิ้นปีการศึกษา</b>
             <div class="box-body">
             <table class="table table-bordered text-center">
@@ -11,6 +11,7 @@
                   <th width="5%" rowspan="5" style="background-color:#9ddfd3">ปีการศึกษาที่รับเข้า</th>
                   <th width="5%" rowspan="5" style="background-color:#9ddfd3">จำนวนที่รับเข้า</th>
                   <?php $zero2=0 ?>
+                  <?php $yearname=session()->get('year'); ?>
                   @foreach($gropby as $key=>$value)
                   <?php $zero1=0 ?>
                     @foreach($getinfo as $c)
@@ -56,7 +57,7 @@
                   <tr></tr>
                   <tr>
                   <?php $n=0 ?>
-                  @for($y=$get[0]['year_add'];$y<=$get[0]['reported_year']; $y++)
+                  @for($y=$get[0]['year_add'];$y<=$yearname; $y++)
                   <?php $qtyavgsuccess=0 ?>
                   <?php $data=$getinfo->where('year_add',$y); ?>
                   @foreach($data as $t)
@@ -74,7 +75,7 @@
                             <td style="background-color:#9ddfd3">{{$y}}</td>
                             <td>{{$data1['reported_year_qty']}}</td>
                             <?php $k=0 ?>
-                            @for($x =$get[0]['year_add'];$x<=$get[0]['reported_year']; $x++)
+                            @for($x =$get[0]['year_add'];$x<=$yearname; $x++)
                             <?php $data2=[] ?>
                             <?php $data2=$data->where('reported_year',$x)->where('year_add',$y); ?>
                             @if($data2!='[]')

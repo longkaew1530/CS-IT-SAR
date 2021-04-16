@@ -15,6 +15,7 @@
             <form id="adddata" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data">
             @csrf
             @if($get!="")
+            <?php $yearname=session()->get('year'); ?>
             <table class="table table-bordered text-center">
                 <tbody><tr>
                   <th width="5%" rowspan="5" style="background-color:#9ddfd3">ปีการศึกษาที่รับเข้า</th>
@@ -64,7 +65,7 @@
                   <tr>
                   <?php $n=0 ?>
                   <?php $test=0 ?>
-                  @for($y=$get[0]['year_add'];$y<=$get[0]['reported_year']; $y++)
+                  @for($y=$get[0]['year_add'];$y<=$yearname; $y++)
                   <?php $qtyavgsuccess=0 ?>
                   <?php $data=$getinfo->where('year_add',$y); ?>
                   @foreach($data as $t)
@@ -82,7 +83,7 @@
                             <td style="background-color:#9ddfd3">{{$y}}</td>
                             <td>{{$data1['reported_year_qty']}}</td>
                             <?php $k=0 ?>
-                            @for($x =$get[0]['year_add'];$x<=$get[0]['reported_year']; $x++)
+                            @for($x =$get[0]['year_add'];$x<=$yearname; $x++)
                             <?php $data2=[] ?>
                             <?php $data2=$data->where('reported_year',$x)->where('year_add',$y); ?>
                             @if($data2!='[]')

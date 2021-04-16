@@ -542,7 +542,8 @@ class APIController extends Controller
       {
           $data=$request->all();
           $userid=$request->id;
-          $deleterolepermission = user_permission::find($userid);
+          $deleterolepermission = user_permission::where('year_id',session()->get('year_id'))
+          ->where('user_id',$userid);
           if($deleterolepermission!=null){
               $deleterolepermission->delete();
           }
@@ -578,6 +579,7 @@ class APIController extends Controller
       {
           $role=category::leftjoin('assessment_results','category.category_id','=','assessment_results.category_id')
           ->where('year_id',session()->get('year_id'))
+          ->where('course_id',session()->get('usercourse'))
           ->where('active',1)
           ->orderBy('assessment_results.category_id','asc')
           ->get();

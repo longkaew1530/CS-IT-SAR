@@ -88,20 +88,20 @@ class ReportController extends Controller
         ->where('target','!=',null)
         ->get();
         $per1="";
-        $result1_1="";
-        $result2_1="";
-        $result2_1="";
-        $result3_1="";
-        $result3_2="";
-        $result3_3="";
-        $result4_1="";
-        $result4_2="";
-        $result4_3="";
-        $result5_1="";
-        $result5_2="";
-        $result5_3="";
-        $result5_4="";
-        $result6_1="";
+        $result1_1=0;
+        $result2_1=0;
+        $result2_2=0;
+        $result3_1=0;
+        $result3_2=0;
+        $result3_3=0;
+        $result4_1=0;
+        $result4_2=0;
+        $result4_3=0;
+        $result5_1=0;
+        $result5_2=0;
+        $result5_3=0;
+        $result5_4=0;
+        $result6_1=0;
         foreach($pdca as $row){
             if($row['Indicator_id']==1.1){
                     if($row['score']=="ผ่านมาตรฐาน"){

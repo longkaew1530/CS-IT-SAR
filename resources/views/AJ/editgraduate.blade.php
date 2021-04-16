@@ -15,15 +15,16 @@
             <form id="adddata" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data">
             @csrf
             @if($get!="")
+            <?php $yearname=session()->get('year'); ?>
               <table class="table table-bordered text-center">
                 <tbody><tr>
                   <th width="5%" rowspan="3" style="background-color:#9ddfd3">ปีการศึกษาที่รับเข้า</th>
-                  @for($i =$get[0]['year_add'];$i<=$get[0]['reported_year']; $i++)
+                  @for($i =$get[0]['year_add'];$i<=$yearname; $i++)
                   <th width="5%" colspan="2" style="background-color:#9ddfd3">{{$i}}</th>
                   @endfor
                   </tr>
                   <tr>
-                  @for($i =$get[0]['year_add'];$i<=$get[0]['reported_year']; $i++)
+                  @for($i =$get[0]['year_add'];$i<=$yearname; $i++)
                   <th width="5%" rowspan="2" style="background-color:#9ddfd3">จำนวนผู้สำเร็จการศึกษา</th>
                   <th width="5%" rowspan="2" style="background-color:#9ddfd3">ร้อยละ</th>
                   @endfor
@@ -31,11 +32,11 @@
                   <tr></tr>
                   <tr>
                   <?php $n=0 ?>
-                  @for($y=$get[0]['year_add'];$y<=$get[0]['reported_year']; $y++)
+                  @for($y=$get[0]['year_add'];$y<=$yearname; $y++)
                   <?php $data=$getinfo->where('year_add',$y); ?>
                 
                             <td style="background-color:#9ddfd3">{{$y}}</td>
-                            @for($x =$get[0]['year_add'];$x<=$get[0]['reported_year']; $x++)
+                            @for($x =$get[0]['year_add'];$x<=$yearname; $x++)
                             <?php $data2=[] ?>
                             <?php $data2=$data->where('reported_year',$x)->where('year_add',$y); ?>
                             @if($data2!='[]')

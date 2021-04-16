@@ -13,16 +13,17 @@
                   <th width="10%" colspan="{{$countnumber}}" style="background-color:#9ddfd3">ปีการศึกษาที่รับเข้า</th>
                   </tr>
                   <tr>
-                  @for($i =$get[0]['year_add'];$i<=$get[0]['reported_year']; $i++)
+                  <?php $yearname=session()->get('year'); ?>
+                  @for($i =$get[0]['year_add'];$i<=$yearname; $i++)
                   <th width="5%" style="background-color:#9ddfd3">{{$i}}</th>
                   @endfor
                   </tr>
                   <?php $n=0 ?>
-                  @for($y=$get[0]['year_add'];$y<=$get[0]['reported_year']; $y++)
+                  @for($y=$get[0]['year_add'];$y<=$yearname; $y++)
                   <?php $data=$getinfo->where('year_add',$y); ?>
                  <tr>
                             <td style="background-color:#9ddfd3">{{$y}}</td>
-                            @for($x =$get[0]['year_add'];$x<=$get[0]['reported_year']; $x++)
+                            @for($x =$get[0]['year_add'];$x<=$yearname; $x++)
                             <?php $data2=[] ?>
                             <?php $data2=$data->where('reported_year',$x)->where('year_add',$y); ?>
                             @if($data2!='[]')
@@ -35,7 +36,7 @@
                                 @endforeach  
                             @else
                                 
-                                <td ><input type="number" class="form-control text-center" name="y{{$y}}[]" value="0"></td>
+                                <td ></td>
                             @endif    
                             <?php $n++ ?>                        
                             @endfor
@@ -47,7 +48,7 @@
               
               
             
-            จำนวนนักศึกษาที่รับเข้าตามแผน (ตาม มคอ2 ของปีที่ประเมิน) {{$getqty[0]['qty']}} คน 
+           @if($getqty!="[]") จำนวนนักศึกษาที่รับเข้าตามแผน (ตาม มคอ2 ของปีที่ประเมิน) {{$getqty[0]['qty']}} คน @endif
             </div>
    <style>
    .b{

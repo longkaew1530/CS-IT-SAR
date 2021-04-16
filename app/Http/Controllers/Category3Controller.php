@@ -41,17 +41,35 @@ class Category3Controller extends Controller
     public function graduatesQTY()
     {
         $get=year_acceptance_graduate::where('course_id',session()->get('usercourse'))
-        ->where('year_id',session()->get('year_id'))
         ->get();
+        $getinfo="";
+        $getinfo2="";
+        $gropby="";
+        if($get!='[]'){
         $getinfo=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->where('year_add', '>=',$get[0]['year_add'])
+        ->where('year_add', '<=',session()->get('year'))
+        ->where('reported_year', '>=',$get[0]['year_add'])
+        ->where('reported_year', '<=',session()->get('year'))
         ->get();
+        
+        $getinfo2=category3_infostudent::where('course_id',session()->get('usercourse'))
+        ->where('year_add', '>=',$get[0]['year_add'])
+        ->where('year_add', '<=',session()->get('year'))
+        ->where('reported_year', '>=',$get[0]['year_add'])
+        ->where('reported_year', '<=',session()->get('year'))
+        ->get();
+        $gropby=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->where('year_add', '>=',$get[0]['year_add'])
+        ->where('year_add', '<=',session()->get('year'))
+        ->where('reported_year', '>=',$get[0]['year_add'])
+        ->where('reported_year', '<=',session()->get('year'))
+        ->groupBy('year_add')
+        ->get();
+        }
+       
         $getyear=category3_graduate::where('course_id',session()->get('usercourse'))
         ->where('year_add',session()->get('year'))
-        ->get();
-        $getinfo2=category3_infostudent::where('course_id',session()->get('usercourse'))
-            ->get();
-        $gropby=category3_graduate::where('course_id',session()->get('usercourse'))
-        ->groupBy('year_add')
         ->get();
         return view('category3/graduatesqty',compact('get','getinfo','getyear','getinfo2','gropby'));
     }
@@ -77,7 +95,6 @@ class Category3Controller extends Controller
     public function Studentsinfo()
     {
         $get=year_acceptance::where('course_id',session()->get('usercourse'))
-            ->where('year_id',session()->get('year_id'))
             ->get();
         $getinfo=category3_infostudent::where('course_id',session()->get('usercourse'))
             ->get();

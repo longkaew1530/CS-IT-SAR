@@ -13,7 +13,7 @@ class indicator extends Model
     ];
     public function Categorypdca()
     {
-        return $this->hasMany('App\categorypdca','Indicator_id','id');
+        return $this->hasMany('App\categorypdca','Indicator_id','Indicator_id');
     }
     public function category()
     {

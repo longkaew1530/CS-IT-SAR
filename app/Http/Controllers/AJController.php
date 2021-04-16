@@ -129,25 +129,41 @@ class AJController extends Controller
     public function addinfostd()
     {
             $get=year_acceptance::where('course_id',session()->get('usercourse'))
-            ->where('year_id',session()->get('year_id'))
             ->get();
-            $getinfo=category3_infostudent::where('course_id',session()->get('usercourse'))
-            ->get();
+            $getinfo="";
+            if($get!='[]'){
+                $getinfo=category3_infostudent::where('course_id',session()->get('usercourse'))
+                ->where('year_add', '>=',$get[0]['year_add'])
+                ->where('year_add', '<=',session()->get('year'))
+                ->where('reported_year', '>=',$get[0]['year_add'])
+                ->where('reported_year', '<=',session()->get('year'))
+                ->get();
+            }
+            
             $getyear=category3_infostudent::where('course_id',session()->get('usercourse'))
             ->where('year_add',session()->get('year'))
+            ->get();
+            $getqty=category3_infostudent_qty::where('course_id',session()->get('usercourse'))
+            ->where('year_id',session()->get('year_id'))
             ->get();
             if(count($get)==0){
                 $get="";
             }
-            if(count($getyear)===0){
+            if(count($getyear)==0||$getqty=='[]'){
                 return view('AJ/addinfostd',compact('get','getinfo'));
             }
             else{
                 $get=year_acceptance::where('course_id',session()->get('usercourse'))
-                    ->where('year_id',session()->get('year_id'))
                     ->get();
-                $getinfo=category3_infostudent::where('course_id',session()->get('usercourse'))
-                    ->get();
+                    $getinfo="";
+                    if($get!=""){
+                        $getinfo=category3_infostudent::where('course_id',session()->get('usercourse'))
+                        ->where('year_add', '>=',$get[0]['year_add'])
+                        ->where('year_add', '<=',session()->get('year'))
+                        ->where('reported_year', '>=',$get[0]['year_add'])
+                        ->where('reported_year', '<=',session()->get('year'))
+                        ->get();
+                    }
                     if(count($get)==0){
                         $get="";
                     }
@@ -467,30 +483,38 @@ class AJController extends Controller
     public function addgraduate()
     {
         $get=year_acceptance_graduate::where('course_id',session()->get('usercourse'))
-        ->where('year_id',session()->get('year_id'))
         ->get();
+        $getinfo="";
+        $getinfo2="";
+        $gropby="";
+        if($get!='[]'){
         $getinfo=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->where('year_add', '>=',$get[0]['year_add'])
+        ->where('year_add', '<=',session()->get('year'))
+        ->where('reported_year', '>=',$get[0]['year_add'])
+        ->where('reported_year', '<=',session()->get('year'))
         ->get();
+        $getinfo2=category3_infostudent::where('course_id',session()->get('usercourse'))
+        ->where('year_add', '>=',$get[0]['year_add'])
+        ->where('year_add', '<=',session()->get('year'))
+        ->where('reported_year', '>=',$get[0]['year_add'])
+        ->where('reported_year', '<=',session()->get('year'))
+        ->get();
+        $gropby=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->where('year_add', '>=',$get[0]['year_add'])
+        ->where('year_add', '<=',session()->get('year'))
+        ->where('reported_year', '>=',$get[0]['year_add'])
+        ->where('reported_year', '<=',session()->get('year'))
+        ->groupBy('year_add')
+        ->get();
+             }
         $getyear=category3_graduate::where('course_id',session()->get('usercourse'))
         ->where('year_add',session()->get('year'))
         ->get();
-        $getinfo2=category3_infostudent::where('course_id',session()->get('usercourse'))
-            ->get();
-        $gropby=category3_graduate::where('course_id',session()->get('usercourse'))
-        ->groupBy('year_add')
-        ->get();
-        foreach($gropby as $key=>$value){
-            $re[$key]=$value['reported_year'];
-        }
-        $getcount=count($gropby);
-        $getresult=$getcount-1;
-        $first=$gropby[0]['year_add'];
-        $last=$gropby[$getresult]['year_add'];
         if(count($get)==0){
             $get="";
         }
-
-        if(count($getyear)===0){
+        if(count($getyear)==0){
             return view('AJ/addgraduate',compact('get','getinfo','getyear'));
         }
         else{
@@ -524,23 +548,45 @@ class AJController extends Controller
     public function addresignation()
     {
         $get=year_acceptance_graduate::where('course_id',session()->get('usercourse'))
-        ->where('year_id',session()->get('year_id'))
         ->get();
+        $getinfo="";
+        $getinfo2="";
+        $gropby="";
+        if($get!='[]'){
         $getinfo=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->where('year_add', '>=',$get[0]['year_add'])
+        ->where('year_add', '<=',session()->get('year'))
+        ->where('reported_year', '>=',$get[0]['year_add'])
+        ->where('reported_year', '<=',session()->get('year'))
         ->get();
+        
+        $getinfo2=category3_infostudent::where('course_id',session()->get('usercourse'))
+        ->where('year_add', '>=',$get[0]['year_add'])
+        ->where('year_add', '<=',session()->get('year'))
+        ->where('reported_year', '>=',$get[0]['year_add'])
+        ->where('reported_year', '<=',session()->get('year'))
+        ->get();
+        $gropby=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->where('year_add', '>=',$get[0]['year_add'])
+        ->where('year_add', '<=',session()->get('year'))
+        ->where('reported_year', '>=',$get[0]['year_add'])
+        ->where('reported_year', '<=',session()->get('year'))
+        ->groupBy('year_add')
+        ->get();
+        }
         $getyear=category3_graduate::where('course_id',session()->get('usercourse'))
         ->where('year_add',session()->get('year'))
         ->get();
-        $getinfo2=category3_infostudent::where('course_id',session()->get('usercourse'))
-            ->get();
-        $gropby=category3_graduate::where('course_id',session()->get('usercourse'))
-        ->groupBy('year_add')
-        ->get();
         $re=category3_resignation::where('course_id',session()->get('usercourse'))
+        ->where('year_present',session()->get('year'))
         ->get();
-            return view('AJ/addresignation',compact('get','getinfo','getyear','getinfo2','gropby','re'));
-   
+        $i=0;
+        if(count($re)===0){
+            return view('AJ/addresignation',compact('get','getinfo','getyear','getinfo2','gropby','re')); 
             
-             
+        }   
+        else{
+            return view('category3/resignation',compact('get','getinfo','getyear','getinfo2','gropby','re'));
+        }      
     }
 }

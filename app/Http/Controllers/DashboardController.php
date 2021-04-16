@@ -194,6 +194,7 @@ class DashboardController extends Controller
         $course=Course::all();
         $Assessment_results=assessment_results::leftjoin('category','assessment_results.category_id','=','category.category_id')
         ->where('assessment_results.year_id',session()->get('year_id'))
+        ->where('assessment_results.course_id',session()->get('usercourse'))
         ->get();
         $Category=category::all();
         $ccate=count($Category);
