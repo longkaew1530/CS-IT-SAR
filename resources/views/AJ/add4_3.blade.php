@@ -6,7 +6,7 @@
     <div class="box-body">
       <div class="col-sm-2" align="right"></div>
       <div class="col-sm-8" align="center">
-        <h3><i class=""></i>เพิ่มผลการดำเนินงาน</h3>
+        <h3><i class=""></i>ผลที่เกิดกับอาจารย์ (ตัวบ่งชี้ 4.3)</h3>
         <hr>
       </div>
     </div>
@@ -33,7 +33,15 @@
           </div>
           <div id="body">
             <div class="col-md-12 col-sm-9 col-xs-12">
-            <input multiple="true"  type="file" id="doc_file1" name="doc_file1[]">
+            <div class="table-responsive">  
+                <table class="table table-bordered" id="dynamic_field">  
+                    <tr>  
+                        <td ><input multiple="true" type="file" id="doc_file1" name="doc_file1[0]" class="form-control name_list"></td> 
+                        <td width="60%"><input type="text" name="name1[0]" placeholder="ตั้งชื่อไฟล์" class="form-control name_list" /></td>   
+                        <td><button type="button" name="add" id="add" class="btn btn-success"><i class="fa fa-plus"></i></button></td>  
+                    </tr>  
+                </table>  
+            </div>
             </div>
           </div>
 
@@ -60,7 +68,15 @@
           </div>
           <div id="body">
             <div class="col-md-12 col-sm-9 col-xs-12">
-            <input multiple="true"  type="file" id="doc_file2" name="doc_file2[]">
+            <div class="table-responsive">  
+                <table class="table table-bordered" id="dynamic_field2">  
+                    <tr>  
+                        <td ><input multiple="true" type="file" id="doc_file2" name="doc_file2[0]" class="form-control name_list"></td> 
+                        <td width="60%"><input type="text" name="name2[0]" placeholder="ตั้งชื่อไฟล์" class="form-control name_list" /></td>   
+                        <td><button type="button" name="add" id="add2" class="btn btn-success"><i class="fa fa-plus"></i></button></td>  
+                    </tr>  
+                </table>  
+            </div>
             </div>
           </div>
 
@@ -145,6 +161,31 @@
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       }
     });
+    var postURL = "<?php echo url('addmore'); ?>";
+      var i=0;  
+      var x=0;
+
+      $('#add').click(function(){  
+           i++;  
+           $('#dynamic_field').append('<tr id="row'+i+'" class="dynamic-added"><td><input multiple="true" type="file" id="doc_file" name="doc_file1['+i+']" class="form-control name_list"></td><td width="60%"><input type="text" name="name1['+i+']" placeholder="ตั้งชื่อไฟล์" class="form-control name_list" /></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');  
+      });  
+
+
+      $(document).on('click', '.btn_remove', function(){  
+           var button_id = $(this).attr("id");   
+           $('#row'+button_id+'').remove();  
+      }); 
+
+      $('#add2').click(function(){  
+           x++;  
+           $('#dynamic_field2').append('<tr id="row'+x+'" class="dynamic-added"><td><input multiple="true" type="file" id="doc_file2" name="doc_file2['+x+']" class="form-control name_list"></td><td width="60%"><input type="text" name="name2['+x+']" placeholder="ตั้งชื่อไฟล์" class="form-control name_list" /></td><td><button type="button" name="remove" id="'+x+'" class="btn btn-danger btn_remove2">X</button></td></tr>');  
+      });  
+
+
+      $(document).on('click', '.btn_remove2', function(){  
+           var button_id = $(this).attr("id");   
+           $('#row'+button_id+'').remove();  
+      });
     $('#adddata').submit(function(e) {
       e.preventDefault();
       for (instance in CKEDITOR.instances) {
@@ -152,15 +193,17 @@
         }
       var formData = new FormData(this);
       let TotalFiles1 = $('#doc_file1')[0].files.length; //Total files
-      let files1 = $('#doc_file1')[0];
+      
       for (let i = 0; i < TotalFiles1; i++) {
+        let files1 = $('#doc_file1')[i];
         formData.append('files1' + i, files1.files[i]);
       }
       formData.append('TotalFiles1', TotalFiles1);
 
       let TotalFiles2 = $('#doc_file2')[0].files.length; //Total files
-      let files2 = $('#doc_file2')[0];
+      
       for (let i2 = 0; i2 < TotalFiles2; i2++) {
+        let files2 = $('#doc_file2')[i2];
         formData.append('files2' + i2, files2.files[i2]);
       }
       formData.append('TotalFiles2', TotalFiles2);

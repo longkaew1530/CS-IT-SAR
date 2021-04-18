@@ -34,7 +34,15 @@
           </div>
           <div id="body">
             <div class="col-md-12 col-sm-9 col-xs-12">
-              <input multiple="true" type="file" id="doc_file" name="doc_file[]">
+            <div class="table-responsive">  
+                <table class="table table-bordered" id="dynamic_field">  
+                    <tr>  
+                        <td ><input multiple="true" type="file" id="doc_file" name="doc_file[0]" class="form-control name_list"></td> 
+                        <td width="60%"><input type="text" name="name[0]" placeholder="ตั้งชื่อไฟล์" class="form-control name_list" /></td>   
+                        <td><button type="button" name="add" id="add" class="btn btn-success"><i class="fa fa-plus"></i></button></td>  
+                    </tr>  
+                </table>  
+            </div>
             </div>
           </div>
 
@@ -75,6 +83,20 @@
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       }
     });
+    var postURL = "<?php echo url('addmore'); ?>";
+      var i=0;  
+
+
+      $('#add').click(function(){  
+           i++;  
+           $('#dynamic_field').append('<tr id="row'+i+'" class="dynamic-added"><td><input multiple="true" type="file" id="doc_file" name="doc_file['+i+']" class="form-control name_list"></td><td width="60%"><input type="text" name="name['+i+']" placeholder="ตั้งชื่อไฟล์" class="form-control name_list" /></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');  
+      });  
+
+
+      $(document).on('click', '.btn_remove', function(){  
+           var button_id = $(this).attr("id");   
+           $('#row'+button_id+'').remove();  
+      }); 
     $('#adddata').submit(function(e) {
       e.preventDefault();
       for (instance in CKEDITOR.instances) {
@@ -82,8 +104,8 @@
         }
       var formData = new FormData(this);
       let TotalFiles = $('#doc_file')[0].files.length; //Total files
-      let files = $('#doc_file')[0];
       for (let i = 0; i < TotalFiles; i++) {
+        let files = $('#doc_file')[i];
         formData.append('files' + i, files.files[i]);
       }
       formData.append('TotalFiles', TotalFiles);
@@ -97,7 +119,7 @@
         dataType: 'json',
         success: (data) => {
           swal({
-          title: "เพิ่มข้อมูลเรียบร้อยแล้ว",
+          title: "บันทึกข้อมูลสำเร็จ",
           text: "",
           icon: "success",
           button: "ตกลง",

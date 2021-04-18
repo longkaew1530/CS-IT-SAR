@@ -173,7 +173,7 @@ Route::post('/updatepdca','APIAJController@updatepdca');
 Route::post('/addindicator4_3','APIAJController@addindicator4_3');
 Route::get('/getindicator4_3/{id}','APIAJController@getaddindicator4_3');
 Route::post('/updateindicator4_3','APIAJController@updateaddindicator4_3');
-
+Route::delete('/deletedoc4_3/{id}','APIAJController@deletedoc4_3');
 /////addinfostd
 Route::post('/addinfostd','APIAJController@addinfostd');
 /////addfactor

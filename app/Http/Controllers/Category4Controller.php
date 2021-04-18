@@ -69,9 +69,15 @@ class Category4Controller extends Controller
             }
         }
         $resultpass1_5persen=($resultpass1_5count*100)/5;
-        $resultavg=($resultpassall*100)/$result;
+        if($resultpassall!=0&&$resultpassall!=0){
+            $resultavg=($resultpassall*100)/$result;
+        }
+        else{
+            $resultavg=0;
+        }
         session()->put('resultpass',$resultpassall);
         session()->put('result',$result);
+        $resultavg2=0;
         if($resultavg>=1&&$resultavg<=20){
             $resultavg2=1;
            }

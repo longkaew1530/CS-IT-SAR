@@ -13,6 +13,8 @@ class in_index extends Model
     ];
     public function indicator5_4()
     {
-        return $this->hasMany('App\indicator5_4','in_index_id','id');
+        return $this->hasMany('App\indicator5_4','in_index_id','id')
+        ->where('year_id',session()->get('year_id'))
+        ->where('course_id',session()->get('usercourse'));
     }
 }

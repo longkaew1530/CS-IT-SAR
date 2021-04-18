@@ -31,14 +31,14 @@
                   <td rowspan="2">ตัวบ่งชี้ที่ {{$row['Indicator_id']." ".$row['Indicator_name']}}</td>           
                   <td rowspan="2"><input class="form-control" name="target"></td>
                   @if($per1!=null)
-                    <td ><input class="form-control" name="performance1" readonly></td></td>
+                    <td ><input class="form-control" name="performance1" ></td></td>
                   @endif  
-                  <td rowspan="2"><input class="form-control" name="performance3" readonly></td>
+                  <td rowspan="2"><input class="form-control" name="performance3" ></td>
                   <td rowspan="2"><input class="form-control" name="score"></td>
                 </tr>
                 <tr>
                 @if($per1!=null)
-                    <td ><input class="form-control" name="performance2" readonly></td></td>
+                    <td ><input class="form-control" name="performance2" ></td></td>
                   @endif  
                 </tr>
                 <tr>

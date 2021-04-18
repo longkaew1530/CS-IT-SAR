@@ -12,6 +12,8 @@
   <link rel="stylesheet" href="{{url('/')}}/bower_components/bootstrap/dist/css/bootstrap.min.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="{{url('/')}}/bower_components/font-awesome/css/font-awesome.min.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300&display=swap" rel="stylesheet">
   <!-- Ionicons -->
   <link rel="stylesheet" href="{{url('/')}}/bower_components/Ionicons/css/ionicons.min.css">
   <!-- jvectormap -->
@@ -42,8 +44,8 @@
   <![endif]-->
 
   <!-- Google Font -->
-  <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  <!-- <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic"> -->
 </head>
 <body class="hold-transition skin-yellow sidebar-mini">
 <div class="wrapper">
@@ -214,6 +216,17 @@ $(function () {
   $(function () {
     $('#example1').DataTable({
       lengthMenu: [3, 5, 10, 20, 50, 100]
+    })
+  })
+  $(function () {
+    $('#example2').DataTable({
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : false,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : false,
+      'lengthMenu': [ 3, 20, 50, 100]
     })
   })
 </script>

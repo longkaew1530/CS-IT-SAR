@@ -11,8 +11,9 @@
             <tr>
             <th width="5%">ที่</th>
                   <th width="50%">หมวด</th>
-                  <th>ความคืบหน้า</th>
-                  <th width="5%"></th>
+                  <th width="30%">ความคืบหน้า</th>
+                  <th ></th>
+                  <th ></th>
                   <th></th>
             </tr>
         </thead>
@@ -126,6 +127,9 @@ $(document).ready(function() {
        }},
        {"data" : function(data) {
           return '<span class="badge bg-'+data.color2+'">'+data.score+'%</span>'
+       }},
+       {"data" : function(data) {
+          return '<div class="progress progress-xs"><div class="progress-bar progress-bar-'+data.color+'" style="width: '+data.score+'%"></div></div>'
        }},
         {
                 "class":          'details-control',

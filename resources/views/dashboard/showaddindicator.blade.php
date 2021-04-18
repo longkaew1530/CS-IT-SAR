@@ -27,7 +27,7 @@
                     <label>
                       <input type="checkbox"   name="per[]" value="{{$value['id']}}" @if($checkrole) checked @endif> 
                       <?php $checkrole=false; ?>      
-                      <p class="bd">{{$value['Indicator_name']}}</p>
+                      <p class="bd">{{$value['Indicator_name']}} @if($value['Indicator_id']!="")(ตัวบ่งชี้ {{$value['Indicator_id']}})@endif</p>
                     </label>
                   </div>
                   @endforeach
@@ -120,6 +120,8 @@
           button: false,
           showConfirmButton: false,
           timer: 1500
+        }).then(function() {
+          location.reload();
         });
           }
         },

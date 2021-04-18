@@ -31,14 +31,54 @@
       <div class="data">
         <div class="col-md-12">
           <div class="box-header col-md-12 col-sm-9 col-xs-12">
-          <h3 class="box-title">หลักฐานอ้างอิง</h3><br>
-          @foreach($row->docpdca as $value)
-          @if($value['categorypdca']=='d')<span class="badge bg-green">{{$value['doc_name']}} <button id="{{$value['doc_id']}}" class="delete" type="button" name="remove" >X</button></span><br>@endif
+          <h3 class="box-title">หลักฐานอ้างอิง</h3><br><br>
+          <table id="example2" class="table table-bordered table-hover">
+          <thead>
+                <tr>
+                <th width="5%">ที่</th>
+                  <th>ชื่อไฟล์</th>
+                  <th width="5%">ลบ</th>
+                </tr>
+                </thead>
+                <tbody>
+          <?php $i=1 ?>
+          @foreach($row->docpdca as $key=>$value)
+          @if($value['categorypdca']=='d')
+                    <tr>  
+                         <td >{{$i}}</td>
+                        <td >{{$value['doc_file']}}</td>   
+                        <td width="10%" class="text-center"><button id="{{$value['doc_id']}}" class="btn btn-danger delete" type="button" name="remove" ><i class="fa fa-trash"></i></button></td>  
+                    </tr>
+            <?php $i++ ?>  
+          @endif
           @endforeach
+          </tbody>
+          </table> 
           </div>
+
+        </div>
+      </div>
+
+      <div class="data">
+        <div class="col-md-12">
+          <div class="box-header col-md-12 col-sm-9 col-xs-12">
+            <h3 class="box-title">เพิ่มหลักฐานอ้างอิง</h3>
+          </div>
+          
+          <div id="show2"></div>
           <div id="body">
             <div class="col-md-12 col-sm-9 col-xs-12">
-              <input multiple="true" type="file" id="doc_file" name="doc_file[]">
+            <div class="table-responsive">  
+                <table class="table table-bordered" id="dynamic_field">  
+                    <tr>  
+                        <td ><input multiple="true" type="file" id="doc_file" name="doc_file[0]" class="form-control name_list"></td> 
+                        <td width="60%"><input type="text" name="name[0]" placeholder="ตั้งชื่อไฟล์" class="form-control name_list" /></td>   
+                        <td><button type="button" name="add" id="add" class="btn btn-success"><i class="fa fa-plus"></i></button></td>  
+                    </tr>  
+                </table>   
+            </div>
+            
+              
             </div>
           </div>
 
@@ -88,13 +128,27 @@
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       }
     });
+    var postURL = "<?php echo url('addmore'); ?>";
+      var i=0;  
+
+
+      $('#add').click(function(){  
+           i++;  
+           $('#dynamic_field').append('<tr id="row'+i+'" class="dynamic-added"><td><input multiple="true" type="file" id="doc_file" name="doc_file['+i+']" class="form-control name_list"></td><td width="60%"><input type="text" name="name['+i+']" placeholder="ตั้งชื่อไฟล์" class="form-control name_list" /></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');  
+      });  
+
+
+      $(document).on('click', '.btn_remove', function(){  
+           var button_id = $(this).attr("id");   
+           $('#row'+button_id+'').remove();  
+      }); 
     $('#adddata').submit(function(e) {
       e.preventDefault();
       for (instance in CKEDITOR.instances) {
                 CKEDITOR.instances[instance].updateElement();
         }
       var formData = new FormData(this);
-      let TotalFiles = $('#doc_file')[0].files.length; //Total files
+      let TotalFiles = $('#doc_file').length;
       let files = $('#doc_file')[0];
       for (let i = 0; i < TotalFiles; i++) {
         formData.append('files' + i, files.files[i]);
@@ -110,7 +164,7 @@
         dataType: 'json',
         success: (data) => {
           swal({
-          title: "อัปเดตข้อมูลเรียบร้อยแล้ว",
+          title: "บันทึกข้อมูลสำเร็จ",
           text: "",
           icon: "success",
           button: "ตกลง",

@@ -4,7 +4,7 @@
 <div class="box box-warning marginl">
             <div class="box-header">
               <h1 class="box-title"><li>ผลที่เกิดกับอาจารย์ (ตัวบ่งชี้ที่ 4.3)</li></h1>
-              <a href="/getindicator4_3/{{$inc[0]['Indicator_id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>
+              @if($in4_3!="[]")<a href="/getindicator4_3/{{$inc[0]['Indicator_id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>@endif
               <br><br><br>
             <ins>เกณฑ์การประเมิน</ins><br>
               - มีการรายงานผลการดำเนินงานครบทุกเรื่องตามคำอธิบายในตัวบ่งชี้ (อัตราการคงอยู่ของอาจารย์, ความพึงพอใจของอาจารย์ต่อการบริหารหลักสูตร)<br>
@@ -19,6 +19,7 @@
                   <th width="60%" class="text-center">ประเด็นอธิบาย</th>
                   <th width="15%" class="text-center">หลักฐานอ้างอิง</th>
                 </tr>
+                @if($in4_3!="")
                 @foreach($in4_3 as $value)
               <tr>
                 <td><b>{{$value['category_retention_rate']}}</b><br>
@@ -27,11 +28,12 @@
                 </td>
                 <td>
                 @foreach($value->docindicator4_3 as $row)
-                {!!$row['doc_name']!!}
+                -{!!$row['doc_file']!!}<br>
                 @endforeach
                 </td>
               </tr>
               @endforeach
+              @endif
               </tbody></table>
             </div> 
          
