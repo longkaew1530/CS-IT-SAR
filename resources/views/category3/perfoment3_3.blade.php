@@ -20,7 +20,7 @@
                 </td>
                 <td>
                 @foreach($value->doc_performance3_3 as $row)
-                {!!$row['doc_name']!!}
+                -{!!$row['doc_file']!!}<br>
                 @endforeach
                 </td>
               </tr>

@@ -45,7 +45,7 @@
                                 @foreach($value->indicator5_4 as $row)
                                     <a href="/getindicator5_4/{{$row['id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i></a>                                                                  
                                         @foreach($row->doc_indicator5_4 as $row1)
-                                        -{{$row1['doc_name']}}
+                                        -{{$row1['doc_file']}}
                                         <br>
                                         @endforeach
                                  @endforeach

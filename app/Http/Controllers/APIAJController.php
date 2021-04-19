@@ -363,12 +363,7 @@ class APIAJController extends Controller
                         $path = 'public/indicator';
                         $name = $getfile[$x]->getClientOriginalName();
                         $fullfile=$path."/".$name;
-                        File::delete('public/indicator/'.$name);
-                        $getfile[$x]->move($path, $name);  
-                        $insert2=docindicator4_3::find($request->id);
-                        if (isset($insert2)) {
-                            $insert2->delete();
-                         }              
+                        $getfile[$x]->move($path, $name);               
                         $insert[$x]['doc_file'] = $request->name1[$x];
                         $insert[$x]['doc_name'] = $fullfile;
                         $insert[$x]['doc_id'] = $request->id;                
@@ -388,12 +383,7 @@ class APIAJController extends Controller
                             $path1 = 'public/indicator';
                             $name1 = $getfile1[$x1]->getClientOriginalName();
                             $fullfile1=$path1."/".$name1;
-                            File::delete('public/indicator/'.$name1);
-                            $getfile1[$x1]->move($path1, $name1);
-                            $insert3=docindicator4_3::find($request->id2);
-                            if (isset($insert3)) {
-                                $insert3->delete();
-                             }              
+                            $getfile1[$x1]->move($path1, $name1);             
                             $insert1[$x1]['doc_file'] = $request->name2[$x1];
                             $insert1[$x1]['doc_name'] = $fullfile1;
                             $insert1[$x1]['doc_id'] = $request->id2;                     
@@ -650,26 +640,25 @@ class APIAJController extends Controller
         $data->retention_rate=$request->retention_rate1;
         $data->category_retention_rate="อัตราการคงอยู่ของนักศึกษา";
         $data->save();
-            if($request->TotalFiles1 > 0)
-            {
-                    
-               for ($x = 0; $x < $request->TotalFiles1; $x++) 
-               {
-                   if ($request->hasFile('doc_file1')) 
-                    {
-                        $getfile = $request->file('doc_file1');
-                        $path = 'public/indicator';
-                        $name = $getfile[$x]->getClientOriginalName();
-                        $fullfile=$path."/".$name;
-                        $getfile[$x]->move($path, $name);                 
-                        $insert[$x]['doc_file'] = $fullfile;
-                        $insert[$x]['doc_name'] = $name;
-                        $insert[$x]['doc_id'] = $data->id;                     
-                    }            
-               }           
-               $success=doc_performance3_3::insert($insert);
-            }
-
+        if(count($request->doc_file1) > 0)
+        {
+                
+           for ($x = 0; $x < count($request->doc_file1); $x++) 
+           {
+               if ($request->hasFile('doc_file1')) 
+                {
+                    $getfile = $request->file('doc_file1');
+                    $path = 'public/indicator';
+                    $name = $getfile[$x]->getClientOriginalName();
+                    $fullfile=$path."/".$name;
+                    $getfile[$x]->move($path, $name);                 
+                    $insert[$x]['doc_file'] = $request->name1[$x];
+                    $insert[$x]['doc_name'] = $fullfile;
+                    $insert[$x]['doc_id'] = $data->id;                    
+                }            
+           }           
+           $success=doc_performance3_3::insert($insert);
+        }
 
         $data1=new performance3_3;
         $data1->course_id=session()->get('usercourse');
@@ -677,25 +666,25 @@ class APIAJController extends Controller
         $data1->retention_rate=$request->retention_rate2;
         $data1->category_retention_rate="การสำเร็จการศึกษา";
         $data1->save();
-            if($request->TotalFiles2 > 0)
-            {
-                    
-               for ($x1 = 0; $x1 < $request->TotalFiles2; $x1++) 
-               {
-                   if ($request->hasFile('doc_file2')) 
-                    {
-                        $getfile1 = $request->file('doc_file2');
-                        $path1 = 'public/indicator';
-                        $name1 = $getfile1[$x1]->getClientOriginalName();
-                        $fullfile1=$path1."/".$name1;
-                        $getfile1[$x1]->move($path1, $name1);                 
-                        $insert1[$x1]['doc_file'] = $fullfile1;
-                        $insert1[$x1]['doc_name'] = $name1;
-                        $insert1[$x1]['doc_id'] = $data1->id;                     
-                    }            
-               }           
-               $success1=doc_performance3_3::insert($insert1);
-            }
+        if(count($request->doc_file2) > 0)
+        {
+                
+           for ($x2 = 0; $x2 < count($request->doc_file2); $x2++) 
+           {
+               if ($request->hasFile('doc_file2')) 
+                {
+                    $getfile = $request->file('doc_file2');
+                    $path = 'public/indicator';
+                    $name = $getfile[$x2]->getClientOriginalName();
+                    $fullfile=$path."/".$name;
+                    $getfile[$x2]->move($path, $name);                 
+                    $insert2[$x2]['doc_file'] = $request->name2[$x2];
+                    $insert2[$x2]['doc_name'] = $fullfile;
+                    $insert2[$x2]['doc_id'] = $data1->id;                    
+                }            
+           }           
+           $success=doc_performance3_3::insert($insert2);
+        }
 
         $data2=new performance3_3;
         $data2->course_id=session()->get('usercourse');
@@ -703,25 +692,25 @@ class APIAJController extends Controller
         $data2->retention_rate=$request->retention_rate3;
         $data2->category_retention_rate="ความพึงพอใจและผลการจัดการข้อร้องเรียนของนักศึกษา";
         $data2->save();
-            if($request->TotalFiles3 > 0)
-            {
-                    
-               for ($x2 = 0; $x2 < $request->TotalFiles3; $x2++) 
-               {
-                   if ($request->hasFile('doc_file3')) 
-                    {
-                        $getfile2 = $request->file('doc_file3');
-                        $path2 = 'public/indicator';
-                        $name2 = $getfile2[$x2]->getClientOriginalName();
-                        $fullfile2=$path2."/".$name2;
-                        $getfile2[$x2]->move($path2, $name2);                 
-                        $insert2[$x2]['doc_file'] = $fullfile2;
-                        $insert2[$x2]['doc_name'] = $name2;
-                        $insert2[$x2]['doc_id'] = $data2->id;                     
-                    }            
-               }           
-               $success2=doc_performance3_3::insert($insert2);
-            }
+        if(count($request->doc_file3) > 0)
+        {
+                
+           for ($x3 = 0; $x3 < count($request->doc_file3); $x3++) 
+           {
+               if ($request->hasFile('doc_file3')) 
+                {
+                    $getfile = $request->file('doc_file3');
+                    $path = 'public/indicator';
+                    $name = $getfile[$x3]->getClientOriginalName();
+                    $fullfile=$path."/".$name;
+                    $getfile[$x3]->move($path, $name);                 
+                    $insert3[$x3]['doc_file'] = $request->name3[$x3];
+                    $insert3[$x3]['doc_name'] = $fullfile;
+                    $insert3[$x3]['doc_id'] = $data2->id;                    
+                }            
+           }           
+           $success=doc_performance3_3::insert($insert3);
+        }
             $data3=new PDCA;
             $data3->Indicator_id=$request->Indicator_id;
             $data3->target=$request->target;
@@ -739,75 +728,69 @@ class APIAJController extends Controller
             'doc_file2.*' => 'mimes:csv,txt,xlsx,xls,pdf,docx',
             'doc_file3.*' => 'mimes:csv,txt,xlsx,xls,pdf,docx'
             ]);
-            if($request->TotalFiles1 > 0)
-            {  
-               for ($x = 0; $x < $request->TotalFiles1; $x++) 
-               {
-                   if ($request->hasFile('doc_file1')) 
-                    {
-                        $getfile = $request->file('doc_file1');
-                        $path = 'public/indicator';
-                        $name = $getfile[$x]->getClientOriginalName();
-                        $fullfile=$path."/".$name;
-                        File::delete('public/indicator/'.$name);
-                        $getfile[$x]->move($path, $name);  
-                        $insert2=doc_performance3_3::find($request->id);
-                        if (isset($insert2)) {
-                            $insert2->delete();
-                         }              
-                        $insert[$x]['doc_file'] = $fullfile;
-                        $insert[$x]['doc_name'] = $name;
-                        $insert[$x]['doc_id'] = $request->id;                
-                    }         
-               } 
-               doc_performance3_3::insert($insert);           
+            if(isset($request->doc_file1)){
+                if(count($request->doc_file1) > 0)
+                {
+                        
+                   for ($x = 0; $x < count($request->doc_file1); $x++) 
+                   {
+                       if ($request->hasFile('doc_file1')) 
+                        {
+                            $getfile = $request->file('doc_file1');
+                            $path = 'public/indicator';
+                            $name = $getfile[$x]->getClientOriginalName();
+                            $fullfile=$path."/".$name;
+                            $getfile[$x]->move($path, $name);                 
+                            $insert[$x]['doc_file'] = $request->name1[$x];
+                            $insert[$x]['doc_name'] = $fullfile;
+                            $insert[$x]['doc_id'] = $request->id;                    
+                        }            
+                   }           
+                   $success=doc_performance3_3::insert($insert);
+                }
             }
-            if($request->TotalFiles2 > 0)
-            {      
-               for ($x1 = 0; $x1 < $request->TotalFiles2; $x1++) 
-               {
-                   if ($request->hasFile('doc_file2')) 
-                    {
-                        $getfile1 = $request->file('doc_file2');
-                        $path1 = 'public/indicator';
-                        $name1 = $getfile1[$x1]->getClientOriginalName();
-                        $fullfile1=$path1."/".$name1;
-                        File::delete('public/indicator/'.$name1);
-                        $getfile1[$x1]->move($path1, $name1);
-                        $insert3=doc_performance3_3::find($request->id2);
-                        if (isset($insert3)) {
-                            $insert3->delete();
-                         }              
-                        $insert1[$x1]['doc_file'] = $fullfile1;
-                        $insert1[$x1]['doc_name'] = $name1;
-                        $insert1[$x1]['doc_id'] = $request->id2;                     
-                    }              
-               } 
-               doc_performance3_3::insert($insert1);            
+            if(isset($request->doc_file2)){
+                if(count($request->doc_file2) > 0)
+                {
+                        
+                   for ($x2 = 0; $x2 < count($request->doc_file2); $x2++) 
+                   {
+                       if ($request->hasFile('doc_file2')) 
+                        {
+                            $getfile = $request->file('doc_file2');
+                            $path = 'public/indicator';
+                            $name = $getfile[$x2]->getClientOriginalName();
+                            $fullfile=$path."/".$name;
+                            $getfile[$x2]->move($path, $name);                 
+                            $insert2[$x2]['doc_file'] = $request->name2[$x2];
+                            $insert2[$x2]['doc_name'] = $fullfile;
+                            $insert2[$x2]['doc_id'] = $request->id2;                    
+                        }            
+                   }           
+                   $success=doc_performance3_3::insert($insert2);
+                }
             }
-            if($request->TotalFiles3 > 0)
-            {      
-               for ($x2 = 0; $x2 < $request->TotalFiles3; $x2++) 
-               {
-                   if ($request->hasFile('doc_file3')) 
-                    {
-                        $getfile2 = $request->file('doc_file3');
-                        $path2 = 'public/indicator';
-                        $name2 = $getfile2[$x2]->getClientOriginalName();
-                        $fullfile2=$path2."/".$name2;
-                        File::delete('public/indicator/'.$name2);
-                        $getfile2[$x2]->move($path2, $name2);
-                        $insert3=doc_performance3_3::find($request->id3);
-                        if (isset($insert3)) {
-                            $insert3->delete();
-                         }              
-                        $insert2[$x2]['doc_file'] = $fullfile2;
-                        $insert2[$x2]['doc_name'] = $name2;
-                        $insert2[$x2]['doc_id'] = $request->id3;                     
-                    }              
-               } 
-               doc_performance3_3::insert($insert2);            
-            }
+            if(isset($request->doc_file3)){
+                if(count($request->doc_file3) > 0)
+                {
+                        
+                   for ($x3 = 0; $x3 < count($request->doc_file3); $x3++) 
+                   {
+                       if ($request->hasFile('doc_file3')) 
+                        {
+                            $getfile = $request->file('doc_file3');
+                            $path = 'public/indicator';
+                            $name = $getfile[$x3]->getClientOriginalName();
+                            $fullfile=$path."/".$name;
+                            $getfile[$x3]->move($path, $name);                 
+                            $insert3[$x3]['doc_file'] = $request->name3[$x3];
+                            $insert3[$x3]['doc_name'] = $fullfile;
+                            $insert3[$x3]['doc_id'] = $request->id3;                    
+                        }            
+                   }           
+                   $success=doc_performance3_3::insert($insert3);
+                }
+        }
         $data=performance3_3::find($request->id);
         $data->retention_rate=$request->retention_rate1;
         $data->save();
@@ -892,10 +875,10 @@ class APIAJController extends Controller
         $data->status=$request->status;
         $data->in_index_id=$request->id;
         $data->save();
-            if($request->TotalFiles > 0)
+            if(count($request->doc_file) > 0)
             {
                     
-               for ($x = 0; $x < $request->TotalFiles; $x++) 
+               for ($x = 0; $x < count($request->doc_file); $x++) 
                {
                    if ($request->hasFile('doc_file')) 
                     {
@@ -904,8 +887,8 @@ class APIAJController extends Controller
                         $name = $getfile[$x]->getClientOriginalName();
                         $fullfile=$path."/".$name;
                         $getfile[$x]->move($path, $name);                 
-                        $insert[$x]['doc_file'] = $fullfile;
-                        $insert[$x]['doc_name'] = $name;
+                        $insert[$x]['doc_file'] = $request->name[$x];
+                        $insert[$x]['doc_name'] = $fullfile;
                         $insert[$x]['doc_id'] = $data->id;                     
                     }            
                }           
@@ -918,28 +901,25 @@ class APIAJController extends Controller
         $validatedData = $request->validate([
             'doc_file.*' => 'mimes:csv,txt,xlsx,xls,pdf,docx',
             ]);
-            if($request->TotalFiles > 0)
-            {  
-               for ($x = 0; $x < $request->TotalFiles; $x++) 
-               {
-                   if ($request->hasFile('doc_file')) 
-                    {
-                        $getfile = $request->file('doc_file');
-                        $path = 'public/indicator';
-                        $name = $getfile[$x]->getClientOriginalName();
-                        $fullfile=$path."/".$name;
-                        File::delete('public/indicator/'.$name);
-                        $getfile[$x]->move($path, $name);  
-                        $insert2=doc_indicator5_4::find($request->id);
-                        if (isset($insert2)) {
-                            $insert2->delete();
-                         }              
-                        $insert[$x]['doc_file'] = $fullfile;
-                        $insert[$x]['doc_name'] = $name;
-                        $insert[$x]['doc_id'] = $request->id;                
-                    }         
-               } 
-               doc_indicator5_4::insert($insert);           
+            if(isset($request->doc_file)){
+                if(count($request->doc_file) > 0)
+                {  
+                   for ($x = 0; $x < count($request->doc_file); $x++) 
+                   {
+                       if ($request->hasFile('doc_file')) 
+                        {
+                            $getfile = $request->file('doc_file');
+                            $path = 'public/indicator';
+                            $name = $getfile[$x]->getClientOriginalName();
+                            $fullfile=$path."/".$name;
+                            $getfile[$x]->move($path, $name);  
+                            $insert[$x]['doc_file'] = $request->name[$x];
+                            $insert[$x]['doc_name'] = $fullfile;
+                            $insert[$x]['doc_id'] = $request->id;                
+                        }         
+                   } 
+                     doc_indicator5_4::insert($insert);           
+                }
             }
         $data=indicator5_4::find($request->id);
         $data->performance=$request->performance;
@@ -1770,6 +1750,20 @@ class APIAJController extends Controller
     public function deletedoc4_3($id)
     {
         $data=docindicator4_3::where('Indicator_id',$id)
+        ->first();
+        $data->delete();
+       return $data;
+    }
+    public function deletedoc3_3($id)
+    {
+        $data=doc_performance3_3::where('Indicator_id',$id)
+        ->first();
+        $data->delete();
+       return $data;
+    }
+    public function deletedoc5_4($id)
+    {
+        $data=doc_indicator5_4::where('Indicator_id',$id)
         ->first();
         $data->delete();
        return $data;

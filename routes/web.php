@@ -188,10 +188,11 @@ Route::post('/updateindicator2_1','APIAJController@updateindicator2_1');
 Route::post('/addindicator2_2','APIAJController@addindicator2_2');
 Route::get('/getindicator2_2/{id}','APIAJController@getindicator2_2');
 Route::post('/updateindicator2_2','APIAJController@updateindicator2_2');
-/////addindicator2_2
+/////addindicator3_3
 Route::post('/addindicator3_3','APIAJController@addindicator3_3');
 Route::get('/getindicator3_3/{id}','APIAJController@getindicator3_3');
 Route::post('/updateindicator3_3','APIAJController@updateindicator3_3');
+Route::delete('/deletedoc3_3/{id}','APIAJController@deletedoc3_3');
 /////addcourse_results
 Route::post('/addcourse_results','APIAJController@addcourse_results');
 Route::get('/getcourse_results','APIAJController@getcourse_results');
@@ -200,6 +201,7 @@ Route::post('/updatecourse_results','APIAJController@updatecourse_results');
 Route::post('/addindicator5_4','APIAJController@addindicator5_4');
 Route::get('/getindicator5_4/{id}','APIAJController@getindicator5_4');
 Route::post('/updateindicator5_4','APIAJController@updateindicator5_4');
+Route::delete('/deletedoc5_4/{id}','APIAJController@deletedoc5_4');
 /////addacademic_performance
 Route::post('/addacademic_performance','APIAJController@addacademic_performance');
 Route::get('/getacademic_performance','APIAJController@getacademic_performance');

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class doc_indicator5_4 extends Model
 {
     protected $table = 'doc_indicator5_4';
-    protected $primaryKey = 'doc_id';
+    protected $primaryKey = 'Indicator_id';
     protected $fillable=[
         'doc_name','doc_file'
     ];
