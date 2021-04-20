@@ -1353,10 +1353,10 @@ class APIAJController extends Controller
             ->get();
         if(count($get)!=0){
             $data= PDCA::where('Indicator_id',$request->Indicator_id)
+            ->where('year_id',session()->get('year_id'))
+            ->where('course_id',session()->get('usercourse'))
             ->where('category_pdca',$request->category_id)
             ->first();
-            $data->course_id=session()->get('usercourse');
-            $data->year_id=session()->get('year_id');
             $data->p=$request->editor1;
             $data->save();
         }
@@ -1453,14 +1453,16 @@ class APIAJController extends Controller
             'doc_file.*' => 'mimes:csv,txt,xlsx,xls,pdf,docx,doc'
             ]);
             $get= PDCA::where('Indicator_id',$request->Indicator_id)
+            ->where('year_id',session()->get('year_id'))
+            ->where('course_id',session()->get('usercourse'))
             ->where('category_pdca',$request->category_id)
             ->get();
         if(count($get)!=0){
             $data= PDCA::where('Indicator_id',$request->Indicator_id)
+            ->where('year_id',session()->get('year_id'))
+            ->where('course_id',session()->get('usercourse'))
             ->where('category_pdca',$request->category_id)
             ->first();
-            $data->course_id=session()->get('usercourse');
-            $data->year_id=session()->get('year_id');
             $data->d=$request->editor1;
             $data->save();
         }
@@ -1556,14 +1558,16 @@ class APIAJController extends Controller
               'doc_file.*' => 'mimes:csv,txt,xlsx,xls,pdf,docx,doc'
               ]);
               $get= PDCA::where('Indicator_id',$request->Indicator_id)
+              ->where('year_id',session()->get('year_id'))
+            ->where('course_id',session()->get('usercourse'))
               ->where('category_pdca',$request->category_id)
               ->get();
           if(count($get)!=0){
               $data= PDCA::where('Indicator_id',$request->Indicator_id)
+              ->where('year_id',session()->get('year_id'))
+            ->where('course_id',session()->get('usercourse'))
               ->where('category_pdca',$request->category_id)
               ->first();
-              $data->course_id=session()->get('usercourse');
-              $data->year_id=session()->get('year_id');
               $data->c=$request->editor1;
               $data->save();
           }
@@ -1659,14 +1663,16 @@ class APIAJController extends Controller
               'doc_file.*' => 'mimes:csv,txt,xlsx,xls,pdf,docx,doc'
               ]);
               $get= PDCA::where('Indicator_id',$request->Indicator_id)
+              ->where('year_id',session()->get('year_id'))
+            ->where('course_id',session()->get('usercourse'))
               ->where('category_pdca',$request->category_id)
               ->get();
           if(count($get)!=0){
               $data= PDCA::where('Indicator_id',$request->Indicator_id)
+              ->where('year_id',session()->get('year_id'))
+            ->where('course_id',session()->get('usercourse'))
               ->where('category_pdca',$request->category_id)
               ->first();
-              $data->course_id=session()->get('usercourse');
-              $data->year_id=session()->get('year_id');
               $data->a=$request->editor1;
               $data->save();
           }
@@ -1981,6 +1987,7 @@ class APIAJController extends Controller
         return response()->json($clind);
         
     }
+    
     public function updateactive(Request $request ,$id)
     {
         $data=assessment_results::find($id);
@@ -2126,6 +2133,230 @@ class APIAJController extends Controller
         $ct=course_teacher::where('course_id',session()->get('usercourse'))
         ->where('year_id',session()->get('year_id'))
         ->get();
+        $getscore2_1=0;
+        $getscore2_1result=0;
+        $score2_1=0;
+        ////ตัวบ่งชี้ 2.1
+        $queryindicator2_1=indicator2_1::where('year_id',session()->get('year_id'))
+        ->where('course_id',session()->get('usercourse'))
+        ->get();
+        $queryindicator2_1result= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+        ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.year_id',session()->get('year_id'))
+        ->where('pdca.Indicator_id',2.1)
+        ->where('pdca.target','!=',null)
+        ->get();
+        if(count($queryindicator2_1)!=0){
+            $getscore2_1++;
+        }
+        if(count($queryindicator2_1result)!=0){
+            $getscore2_1++;
+        }
+        $score2_1=($getscore2_1*100)/2;
+        ////ตัวบ่งชี้ 2.1
+
+        ////หมวดที่ 2 ตัวบ่งชี้ 4.1
+        $score4_1resultdoc1=0;
+        $score4_1resultdoc2=0;
+        $score4_1resultdoc3=0;
+        $score4_1result1=0;
+        $score4_1result2=0;
+        $score4_1result3=0;
+        $score4_1resultpdca=0;
+        $queryindicator4_1result1= PDCA::where('category_pdca',1)
+        ->where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->where('Indicator_id',4.1)
+        ->get();
+        if(isset($queryindicator4_1result1)){
+            $queryindicator4_1resultdoc1p= docpdca::where('pdca_id',$queryindicator4_1result1[0]['pdca_id'])
+            ->where('categorypdca','p')
+            ->get();
+            if(count($queryindicator4_1resultdoc1p)!=0){
+                $score4_1resultdoc1++;
+            }
+            $queryindicator4_1resultdoc1d= docpdca::where('pdca_id',$queryindicator4_1result1[0]['pdca_id'])
+            ->where('categorypdca','d')
+            ->get();
+            if(count($queryindicator4_1resultdoc1d)!=0){
+                $score4_1resultdoc1++;
+            }
+            $queryindicator4_1resultdoc1c= docpdca::where('pdca_id',$queryindicator4_1result1[0]['pdca_id'])
+            ->where('categorypdca','c')
+            ->get();
+            if(count($queryindicator4_1resultdoc1c)!=0){
+                $score4_1resultdoc1++;
+            }
+            $queryindicator4_1resultdoc1a= docpdca::where('pdca_id',$queryindicator4_1result1[0]['pdca_id'])
+            ->where('categorypdca','a')
+            ->get();
+            if(count($queryindicator4_1resultdoc1a)!=0){
+                $score4_1resultdoc1++;
+            }
+        }
+        
+        $queryindicator4_1result2= PDCA::where('category_pdca',2)
+        ->where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->where('Indicator_id',4.1)
+        ->get();
+        if(isset($queryindicator4_1result2)){
+            $queryindicator4_1resultdoc2p= docpdca::where('pdca_id',$queryindicator4_1result2[0]['pdca_id'])
+            ->where('categorypdca','p')
+            ->get();
+            if(count($queryindicator4_1resultdoc2p)!=0){
+                $score4_1resultdoc2++;
+            }
+            $queryindicator4_1resultdoc2d= docpdca::where('pdca_id',$queryindicator4_1result2[0]['pdca_id'])
+            ->where('categorypdca','d')
+            ->get();
+            if(count($queryindicator4_1resultdoc2d)!=0){
+                $score4_1resultdoc2++;
+            }
+            $queryindicator4_1resultdoc2c= docpdca::where('pdca_id',$queryindicator4_1result2[0]['pdca_id'])
+            ->where('categorypdca','c')
+            ->get();
+            if(count($queryindicator4_1resultdoc2c)!=0){
+                $score4_1resultdoc2++;
+            }
+            $queryindicator4_1resultdoc2a= docpdca::where('pdca_id',$queryindicator4_1result2[0]['pdca_id'])
+            ->where('categorypdca','a')
+            ->get();
+            if(count($queryindicator4_1resultdoc2a)!=0){
+                $score4_1resultdoc2++;
+            }
+        }
+        $queryindicator4_1result3= PDCA::where('category_pdca',3)
+        ->where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->where('Indicator_id',4.1)
+        ->get();
+        if(isset($queryindicator4_1result3)){
+            $queryindicator4_1resultdoc3p= docpdca::where('pdca_id',$queryindicator4_1result3[0]['pdca_id'])
+            ->where('categorypdca','p')
+            ->get();
+            if(count($queryindicator4_1resultdoc3p)!=0){
+                $score4_1resultdoc3++;
+            }
+            $queryindicator4_1resultdoc3d= docpdca::where('pdca_id',$queryindicator4_1result3[0]['pdca_id'])
+            ->where('categorypdca','d')
+            ->get();
+            if(count($queryindicator4_1resultdoc3d)!=0){
+                $score4_1resultdoc3++;
+            }
+            $queryindicator4_1resultdoc3c= docpdca::where('pdca_id',$queryindicator4_1result3[0]['pdca_id'])
+            ->where('categorypdca','c')
+            ->get();
+            if(count($queryindicator4_1resultdoc3c)!=0){
+                $score4_1resultdoc3++;
+            }
+            $queryindicator4_1resultdoc3a= docpdca::where('pdca_id',$queryindicator4_1result3[0]['pdca_id'])
+            ->where('categorypdca','a')
+            ->get();
+            if(count($queryindicator4_1resultdoc3a)!=0){
+                $score4_1resultdoc3++;
+            }
+        }
+        $queryindicator2_1result= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+        ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.year_id',session()->get('year_id'))
+        ->where('pdca.Indicator_id',2.1)
+        ->where('pdca.target','!=',null)
+        ->get();
+        if($queryindicator4_1result1!="[]"){
+            if($queryindicator4_1result1[0]['p']!=""){
+                $score4_1result1++;
+            }
+            if($queryindicator4_1result1[0]['d']!=""){
+                $score4_1result1++;
+            }
+            if($queryindicator4_1result1[0]['c']!=""){
+                $score4_1result1++;
+            }
+            if($queryindicator4_1result1[0]['a']!=""){
+                $score4_1result1++;
+            }
+        }
+        
+        if($queryindicator4_1result2!="[]"){
+        if($queryindicator4_1result2[0]['p']!=""){
+            $score4_1result2++;
+        }
+        if($queryindicator4_1result2[0]['d']!=""){
+            $score4_1result2++;
+        }
+        if($queryindicator4_1result2[0]['c']!=""){
+            $score4_1result2++;
+        }
+        if($queryindicator4_1result2[0]['a']!=""){
+            $score4_1result2++;
+        }
+        }
+
+        if($queryindicator4_1result3!="[]"){
+        if($queryindicator4_1result3[0]['p']!=""){
+            $score4_1result3++;
+        }
+        if($queryindicator4_1result3[0]['d']!=""){
+            $score4_1result3++;
+        }
+        if($queryindicator4_1result3[0]['c']!=""){
+            $score4_1result3++;
+        }
+        if($queryindicator4_1result3[0]['a']!=""){
+            $score4_1result3++;
+        }
+       }
+       $queryindicator4_1resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+        ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.year_id',session()->get('year_id'))
+        ->where('pdca.Indicator_id',4.1)
+        ->where('pdca.target','!=',null)
+        ->get();
+        if($queryindicator4_1resultpdca!="[]"){
+            $score4_1resultpdca++;
+        }
+        ////หมวดที่ 2 ตัวบ่งชี้ 4.1
+
+        ////หมวดที่ 2 ตัวบ่งชี้ 4.3
+        $score4_3resultdoc1=0;
+        $score4_3resultdoc2=0;
+        $score4_3result1=0;
+        $score4_3result2=0;
+
+        $score4_3resultpdca=0;
+        $queryindicator4_3result=indicator4_3::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        if($queryindicator4_3result!="[]"){
+            // $queryindicator4_3resultdoc= docpdca::where('doc_id',$queryindicator4_3result[0]['id'])
+            // ->get();
+            // if(count($queryindicator4_3resultdoc)!=0){
+            //     $score4_3resultdoc1++;
+            // }
+            if(count($queryindicator4_3result)==2){
+                $score4_3result1++;
+                $score4_3result2++;
+            }
+        }
+        $queryindicator4_3resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+        ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.year_id',session()->get('year_id'))
+        ->where('pdca.Indicator_id',4.3)
+        ->where('pdca.target','!=',null)
+        ->get();
+        if($queryindicator4_3resultpdca!="[]"){
+            $score4_3resultpdca++;
+        }
+        ////หมวดที่ 2 ตัวบ่งชี้ 4.3
+        $result2=(($score4_1result1+$score4_1result2+$score4_1result3+$score4_1resultdoc1+$score4_1resultdoc2+
+        $score4_1resultdoc3+$score4_1resultpdca+$score4_3result1+$score4_3result2+$score4_3resultpdca)*100)/28;
+
+        $scorecategory2 = sprintf('%.0f',$result2);
+         
+
+        
+        $scoreall=0;
         if(count($crt)==5){
             $crtscore=25;
         }
@@ -2163,11 +2394,544 @@ class APIAJController extends Controller
         else {
             $crt=0;
         }
-        $role[0]['score']=$crt+$crtscore;
-        $role[0]['color']='success';
-        $role[0]['color2']='green';
+         ////สรุปคะแนน
+        $i=0;
+        if($role[$i]['category_id']==1){
+            $role[$i]['score']=$crt+$crtscore;
+            if($crtscore<=25){
+                $role[$i]['color']='danger';
+                $role[$i]['color2']='red';
+            }
+            else if($crtscore<=50){
+                $role[$i]['color']='yellow';
+                $role[$i]['color2']='yellow';
+            }
+            else if($crtscore<=75){
+                $role[$i]['color']='striped';
+                $role[$i]['color2']='blue';
+            }
+            else if($crtscore<=100){
+                $role[$i]['color']='success';
+                $role[$i]['color2']='green';
+            }
+            $i++;
+        }
+         if($role[$i]['category_id']==2){
+            $role[$i]['score']=$scorecategory2;
+            if($scorecategory2<=25){
+                $role[$i]['color']='danger';
+                $role[$i]['color2']='red';
+            }
+            else if($scorecategory2<=50){
+                $role[$i]['color']='yellow';
+                $role[$i]['color2']='yellow';
+            }
+            else if($scorecategory2<=75){
+                $role[$i]['color']='striped';
+                $role[$i]['color2']='blue';
+            }
+            else if($scorecategory2<=100){
+                $role[$i]['color']='success';
+                $role[$i]['color2']='green';
+            }
+            
+            $i++;
+        }
+        if($role[$i]['category_id']==3){
+            $role[$i]['score']=$crt+$crtscore;
+            $role[$i]['color']='success';
+            $role[$i]['color2']='green';
+            $i++;
+        }
+         if($role[$i]['category_id']==4){
+            $role[$i]['score']=$crt+$crtscore;
+            $role[$i]['color']='success';
+            $role[$i]['color2']='green';
+            $i++;
+        }
+         if($role[$i]['category_id']==5){
+            $role[$i]['score']=$crt+$crtscore;
+            $role[$i]['color']='success';
+            $role[$i]['color2']='green';
+            $i++;
+        }
+         if($role[$i]['category_id']==6){
+            $role[$i]['score']=$crt+$crtscore;
+            $role[$i]['color']='success';
+            $role[$i]['color2']='green';
+            $i++;
+        }
+         if($role[$i]['category_id']==7){
+            $role[$i]['score']=$crt+$crtscore;
+            $role[$i]['color']='success';
+            $role[$i]['color2']='green';
+            $i++;
+        }
+         ////สรุปคะแนน
        return $role;
        
+    }
+    public function getclidincategory2($id)
+    {
+        $clind=indicator::where('category_id',$id)
+        ->where('year_id',session()->get('year_id'))
+        ->where('course_id',session()->get('usercourse'))
+        ->get();
+          ////หมวดที่ 2 ตัวบ่งชี้ 4.1
+          $score4_1resultdoc1=0;
+          $score4_1resultdoc2=0;
+          $score4_1resultdoc3=0;
+          $score4_1result1=0;
+          $score4_1result2=0;
+          $score4_1result3=0;
+          $score4_1resultpdca=0;
+          $queryindicator4_1result1= PDCA::where('category_pdca',1)
+          ->where('course_id',session()->get('usercourse'))
+          ->where('year_id',session()->get('year_id'))
+          ->where('Indicator_id',4.1)
+          ->get();
+          if(isset($queryindicator4_1result1)){
+              $queryindicator4_1resultdoc1p= docpdca::where('pdca_id',$queryindicator4_1result1[0]['pdca_id'])
+              ->where('categorypdca','p')
+              ->get();
+              if(count($queryindicator4_1resultdoc1p)!=0){
+                  $score4_1resultdoc1++;
+              }
+              $queryindicator4_1resultdoc1d= docpdca::where('pdca_id',$queryindicator4_1result1[0]['pdca_id'])
+              ->where('categorypdca','d')
+              ->get();
+              if(count($queryindicator4_1resultdoc1d)!=0){
+                  $score4_1resultdoc1++;
+              }
+              $queryindicator4_1resultdoc1c= docpdca::where('pdca_id',$queryindicator4_1result1[0]['pdca_id'])
+              ->where('categorypdca','c')
+              ->get();
+              if(count($queryindicator4_1resultdoc1c)!=0){
+                  $score4_1resultdoc1++;
+              }
+              $queryindicator4_1resultdoc1a= docpdca::where('pdca_id',$queryindicator4_1result1[0]['pdca_id'])
+              ->where('categorypdca','a')
+              ->get();
+              if(count($queryindicator4_1resultdoc1a)!=0){
+                  $score4_1resultdoc1++;
+              }
+          }
+          
+          $queryindicator4_1result2= PDCA::where('category_pdca',2)
+          ->where('course_id',session()->get('usercourse'))
+          ->where('year_id',session()->get('year_id'))
+          ->where('Indicator_id',4.1)
+          ->get();
+          if(isset($queryindicator4_1result2)){
+              $queryindicator4_1resultdoc2p= docpdca::where('pdca_id',$queryindicator4_1result2[0]['pdca_id'])
+              ->where('categorypdca','p')
+              ->get();
+              if(count($queryindicator4_1resultdoc2p)!=0){
+                  $score4_1resultdoc2++;
+              }
+              $queryindicator4_1resultdoc2d= docpdca::where('pdca_id',$queryindicator4_1result2[0]['pdca_id'])
+              ->where('categorypdca','d')
+              ->get();
+              if(count($queryindicator4_1resultdoc2d)!=0){
+                  $score4_1resultdoc2++;
+              }
+              $queryindicator4_1resultdoc2c= docpdca::where('pdca_id',$queryindicator4_1result2[0]['pdca_id'])
+              ->where('categorypdca','c')
+              ->get();
+              if(count($queryindicator4_1resultdoc2c)!=0){
+                  $score4_1resultdoc2++;
+              }
+              $queryindicator4_1resultdoc2a= docpdca::where('pdca_id',$queryindicator4_1result2[0]['pdca_id'])
+              ->where('categorypdca','a')
+              ->get();
+              if(count($queryindicator4_1resultdoc2a)!=0){
+                  $score4_1resultdoc2++;
+              }
+          }
+          $queryindicator4_1result3= PDCA::where('category_pdca',3)
+          ->where('course_id',session()->get('usercourse'))
+          ->where('year_id',session()->get('year_id'))
+          ->where('Indicator_id',4.1)
+          ->get();
+          if(isset($queryindicator4_1result3)){
+              $queryindicator4_1resultdoc3p= docpdca::where('pdca_id',$queryindicator4_1result3[0]['pdca_id'])
+              ->where('categorypdca','p')
+              ->get();
+              if(count($queryindicator4_1resultdoc3p)!=0){
+                  $score4_1resultdoc3++;
+              }
+              $queryindicator4_1resultdoc3d= docpdca::where('pdca_id',$queryindicator4_1result3[0]['pdca_id'])
+              ->where('categorypdca','d')
+              ->get();
+              if(count($queryindicator4_1resultdoc3d)!=0){
+                  $score4_1resultdoc3++;
+              }
+              $queryindicator4_1resultdoc3c= docpdca::where('pdca_id',$queryindicator4_1result3[0]['pdca_id'])
+              ->where('categorypdca','c')
+              ->get();
+              if(count($queryindicator4_1resultdoc3c)!=0){
+                  $score4_1resultdoc3++;
+              }
+              $queryindicator4_1resultdoc3a= docpdca::where('pdca_id',$queryindicator4_1result3[0]['pdca_id'])
+              ->where('categorypdca','a')
+              ->get();
+              if(count($queryindicator4_1resultdoc3a)!=0){
+                  $score4_1resultdoc3++;
+              }
+          }
+          $queryindicator2_1result= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+          ->where('pdca.course_id',session()->get('usercourse'))
+          ->where('pdca.year_id',session()->get('year_id'))
+          ->where('pdca.Indicator_id',2.1)
+          ->where('pdca.target','!=',null)
+          ->get();
+          if($queryindicator4_1result1!="[]"){
+              if($queryindicator4_1result1[0]['p']!=""){
+                  $score4_1result1++;
+              }
+              if($queryindicator4_1result1[0]['d']!=""){
+                  $score4_1result1++;
+              }
+              if($queryindicator4_1result1[0]['c']!=""){
+                  $score4_1result1++;
+              }
+              if($queryindicator4_1result1[0]['a']!=""){
+                  $score4_1result1++;
+              }
+          }
+          
+          if($queryindicator4_1result2!="[]"){
+          if($queryindicator4_1result2[0]['p']!=""){
+              $score4_1result2++;
+          }
+          if($queryindicator4_1result2[0]['d']!=""){
+              $score4_1result2++;
+          }
+          if($queryindicator4_1result2[0]['c']!=""){
+              $score4_1result2++;
+          }
+          if($queryindicator4_1result2[0]['a']!=""){
+              $score4_1result2++;
+          }
+          }
+  
+          if($queryindicator4_1result3!="[]"){
+          if($queryindicator4_1result3[0]['p']!=""){
+              $score4_1result3++;
+          }
+          if($queryindicator4_1result3[0]['d']!=""){
+              $score4_1result3++;
+          }
+          if($queryindicator4_1result3[0]['c']!=""){
+              $score4_1result3++;
+          }
+          if($queryindicator4_1result3[0]['a']!=""){
+              $score4_1result3++;
+          }
+         }
+         $queryindicator4_1resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+          ->where('pdca.course_id',session()->get('usercourse'))
+          ->where('pdca.year_id',session()->get('year_id'))
+          ->where('pdca.Indicator_id',4.1)
+          ->where('pdca.target','!=',null)
+          ->get();
+          if($queryindicator4_1resultpdca!="[]"){
+              $score4_1resultpdca++;
+          }
+          ////หมวดที่ 2 ตัวบ่งชี้ 4.1
+          $result2=(($score4_1result1+$score4_1result2+$score4_1result3+$score4_1resultdoc1+$score4_1resultdoc2+
+                    $score4_1resultdoc3+$score4_1resultpdca)*100)/25;
+
+        $indicator4_1 = sprintf('%.0f',$result2);
+         ////สรุปคะแนน
+         $i=0;
+         foreach($clind as $value){
+
+         
+         if($value['Indicator_id']=="1.1"){
+             $clind[$i]['score']=0;
+             if($indicator4_1<=25){
+                 $clind[$i]['color']='danger';
+                 $clind[$i]['color2']='red';
+             }
+             else if($indicator4_1<=50){
+                 $clind[$i]['color']='yellow';
+                 $clind[$i]['color2']='yellow';
+             }
+             else if($indicator4_1<=75){
+                 $clind[$i]['color']='striped';
+                 $clind[$i]['color2']='blue';
+             }
+             else if($indicator4_1<=100){
+                 $clind[$i]['color']='success';
+                 $clind[$i]['color2']='green';
+             }
+             $i++;
+         }
+          if($value['Indicator_id']=="2.1"){
+             $clind[$i]['score']=$scorecategory2;
+             if($scorecategory2<=25){
+                 $clind[$i]['color']='danger';
+                 $clind[$i]['color2']='red';
+             }
+             else if($scorecategory2<=50){
+                 $clind[$i]['color']='yellow';
+                 $clind[$i]['color2']='yellow';
+             }
+             else if($scorecategory2<=75){
+                 $clind[$i]['color']='striped';
+                 $clind[$i]['color2']='blue';
+             }
+             else if($scorecategory2<=100){
+                 $clind[$i]['color']='success';
+                 $clind[$i]['color2']='green';
+             }
+             
+             $i++;
+         }
+         if($value['Indicator_id']=="2.2"){
+             $clind[$i]['score']=$indicator4_1;
+             if($indicator4_1<=25){
+                $clind[$i]['color']='danger';
+                $clind[$i]['color2']='red';
+            }
+            else if($indicator4_1<=50){
+                $clind[$i]['color']='yellow';
+                $clind[$i]['color2']='yellow';
+            }
+            else if($indicator4_1<=75){
+                $clind[$i]['color']='striped';
+                $clind[$i]['color2']='blue';
+            }
+            else if($indicator4_1<=100){
+                $clind[$i]['color']='success';
+                $clind[$i]['color2']='green';
+            }
+            $i++;
+         }
+          if($value['Indicator_id']=="3.1"){
+             $clind[$i]['score']=$indicator4_1;
+             if($indicator4_1<=25){
+                $clind[$i]['color']='danger';
+                $clind[$i]['color2']='red';
+            }
+            else if($indicator4_1<=50){
+                $clind[$i]['color']='yellow';
+                $clind[$i]['color2']='yellow';
+            }
+            else if($indicator4_1<=75){
+                $clind[$i]['color']='striped';
+                $clind[$i]['color2']='blue';
+            }
+            else if($indicator4_1<=100){
+                $clind[$i]['color']='success';
+                $clind[$i]['color2']='green';
+            }
+            $i++;
+         }
+          if($value['Indicator_id']=="3.2"){
+             $clind[$i]['score']=$indicator4_1;
+             if($indicator4_1<=25){
+                 $clind[$i]['color']='danger';
+                 $clind[$i]['color2']='red';
+             }
+             else if($indicator4_1<=50){
+                 $clind[$i]['color']='yellow';
+                 $clind[$i]['color2']='yellow';
+             }
+             else if($indicator4_1<=75){
+                 $clind[$i]['color']='striped';
+                 $clind[$i]['color2']='blue';
+             }
+             else if($indicator4_1<=100){
+                 $clind[$i]['color']='success';
+                 $clind[$i]['color2']='green';
+             }
+             $i++;
+         }
+          if($value['Indicator_id']=="3.3"){
+             $clind[$i]['score']=$indicator4_1;
+             if($indicator4_1<=25){
+                 $clind[$i]['color']='danger';
+                 $clind[$i]['color2']='red';
+             }
+             else if($indicator4_1<=50){
+                 $clind[$i]['color']='yellow';
+                 $clind[$i]['color2']='yellow';
+             }
+             else if($indicator4_1<=75){
+                 $clind[$i]['color']='striped';
+                 $clind[$i]['color2']='blue';
+             }
+             else if($indicator4_1<=100){
+                 $clind[$i]['color']='success';
+                 $clind[$i]['color2']='green';
+             }
+             $i++;
+         }
+          if($value['Indicator_id']=="4.1"){
+             $clind[$i]['score']=$indicator4_1;
+             if($indicator4_1<=25){
+                 $clind[$i]['color']='danger';
+                 $clind[$i]['color2']='red';
+             }
+             else if($indicator4_1<=50){
+                 $clind[$i]['color']='yellow';
+                 $clind[$i]['color2']='yellow';
+             }
+             else if($indicator4_1<=75){
+                 $clind[$i]['color']='striped';
+                 $clind[$i]['color2']='blue';
+             }
+             else if($indicator4_1<=100){
+                 $clind[$i]['color']='success';
+                 $clind[$i]['color2']='green';
+             }
+             $i++;
+         }
+         if($value['Indicator_id']=="4.2"){
+            $clind[$i]['score']=$indicator4_1;
+            if($indicator4_1<=25){
+                 $clind[$i]['color']='danger';
+                 $clind[$i]['color2']='red';
+             }
+             else if($indicator4_1<=50){
+                 $clind[$i]['color']='yellow';
+                 $clind[$i]['color2']='yellow';
+             }
+             else if($indicator4_1<=75){
+                 $clind[$i]['color']='striped';
+                 $clind[$i]['color2']='blue';
+             }
+             else if($indicator4_1<=100){
+                 $clind[$i]['color']='success';
+                 $clind[$i]['color2']='green';
+             }
+             $i++;
+        }
+        if($value['Indicator_id']=="4.3"){
+            $clind[$i]['score']=$indicator4_1;
+            if($indicator4_1<=25){
+                 $clind[$i]['color']='danger';
+                 $clind[$i]['color2']='red';
+             }
+             else if($indicator4_1<=50){
+                 $clind[$i]['color']='yellow';
+                 $clind[$i]['color2']='yellow';
+             }
+             else if($indicator4_1<=75){
+                 $clind[$i]['color']='striped';
+                 $clind[$i]['color2']='blue';
+             }
+             else if($indicator4_1<=100){
+                 $clind[$i]['color']='success';
+                 $clind[$i]['color2']='green';
+             }
+             $i++;
+        }
+        if($value['Indicator_id']=="5.1"){
+            $clind[$i]['score']=$indicator4_1;
+            if($indicator4_1<=25){
+                 $clind[$i]['color']='danger';
+                 $clind[$i]['color2']='red';
+             }
+             else if($indicator4_1<=50){
+                 $clind[$i]['color']='yellow';
+                 $clind[$i]['color2']='yellow';
+             }
+             else if($indicator4_1<=75){
+                 $clind[$i]['color']='striped';
+                 $clind[$i]['color2']='blue';
+             }
+             else if($indicator4_1<=100){
+                 $clind[$i]['color']='success';
+                 $clind[$i]['color2']='green';
+             }
+             $i++;
+        }
+        if($value['Indicator_id']=="5.2"){
+            $clind[$i]['score']=$indicator4_1;
+            if($indicator4_1<=25){
+                 $clind[$i]['color']='danger';
+                 $clind[$i]['color2']='red';
+             }
+             else if($indicator4_1<=50){
+                 $clind[$i]['color']='yellow';
+                 $clind[$i]['color2']='yellow';
+             }
+             else if($indicator4_1<=75){
+                 $clind[$i]['color']='striped';
+                 $clind[$i]['color2']='blue';
+             }
+             else if($indicator4_1<=100){
+                 $clind[$i]['color']='success';
+                 $clind[$i]['color2']='green';
+             }
+             $i++;
+        }
+        if($value['Indicator_id']=="5.3"){
+            $clind[$i]['score']=$indicator4_1;
+            if($indicator4_1<=25){
+                 $clind[$i]['color']='danger';
+                 $clind[$i]['color2']='red';
+             }
+             else if($indicator4_1<=50){
+                 $clind[$i]['color']='yellow';
+                 $clind[$i]['color2']='yellow';
+             }
+             else if($indicator4_1<=75){
+                 $clind[$i]['color']='striped';
+                 $clind[$i]['color2']='blue';
+             }
+             else if($indicator4_1<=100){
+                 $clind[$i]['color']='success';
+                 $clind[$i]['color2']='green';
+             }
+             $i++;
+        }
+        if($value['Indicator_id']=="5.4"){
+            $clind[$i]['score']=$indicator4_1;
+            if($indicator4_1<=25){
+                 $clind[$i]['color']='danger';
+                 $clind[$i]['color2']='red';
+             }
+             else if($indicator4_1<=50){
+                 $clind[$i]['color']='yellow';
+                 $clind[$i]['color2']='yellow';
+             }
+             else if($indicator4_1<=75){
+                 $clind[$i]['color']='striped';
+                 $clind[$i]['color2']='blue';
+             }
+             else if($indicator4_1<=100){
+                 $clind[$i]['color']='success';
+                 $clind[$i]['color2']='green';
+             }
+             $i++;
+        }
+        if($value['Indicator_id']=="6.1"){
+            $clind[$i]['score']=$indicator4_1;
+            if($indicator4_1<=25){
+                 $clind[$i]['color']='danger';
+                 $clind[$i]['color2']='red';
+             }
+             else if($indicator4_1<=50){
+                 $clind[$i]['color']='yellow';
+                 $clind[$i]['color2']='yellow';
+             }
+             else if($indicator4_1<=75){
+                 $clind[$i]['color']='striped';
+                 $clind[$i]['color2']='blue';
+             }
+             else if($indicator4_1<=100){
+                 $clind[$i]['color']='success';
+                 $clind[$i]['color2']='green';
+             }
+             $i++;
+            }
+        }
+        return response()->json($clind);
+        
     }
      /////defualindicator/////defualindicator/////defualindicator/////defualindicator/////defualindicator/////defualindicator
      public function getdefualindicator($id)

@@ -2,16 +2,16 @@
 
 @section('content')
       <h3>
-        Dashboard
+      
       </h3>         
             <div class="row">
         <div class="col-md-4 col-sm-6 col-xs-12">
           <div class="info-box">
-            <span class="info-box-icon bg-aqua"><i class="ion ion-ios-gear-outline"></i></span>
+            <span class="info-box-icon bg-aqua"><i class="fa  fa-file-text-o"></i></span>
 
             <div class="info-box-content">
-              <span class="info-box-text">ตัวบ่งชี้ที่ได้รับมอบหมาย</span>
-              <span class="info-box-number">5</span>
+              <span class="info-box-text"><font size="3">ตัวบ่งชี้ที่ได้รับมอบหมาย</font></span>
+              <span class="info-box-number"><font size="5">{{$getwork}}</font></span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -20,11 +20,11 @@
         <!-- /.col -->
         <div class="col-md-4 col-sm-6 col-xs-12">
           <div class="info-box">
-            <span class="info-box-icon bg-red"><i class="fa fa-google-plus"></i></span>
+            <span class="info-box-icon bg-yellow"><i class="fa fa-spinner"></i></span>
 
             <div class="info-box-content">
-              <span class="info-box-text">อยู่ระหว่างดำเนินการ</span>
-              <span class="info-box-number">5</span>
+              <span class="info-box-text"><font size="3">อยู่ระหว่างดำเนินการ</font></span>
+              <span class="info-box-number"><font size="5">5</font></span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -37,11 +37,11 @@
 
         <div class="col-md-4 col-sm-6 col-xs-12">
           <div class="info-box">
-            <span class="info-box-icon bg-green"><i class="ion ion-ios-cart-outline"></i></span>
+            <span class="info-box-icon bg-green"><i class="fa fa-check"></i></span>
 
             <div class="info-box-content">
-              <span class="info-box-text">เสร็จสิ้น</span>
-              <span class="info-box-number">5</span>
+              <span class="info-box-text"><font size="3">เสร็จสิ้น</font></span>
+              <span class="info-box-number"><font size="5">5</font></span>
             </div>
             <!-- /.info-box-content -->
           </div>

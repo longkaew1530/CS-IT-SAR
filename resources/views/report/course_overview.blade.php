@@ -8,12 +8,12 @@
             </div>
             <table class="table table-bordered ">
                 <tbody><tr>
-                  <th width="30%" >องค์ประกอบ</th>
+                  <th width="30%" class="text-center">องค์ประกอบ</th>
                   <th width="10%"class="text-center">I</th>
                   <th width="10%"  class="text-center">P</th>
                   <th width="10%" class="text-center">O</th>
                   <th width="10%" class="text-center">คะแนนเฉลี่ย</th>
-                  <th width="40%" class="text-center">ผลการประเมิน<br>0.01-2.00 ระดับคุณภาพน้อย<br>2.01-3.00 ระดับคุณภาพปานกลาง<br>3.01-4.00 ระดับคุณภาพดี<br>4.01-5.00 ระดับคุณภาพดีมาก</th>
+                  <th width="40%" >ผลการประเมิน<br>0.01-2.00 ระดับคุณภาพน้อย<br>2.01-3.00 ระดับคุณภาพปานกลาง<br>3.01-4.00 ระดับคุณภาพดี<br>4.01-5.00 ระดับคุณภาพดีมาก</th>
                 </tr>
                 @foreach($getall as $key=>$value)
                 <tr>

@@ -11,10 +11,10 @@
             <tr>
             <th width="5%">ที่</th>
                   <th width="50%">หมวด</th>
-                  <th width="30%">ความคืบหน้า</th>
+                  <th width="25%">ความคืบหน้า</th>
+                  <th width="5%"></th>
                   <th ></th>
-                  <th ></th>
-                  <th></th>
+                  <th width="5%"></th>
             </tr>
         </thead>
     </table>
@@ -129,7 +129,7 @@ $(document).ready(function() {
           return '<span class="badge bg-'+data.color2+'">'+data.score+'%</span>'
        }},
        {"data" : function(data) {
-          return '<div class="progress progress-xs"><div class="progress-bar progress-bar-'+data.color+'" style="width: '+data.score+'%"></div></div>'
+          return '<a>ดูรายละเอียด</a>'
        }},
         {
                 "class":          'details-control',
@@ -149,37 +149,27 @@ function validate(id) {
 function format ( d ) {
      var text="";
      for (const [key, value] of Object.entries(d)) {
-      if(value.active==1&&value.Indicator_id!=null){
+      if(value.Indicator_id!=null){
         text=text+'<tr>'+
                 '<td width="5%"></td>'+
-                '<td width="5%"><label class="toggle" for="'+`${value.id}`+'"><input class="toggle__input" onclick="calc2('+value.id+');"  type="checkbox" id="'+`${value.id}`+'" checked><div class="toggle__fill"></div></label>'+
-                '<td>'+"ตัวบ่งชี้"+`${value.Indicator_id} ${value.Indicator_name}`+'</td>'+
-            '</tr>';
-      }
-      else if(value.Indicator_id!=null){
-        text=text+'<tr>'+
-                '<td width="5%"></td>'+
-                '<td width="5%"><label class="toggle" for="'+`${value.id}`+'"><input class="toggle__input" onclick="calc2('+value.id+');"  type="checkbox" id="'+`${value.id}`+'" ><div class="toggle__fill"></div></label>'+
-                '<td>'+"ตัวบ่งชี้"+`${value.Indicator_id} ${value.Indicator_name}`+'</td>'+
-            '</tr>';
-      }
-      else if(value.active==1&&value.Indicator_id==null){
-        text=text+'<tr>'+
-                '<td width="5%"></td>'+
-                '<td width="5%"><label class="toggle" for="'+`${value.id}`+'"><input class="toggle__input" onclick="calc2('+value.id+');" type="checkbox" id="'+`${value.id}`+'" checked><div class="toggle__fill"></div></label>'+
-                '<td>'+`${value.Indicator_name}`+'</td>'+
+                '<td width="50%">'+"ตัวบ่งชี้"+`${value.Indicator_id} ${value.Indicator_name}`+'</td>'+
+                '<td width="25%">'+'<div class="progress progress-xs"><div class="progress-bar progress-bar-'+`${value.color}`+'" style="width:'+`${value.score}`+'%"></div></div>'+'</td>'+
+                '<td width="5%">'+'<span class="badge bg-'+`${value.color2}`+'">'+`${value.score}`+'%</span>'+'</td>'+
+                '<td ><a>ดูรายละเอียด</a></td>'+
+                '<td ></td>'+
             '</tr>';
       }
       else{
         text=text+'<tr>'+
                 '<td width="5%"></td>'+
-                '<td width="5%"><label class="toggle" for="'+`${value.id}`+'"><input class="toggle__input" onclick="calc2('+value.id+');" type="checkbox" id="'+`${value.id}`+'" ><div class="toggle__fill"></div></label>'+
-                '<td>'+`${value.Indicator_name}`+'</td>'+
+                '<td width="50%">'+`${value.Indicator_name}`+'</td>'+
+                '<td width="25%">'+'<div class="progress progress-xs"><div class="progress-bar progress-bar-red" style="width:60%"></div></div>'+'</td>'+
+                '<td width="5%">'+'<span class="badge bg-red">60%</span>'+'</td>'+
+                '<td ><a>ดูรายละเอียด</a></td>'+
+                '<td ></td>'+
             '</tr>';
       }
     }
-      
-    console.log(text);
     return '<div class="slider">'+
         '<table  class="table table-striped table-bordered" style="width:100%" >'+
           text+
@@ -190,7 +180,7 @@ $('#myTable tbody').on('click', 'td.details-control', function () {
         var tr = $(this).closest('tr');
         var row = table.row( tr );
         var get =row.data();
-        var url = "/getclidincategory";
+        var url = "/getclidincategory2";
         var getdata;
         $.get(url + '/' + get.category_id, function (data) {
             getdata=data; 

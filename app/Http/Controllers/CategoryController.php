@@ -5,6 +5,7 @@ use App\User;
 use App\PDCA;
 use App\DocPDCA;
 use App\Groupmenu;
+use App\defaulindicator;
 use App\Menu;
 use App\Course;
 use App\indicator;
@@ -89,6 +90,10 @@ class CategoryController extends Controller
          $getresult=indicator1_1::where('year_id',session()->get('year_id'))
          ->where('course_id',session()->get('usercourse'))
          ->get();
+         $get1=0;
+         $get2=0;
+         $get3=0;
+         $get4=0;
          foreach($getresult as $value){
              $get1=$value['result1'];
              $get2=$value['result2'];
@@ -331,7 +336,7 @@ class CategoryController extends Controller
             
         }
 
-        $inc= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+        $inc=PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.indicator_id',4.2)
@@ -357,8 +362,17 @@ class CategoryController extends Controller
         else if($qty3>5){
             $qty3=5;
         }
+        $getcategorypdca=defaulindicator::where('id',9)
+        ->get();
+        $name="";
+        $id="";
+        foreach($getcategorypdca as $value)
+        {
+            $name=$value['Indicator_name'];
+            $id=$value['Indicator_id'];
+        }
         return view('category/indicator4-2',compact('category_re','count','counteb_name','countposition1','countposition2','countposition3'
-                    ,'cate','qty1','B','qty2','C','qty3','E','inc'));
+                    ,'cate','qty1','B','qty2','C','qty3','E','inc','id','name'));
     }
     public function indicator4_3()
     {

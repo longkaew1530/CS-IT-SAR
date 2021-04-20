@@ -140,7 +140,7 @@
 </script>
 <script>
   $(function () {
-    $('#example2').DataTable({
+    $('#example8').DataTable({
       lengthMenu: [ 10, 20, 50, 100]
     })
   })

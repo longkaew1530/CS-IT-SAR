@@ -10,6 +10,11 @@ use App\composition;
 use App\indicator;
 use App\category;
 use App\assessment_results;
+use App\indicator1_1;
+use App\indicator2_1;
+use App\indicator2_2;
+use App\indicator4_3;
+use App\indicator5_4;
 use Exception;
 class ReportController extends Controller
 {
@@ -18,6 +23,7 @@ class ReportController extends Controller
         $query=assessment_results::leftjoin('category','assessment_results.category_id','=','category.category_id')
         ->where('assessment_results.year_id',session()->get('year_id'))
         ->get();
+       
             return view('report/overview',compact('query'));
     }
     public function instructor()
@@ -34,11 +40,13 @@ class ReportController extends Controller
         $indicator=defaulindicator::where('Indicator_id','!=',null)
         ->get();
         $pdca=indicator::leftjoin('pdca','indicator.Indicator_id','=','pdca.indicator_id')
+        ->where('indicator.course_id',session()->get('usercourse'))
         ->where('indicator.year_id',session()->get('year_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.course_id',session()->get('usercourse'))
         ->where('target','!=',null)
         ->get();
+
         $per1="";
         foreach($pdca as $value)
         {

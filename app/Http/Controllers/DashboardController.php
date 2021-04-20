@@ -7,6 +7,11 @@ use App\DocPDCA;
 use App\Groupmenu;
 use App\Course;
 use App\composition;
+use App\indicator1_1;
+use App\indicator2_1;
+use App\indicator2_2;
+use App\indicator4_3;
+use App\indicator5_4;
 use App\Year;
 use App\Tps;
 use App\usergroup;
@@ -33,7 +38,27 @@ class DashboardController extends Controller
         $this->middleware('auth');
     }
     public function index()
-    {
+    {   
+        $getscore2_1=0;
+        $getscore2_1result=0;
+        $score2_1=0;
+        $queryindicator2_1=indicator2_1::where('year_id',session()->get('year_id'))
+        ->where('course_id',session()->get('usercourse'))
+        ->get();
+        $queryindicator2_1result= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+        ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.year_id',session()->get('year_id'))
+        ->where('pdca.Indicator_id',2.1)
+        ->where('pdca.target','!=',null)
+        ->get();
+        if(count($queryindicator2_1)!=0){
+            $getscore2_1=50;
+        }
+        if(count($queryindicator2_1result)!=0){
+            $getscore2_1result=50;
+        }
+        $score2_1=$getscore2_1+$getscore2_1result;
+        $scoreall=0;
         // $user=auth()->user();
         // $userrole=$user->role;
         // $role=Role::findByName($userrole);
@@ -84,14 +109,21 @@ class DashboardController extends Controller
         else{
             session()->put('roleindicator',"");
         }
+
+
+        /////หน้าแรก
+        $querygetwork=user_permission::where('user_id',$user->id)
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        $getwork=count($querygetwork);
         if($user_group==1){
             return view('dashboard/year',compact('year','getAllyear'));
         }
        else if($user_group==2||$user_group==3){
-        return view('dashboard/dashboard');
+        return view('dashboard/dashboard',compact('scoreall','getwork'));
        }
        else{
-        return view('dashboard/dashboard2');
+        return view('dashboard/dashboard2',compact('scoreall','getwork'));
        }
     }
     public function index2()

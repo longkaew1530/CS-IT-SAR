@@ -320,6 +320,7 @@ Route::put('/updateactive/{id}','APIAJController@updateactive');
 Route::put('/updateactive2/{id}','APIAJController@updateactive2');
 /////overview
 Route::GET('/getoverview','APIAJController@getoverview');
+Route::GET('/getclidincategory2/{id}','APIAJController@getclidincategory2');
 /////addresultindicator1_1
 Route::post('/addresultindicator1_1','APIController@addresultindicator1_1');
 /////defaulindicator

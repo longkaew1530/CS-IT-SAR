@@ -43,7 +43,7 @@
                   </td>
                   <td>
                   @foreach($row1->docpdca as $key2 =>$row2)
-                  {{$inc[0]['composition_id']}}.{{$inc[0]['Indicator_id']}}-{{$key2+1}} {{$row2['doc_file']}}<br>
+                   {{$row2['doc_file']}}<br>
                   @endforeach
                   </td> 
                   @endforeach

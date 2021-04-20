@@ -1,9 +1,6 @@
 @extends('layout.admid_layout')
 
 @section('content')
-      <h3>
-        Dashboard
-      </h3>
 
 <div class="box box-warning  wid30 ml">
             <div class="box-header">
@@ -13,7 +10,7 @@
             <div class="box-body">
                 <div class="cnt">
                    
-                      <input type="text" class="knob" value="80" data-width="90" data-height="90" data-fgColor="#932ab6" disabled>
+                      <input type="text" class="knob" value="{{$scoreall}}" data-width="90" data-height="90" data-fgColor="#932ab6" disabled>
                       <div class="knob-label"></div>
                   
                  </div>

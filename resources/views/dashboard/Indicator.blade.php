@@ -22,10 +22,10 @@
                   @foreach($indicator as $key=>$row)
                 <tr>
                   <td>{{$key+1}}</td>
-                  <td>ตัวบ่งชี้ {{$row['Indicator_id']}} {{$row['Indicator_name']}}</td>           
+                  <td>@if($row['Indicator_id']!="")ตัวบ่งชี้ {{$row['Indicator_id']}}@endif {{$row['Indicator_name']}}</td>           
                   <td class="text-center"><button class="btn btn-warning" type="button"   data-toggle="modal" data-target="#modal-edit" data-id="{{$row['id']}}"><i class='fa fas fa-edit'></i></button></td>
                   <td class="text-center">
-                                      <button  id="{{$row->id}}" type="button" class="btn btn-danger ddd"><i class='fa fa-trash'></i></button>
+                                      <button  id="{{$row->id}}" type="button" class="btn btn-danger deletedata"><i class='fa fa-trash'></i></button>
                   </td>
                 </tr>
                 <div class="modal  fade" id="modal-info">
@@ -281,7 +281,8 @@ var url = "/getdefualindicator";
         }
       });
     });
-    $('.ddd').click(function(e) {
+    $('.deletedata').click(function(e) {
+      console.log("asdasd");
       e.preventDefault();
       var id = $(this).attr('id');
       $.ajax({

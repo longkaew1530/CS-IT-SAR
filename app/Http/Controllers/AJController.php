@@ -198,11 +198,7 @@ class AJController extends Controller
     }
     public function addindicator2_1()
     {
-        $pdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
-        ->where('pdca.course_id',session()->get('usercourse'))
-        ->where('pdca.year_id',session()->get('year_id'))
-        ->where('pdca.Indicator_id',2.1)
-        ->where('pdca.target','!=',null)
+        $pdca= defaulindicator::where('Indicator_id',2.1)
         ->get();
         $per1="asdsadsad";
         $factor=indicator2_1::where('course_id',session()->get('usercourse'))
@@ -212,6 +208,12 @@ class AJController extends Controller
             return view('AJ/addindicator2-1',compact('pdca','per1'));
         }
         else{
+            $pdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+        ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.year_id',session()->get('year_id'))
+        ->where('pdca.Indicator_id',2.1)
+        ->where('pdca.target','!=',null)
+        ->get();
             return view('category3/indicator2-1',compact('factor','pdca','per1'));
         } 
             
@@ -429,36 +431,36 @@ class AJController extends Controller
     {
             $getindi=categorypdca::where('id',$id)
             ->get();
-            $getcateid=indicator::where('id',$getindi[0]['Indicator_id'])
+            $getcateid=indicator::where('Indicator_id',$getindi[0]['get'])
             ->get();
             return view('AJ/addp',compact('getindi','getcateid'));
              
     }
     public function addd($id)
     {
-            $getindi=categorypdca::where('id',$id)
-            ->get();
-            $getcateid=indicator::where('id',$getindi[0]['Indicator_id'])
-            ->get();
+        $getindi=categorypdca::where('id',$id)
+        ->get();
+        $getcateid=indicator::where('Indicator_id',$getindi[0]['get'])
+        ->get();
             return view('AJ/addD',compact('getindi','getcateid'));
              
     }
 
     public function addc($id)
     {
-            $getindi=categorypdca::where('id',$id)
-            ->get();
-            $getcateid=indicator::where('id',$getindi[0]['Indicator_id'])
-            ->get();
+        $getindi=categorypdca::where('id',$id)
+        ->get();
+        $getcateid=indicator::where('Indicator_id',$getindi[0]['get'])
+        ->get();
             return view('AJ/addC',compact('getindi','getcateid'));
              
     }
     public function adda($id)
     {
-            $getindi=categorypdca::where('id',$id)
-            ->get();
-            $getcateid=indicator::where('id',$getindi[0]['Indicator_id'])
-            ->get();
+        $getindi=categorypdca::where('id',$id)
+        ->get();
+        $getcateid=indicator::where('Indicator_id',$getindi[0]['get'])
+        ->get();
             return view('AJ/addA',compact('getindi','getcateid'));
              
     }

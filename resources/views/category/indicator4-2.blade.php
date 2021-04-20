@@ -172,16 +172,13 @@
                     $get3 = sprintf('%.2f',$get/$get2);
                     session()->put('resultavg',$get3); 
                     ?>
-                    {{$get3}}
+                    
                   <td>{{$result4}}</td>          
                 </tr>
               </tbody></table>
             </div>
-            @if(isset($inc[0]['target']))
-            <a href="/getself_assessment_results2/4.2" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>
-            @else
-            <a href="/getself_assessment_results/4.2" class="btn btn-success fr ml-1"><i class='fa fa-plus'></i> เพิ่ม</a>
-            @endif
+            
+            
             <ins>ผลการประเมินตนเอง</ins>
             <div class="box-body">
               <table class="table table-bordered text-center">
@@ -191,19 +188,35 @@
                   <th colspan="2" width="20%">ผลการดำเนินงาน</th>
                   <th width="20%">คะแนนอิงเกณฑ์ สกอ.</th>
                 </tr>
+                @if(isset($inc[0]['target']))
                 @foreach($inc as $key =>$row )
                 <tr >
                   <td rowspan="2">ตัวบ่งชี้ที่ {{$row['Indicator_id']." ".$row['Indicator_name']}}</td>           
                   <td rowspan="2">{{$row['target']}}</td>
                   <td >{{$row['performance1']}}</td>
                   <td rowspan="2">{{$row['performance3']}}</td>
-                  <td rowspan="2">{{$row['score']}}</td>
+                  <td rowspan="2">
+                  <a href="/getself_assessment_results2/4.2" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>
+                  {{$row['score']}}</td>
                 </tr>
                 <tr>
                 <td>{{$row['performance2']}}</td>
                 </tr>
                 <tr>
                 @endforeach
+                @else
+                <tr>
+                  <td rowspan="2">ตัวบ่งชี้ที่ {{$id}} {{$name}}</td>           
+                  <td rowspan="2"></td>
+                  <td ></td>
+                  <td rowspan="2"></td>
+                  <td rowspan="2"><a href="/getself_assessment_results/4.2" class="btn btn-success fr ml-1"><i class='fa fa-plus'></i> เพิ่ม</a></td>
+                </tr>
+                <tr>
+                <td></td>
+                </tr>
+                <tr>
+                @endif
               </tbody></table>
             </div>
           </div>         
