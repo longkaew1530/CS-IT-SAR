@@ -13,7 +13,7 @@
                 <tr>
                   <th width="5%">ที่</th>
                   <th >ชื่อ-สกุล</th>
-                  <th width="10%">มอบหมายตัวบ่งชี้</th>
+                  <th width="10%">มอบหมาย</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -21,7 +21,7 @@
                 <tr>
                   <td>{{$key+1}}</td>
                   <td>{{$row['user_fullname']}}</td>
-                  <td class="text-center"><a href="/getindicator/{{$row['id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> มอบหมายตัวบ่งชี้</a></td>
+                  <td class="text-center"><a href="/getindicator/{{$row['id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> มอบหมาย</a></td>
                 </tr>
                 @endforeach
                 </tbody>

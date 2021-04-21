@@ -59,12 +59,13 @@ div.slider {
   margin-top:30px;
 }
 td.details-control {
-    background: url('https://datatables.net/examples/resources/details_open.png') no-repeat center center;
+    background: url('images1/Untitled-2.png') no-repeat center center;
     cursor: pointer;
+    
 }
  
 tr.shown td.details-control {
-    background: url('https://datatables.net/examples/resources/details_close.png') no-repeat center center;
+    background: url('images1/Untitled-1.png') no-repeat center center;
 }
  
 div.slider {
@@ -163,8 +164,8 @@ function format ( d ) {
         text=text+'<tr>'+
                 '<td width="5%"></td>'+
                 '<td width="50%">'+`${value.Indicator_name}`+'</td>'+
-                '<td width="25%">'+'<div class="progress progress-xs"><div class="progress-bar progress-bar-red" style="width:60%"></div></div>'+'</td>'+
-                '<td width="5%">'+'<span class="badge bg-red">60%</span>'+'</td>'+
+                '<td width="25%">'+'<div class="progress progress-xs"><div class="progress-bar progress-bar-'+`${value.color}`+'" style="width:'+`${value.score}`+'%"></div></div>'+'</td>'+
+                '<td width="5%">'+'<span class="badge bg-'+`${value.color2}`+'">'+`${value.score}`+'%</span>'+'</td>'+
                 '<td ><a>ดูรายละเอียด</a></td>'+
                 '<td ></td>'+
             '</tr>';

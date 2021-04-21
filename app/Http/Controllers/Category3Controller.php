@@ -89,6 +89,7 @@ class Category3Controller extends Controller
         ->groupBy('year_add')
         ->get();
         $re=category3_resignation::where('course_id',session()->get('usercourse'))
+        ->where('year_present',session()->get('year'))
         ->get();
         return view('category3/resignation',compact('get','getinfo','getyear','getinfo2','gropby','re'));
     }

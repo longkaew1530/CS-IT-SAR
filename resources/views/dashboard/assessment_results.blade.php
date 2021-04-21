@@ -128,7 +128,7 @@
             <th width="5%">ที่</th>
                   <th width="5%"></th>
                   <th >หมวด</th>
-                  <th></th>
+                  <th width="5%"></th>
 
             </tr>
         </thead>
@@ -178,12 +178,12 @@ div.slider {
   margin-top:30px;
 }
 td.details-control {
-    background: url('https://datatables.net/examples/resources/details_open.png') no-repeat center center;
+  background: url('images1/Untitled-2.png') no-repeat center center;
     cursor: pointer;
 }
  
 tr.shown td.details-control {
-    background: url('https://datatables.net/examples/resources/details_close.png') no-repeat center center;
+  background: url('images1/Untitled-1.png') no-repeat center center;
 }
  
 div.slider {

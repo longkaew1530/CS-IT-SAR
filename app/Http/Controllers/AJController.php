@@ -230,6 +230,12 @@ class AJController extends Controller
             return view('AJ/addindicator2-2',compact('pdca','per1'));
         }
         else{
+            $pdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+        ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.year_id',session()->get('year_id'))
+        ->where('pdca.Indicator_id',2.2)
+        ->where('pdca.target','!=',null)
+        ->get();
             return view('category3/indicator2-2',compact('factor','pdca','per1'));
         }      
     }
@@ -399,9 +405,9 @@ class AJController extends Controller
     }
     public function addassessment_summary($id)
     {
-        $menuname=Menu::where('m_id',$id)
+        $menuname=indicator::where('id',$id)
         ->get();
-        $check=category6_assessment_summary::where('category_assessor',$menuname[0]['m_name'])
+        $check=category6_assessment_summary::where('category_assessor',$menuname[0]['Indicator_id'])
         ->get();
         $assessmentsummary=category6_assessment_summary::where('course_id',session()->get('usercourse'))
         ->where('year_id',session()->get('year_id'))

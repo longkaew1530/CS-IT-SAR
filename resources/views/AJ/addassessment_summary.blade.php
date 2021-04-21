@@ -8,7 +8,7 @@
       <div class="col-sm-2" align="right"></div>
       <div class="col-sm-8" align="center">
       
-        <h3><i class=""></i>{{$menuname[0]['m_name']}}</h3>
+        <h3><i class=""></i>{{$menuname[0]['Indicator_name']}}</h3>
         <hr>
       </div>
     </div>
@@ -16,7 +16,7 @@
     @csrf
         <div class="col-md-12">
           <div class="box-header col-md-12 col-sm-9 col-xs-12">
-          <input type="hidden" class="form-control" id="category_assessor" name="category_assessor" value="{{$menuname[0]['m_name']}}">
+          <input type="hidden" class="form-control" id="category_assessor" name="category_assessor" value="{{$menuname[0]['Indicator_name']}}">
             <h3 class="box-title">ข้อวิพากษ์ที่สำคัญจากผลการประเมิน</h3>
           </div>
             <div class="col-md-12 col-sm-9 col-xs-12">
