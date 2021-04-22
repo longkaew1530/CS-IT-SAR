@@ -1,5 +1,5 @@
 
-            <ins>ผลการดำเนินงาน</ins>
+            <br><ins>ผลการดำเนินงาน</ins>
             
             <div class="box-body">
               <table class="table table-bordered">
@@ -16,27 +16,27 @@
                   โดยใช้กระบวนการ PDCA เป็นพื้นฐานและมีผลการดำเนินงานในปีการศึกษา {{ Session::get('year')}} ดังนี้ <br><br><br>
                   @if(count($row->pdca)!=0)
                   @foreach($row->pdca as $row1)
-                  @if($row1['p']!=null)<a href="/getp/{{$row1['pdca_id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไข</a>
+                  @if($row1['p']!=null&&$checkedit!="")<a href="/getp/{{$row1['pdca_id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไข</a>
                   @else
-                  <a href="/addp/{{$row['id']}}" class="btn btn-success fr"><i class='fa fa-plus'></i> เพิ่ม</a>
+                  @if($checkedit!="")<a href="/addp/{{$row['id']}}" class="btn btn-success fr"><i class='fa fa-plus'></i> เพิ่ม</a>@endif
                   @endif
                   <ins><b>ขั้นตอนการวางแผน (P)</b></ins><br>
                   {!!$row1['p']!!}<br><br>
-                  @if($row1['d']!=null)<a href="/getd/{{$row1['pdca_id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไข</a>
+                  @if($row1['d']!=null&&$checkedit!="")<a href="/getd/{{$row1['pdca_id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไข</a>
                   @else
-                  <a href="/addd/{{$row['id']}}" class="btn btn-success fr"><i class='fa fa-plus'></i> เพิ่ม</a>
+                  @if($checkedit!="")<a href="/addd/{{$row['id']}}" class="btn btn-success fr"><i class='fa fa-plus'></i> เพิ่ม</a>@endif
                   @endif
                   <ins><b>การดำเนินงานตามแผน (D)</b></ins><br>
                   {!!$row1['d']!!}</b><br><br>
-                  @if($row1['c']!=null)<a href="/getc/{{$row1['pdca_id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไข</a>
+                  @if($row1['c']!=null&&$checkedit!="")<a href="/getc/{{$row1['pdca_id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไข</a>
                   @else
-                  <a href="/addc/{{$row['id']}}" class="btn btn-success fr"><i class='fa fa-plus'></i> เพิ่ม</a>
+                  @if($checkedit!="")<a href="/addc/{{$row['id']}}" class="btn btn-success fr"><i class='fa fa-plus'></i> เพิ่ม</a>@endif
                   @endif
                   <ins><b>การประเมินกระบวนการ (C)</b></ins><br>
                   {!!$row1['c']!!}</b><br><br>
-                  @if($row1['a']!=null)<a href="/geta/{{$row1['pdca_id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไข</a>
+                  @if($row1['a']!=null&&$checkedit!="")<a href="/geta/{{$row1['pdca_id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไข</a>
                   @else
-                  <a href="/adda/{{$row['id']}}" class="btn btn-success fr"><i class='fa fa-plus'></i> เพิ่ม</a>
+                  @if($checkedit!="")<a href="/adda/{{$row['id']}}" class="btn btn-success fr"><i class='fa fa-plus'></i> เพิ่ม</a>@endif
                   @endif
                   <ins><b>การปรับปรุง/พัฒนา/บูรณาการกระบวนการจากผลการประเมิน (A)</b></ins><br>
                   {!!$row1['a']!!}</b><br><br>
@@ -48,16 +48,16 @@
                   </td> 
                   @endforeach
                   @else
-                  <a href="/addp/{{$row['id']}}" class="btn btn-success fr"><i class='fa fa-plus'></i> เพิ่ม</a>
+                  @if($checkedit!="")<a href="/addp/{{$row['id']}}" class="btn btn-success fr"><i class='fa fa-plus'></i> เพิ่ม</a>@endif
                   <ins><b>ขั้นตอนการวางแผน (P)</b></ins><br>
                   <br><br>
-                  <a href="/addd/{{$row['id']}}" class="btn btn-success fr"><i class='fa fa-plus'></i> เพิ่ม</a>
+                  @if($checkedit!="")<a href="/addd/{{$row['id']}}" class="btn btn-success fr"><i class='fa fa-plus'></i> เพิ่ม</a>@endif
                   <ins><b>การดำเนินงานตามแผน (D)</b></ins><br>
                   <br><br>
-                  <a href="/addc/{{$row['id']}}" class="btn btn-success fr"><i class='fa fa-plus'></i> เพิ่ม</a>
+                  @if($checkedit!="")<a href="/addc/{{$row['id']}}" class="btn btn-success fr"><i class='fa fa-plus'></i> เพิ่ม</a>@endif
                   <ins><b>การประเมินกระบวนการ (C)</b></ins><br>
                   <br><br>
-                  <a href="/adda/{{$row['id']}}" class="btn btn-success fr"><i class='fa fa-plus'></i> เพิ่ม</a>
+                  @if($checkedit!="")<a href="/adda/{{$row['id']}}" class="btn btn-success fr"><i class='fa fa-plus'></i> เพิ่ม</a>@endif
                   <ins><b>การปรับปรุง/พัฒนา/บูรณาการกระบวนการจากผลการประเมิน (A)</b></ins><br>
                   <br><br>
                   </td> 
@@ -87,7 +87,7 @@
                   <td>{{$row['target']}}</td>
                   <td>{{$row['performance3']}}</td>
                   <td>            
-                  <a href="/getself_assessment_results2/{{$row['Indicator_id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไข</a>
+                  @if($checkedit!="")<a href="/getself_assessment_results2/{{$row['Indicator_id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไข</a>@endif
                   {{$row['score']}}</td>
                 </tr>
                 <tr>
@@ -98,7 +98,7 @@
                   <td></td>
                   <td></td>
                   <td>            
-                  <a href="/getself_assessment_results/{{$id}}" class="btn btn-success fr ml-1"><i class='fa fa-plus'></i>เพิ่ม</a>
+                  @if($checkedit!="")<a href="/getself_assessment_results/{{$id}}" class="btn btn-success fr ml-1"><i class='fa fa-plus'></i>เพิ่ม</a>@endif
                   </td>
                 </tr>
                 <tr>

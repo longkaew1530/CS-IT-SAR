@@ -4,7 +4,7 @@
 <div class="box box-warning marginl">
 <div class="box-header">
             <div class="box-body">
-            <a href="/getindicator2_2/{{$factor[0]['id']}}" class="btn btn-warning fr "><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>
+            @if($factor!="[]"&&$checkedit!="")<a href="/getindicator2_2/{{$factor[0]['id']}}" class="btn btn-warning fr "><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>@endif
             <h3><li ><b>ร้อยละของบัณฑิตปริญญาตรีที่ได้งานทำหรือประกอบอาชีพอิสระภายใน 1 ปี (ตัวบ่งชี้ 2.2)</b></li></h3>
             <ins>ผลการดำเนินงาน</ins>
             <table class="table table-bordered">
@@ -12,8 +12,8 @@
                   <th width="50%" class="text-center">ข้อมูลพื้นฐาน</th>
                   <th width="10%" class="text-center">จำนวน</th>
                   <th width="10%" class="text-center">ร้อยละ</th>
-                  @foreach($factor as $value)
                 </tr>
+                @foreach($factor as $value)
                 <tr>
                 <td>1. จำนวนบัณฑิตทั้งหมด</td>
                 <td class="text-center">{{$value['total']}}</td>
@@ -72,12 +72,13 @@
                 <td class="text-center">{{$value['unemployed']}}</td>
                 <td class="text-center">{{$value['unemployedpersen']}}</td>
                 </tr>
+                @endforeach
               </tbody></table>
               <div class="mt-3"><b>การวิเคราะผลที่ได้</b><br>
-              {!!$value['result']!!}</div>
-              @endforeach
+              @if($factor!="[]"){!!$factor[0]['result']!!}@endif</div>
+              
 </div>
-<div class="box-body">
+            <div class="box-body">
             <ins>ผลการประเมินตนเอง</ins>
             <table class="table table-bordered">
                 <tbody><tr>
@@ -90,8 +91,8 @@
                   @endif
                   <th width="15%" class="text-center">คะแนนอิงเกณฑ์ สกอ.</th>
                 </tr>
+                @if($pdca!="[]")
                 @foreach($pdca as $row)
-                @if($row['target']!="")
                 <tr>
                   <td rowspan="2" >ตัวบ่งชี้ที่ {{$row['Indicator_id']." ".$row['Indicator_name']}}</td>           
                   <td rowspan="2" class="text-center">{{$row['target']}}</td>
@@ -107,8 +108,24 @@
                   @endif  
                 </tr>
                 <tr>
-                @endif
                 @endforeach
+                @else
+                <tr>
+                  <td rowspan="2" >ตัวบ่งชี้ที่ {{$id}} {{$name}}</td>           
+                  <td rowspan="2" class="text-center"></td>
+                  @if($per1!=null)
+                    <td class="text-center"></td>
+                  @endif  
+                  <td rowspan="2" class="text-center"></td>
+                  <td rowspan="2" class="text-center"></td>
+                </tr>
+                <tr>
+                @if($per1!=null)
+                    <td class="text-center"></td>
+                  @endif  
+                </tr>
+                <tr>
+                @endif
               </tbody></table>
             </div>
 </div>

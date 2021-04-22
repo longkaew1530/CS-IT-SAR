@@ -1,10 +1,23 @@
 @extends('layout.admid_layout')
 
 @section('content')
-<div class="box box-warning marginl">
-            <div class="box-header">
+<div class="box box-warning marginl" id="exportContent">
+<div class="box-header" >
+              <h3 class="text-center">หมวดที่ 2 อาจารย์</h3><br>
+              <h1 class="box-title">{{$name}} (ตัวบ่งชี้ที่ {{$id}})</h1>
+              <br>
+              <ins>เกณฑ์การประเมิน</ins>
+              <ul>-มีระบบ มีกลไกล</ul>
+              <ul>-มีการนำระบบกลไกสู่การปฏิบัติ/ดำเนินงาน</ul>
+              <ul>-มีการประเมินกระบวนการ</ul>
+              <ul>-มีการปรับปรุง/พัฒนากระบวนการจากผลการประเมิน</ul>
+              <ul>-มีผลจากการปรับปรุงเห็นชัดเจนเป็นรูปธรรม</ul>
+              <ul>-มีแนวทางปฏิบัติที่ดี โดยมีหลักฐานเชิงประจักษ์ยืนยัน และกรรมการผู้ตรวจประเมินสามารถให้เหตุผลอธิบายการเป็นแนวปฏิบัติที่ดีได้ชัดเจน</ul>
+              
+              @include('category3/newpdca',['pdca','name','id','getcourse','getcategorypdca','inc','checkedit'])
+              <br><br>
               <h1 class="box-title"><li>คุณภาพอาจารย์ (ตัวบ่งชี้ที่ 4.2)</li></h1>
-              <br><br><br>
+              <br><br>
             <ins>ข้อมูลพื้นฐานตัวบ่งชี้</ins>
             
             <br><br><b>1. ข้อมูลคุณวุฒิปริญญาเอกและตำแหน่งทางวิชาการ</b>
@@ -188,15 +201,15 @@
                   <th colspan="2" width="20%">ผลการดำเนินงาน</th>
                   <th width="20%">คะแนนอิงเกณฑ์ สกอ.</th>
                 </tr>
-                @if(isset($inc[0]['target']))
-                @foreach($inc as $key =>$row )
+                @if(isset($inc4_2[0]['target']))
+                @foreach($inc4_2 as $key =>$row )
                 <tr >
                   <td rowspan="2">ตัวบ่งชี้ที่ {{$row['Indicator_id']." ".$row['Indicator_name']}}</td>           
                   <td rowspan="2">{{$row['target']}}</td>
                   <td >{{$row['performance1']}}</td>
                   <td rowspan="2">{{$row['performance3']}}</td>
                   <td rowspan="2">
-                  @if($checkedit!="")<a href="/getself_assessment_results2/4.2" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>@endif
+                  
                   {{$row['score']}}</td>
                 </tr>
                 <tr>
@@ -210,7 +223,7 @@
                   <td rowspan="2"></td>
                   <td ></td>
                   <td rowspan="2"></td>
-                  <td rowspan="2">@if($checkedit!="")<a href="/getself_assessment_results/4.2" class="btn btn-success fr ml-1"><i class='fa fa-plus'></i> เพิ่ม</a>@endif</td>
+                 
                 </tr>
                 <tr>
                 <td></td>
@@ -219,16 +232,83 @@
                 @endif
               </tbody></table>
             </div>
-          </div>         
-          </div> 
+          </div>
+
+
+          <div class="box-header">
+              <h1 class="box-title"><li>ผลที่เกิดกับอาจารย์ (ตัวบ่งชี้ที่ 4.3)</li></h1>
+              @if($in4_3!="[]")<a href="/getindicator4_3/{{$inc[0]['Indicator_id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>@endif
+              <br><br><br>
+            <ins>เกณฑ์การประเมิน</ins><br>
+              - มีการรายงานผลการดำเนินงานครบทุกเรื่องตามคำอธิบายในตัวบ่งชี้ (อัตราการคงอยู่ของอาจารย์, ความพึงพอใจของอาจารย์ต่อการบริหารหลักสูตร)<br>
+              - มีแนวโน้มผลการดำเนินงานที่ดีขึ้นในทุกเรื่อง (อัตราการคงอยู่ของอาจารย์, ความพึงพอใจของอาจารย์ต่อการบริหารหลักสูตร)<br>
+              - มีผลการดำเนินงานที่โด่ดเด่น เทียบเคียงกับหลักสูตรนั้นในสถาบันกลุ่มเดียวกัน โดยมีหลักฐานเชิงประจักษ์ยืนยัน และกรรมการผู้ตรวจประเมินสามารถให้เหตุผลอธิบายว่าเป็นผลการดำเนินงานที่โดดเด่นอย่างแท้จริง<br>
+
+              
+            <div class="box-body">
+            <br><br><b><ins>ผลการดำเนินงาน</ins></b>
+              <table class="table table-bordered" >
+                <tbody><tr>
+                  <th width="60%" class="text-center">ประเด็นอธิบาย</th>
+                  <th width="15%" class="text-center">หลักฐานอ้างอิง</th>
+                </tr>
+                @if($in4_3!="")
+                @foreach($in4_3 as $value)
+              <tr>
+                <td><b>{{$value['category_retention_rate']}}</b><br>
+                {!!$value['retention_rate']!!}
+                
+                </td>
+                <td>
+                @foreach($value->docindicator4_3 as $row)
+                -{!!$row['doc_file']!!}<br>
+                @endforeach
+                </td>
+              </tr>
+              @endforeach
+              @endif
+              </tbody></table>
+            </div> 
+         
+          <div class="box-body">
+         <br><b><ins>ผลการประเมินตนเอง</ins></b>
+              <table class="table table-bordered">
+                <tbody><tr>
+                  <th width="30%">ตัวบ่งชี้</th>
+                  <th width="20%">เป้าหมาย</th>
+                  <th width="20%">ผลการดำเนินงาน</th>
+                  <th width="20%">คะแนนอิงเกณฑ์ สกอ.</th>
+                </tr>
+                @if($inc3!="[]")
+                @foreach($inc3 as $key =>$row )
+                <tr>
+                  <td>ตัวบ่งชี้ที่{{$row['Indicator_id']." ".$row['Indicator_name']}}</td>             
+                  <td>{{$row['target']}}</td>
+                  <td>{{$row['performance3']}}</td>
+                  <td>            
+                  
+                  {{$row['score']}}</td>
+                </tr>
+                <tr>
+                @endforeach
+                @else
+                <tr>
+                  <td>ตัวบ่งชี้ที่ {{$id4_3}} {{$name4_3}} </td>             
+                  <td></td>
+                  <td></td>
+                  <td>            
+                  
+                  </td>
+                </tr>
+                <tr>
+                @endif
+              </tbody></table>
+            </div>
 
           
-
-          </div>            
-
-          </div>
-          </div>
-          </div>
+              
+</div>
+</div>
 <style>
 .marginl{
   padding:10px;
@@ -261,4 +341,55 @@
   margin-top:30px;
 }
 </style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script type="text/javascript">
+ $(document).ready(function(){      
+var i=1;  
+$('#add').click(function(){  
+var id = $("#add").attr("data-id")
+// i++;  
+$('#show'+id).append('<tr><td>'+id+'</td></tr>');  
+});  
+$(document).on('click', '.btn_remove', function(){  
+var button_id = $(this).attr("id");   
+$('#row'+button_id+'').remove();  
+}); 
+ }); 
+
+ function Export2Word(element, filename = ''){
+    var preHtml = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Export HTML To Doc</title></head><body>";
+    var postHtml = "</body></html>";
+    var html = preHtml+document.getElementById(element).innerHTML+postHtml;
+
+    var blob = new Blob(['\ufeff', html], {
+        type: 'application/msword'
+    });
+    
+    // Specify link url
+    var url = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(html);
+    
+    // Specify file name
+    filename = filename?filename+'.doc':'document.doc';
+    
+    // Create download link element
+    var downloadLink = document.createElement("a");
+
+    document.body.appendChild(downloadLink);
+    
+    if(navigator.msSaveOrOpenBlob ){
+        navigator.msSaveOrOpenBlob(blob, filename);
+    }else{
+        // Create a link to the file
+        downloadLink.href = url;
+        
+        // Setting the file name
+        downloadLink.download = filename;
+        
+        //triggering the function
+        downloadLink.click();
+    }
+    
+    document.body.removeChild(downloadLink);
+}
+</script>
 @endsection

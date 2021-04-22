@@ -16,6 +16,7 @@ use App\indicator;
 use App\indicator2_1;
 use App\indicator2_2;
 use App\category3_infostudent;
+use App\defaulindicator;
 use App\category3_infostudent_qty;
 use App\year_acceptance;
 use App\performance3_3;
@@ -137,7 +138,16 @@ class Category3Controller extends Controller
         ->where('pdca.target','!=',null)
         ->get();
         $per1="ssssss";
-        return view('category3/indicator2-1',compact('factor','pdca','per1'));
+        $getcategorypdca=defaulindicator::where('id',2)
+        ->get();
+        $name="";
+        $id="";
+        foreach($getcategorypdca as $value)
+        {
+            $name=$value['Indicator_name'];
+            $id=$value['Indicator_id'];
+        }
+        return view('category3/indicator2-1',compact('factor','pdca','per1','name','id'));
     }
     public function assess()
     {
@@ -221,7 +231,8 @@ class Category3Controller extends Controller
             $name=$value['Indicator_name'];
             $id=$value['Indicator_id'];
         }
-        return view('category3/showpdca',compact('pdca','name','id','getcourse','getcategorypdca','inc'));
+        $checkedit="asdsad";
+        return view('category3/showpdca',compact('pdca','name','id','getcourse','getcategorypdca','inc','checkedit'));
     }
     public function indicator3_3()
     {

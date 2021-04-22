@@ -3,7 +3,7 @@
 @section('content')
 <div class="box box-warning marginl">
 <div class="box-header">
-<a href="/getgraduate" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>
+@if($checkedit!="")<a href="/getgraduate" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>@endif
 <b>จำนวนผู้สำเร็จการศึกษา</b>
             <div class="box-body">
             <table class="table table-bordered text-center">

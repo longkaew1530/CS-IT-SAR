@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\ModelAJ\Educational_background;
 use App\ModelAJ\Research_results;
 use App\ModelAJ\Research_results_user;
+use App\ModelAJ\past_performance;
 use App\ModelAJ\categoty_researh;
 use App\User;
 use App\PDCA;
@@ -16,6 +17,7 @@ use App\course_responsible_teacher;
 use App\indicator4_3;
 use App\course_teacher;
 use App\indicator2_1;
+use App\indicator1_1;
 use App\defaulindicator;
 use App\indicator2_2;
 use App\category;
@@ -133,6 +135,11 @@ class APIAJController extends Controller
         $data->research_results_description=$request->research_results_description;
         $data->research_results_salary=$request->research_results_salary;
         $data->save();
+
+        $insert3=new Research_results_user;
+        $insert3->research_results_research_results_id=$data->research_results_id;
+        $insert3->user_id=$request->owner;
+        $insert3->save();
         foreach($getdata['teacher_name'] as $row){
             $query=User::find($row);
             $insert=new Research_results_user;
@@ -2155,6 +2162,73 @@ class APIAJController extends Controller
         $score2_1=($getscore2_1*100)/2;
         ////ตัวบ่งชี้ 2.1
 
+        ////หมวดที่ 1 
+         ////ตัวบ่งชี้ 1.1
+         $getscore1_1=0;
+         $getscore1_1result=0;
+         $score1_1=0;
+         $queryindicator1_1=indicator1_1::where('year_id',session()->get('year_id'))
+         ->where('course_id',session()->get('usercourse'))
+         ->get();
+         
+         $queryindicator1_1result= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+         ->where('pdca.course_id',session()->get('usercourse'))
+         ->where('pdca.year_id',session()->get('year_id'))
+         ->where('pdca.Indicator_id',1.1)
+         ->where('pdca.target','!=',null)
+         ->get();
+ 
+         //ดึงค่าตารางอาจารย์ผู้รับผิดชอบหลักสูตร
+         $trc = course_responsible_teacher::join('year','course_responsible_teacher.year_id','=','year.year_id')
+         ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
+         ->where('year.year_id',session()->get('year_id'))
+         ->get();
+          ////ดึงสาขาวิชาที่จบของอาจารย์ประจำหลักสูตร
+          $tc_course= User::leftjoin('course_teacher','users.id','=','course_teacher.user_id')
+          ->where('users.user_course',session()->get('usercourse'))
+          ->where('course_teacher.year_id',session()->get('year_id'))
+          ->get();
+ 
+          ////ดึงสาขาวิชาที่จบของอาจารย์ผู้สอน
+          $instructor= User::leftjoin('instructor','users.id','=','instructor.user_id')
+          ->where('users.user_course',session()->get('usercourse'))
+          ->where('instructor.year_id',session()->get('year_id'))
+          ->get();
+          if(count($trc)!=0){
+             $getscore1_1++;
+         }
+ 
+         if(count($tc_course)!=0){
+             $getscore1_1++;
+         }
+         if(count($instructor)!=0){
+             $getscore1_1++;
+         }
+         if(count($queryindicator1_1)!=0){
+             if($queryindicator1_1[0]['result1']!=""){
+                 $getscore1_1++;
+             }
+             if($queryindicator1_1[0]['result2']!=""){
+                 $getscore1_1++;
+             }
+             if($queryindicator1_1[0]['result3']!=""){
+                 $getscore1_1++;
+             }
+             if($queryindicator1_1[0]['result4']!=""){
+                 $getscore1_1++;
+             }
+             if($queryindicator1_1[0]['result5']!=""){
+                 $getscore1_1++;
+             }
+         }
+         if(count($queryindicator1_1result)!=0){
+             $getscore1_1result++;
+         }
+         
+         ////ตัวบ่งชี้ 1.1
+        ////ปิดหมวดที่ 1
+
+
         ////หมวดที่ 2 ตัวบ่งชี้ 4.1
         $score4_1resultdoc1=0;
         $score4_1resultdoc2=0;
@@ -2319,27 +2393,40 @@ class APIAJController extends Controller
         ////หมวดที่ 2 ตัวบ่งชี้ 4.1
 
         ////หมวดที่ 2 ตัวบ่งชี้ 4.2
-        $score4_2resultdoc1=0;
-        $score4_2resultdoc2=0;
-        $score4_2resultdoc3=0;
+        //// ตัวบ่งชี้ 4.2
         $score4_2result1=0;
         $score4_2result2=0;
-        $score4_2result3=0;
         $score4_2resultpdca=0;
         //ดึงค่าตารางอาจารย์ผู้รับผิดชอบหลักสูตร
-        $cate=categoty_researh::all();
-        foreach($cate as $catevalue){
-            foreach($catevalue->research_results as $value2){
-                
-            }
-        }
-        
-        $trc = course_responsible_teacher::join('year','course_responsible_teacher.year_id','=','year.year_id')
-        ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
-        ->where('course_responsible_teacher.year_id',session()->get('year_id'))
-        ->get();
-        ///นับอาจารย์ผู้รีบผิดชอบหลักสูตร
-        $count=count($trc);
+          $trc = course_responsible_teacher::join('year','course_responsible_teacher.year_id','=','year.year_id')
+          ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
+          ->where('year.year_id',session()->get('year_id'))
+          ->get();
+          $educ_bg= User::leftjoin('course_responsible_teacher','users.id','=','course_responsible_teacher.user_id')
+          ->where('users.user_course',session()->get('usercourse'))
+          ->where('course_responsible_teacher.year_id',session()->get('year_id'))
+          ->get();
+          foreach($educ_bg as $key=>$t){
+              if(count($educ_bg[$key]->research_results)!=0){
+                      $score4_2result2=1;
+              }
+          }
+         
+          $queryindicator4_2resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+          ->where('pdca.course_id',session()->get('usercourse'))
+          ->where('pdca.year_id',session()->get('year_id'))
+          ->where('pdca.Indicator_id',4.2)
+          ->where('pdca.target','!=',null)
+          ->get();
+          if($trc!="[]"){
+              if(count($trc)!=0){
+                  $score4_2result1++;
+              }
+          }
+          if($queryindicator4_2resultpdca!="[]"){
+              $score4_2resultpdca++;
+          }
+        ////ปิด ตัวบ่งชี้ 4.2
         ////หมวดที่ 2 ตัวบ่งชี้ 4.2
 
         ////หมวดที่ 2 ตัวบ่งชี้ 4.3
@@ -2726,11 +2813,12 @@ class APIAJController extends Controller
              ->where('reported_year', '>=',$get[0]['year_add'])
              ->where('reported_year', '<=',session()->get('year'))
              ->get();
+             if($getinfo!="[]"){
+                $scoregraduate++;
+            }
          }
         
-        if($getinfo!="[]"){
-            $scoregraduate++;
-        }
+        
          ////ปิด จำนวนผู้สำเร็จการศึกษา
  
         ////จำนวนที่ลาออกและคัดชื่อออกสะสมจนถึงสิ้นปีการศึกษา
@@ -3464,9 +3552,10 @@ class APIAJController extends Controller
        }
         //// ปิด สรุปจุดแข็ง จุดที่ควรพัฒนา และแนวทางการพัฒนา
         ////ปิด  สรุปผลการดำเนินงาน
-
+        $result1=(($getscore1_1+$getscore1_1result)*100)/9;
         $result2=(($score4_1result1+$score4_1result2+$score4_1result3+$score4_1resultdoc1+$score4_1resultdoc2+
-        $score4_1resultdoc3+$score4_1resultpdca+$score4_3result1+$score4_3result2+$score4_3resultpdca)*100)/28;
+        $score4_1resultdoc3+$score4_1resultpdca+$score4_2result1+$score4_2result2+$score4_2resultpdca+$score4_3result1+
+        $score4_3result2+$score4_3resultpdca)*100)/31;
         
 
 
@@ -3489,7 +3578,7 @@ class APIAJController extends Controller
         $result8=($scorestrengths_summary*100)/6;
 
 
-
+        $scorecategory1 = sprintf('%.0f',$result1);
         $scorecategory2 = sprintf('%.0f',$result2);
         $scorecategory3 = sprintf('%.0f',$result3);
         $scorecategory4 = sprintf('%.0f',$result4);
@@ -3538,20 +3627,20 @@ class APIAJController extends Controller
          ////สรุปคะแนน
         $i=0;
         if($role[$i]['category_id']==1){
-            $role[$i]['score']=$crt+$crtscore;
-            if($crtscore<=25){
+            $role[$i]['score']=$scorecategory1;
+            if($scorecategory1<=25){
                 $role[$i]['color']='danger';
                 $role[$i]['color2']='red';
             }
-            else if($crtscore<=50){
+            else if($scorecategory1<=50){
                 $role[$i]['color']='yellow';
                 $role[$i]['color2']='yellow';
             }
-            else if($crtscore<=75){
+            else if($scorecategory1<=75){
                 $role[$i]['color']='striped';
                 $role[$i]['color2']='blue';
             }
-            else if($crtscore<=100){
+            else if($scorecategory1<=100){
                 $role[$i]['color']='success';
                 $role[$i]['color2']='green';
             }
@@ -3708,6 +3797,72 @@ class APIAJController extends Controller
         ->where('year_id',session()->get('year_id'))
         ->where('course_id',session()->get('usercourse'))
         ->get();
+
+        ////ตัวบ่งชี้ 1.1
+        $getscore1_1=0;
+        $getscore1_1result=0;
+        $score1_1=0;
+        $queryindicator1_1=indicator1_1::where('year_id',session()->get('year_id'))
+        ->where('course_id',session()->get('usercourse'))
+        ->get();
+        
+        $queryindicator1_1result= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+        ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.year_id',session()->get('year_id'))
+        ->where('pdca.Indicator_id',1.1)
+        ->where('pdca.target','!=',null)
+        ->get();
+
+        //ดึงค่าตารางอาจารย์ผู้รับผิดชอบหลักสูตร
+        $trc = course_responsible_teacher::join('year','course_responsible_teacher.year_id','=','year.year_id')
+        ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
+        ->where('year.year_id',session()->get('year_id'))
+        ->get();
+         ////ดึงสาขาวิชาที่จบของอาจารย์ประจำหลักสูตร
+         $tc_course= User::leftjoin('course_teacher','users.id','=','course_teacher.user_id')
+         ->where('users.user_course',session()->get('usercourse'))
+         ->where('course_teacher.year_id',session()->get('year_id'))
+         ->get();
+
+         ////ดึงสาขาวิชาที่จบของอาจารย์ผู้สอน
+         $instructor= User::leftjoin('instructor','users.id','=','instructor.user_id')
+         ->where('users.user_course',session()->get('usercourse'))
+         ->where('instructor.year_id',session()->get('year_id'))
+         ->get();
+         if(count($trc)!=0){
+            $getscore1_1++;
+        }
+
+        if(count($tc_course)!=0){
+            $getscore1_1++;
+        }
+        if(count($instructor)!=0){
+            $getscore1_1++;
+        }
+        if(count($queryindicator1_1)!=0){
+            if($queryindicator1_1[0]['result1']!=""){
+                $getscore1_1++;
+            }
+            if($queryindicator1_1[0]['result2']!=""){
+                $getscore1_1++;
+            }
+            if($queryindicator1_1[0]['result3']!=""){
+                $getscore1_1++;
+            }
+            if($queryindicator1_1[0]['result4']!=""){
+                $getscore1_1++;
+            }
+            if($queryindicator1_1[0]['result5']!=""){
+                $getscore1_1++;
+            }
+        }
+        if(count($queryindicator1_1result)!=0){
+            $getscore1_1result++;
+        }
+        
+        ////ตัวบ่งชี้ 1.1
+
+
         ////ตัวบ่งชี้ 2.1
         $getscore2_1=0;
         $getscore2_1result=0;
@@ -4059,11 +4214,12 @@ class APIAJController extends Controller
             ->where('reported_year', '>=',$get[0]['year_add'])
             ->where('reported_year', '<=',session()->get('year'))
             ->get();
+            if($getinfo!="[]"){
+                $scoregraduate++;
+            }
         }
        
-       if($getinfo!="[]"){
-           $scoregraduate++;
-       }
+       
         ////ปิด จำนวนผู้สำเร็จการศึกษา
 
        ////จำนวนที่ลาออกและคัดชื่อออกสะสมจนถึงสิ้นปีการศึกษา
@@ -4238,6 +4394,43 @@ class APIAJController extends Controller
               $score4_1resultpdca++;
           }
           //// ตัวบ่งชี้ 4.1
+
+
+          //// ตัวบ่งชี้ 4.2
+          $score4_2result1=0;
+          $score4_2result2=0;
+          $score4_2resultpdca=0;
+          //ดึงค่าตารางอาจารย์ผู้รับผิดชอบหลักสูตร
+            $trc = course_responsible_teacher::join('year','course_responsible_teacher.year_id','=','year.year_id')
+            ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
+            ->where('year.year_id',session()->get('year_id'))
+            ->get();
+            $educ_bg= User::leftjoin('course_responsible_teacher','users.id','=','course_responsible_teacher.user_id')
+            ->where('users.user_course',session()->get('usercourse'))
+            ->where('course_responsible_teacher.year_id',session()->get('year_id'))
+            ->get();
+            foreach($educ_bg as $key=>$t){
+                if(count($educ_bg[$key]->research_results)!=0){
+                        $score4_2result2=1;
+                }
+            }
+           
+            $queryindicator4_2resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+            ->where('pdca.course_id',session()->get('usercourse'))
+            ->where('pdca.year_id',session()->get('year_id'))
+            ->where('pdca.Indicator_id',4.2)
+            ->where('pdca.target','!=',null)
+            ->get();
+            if($trc!="[]"){
+                if(count($trc)!=0){
+                    $score4_2result1++;
+                }
+            }
+            if($queryindicator4_2resultpdca!="[]"){
+                $score4_2resultpdca++;
+            }
+          ////ปิด ตัวบ่งชี้ 4.2
+
           ////ตัวบ่งชี้ 4.3
         $score4_3resultdoc1=0;
         $score4_3resultdoc2=0;
@@ -4980,6 +5173,7 @@ class APIAJController extends Controller
         }
          //// ปิด สรุปจุดแข็ง จุดที่ควรพัฒนา และแนวทางการพัฒนา
 
+        $result1_1=(($getscore1_1+$getscore1_1result)*100)/9;
         $result2_1=($getscore2_1*100)/2;
         $result2_2=($getscore2_2*100)/2;
         $result3_1=(($score3_1result1+$score3_1result2+$score3_1resultdoc1+$score3_1resultdoc2+$score3_1resultpdca)*100)/17;
@@ -4991,6 +5185,7 @@ class APIAJController extends Controller
         $resultgraduate=($scoregraduate*100)/1;
         $resultscorere=($scorere*100)/1;
         $result4_3=(($score4_3result1+$score4_3result2+$score4_3resultpdca)*100)/3;
+        $result4_2=(($score4_2result1+$score4_2result2+$score4_2resultpdca)*100)/3;
         $result4_1=(($score4_1result1+$score4_1result2+$score4_1result3+$score4_1resultdoc1+$score4_1resultdoc2+
                     $score4_1resultdoc3+$score4_1resultpdca)*100)/25;
         $result5_1=(($score5_1result1+$score5_1result2+$score5_1result3+$score5_1resultdoc1+$score5_1resultdoc2+
@@ -5017,6 +5212,8 @@ class APIAJController extends Controller
         $resultscorenewstrength=($scorenewstrength*100)/1;
         $resultscorestrengths_summary=($scorestrengths_summary*100)/6;
 
+
+        $indicator1_1 = sprintf('%.0f',$result1_1);
         $indicator2_1 = sprintf('%.0f',$result2_1);
         $indicator2_2 = sprintf('%.0f',$result2_2);
         $indicator3_1 = sprintf('%.0f',$result3_1);
@@ -5028,6 +5225,7 @@ class APIAJController extends Controller
         $graduate = sprintf('%.0f',$resultgraduate);
         $resignation = sprintf('%.0f',$resultscorere);
         $indicator4_1 = sprintf('%.0f',$result4_1);
+        $indicator4_2 = sprintf('%.0f',$result4_2);
         $indicator4_3 = sprintf('%.0f',$result4_3);
         $indicator5_1 = sprintf('%.0f',$result5_1);
         $indicator5_2 = sprintf('%.0f',$result5_2);
@@ -5054,20 +5252,20 @@ class APIAJController extends Controller
          $i=0;
          foreach($clind as $value){
          if($value['Indicator_id']=="1.1"){
-             $clind[$i]['score']=0;
-             if($indicator4_1<=25){
+             $clind[$i]['score']=$indicator1_1;
+             if($indicator1_1<=25){
                  $clind[$i]['color']='danger';
                  $clind[$i]['color2']='red';
              }
-             else if($indicator4_1<=50){
+             else if($indicator1_1<=50){
                  $clind[$i]['color']='yellow';
                  $clind[$i]['color2']='yellow';
              }
-             else if($indicator4_1<=75){
+             else if($indicator1_1<=75){
                  $clind[$i]['color']='striped';
                  $clind[$i]['color2']='blue';
              }
-             else if($indicator4_1<=100){
+             else if($indicator1_1<=100){
                  $clind[$i]['color']='success';
                  $clind[$i]['color2']='green';
              }
@@ -5195,20 +5393,20 @@ class APIAJController extends Controller
              $i++;
          }
          if($value['Indicator_id']=="4.2"){
-            $clind[$i]['score']=$indicator4_1;
-            if($indicator4_1<=25){
+            $clind[$i]['score']=$indicator4_2;
+            if($indicator4_2<=25){
                  $clind[$i]['color']='danger';
                  $clind[$i]['color2']='red';
              }
-             else if($indicator4_1<=50){
+             else if($indicator4_2<=50){
                  $clind[$i]['color']='yellow';
                  $clind[$i]['color2']='yellow';
              }
-             else if($indicator4_1<=75){
+             else if($indicator4_2<=75){
                  $clind[$i]['color']='striped';
                  $clind[$i]['color2']='blue';
              }
-             else if($indicator4_1<=100){
+             else if($indicator4_2<=100){
                  $clind[$i]['color']='success';
                  $clind[$i]['color2']='green';
              }
@@ -6021,4 +6219,39 @@ class APIAJController extends Controller
         return $data;
    }
        /////Resignation/////Resignation/////Resignation/////Resignation/////Resignation/////Resignation
+
+       public function addpastperformance(Request $request)
+    {
+        $getdata=$request->all();
+        $countgetname=count($getdata['teacher_name']);
+        $getname=User::where('id',$request->owner)
+        ->get();
+        $text=$getname[0]['user_fullname'];
+        $i=1;
+        foreach($getdata['teacher_name'] as $row){
+            $query=User::find($row);
+            if($i!=$countgetname){
+                $text=$text.", ".$query->user_fullname.", ";
+            }
+            else{
+                $text=$text." และ".$query->user_fullname;
+            }
+            $i++;
+        }
+        $data=new past_performance;
+        $data->teacher_name=$text;
+        $data->work_name=$work_name;
+        $data->detail=$request->detail;
+        $data->year=$request->year;
+        $data->save();
+        foreach($getdata['teacher_name'] as $row){
+            $query=User::find($row);
+            $insert=new Research_results_user;
+            $insert->research_results_research_results_id=$data->research_results_id;
+            $insert->user_id=$row;
+            $insert->save();
+        }
+    }
+
 }
+

@@ -130,7 +130,7 @@ $(document).ready(function() {
           return '<span class="badge bg-'+data.color2+'">'+data.score+'%</span>'
        }},
        {"data" : function(data) {
-          return '<a>ดูรายละเอียด</a>'
+          return '<a href="/showcategory/'+data.category_id+'">ดูรายละเอียด</a>'
        }},
         {
                 "class":          'details-control',
@@ -156,7 +156,7 @@ function format ( d ) {
                 '<td width="50%">'+"ตัวบ่งชี้"+`${value.Indicator_id} ${value.Indicator_name}`+'</td>'+
                 '<td width="25%">'+'<div class="progress progress-xs"><div class="progress-bar progress-bar-'+`${value.color}`+'" style="width:'+`${value.score}`+'%"></div></div>'+'</td>'+
                 '<td width="5%">'+'<span class="badge bg-'+`${value.color2}`+'">'+`${value.score}`+'%</span>'+'</td>'+
-                '<td ><a>ดูรายละเอียด</a></td>'+
+                '<td ><a href="/showindicator/'+`${value.Indicator_id}`+'">ดูรายละเอียด</a></td>'+
                 '<td ></td>'+
             '</tr>';
       }
@@ -166,7 +166,7 @@ function format ( d ) {
                 '<td width="50%">'+`${value.Indicator_name}`+'</td>'+
                 '<td width="25%">'+'<div class="progress progress-xs"><div class="progress-bar progress-bar-'+`${value.color}`+'" style="width:'+`${value.score}`+'%"></div></div>'+'</td>'+
                 '<td width="5%">'+'<span class="badge bg-'+`${value.color2}`+'">'+`${value.score}`+'%</span>'+'</td>'+
-                '<td ><a>ดูรายละเอียด</a></td>'+
+                '<td ><a href="/showindicator/'+`${value.Indicator_name}`+'">ดูรายละเอียด</a></td>'+
                 '<td ></td>'+
             '</tr>';
       }

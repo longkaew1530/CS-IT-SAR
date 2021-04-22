@@ -8,7 +8,7 @@
             <!-- /.box-header -->
             <div class="box-body">
             <!-- /.box-header -->
-            <table id="example2" class="table table-bordered table-striped">
+            <table id="example7" class="table table-bordered table-striped">
                 <thead>
                 <tr>
                   <th width="5%">ID</th>
@@ -81,7 +81,7 @@ var url = "/getrolepermisson";
 </script>
 <script>
   $(function () {
-    $('#example2').DataTable({
+    $('#example7').DataTable({
       lengthMenu: [ 10, 20, 50, 100]
     })
   })

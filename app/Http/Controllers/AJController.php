@@ -57,6 +57,20 @@ class AJController extends Controller
     {
         $user=auth()->user();
         $userall=User::where('user_course',$user->user_course)->get();
+        $researchresults=Research_results::rightjoin('research_results_user','research_results_user.research_results_research_results_id','=','research_results.research_results_id')
+        ->leftjoin('category_research_results','category_research_results.id','=','research_results.research_results_category')
+        ->where('research_results_user.user_id',$user->id)
+        ->get();
+        // $researchresults=Research_results::leftjoin('category_research_results','category_research_results.id','=','research_results.research_results_category')
+        // ->where('owner',$user->id)
+        // ->get();
+        $category=categoty_researh::all();
+        return view('AJ/research_results',compact('researchresults','category','userall'));
+    }
+    public function past_performance()
+    {
+        $user=auth()->user();
+        $userall=User::where('user_course',$user->user_course)->get();
         // $researchresults=Research_results::rightjoin('research_results_user','research_results_user.research_results_research_results_id','=','research_results.research_results_id')
         // ->leftjoin('category_research_results','category_research_results.id','=','research_results.research_results_category')
         // ->where('research_results_user.user_id',$user->id)
@@ -65,7 +79,7 @@ class AJController extends Controller
         ->where('owner',$user->id)
         ->get();
         $category=categoty_researh::all();
-        return view('AJ/research_results',compact('researchresults','category','userall'));
+        return view('AJ/past_performance',compact('researchresults','category','userall'));
     }
     public function addpdca($id)
     {
@@ -119,11 +133,12 @@ class AJController extends Controller
         ->where('pdca.indicator_id',4.3)
         ->where('pdca.target','!=',null)
         ->get();
+        $checkedit="asdsad";
         if(count($in4_3)===0){
             return view('AJ/add4_3',compact('pdca','per1'));
         }
         else{
-            return view('category/indicator4-3',compact('in4_3','inc'));
+            return view('category/indicator4-3',compact('in4_3','inc','checkedit'));
         }
     }
     public function addinfostd()
@@ -171,7 +186,8 @@ class AJController extends Controller
                 ->where('year_id',session()->get('year_id'))
                 ->get();
                 $countnumber=count($getinfo);
-                return view('category3/infostudents',compact('get','getinfo','getqty','countnumber'));
+                $checkedit="asdsad";
+                return view('category3/infostudents',compact('get','getinfo','getqty','countnumber','checkedit'));
             }
             
     }
@@ -184,15 +200,16 @@ class AJController extends Controller
         ->where('course_id',session()->get('usercourse'))
         ->where('year_id',session()->get('year_id'))
         ->get();
+        $checkedit="asdas";
         if(count($factor)===0){
             return view('AJ/addfactor',compact('menuname'));
         }
         else{
             if($menuname[0]['category_factor']=="ปัจจัยที่มีผลกระทบต่อจำนวนนักศึกษา"){
-                return view('category3/Impactfactors',compact('factor'));
+                return view('category3/Impactfactors',compact('factor','checkedit'));
             }
             else{
-                return view('category3/Impactgraduation',compact('factor'));
+                return view('category3/Impactgraduation',compact('factor','checkedit'));
             }
         }
     }
@@ -214,7 +231,17 @@ class AJController extends Controller
         ->where('pdca.Indicator_id',2.1)
         ->where('pdca.target','!=',null)
         ->get();
-            return view('category3/indicator2-1',compact('factor','pdca','per1'));
+        $getcategorypdca=defaulindicator::where('id',2)
+        ->get();
+        $name="";
+        $id="";
+        $checkedit="asdsad";
+        foreach($getcategorypdca as $value)
+        {
+            $name=$value['Indicator_name'];
+            $id=$value['Indicator_id'];
+        }
+            return view('category3/indicator2-1',compact('factor','pdca','per1','name','id','checkedit'));
         } 
             
     }
@@ -236,7 +263,17 @@ class AJController extends Controller
         ->where('pdca.Indicator_id',2.2)
         ->where('pdca.target','!=',null)
         ->get();
-            return view('category3/indicator2-2',compact('factor','pdca','per1'));
+        $getcategorypdca=defaulindicator::where('id',4)
+        ->get();
+        $name="";
+        $id="";
+        $checkedit="asdsad";
+        foreach($getcategorypdca as $value)
+        {
+            $name=$value['Indicator_name'];
+            $id=$value['Indicator_id'];
+        }
+            return view('category3/indicator2-2',compact('factor','pdca','per1','name','id','checkedit'));
         }      
     }
     public function addindicator3_3()
@@ -253,11 +290,21 @@ class AJController extends Controller
         ->where('pdca.indicator_id',3.3)
         ->where('pdca.target','!=',null)
         ->get();
+        $getcategorypdca=defaulindicator::where('id',7)
+        ->get();
+        $name="";
+        $id="";
+        $checkedit="asdsad";
+        foreach($getcategorypdca as $value)
+        {
+            $name=$value['Indicator_name'];
+            $id=$value['Indicator_id'];
+        }
         if(count($in3_3)===0){
             return view('AJ/add3_3',compact('pdca','per1'));
         }
         else{
-            return view('category3/perfoment3_3',compact('in3_3','pdca','per1','inc'));
+            return view('category3/perfoment3_3',compact('in3_3','pdca','per1','inc','name','id','checkedit'));
         }
             
     }
@@ -526,7 +573,8 @@ class AJController extends Controller
             return view('AJ/addgraduate',compact('get','getinfo','getyear'));
         }
         else{
-            return view('category3/graduatesqty',compact('get','getinfo','getyear','getinfo2','gropby'));
+            $checkedit="asdasd";
+            return view('category3/graduatesqty',compact('get','getinfo','getyear','getinfo2','gropby','checkedit'));
         }
            
              
@@ -594,7 +642,8 @@ class AJController extends Controller
             
         }   
         else{
-            return view('category3/resignation',compact('get','getinfo','getyear','getinfo2','gropby','re'));
+            $checkedit="asdasd";
+            return view('category3/resignation',compact('get','getinfo','getyear','getinfo2','gropby','re','checkedit'));
         }      
     }
 }

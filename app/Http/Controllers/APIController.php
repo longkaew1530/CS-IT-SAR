@@ -658,7 +658,7 @@ class APIController extends Controller
         $check=indicator1_1::where('year_id',session()->get('year_id'))
         ->where('course_id',session()->get('usercourse'))
         ->get();
-        if(isset($check)){
+        if($check!="[]"){
             $data=indicator1_1::find($check[0]['id']);
              if($request->name=="result1"){
                 $data['result1']=$request->value;
@@ -672,22 +672,33 @@ class APIController extends Controller
               else if($request->name=="result4"){
                 $data['result4']=$request->value;
              }
+             else if($request->name=="result5"){
+                $data['result5']=$request->value;
+             }
              $data->save();
         }
         else{
             $data=new indicator1_1;
             if($request->name=="result1"){
               $data['result1']=$request->value;
+              
             }
             else if($request->name=="result2"){
               $data['result2']=$request->value;
+             
             }
             else if($request->name=="result3"){
               $data['result3']=$request->value;
+            
            }
             else if($request->name=="result4"){
               $data['result4']=$request->value;
+          
            }
+           else if($request->name=="result5"){
+            $data['result5']=$request->value;
+
+         }
            $data['year_id']=session()->get('year_id');
            $data['course_id']=session()->get('usercourse');
            $data->save();

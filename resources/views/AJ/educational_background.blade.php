@@ -63,9 +63,9 @@
       <thead>
         <tr>
           <th width="5%">ที่</th>
-          <th width="5%">ปี</th>
-          <th width="15%">วุฒิการศึกษา</th>
-          <th width="15%">สาขา</th>
+          <th width="13%">ปีที่สำเร็จการศึกษา</th>
+          <th width="10%">วุฒิการศึกษา</th>
+          <th width="20%">สาขา</th>
           <th width="30%">สถาบันการศึกษา</th>
           <th width="5%">แก้ไข</th>
           <th width="5%">ลบ</th>

@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="box box-warning marginl">
-<div class="box-header" id="exportContent1">
+<div class="box-header" >
 <h1 class="box-title">{{$name}} (ตัวบ่งชี้ที่ {{$id}})</h1>
               <br>
               <ins>เกณฑ์การประเมิน</ins>

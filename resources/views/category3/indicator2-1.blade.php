@@ -3,7 +3,7 @@
 @section('content')
 <div class="box box-warning marginl">
 <div class="box-header">
-<h3><b><li>คุณภาพบัณฑิตตามกรอบมาตรฐานคุณวุฒิระดับอุดมศึกษาแห่งชาติ (ตัวบ่งชี้ที่ 2.1) <a href="/getindicator2_1/{{$pdca[0]['Indicator_id']}}" class="btn btn-warning fr "><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a></li></b></h3>
+<h3><b><li>คุณภาพบัณฑิตตามกรอบมาตรฐานคุณวุฒิระดับอุดมศึกษาแห่งชาติ (ตัวบ่งชี้ที่ 2.1) @if($pdca!="[]"&&$checkedit!="")<a href="/getindicator2_1/{{$pdca[0]['Indicator_id']}}" class="btn btn-warning fr "><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>@endif</li></b></h3>
 
             <div class="box-body">
               <table class="table table-bordered mt-1">
@@ -47,8 +47,8 @@
                   @endif
                   <th width="15%" class="text-center">คะแนนอิงเกณฑ์ สกอ.</th>
                 </tr>
+                @if($pdca!="[]")
                 @foreach($pdca as $row)
-                @if($row['target']!="")
                 <tr>
                   <td rowspan="2" >ตัวบ่งชี้ที่ {{$row['Indicator_id']." ".$row['Indicator_name']}}</td>           
                   <td rowspan="2" class="text-center">{{$row['target']}}</td>
@@ -64,8 +64,24 @@
                   @endif  
                 </tr>
                 <tr>
-                @endif
                 @endforeach
+                @else
+                <tr>
+                  <td rowspan="2" >ตัวบ่งชี้ที่ {{$id}} {{$name}}</td>           
+                  <td rowspan="2" class="text-center"></td>
+                  @if($per1!=null)
+                    <td class="text-center"></td>
+                  @endif  
+                  <td rowspan="2" class="text-center"></td>
+                  <td rowspan="2" class="text-center"></td>
+                </tr>
+                <tr>
+                @if($per1!=null)
+                    <td class="text-center"></td>
+                  @endif  
+                </tr>
+                <tr>
+                @endif
               </tbody></table>
             </div>
               </div>

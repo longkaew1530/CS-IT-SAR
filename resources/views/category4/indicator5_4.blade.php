@@ -43,14 +43,14 @@
                         <?php $getcount=count($value->indicator5_4);?>
                                 @if($getcount!=0)
                                 @foreach($value->indicator5_4 as $row)
-                                    <a href="/getindicator5_4/{{$row['id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i></a>                                                                  
+                                @if($checkedit)<a href="/getindicator5_4/{{$row['id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i></a> @endif                                                                 
                                         @foreach($row->doc_indicator5_4 as $row1)
                                         -{{$row1['doc_file']}}
                                         <br>
                                         @endforeach
                                  @endforeach
                                 @else
-                                <a href="/addindicator5-4/{{$value['id']}}" class="btn btn-success fr ml-1"><i class='fa fa-plus'></i></a>
+                                @if($checkedit)<a href="/addindicator5-4/{{$value['id']}}" class="btn btn-success fr ml-1"><i class='fa fa-plus'></i></a>@endif
                                 @endif
                         </td>
                         
@@ -87,11 +87,7 @@
               </tbody></table>
 </div>
 <div class="box-body">
-             @if(isset($inc[0]['target']))
-            <a href="/getself_assessment_results2/5.4" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>
-            @else
-            <a href="/getself_assessment_results/5.4" class="btn btn-success fr ml-1"><i class='fa fa-plus'></i> เพิ่ม</a>
-            @endif
+
             <ins>ผลการประเมินตนเอง</ins>
             <table class="table table-bordered text-center">
                 <tbody><tr>
@@ -104,8 +100,9 @@
                   @endif
                   <th width="20%">คะแนนอิงเกณฑ์ สกอ.</th>
                 </tr>
+                @if($inc!="[]")
                 @foreach($inc as $row)
-                @if($row['target']!="")
+                
                 <tr>
                   <td rowspan="2">ตัวบ่งชี้ที่ {{$row['Indicator_id']." ".$row['Indicator_name']}}</td>           
                   <td rowspan="2">{{$row['target']}}</td>
@@ -113,7 +110,9 @@
                     <td >{{$row['performance1']}}</td>
                   @endif  
                   <td rowspan="2">{{$row['performance3']}}</td>
-                  <td rowspan="2">{{$row['score']}}</td>
+                  <td rowspan="2">
+                  @if($checkedit!="")<a href="/getself_assessment_results2/5.4" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>@endif
+                  {{$row['score']}}</td>
                 </tr>
                 <tr>
                 @if($per1!=null)
@@ -121,8 +120,24 @@
                   @endif  
                 </tr>
                 <tr>
-                @endif
                 @endforeach
+                @else
+                <tr>
+                  <td rowspan="2">ตัวบ่งชี้ที่ {{$id}} {{$name}}</td>           
+                  <td rowspan="2"></td>
+                  @if($per1!=null)
+                    <td ></td>
+                  @endif  
+                  <td rowspan="2"></td>
+                  <td rowspan="2">@if($checkedit!="")<a href="/getself_assessment_results/5.4" class="btn btn-success fr ml-1"><i class='fa fa-plus'></i> เพิ่ม</a>@endif</td>
+                </tr>
+                <tr>
+                @if($per1!=null)
+                    <td ></td>
+                  @endif  
+                </tr>
+                <tr>
+                @endif
               </tbody></table>
             </div>
 </div>

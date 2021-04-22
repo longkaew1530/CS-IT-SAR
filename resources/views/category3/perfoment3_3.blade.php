@@ -5,7 +5,7 @@
 <div class="box-header">
 </div>
             <div class="box-body">
-            <a href="/getindicator3_3/{{$inc[0]['Indicator_id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>
+            @if($inc!="[]"&&$checkedit!="")<a href="/getindicator3_3/{{$inc[0]['Indicator_id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>@endif
             <ins>ผลการดำเนินงาน</ins>
               <table class="table table-bordered " >
                 <tbody><tr>
@@ -36,6 +36,7 @@
                   <th width="20%" class="text-center">ผลการดำเนินงาน</th>
                   <th width="20%" class="text-center">คะแนนอิงเกณฑ์ สกอ.</th>
                 </tr>
+                @if($inc!="[]")
                 @foreach($inc as $key =>$row )
                 <tr>
                   <td>ตัวบ่งชี้ที่{{$row['Indicator_id']." ".$row['Indicator_name']}}</td>             
@@ -45,6 +46,15 @@
                 </tr>
                 <tr>
                 @endforeach
+                @else
+                <tr>
+                  <td>ตัวบ่งชี้ที่ {{$id}} {{$name}}</td>             
+                  <td class="text-center"></td>
+                  <td class="text-center"></td>
+                  <td class="text-center"></td>
+                </tr>
+                <tr>
+                @endif
               </tbody></table>
             </div>
 </div>

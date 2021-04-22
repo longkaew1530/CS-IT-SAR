@@ -69,7 +69,6 @@ class CategoryController extends Controller
         ->where('users.user_course',session()->get('usercourse'))
         ->where('course_responsible_teacher.year_id',session()->get('year_id'))
         ->get();
-        
          ////ดึงสาขาวิชาที่จบของอาจารย์ประจำหลักสูตร
          $tc_course= User::leftjoin('course_teacher','users.id','=','course_teacher.user_id')
          ->where('users.user_course',session()->get('usercourse'))
@@ -94,47 +93,100 @@ class CategoryController extends Controller
          $get2=0;
          $get3=0;
          $get4=0;
-         foreach($getresult as $value){
-             $get1=$value['result1'];
-             $get2=$value['result2'];
-             $get3=$value['result3'];
-             $get4=$value['result4'];
+         $get5=0;
+         $result1=0;
+         $result2=0;
+         $result3=0;
+         $result4=0;
+         $result5=0;
+         $result6=0;
+         $result7=0;
+         $result8=0;
+         $result9=0;
+         $result10=0;
+         if($getresult!="[]"){
+            foreach($getresult as $value){
+                $get1=$value['result1'];
+                $get2=$value['result2'];
+                $get3=$value['result3'];
+                $get4=$value['result4'];
+                $get5=$value['result5'];
+            }
+            if($get1==2){
+               $result1=1;
+               $result2=0;
+            }
+            else if($get1==1){
+               $result1=0;
+               $result2=1;
+            }
+            else{
+                $result1=0;
+                $result2=0;
+            }
+           // ----------
+            if($get2==2){
+               $result3=1;
+               $result4=0;
+            }
+            else if($get2==1){
+                $result3=0;
+                $result4=1;
+             }
+             else{
+                 $result3=0;
+                 $result4=0;
+             }
+           // ----------
+            if($get3==2){
+               $result5=1;
+               $result6=0;
+            }
+            else if($get3==1){
+                $result5=0;
+                $result6=1;
+             }
+             else{
+                 $result5=0;
+                 $result6=0;
+             }
+             // ----------
+            if($get4==2){
+               $result7=1;
+               $result8=0;
+            }
+            else if($get4==1){
+                $result7=0;
+                $result8=1;
+             }
+             else{
+                 $result7=0;
+                 $result8=0;
+             }
+
+            if($get5==2){
+                $result9=1;
+                $result10=0;
+             }
+             else if($get5==1){
+                $result9=0;
+                $result10=1;
+             }
+             else{
+                 $result9=0;
+                 $result10=0;
+             }
          }
-         if($get1==1){
-            $result1=1;
-            $result2=0;
-         }
-         else{
-            $result1=0;
-            $result2=1;
-         }
-        // ----------
-         if($get2==1){
-            $result3=1;
-            $result4=0;
-         }
-         else{
-            $result3=0;
-            $result4=1;
-         }
-        // ----------
-         if($get3==1){
-            $result5=1;
-            $result6=0;
-         }
-         else{
-            $result5=0;
-            $result6=1;
-         }
-          // ----------
-         if($get4==1){
-            $result7=1;
-            $result8=0;
-         }
-         else{
-            $result7=0;
-            $result8=1;
-         }
+         $getcategorypdca=defaulindicator::where('id',1)
+        ->get();
+        $name="";
+        $id="";
+        foreach($getcategorypdca as $value)
+        {
+            $name=$value['Indicator_name'];
+            $id=$value['Indicator_id'];
+        }
+        $checkedit="asdsad";
          ////ดึงผลการประเมินตนเอง ตัวบ่งชี้ที่ 1.1
         $inc= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
@@ -156,7 +208,7 @@ class CategoryController extends Controller
             $checkpass=false;
         }
         return view('category/indicator1-1',compact('c','count','nameteacher'
-        ,'educ_bg','y','checkpass','checknotpass','tc_course','instructor','specialinstructor','inc','result1','result2','result3','result4','result5','result6','result7','result8'));
+        ,'educ_bg','y','checkpass','checknotpass','checkedit','id','name','tc_course','instructor','specialinstructor','inc','result1','result2','result3','result4','result5','result6','result7','result8','result9','result10'));
     }
     public function category1()
     {
@@ -219,10 +271,12 @@ class CategoryController extends Controller
          ->get();
         
          ////ดึงผลการประเมินตนเอง ตัวบ่งชี้ที่ 1.1
-        $inc= Tps::leftjoin('indicator','tps.indicator_id','=','indicator.indicator_id')
-        ->where('tps.course_id',session()->get('usercourse'))
-        ->where('tps.year_id',session()->get('year_id'))
-        ->get();
+         $inc= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+         ->where('pdca.course_id',session()->get('usercourse'))
+         ->where('pdca.year_id',session()->get('year_id'))
+         ->where('pdca.indicator_id',1.1)
+         ->get();
+         $per="asdasd";
          foreach ($educ_bg as $key => $value){
             $value->educational_background->first(); 
          }
@@ -238,7 +292,7 @@ class CategoryController extends Controller
             $checkpass=false;
         }
         return view('category/category1',compact('c','count','nameteacher'
-        ,'educ_bg','y','checkpass','checknotpass','tc_course','instructor','specialinstructor','inc','course'));
+        ,'educ_bg','y','checkpass','checknotpass','tc_course','instructor','specialinstructor','inc','course','per'));
     }
     public function indicator4_1($id)
     {
@@ -344,14 +398,24 @@ class CategoryController extends Controller
         ->get();
         session()->put('result',3);
         ///ที่มีวุติปริญญาเอก
-        $B=($counteb_name*100)/$count;
+        $B=0;
+        $C=0;
+        $E=0;
+        if($count!=0){
+            $B=($counteb_name*100)/$count;
+        }
+        
         $qty1=($B*5)/20;
         //ที่มีตำแหน่งทางวิชาการ
         $A=$countposition1+$countposition2+$countposition3;
+        if($count!=0){
         $C=($A*100)/$count;
+        }
         $qty2=($C*5)/60;
         ///ผลงานทางวิชาการ
+        if($count!=0){
         $E=($countcate*100)/$count;
+        }
         $qty3=($E*5)/20;
         if($qty1>5){
             $qty1=5;
@@ -366,12 +430,13 @@ class CategoryController extends Controller
         ->get();
         $name="";
         $id="";
+        $checkedit="asdasd";
         foreach($getcategorypdca as $value)
         {
             $name=$value['Indicator_name'];
             $id=$value['Indicator_id'];
         }
-        return view('category/indicator4-2',compact('category_re','count','counteb_name','countposition1','countposition2','countposition3'
+        return view('category/indicator4-2',compact('checkedit','category_re','count','counteb_name','countposition1','countposition2','countposition3'
                     ,'cate','qty1','B','qty2','C','qty3','E','inc','id','name'));
     }
     public function indicator4_3()
@@ -385,6 +450,8 @@ class CategoryController extends Controller
         ->where('pdca.indicator_id',4.3)
         ->where('pdca.target','!=',null)
         ->get();
-        return view('category/indicator4-3',compact('in4_3','inc'));
+        $checkedit="asdsad";
+        
+        return view('category/indicator4-3',compact('in4_3','inc','checkedit'));
     }
 }

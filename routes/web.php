@@ -39,6 +39,7 @@ Route::get('/addcourse_responsible_teacher', 'DashboardController@index22');
 /////อาจารย์
 Route::get('/educational_background', 'AJController@educational_background');
 Route::get('/research_results', 'AJController@research_results');
+Route::get('/addpastperformance', 'AJController@past_performance');
 Route::get('/pdca/{id}', 'AJController@addpdca');
 Route::get('/addindicator4-3/{id}', 'AJController@add4_3');
 Route::get('/addindicator3-3', 'AJController@addindicator3_3');
@@ -74,6 +75,11 @@ Route::get('/download', 'ReportController@download');
 Route::get('/instructor', 'ReportController@instructor');
 Route::get('/performance_summary', 'ReportController@performance_summary');
 Route::get('/course_overview', 'ReportController@course_overview');
+Route::get('/showcategory/{id}', 'ReportController@showcategory');
+
+////แสดงหมวด
+Route::get('/category2', 'ShowCategoryController@category2');
+Route::get('/showindicator/{id}', 'ShowCategoryController@showindicator');
 /////หมวด1-2
 Route::get('/category1/indicator1-1', 'CategoryController@indicator1_1');
 Route::get('/category/category1', 'CategoryController@category1');

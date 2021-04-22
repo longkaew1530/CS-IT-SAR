@@ -1,8 +1,9 @@
 @extends('layout.admid_layout')
 
 @section('content')
-<div class="box box-warning marginl">
-<div class="box-header" id="exportContent">
+
+<div class="box box-warning marginl" id="exportContent">
+<div class="box-header" >
               <h1 class="box-title">หมวดที่ 1 ข้อมูลทั่วไป</h1>
               @foreach($course as $key =>$value)
               <br><b>หลักสูตร{{$value['course_name']." สาขา".$value['branch']." หลักสูตรปรับปรุง พ.ศ. ".$value['update_course']}} ระดับปริญญาตรี</b><br>
@@ -59,7 +60,7 @@
                 </div>
 
                 <br><br>@include('category/indi1-1show',['c','count','nameteacher'
-                  ,'educ_bg','y','checkpass','checknotpass','tc_course','instructor','specialinstructor','inc','course'])
+                  ,'educ_bg','y','checkpass','checknotpass','tc_course','instructor','specialinstructor','inc','course','checkedit'])
               </div>
               </div>
 </div>
@@ -95,4 +96,55 @@
   margin-top:30px;
 }
 </style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script type="text/javascript">
+ $(document).ready(function(){      
+var i=1;  
+$('#add').click(function(){  
+var id = $("#add").attr("data-id")
+// i++;  
+$('#show'+id).append('<tr><td>'+id+'</td></tr>');  
+});  
+$(document).on('click', '.btn_remove', function(){  
+var button_id = $(this).attr("id");   
+$('#row'+button_id+'').remove();  
+}); 
+ }); 
+
+ function Export2Word(element, filename = ''){
+    var preHtml = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Export HTML To Doc</title></head><body>";
+    var postHtml = "</body></html>";
+    var html = preHtml+document.getElementById(element).innerHTML+postHtml;
+
+    var blob = new Blob(['\ufeff', html], {
+        type: 'application/msword'
+    });
+    
+    // Specify link url
+    var url = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(html);
+    
+    // Specify file name
+    filename = filename?filename+'.doc':'document.doc';
+    
+    // Create download link element
+    var downloadLink = document.createElement("a");
+
+    document.body.appendChild(downloadLink);
+    
+    if(navigator.msSaveOrOpenBlob ){
+        navigator.msSaveOrOpenBlob(blob, filename);
+    }else{
+        // Create a link to the file
+        downloadLink.href = url;
+        
+        // Setting the file name
+        downloadLink.download = filename;
+        
+        //triggering the function
+        downloadLink.click();
+    }
+    
+    document.body.removeChild(downloadLink);
+}
+</script>
 @endsection

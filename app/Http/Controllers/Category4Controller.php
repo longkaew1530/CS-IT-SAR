@@ -10,6 +10,7 @@ use App\category4_teaching_quality;
 use App\category4_effectiveness;
 use App\PDCA;
 use App\category4_newteacher;
+use App\defaulindicator;
 use App\category4_activity;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
@@ -93,8 +94,18 @@ class Category4Controller extends Controller
           else if($resultavg>=81&&$resultavg<=100){
             $resultavg2=5;
           }
+          $getcategorypdca=defaulindicator::where('id',14)
+          ->get();
+          $name="";
+          $id="";
+          $checkedit="asdsad";
+          foreach($getcategorypdca as $value)
+          {
+              $name=$value['Indicator_name'];
+              $id=$value['Indicator_id'];
+          }
         session()->put('resultavg',$resultavg2);
-        return view('category4/indicator5_4',compact('indi','perfor','result','resultpass1_5','resultpass1_5persen','resultpassall','inc','per1'));
+        return view('category4/indicator5_4',compact('indi','checkedit','id','name','perfor','result','resultpass1_5','resultpass1_5persen','resultpassall','inc','per1'));
     }
     public function teachingquality()
     {
