@@ -4,7 +4,7 @@
 <div class="box box-warning marginl">
 <div class="box-header">
             <div class="box-body">
-            <a href="/getcourse_results" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>
+            @if($checkedit!="")<a href="/getcourse_results" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>@endif
             <b><h4>สรุปผลรายวิชาที่เปิดสอนในภาค/ปีการศึกษา</h4></b>
               <table class="table table-bordered" >
                 <tbody><tr>
@@ -25,6 +25,7 @@
                 <th width="10%" class="text-center" rowspan="2">สอบผ่าน</th>
                 </tr>
                 <tr></tr>
+                @if($ccr!="[]")
                 @foreach($ccr as $key=>$value)
                 @if($key>0)
               <tr>
@@ -44,6 +45,23 @@
               </tr>
               @endif
               @endforeach
+              @else
+              <tr>
+                  <td>
+                  -
+                  </td>
+                  <td class="text-center">-</td>
+                  <td class="text-center">-</td>
+                  <td class="text-center">-</td>
+                  <td class="text-center">-</td>
+                  <td class="text-center">-</td>
+                  <td class="text-center">-</td>
+                  <td class="text-center">-</td>
+                  <td class="text-center">-</td>
+                  <td class="text-center">-</td>
+                  <td class="text-center">-</td>
+              </tr>
+              @endif
               </tbody></table>
 </div></div>
               @endsection

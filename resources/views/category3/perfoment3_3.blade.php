@@ -3,8 +3,8 @@
 @section('content')
 <div class="box box-warning marginl">
 <div class="box-header">
-</div>
             <div class="box-body">
+            <h3 class="box-title">ผลที่เกิดกับนักศึกษา (ตัวบ่งชี้ 3.3)</h3><br><br>
             @if($inc!="[]"&&$checkedit!="")<a href="/getindicator3_3/{{$inc[0]['Indicator_id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>@endif
             <ins>ผลการดำเนินงาน</ins>
               <table class="table table-bordered " >
@@ -12,6 +12,7 @@
                   <th width="60%" class="text-center">ประเด็นอธิบาย</th>
                   <th width="15%" class="text-center">หลักฐานอ้างอิง</th>
                 </tr>
+                @if($in3_3!="[]")
                 @foreach($in3_3 as $value)
               <tr>
                 <td><b>{{$value['category_retention_rate']}}</b><br>
@@ -25,6 +26,14 @@
                 </td>
               </tr>
               @endforeach
+              @else
+              <tr>
+                <td>-
+                </td>
+                <td>-
+                </td>
+              </tr>
+              @endif
               </tbody></table>
               </div>
         <div class="box-body">
@@ -56,6 +65,8 @@
                 <tr>
                 @endif
               </tbody></table>
+            </div>
+            </div>
             </div>
 </div>
 <style>

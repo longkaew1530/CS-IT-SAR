@@ -15,27 +15,34 @@ class Category7Controller extends Controller
         $querystrength=category7_strength::where('course_id',session()->get('usercourse'))
         ->where('year_id',session()->get('year_id'))
         ->get();
-        return view('category7/strength',compact('querystrength'));
+        $checkedit="asdasd";
+        return view('category7/strength',compact('querystrength','checkedit'));
     }
     public function development_proposal()
     {
         $querydevelopment_proposal=category7_development_proposal_detail::where('course_id',session()->get('usercourse'))
         ->where('year_id',session()->get('year_id'))
         ->get();
-
+        $checkedit="asdasd";
         $year=session()->get('year');
-        return view('category7/development_proposal',compact('querydevelopment_proposal'));
+        return view('category7/development_proposal',compact('querydevelopment_proposal','checkedit'));
     }
     public function newstrength()
     {
         $querynewstrength=category7_newstrength::where('course_id',session()->get('usercourse'))
         ->where('year_id',session()->get('year_id'))
         ->get();
-        return view('category7/newstrength',compact('querynewstrength'));
+        $checkedit="asdsad";
+        return view('category7/newstrength',compact('querynewstrength','checkedit'));
     }
     public function strengths_summary()
     {
-        $querynewstrength=composition::all();
-        return view('category7/strengths_summary',compact('querynewstrength'));
+        $querynewstrength=composition::where('id','!=',1)
+        ->get();
+        $getnewstrength=category7_strengths_summary::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        $checkedit="asdsad";
+        return view('category7/strengths_summary',compact('querynewstrength','getnewstrength','checkedit'));
     }
 }

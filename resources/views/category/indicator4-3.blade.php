@@ -19,7 +19,7 @@
                   <th width="60%" class="text-center">ประเด็นอธิบาย</th>
                   <th width="15%" class="text-center">หลักฐานอ้างอิง</th>
                 </tr>
-                @if($in4_3!="")
+                @if($in4_3!="[]")
                 @foreach($in4_3 as $value)
               <tr>
                 <td><b>{{$value['category_retention_rate']}}</b><br>
@@ -33,6 +33,14 @@
                 </td>
               </tr>
               @endforeach
+              @else
+              <tr>
+                <td>-
+                </td>
+                <td>
+                 -
+                </td>
+              </tr>
               @endif
               </tbody></table>
             </div> 
@@ -41,18 +49,18 @@
          <br><b><ins>ผลการประเมินตนเอง</ins></b>
               <table class="table table-bordered">
                 <tbody><tr>
-                  <th width="30%">ตัวบ่งชี้</th>
-                  <th width="20%">เป้าหมาย</th>
-                  <th width="20%">ผลการดำเนินงาน</th>
-                  <th width="20%">คะแนนอิงเกณฑ์ สกอ.</th>
+                  <th width="30%" class="text-center">ตัวบ่งชี้</th>
+                  <th width="20%" class="text-center">เป้าหมาย</th>
+                  <th width="20%" class="text-center">ผลการดำเนินงาน</th>
+                  <th width="20%" class="text-center">คะแนนอิงเกณฑ์ สกอ.</th>
                 </tr>
                 @if($inc!="")
                 @foreach($inc as $key =>$row )
                 <tr>
-                  <td>ตัวบ่งชี้ที่{{$row['Indicator_id']." ".$row['Indicator_name']}}</td>             
-                  <td>{{$row['target']}}</td>
-                  <td>{{$row['performance3']}}</td>
-                  <td>            
+                  <td >ตัวบ่งชี้ที่{{$row['Indicator_id']." ".$row['Indicator_name']}}</td>             
+                  <td class="text-center">{{$row['target']}}</td>
+                  <td class="text-center">{{$row['performance3']}}</td>
+                  <td class="text-center">            
                   
                   {{$row['score']}}</td>
                 </tr>

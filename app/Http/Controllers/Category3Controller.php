@@ -68,11 +68,11 @@ class Category3Controller extends Controller
         ->groupBy('year_add')
         ->get();
         }
-       
+       $checkedit="asdas";
         $getyear=category3_graduate::where('course_id',session()->get('usercourse'))
         ->where('year_add',session()->get('year'))
         ->get();
-        return view('category3/graduatesqty',compact('get','getinfo','getyear','getinfo2','gropby'));
+        return view('category3/graduatesqty',compact('get','getinfo','getyear','getinfo2','gropby','checkedit'));
     }
     public function resignation()
     {
@@ -92,7 +92,8 @@ class Category3Controller extends Controller
         $re=category3_resignation::where('course_id',session()->get('usercourse'))
         ->where('year_present',session()->get('year'))
         ->get();
-        return view('category3/resignation',compact('get','getinfo','getyear','getinfo2','gropby','re'));
+        $checkedit="asd";
+        return view('category3/resignation',compact('get','getinfo','getyear','getinfo2','gropby','re','checkedit'));
     }
     public function Studentsinfo()
     {
@@ -107,7 +108,8 @@ class Category3Controller extends Controller
         ->where('year_id',session()->get('year_id'))
         ->get();
         $countnumber=count($getinfo);
-        return view('category3/infostudents',compact('get','getinfo','getqty','countnumber'));
+        $checkedit="klkl";
+        return view('category3/infostudents',compact('get','getinfo','getqty','countnumber','checkedit'));
     }
     public function Impactfactors()
     {

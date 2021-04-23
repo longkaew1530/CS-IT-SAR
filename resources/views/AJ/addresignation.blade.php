@@ -68,10 +68,9 @@
                   @for($y=$get[0]['year_add'];$y<=$yearname; $y++)
                   <?php $qtyavgsuccess=0 ?>
                   <?php $data=$getinfo->where('year_add',$y); ?>
+                  <?php $check1=0; ?>
                   @foreach($data as $t)
-                  @if($t['reported_year_qty']==0)
-                  <?php $check1=0 ?>
-                  @else
+                  @if($t['reported_year_qty']!=0)
                   <?php $check1=1 ?>
                   @endif
                   @endforeach

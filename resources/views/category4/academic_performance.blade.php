@@ -5,7 +5,7 @@
 <div class="box-header">
             <div class="box-body">
             
-                            <a href="/getacademic_performance" class="btn btn-warning fr"><i class='fa fas fa-edit'></i></a>
+                            @if($checkedit!="")<a href="/getacademic_performance" class="btn btn-warning fr"><i class='fa fas fa-edit'></i></a>@endif
                             <h4>การวิเคราะห์รายวิชาที่มีผลการเรียนที่ไม่ปกติ</h4></b>
             <table class="table table-bordered" >
                 <tbody><tr>
@@ -16,6 +16,7 @@
                   <th width="10%" class="text-center">เหตุที่ทำให้ผิดปกติ</th>
                   <th width="10%" class="text-center">มาตรการแก้ไข</th>
                 </tr>
+                @if($academic!="[]")
                 @foreach($academic as $value)
               <tr>
                 <td>{{$value['code_name']}}
@@ -32,6 +33,22 @@
                 </td>
               </tr>
               @endforeach
+              @else
+              <tr>
+                <td>-
+                </td>
+                <td>-
+                </td>
+                <td>-
+                </td>
+                <td>-
+                </td>
+                <td>-
+                </td>
+                <td>-
+                </td>
+              </tr>
+              @endif
               </tbody></table>
                                </div>
 </div></div>

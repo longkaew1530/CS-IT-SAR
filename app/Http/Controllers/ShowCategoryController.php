@@ -746,11 +746,46 @@ class ShowCategoryController extends Controller
         return view('category4/indicator5_4',compact('checkedit','id','name','indi','perfor','result','resultpass1_5','resultpass1_5persen','resultpassall','inc','per1'));
        }
        if($id=="6.1"){
-          
+        $getcategorypdca=indicator::where('Indicator_id',6.1)
+        ->where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        $pdca=PDCA::leftjoin('indicator','pdca.Indicator_id','=','indicator.indicator_id')
+        ->where('pdca.Indicator_id',6.1)
+        ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.year_id',session()->get('year_id'))
+        ->get();
+        $getcourse=Course::where('course_id',session()->get('usercourse'))
+        ->get();
+        $name="";
+        $id="";
+        ////ดึงผลการประเมินตนเอง ตัวบ่งชี้ที่ 1.1
+        $inc= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+        ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.year_id',session()->get('year_id'))
+        ->where('pdca.indicator_id',6.1)
+        ->where('pdca.target','!=',null)
+        ->get();
+        if(count($inc)==0){
+            $inc="";
+        }
+        foreach($getcategorypdca as $value)
+        {
+            $name=$value['Indicator_name'];
+            $id=$value['Indicator_id'];
+        }
+        $checkedit="";
+        return view('category3/showpdca',compact('pdca','name','id','getcourse','getcategorypdca','inc','checkedit'));
            }
        
            if($id=="คุณภาพการสอน"){
-              
+                $teachqua=category4_teaching_quality::where('course_id',session()->get('usercourse'))
+                ->where('year_id',session()->get('year_id'))
+                ->get();
+                $teachquagroup=category4_teaching_quality::groupBy('student_year')
+                ->get();
+                $checkedit="";
+                return view('category4/teaching_quality',compact('teachqua','teachquagroup','checkedit'));
                }
                if($id=="ปัจจัยที่มีผลกระทบต่อจำนวนนักศึกษา"){
                 $factor=category3_GD::where('category_factor','ปัจจัยที่มีผลกระทบต่อจำนวนนักศึกษา')
@@ -770,47 +805,108 @@ class ShowCategoryController extends Controller
                     return view('category3/Impactgraduation',compact('factor','checkedit'));
                        }
 
-                       if($id=="การประเมินจากผู้ที่สำเร็จการศึกษา"){
-                           
+                       if($id=="สรุปการประเมินหลักสูตร"){
+                        $assessmentsummary=category6_assessment_summary::where('course_id',session()->get('usercourse'))
+                        ->where('category_assessor','การประเมินจากผู้ที่สำเร็จการศึกษา')
+                        ->where('year_id',session()->get('year_id'))
+                        ->get();
+                        $assessmentsummary2=category6_assessment_summary::where('course_id',session()->get('usercourse'))
+                            ->where('category_assessor','การประเมินจากผู้ที่มีส่วนเกี่ยวข้อง')
+                            ->where('year_id',session()->get('year_id'))
+                            ->get();
+                        $checkedit="";
+                        return view('category6/assessment_summary',compact('assessmentsummary','assessmentsummary2','checkedit'));
                            }
-                           if($id=="การประเมินจากผู้ที่มีส่วนเกี่ยวข้อง"){
-                              
-                               }
-                               if($id=="สรุปผลรายวิชาที่เปิดสอนในภาค/ปีการศึกษา"){
-                                   
+                               if($id=="สรุปผลรายวิชาที่เปิดสอน"){
+                                $ccr=category4_course_results::where('course_id',session()->get('usercourse'))
+                                ->where('year_id',session()->get('year_id'))
+                                ->get();
+                                $checkedit="";
+                                    return view('category4/course_summary',compact('ccr','checkedit'));
                                    }
                                    if($id=="รายวิชาที่มีผลการเรียนที่ไม่ปกติ"){
-                                       
+                                    $academic=category4_academic_performance::where('course_id',session()->get('usercourse'))
+                                    ->where('year_id',session()->get('year_id'))
+                                    ->get();
+                                    $checkedit="";
+                                    return view('category4/academic_performance',compact('academic','checkedit'));
                                        }
                                        if($id=="รายวิชาที่ไม่ได้เปิดสอน"){
-                                           
+                                        $ccr=category4_notcourse_results::where('course_id',session()->get('usercourse'))
+                                        ->where('year_id',session()->get('year_id'))
+                                        ->get();
+                                        $checkedit="";
+                                        return view('category4/not_course_summary',compact('ccr','checkedit'));
                                            }
                                            if($id=="รายวิชาที่สอนเนื้อหาไม่ครบ"){
-                                               
+                                            $academic=category4_incomplete_content::where('course_id',session()->get('usercourse'))
+                                            ->where('year_id',session()->get('year_id'))
+                                            ->get();
+                                            $checkedit="";
+                                            return view('category4/incomplete_content',compact('academic','checkedit'));
                                                }
                                                if($id=="ประสิทธิผลของกลยุทธ์การสอน"){
-                                                   
+                                                $effec=category4_effectiveness::where('course_id',session()->get('usercourse'))
+                                                ->where('year_id',session()->get('year_id'))
+                                                ->get();
+                                                $checkedit="";
+                                                return view('category4/effectiveness',compact('effec','checkedit'));
                                                    }
                                                    if($id=="การปฐมนิเทศอาจารย์ใหม่"){
-                                                      
+                                                    $th=category4_newteacher::where('course_id',session()->get('usercourse'))
+                                                    ->where('year_id',session()->get('year_id'))
+                                                    ->get();
+                                                    $checkpass=false;
+                                                    foreach($th as $row){
+                                                        if($row['point_out']==1){
+                                                            $checkpass=true;
+                                                        }
+                                                    }
+                                                    $checkedit="";
+                                                    return view('category4/newteacher',compact('th','checkpass','checkedit'));
                                                        }
                                                        if($id=="กิจกรรมการพัฒนาวิชาชีพ"){
-                                                           
+                                                        $activity=category4_activity::where('course_id',session()->get('usercourse'))
+                                                        ->where('year_id',session()->get('year_id'))
+                                                        ->get();
+                                                        $checkedit="";
+                                                        return view('category4/activity',compact('activity','checkedit'));
                                                            }
                                                            if($id=="การบริหารหลักสูตร"){
-                                                              
+                                                            $coursemanage=category5_course_manage::where('course_id',session()->get('usercourse'))
+                                                            ->where('year_id',session()->get('year_id'))
+                                                            ->get();
+                                                            $checkedit="";
+                                                            return view('category5/course_administration',compact('coursemanage','checkedit'));
                                                                }
                                                                if($id=="ข้อคิดเห็น และข้อเสนอแนะ"){
-                                                                   
+                                                                $coursemanage=category6_comment_course::where('course_id',session()->get('usercourse'))
+                                                                ->where('year_id',session()->get('year_id'))
+                                                                ->get();
+                                                                $checkedit="";
+                                                                return view('category6/comment_course',compact('coursemanage','checkedit'));
                                                                    }
                                                                    if($id=="ความก้าวหน้าของการดำเนินงาน"){
-                                                                      
+                                                                    $querystrength=category7_strength::where('course_id',session()->get('usercourse'))
+                                                                    ->where('year_id',session()->get('year_id'))
+                                                                    ->get();
+                                                                    $checkedit="";
+                                                                    return view('category7/strength',compact('querystrength','checkedit'));
                                                                        }
                                                                        if($id=="ข้อเสนอในการพัฒนาหลักสูตร"){
-                                                                           
+                                                                        $querydevelopment_proposal=category7_development_proposal_detail::where('course_id',session()->get('usercourse'))
+                                                                        ->where('year_id',session()->get('year_id'))
+                                                                        ->get();
+                                                                        $checkedit="";
+                                                                        $year=session()->get('year');
+                                                                        return view('category7/development_proposal',compact('querydevelopment_proposal','checkedit'));
                                                                            }
                                                                            if($id=="แผนปฏิบัติการใหม่"){
-                                                                              
+                                                                            $querynewstrength=category7_newstrength::where('course_id',session()->get('usercourse'))
+                                                                            ->where('year_id',session()->get('year_id'))
+                                                                            ->get();
+                                                                            $checkedit="";
+                                                                            return view('category7/newstrength',compact('querynewstrength','checkedit'));
                                                                                }
                                                                                if($id=="ข้อมูลนักศึกษา"){
                                                                                 $get=year_acceptance::where('course_id',session()->get('usercourse'))
@@ -835,7 +931,13 @@ class ShowCategoryController extends Controller
                                                                             return view('category3/infostudents',compact('checkedit','get','getinfo','getqty','countnumber'));
                                                                                    }
                                                                                    if($id=="จุดแข็ง จุดที่ควรพัฒนา"){
-                                                                                       
+                                                                                    $querynewstrength=composition::where('id','!=',1)
+                                                                                    ->get();
+                                                                                    $getnewstrength=category7_strengths_summary::where('course_id',session()->get('usercourse'))
+                                                                                    ->where('year_id',session()->get('year_id'))
+                                                                                    ->get();
+                                                                                    $checkedit="";
+                                                                                    return view('category7/strengths_summary',compact('querynewstrength','getnewstrength','checkedit'));
                                                                                        }
                                                                                        if($id=="จำนวนผู้สำเร็จการศึกษา"){
                                                                                         $get=year_acceptance_graduate::where('course_id',session()->get('usercourse'))

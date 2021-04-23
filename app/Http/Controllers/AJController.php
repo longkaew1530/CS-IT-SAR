@@ -317,7 +317,8 @@ class AJController extends Controller
             return view('AJ/addcourse_results');
         }
         else{
-            return view('category4/course_summary',compact('ccr'));
+            $checkedit="asdasd";
+            return view('category4/course_summary',compact('ccr','checkedit'));
         }
             
     }
@@ -381,11 +382,12 @@ class AJController extends Controller
         $academic=category4_academic_performance::where('course_id',session()->get('usercourse'))
         ->where('year_id',session()->get('year_id'))
         ->get();
+        $checkedit="asdasd";
         if(count($academic)===0){
             return view('AJ/addacademic_performance');
         }
         else{
-            return view('category4/academic_performance',compact('academic'));
+            return view('category4/academic_performance',compact('academic','checkedit'));
         } 
                       
     }
@@ -398,7 +400,8 @@ class AJController extends Controller
             return view('AJ/addnot_offered');
         }
         else{
-            return view('category4/not_course_summary',compact('ccr'));
+            $checkedit="asdasd";
+            return view('category4/not_course_summary',compact('ccr','checkedit'));
         }               
     }
     public function addincomplete_content()
@@ -452,19 +455,14 @@ class AJController extends Controller
     }
     public function addassessment_summary($id)
     {
-        $menuname=indicator::where('id',$id)
-        ->get();
-        $check=category6_assessment_summary::where('category_assessor',$menuname[0]['Indicator_id'])
-        ->get();
-        $assessmentsummary=category6_assessment_summary::where('course_id',session()->get('usercourse'))
-        ->where('year_id',session()->get('year_id'))
-        ->get();
-         if(count($check)===0){
+        if($id=="การประเมินจากผู้ที่สำเร็จการศึกษา"){
+            $menuname="การประเมินจากผู้ที่สำเร็จการศึกษา";
+        }
+        else
+        {
+            $menuname="การประเมินจากผู้ที่มีส่วนเกี่ยวข้อง";
+        }
             return view('AJ/addassessment_summary',compact('menuname'));
-        }
-        else{
-            return view('category6/assessment_summary',compact('assessmentsummary'));
-        }
     }
     public function addstrength()
     {
@@ -517,22 +515,10 @@ class AJController extends Controller
             return view('AJ/addA',compact('getindi','getcateid'));
              
     }
-    public function addstrengths_summary()
+    public function addstrengths_summary($id)
     {
-        $get=composition::all();
-        $check=category7_strengths_summary::where('course_id',session()->get('usercourse'))
-        ->where('year_id',session()->get('year_id'))
-        ->get();
-        $getdata[0]=0;
-        $getdata[1]=0;
-        $getdata[2]=0;
-        $getdata[3]=0;
-        $getdata[4]=0;
-        $getdata[5]=0;
-        foreach($check as $key=>$row){
-                $getdata[$key]=$row['composition_id'];          
-        }
-            return view('AJ/addstrengths_summary',compact('get','getdata'));
+        $get=composition::where('id',$id)->get();
+        return view('AJ/addstrengths_summary',compact('get'));
              
     }
     public function addgraduate()
@@ -590,12 +576,12 @@ class AJController extends Controller
        ->get();
        $teachquagroup=category4_teaching_quality::groupBy('student_year')
        ->get();
-        
+        $checkedit="asdasd";
         if(count($teachqua)===0){
             return view('AJ/addteaching_quality',compact('data'));
         }
         else{
-            return view('category4/teaching_quality',compact('teachqua','teachquagroup'));
+            return view('category4/teaching_quality',compact('teachqua','teachquagroup','checkedit'));
         }
             
              

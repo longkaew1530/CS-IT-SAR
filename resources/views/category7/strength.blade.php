@@ -5,7 +5,6 @@
 <div class="box-header">
             <div class="box-body">
             
-            <a href="/addstrength" class="btn btn-success fr ml-1"><i class='fa fa-plus'></i> เพิ่มข้อมูล</a>
            <h4>ความก้าวหน้าของการดำเนินงานตามแผนที่เสนอในรายงานของปีที่ผ่านมา</h4>
               <table class="table table-bordered" >
                 <tbody><tr>
@@ -15,15 +14,24 @@
                   <th width="20%" class="text-center" >ความสำเร็จของแผน/เหตุผลที่ไม่สามารถดำเนินการไม่สำเร็จ</th>
                 </tr>
                 <tr></tr>
+                @if($querystrength!="[]")
                 @foreach($querystrength as $key=>$value)
               <tr>
                   <td >{{$key+1}}) {{$value['composition']}}</td>
                   <td >{{$value['strength']}}</td>
                   <td >{{$value['should_develop']}}</td>
-                  <td ><a href="/getstrength/{{$value['id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>
+                  <td >@if($checkedit!="")<a href="/getstrength/{{$value['id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>@endif
                   {{$value['development_approach']}}</td>
               </tr>
                 @endforeach
+                @else
+                <tr>
+                  <td >-</td>
+                  <td >-</td>
+                  <td >-</td>
+                  <td >-</td>
+              </tr>
+                @endif
               </tbody></table>
               </div>
 </div></div>

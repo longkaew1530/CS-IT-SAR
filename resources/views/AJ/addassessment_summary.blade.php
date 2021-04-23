@@ -4,11 +4,10 @@
 <div class="box box-warning marginl">
   <div class="box-header">
     <div class="box-body">
-    <a href="/category6/comment_course" class="btn btn-info fr"><i class='fa fa-eye'></i> ดูรายงาน</a>
       <div class="col-sm-2" align="right"></div>
       <div class="col-sm-8" align="center">
       
-        <h3><i class=""></i>{{$menuname[0]['Indicator_name']}}</h3>
+        <h3><i class=""></i>{{$menuname}}</h3>
         <hr>
       </div>
     </div>
@@ -16,7 +15,7 @@
     @csrf
         <div class="col-md-12">
           <div class="box-header col-md-12 col-sm-9 col-xs-12">
-          <input type="hidden" class="form-control" id="category_assessor" name="category_assessor" value="{{$menuname[0]['Indicator_name']}}">
+          <input type="hidden" class="form-control" id="category_assessor" name="category_assessor" value="{{$menuname}}">
             <h3 class="box-title">ข้อวิพากษ์ที่สำคัญจากผลการประเมิน</h3>
           </div>
             <div class="col-md-12 col-sm-9 col-xs-12">

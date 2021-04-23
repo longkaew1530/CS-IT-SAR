@@ -1407,10 +1407,7 @@ class DashboardController extends Controller
         ////สรุปผลการดำเนินงาน
         //// สรุปจุดแข็ง จุดที่ควรพัฒนา และแนวทางการพัฒนา
         $scorestrengths_summary=0;
-        $querynewstrength1=category7_strengths_summary::where('course_id',session()->get('usercourse'))
-        ->where('year_id',session()->get('year_id'))
-        ->where('composition_id',1)
-        ->get();
+
         $querynewstrength2=category7_strengths_summary::where('course_id',session()->get('usercourse'))
         ->where('year_id',session()->get('year_id'))
         ->where('composition_id',2)
@@ -1431,9 +1428,7 @@ class DashboardController extends Controller
         ->where('year_id',session()->get('year_id'))
         ->where('composition_id',6)
         ->get();
-        if($querynewstrength1!="[]"){
-            $scorestrengths_summary++;
-        }
+ 
         if($querynewstrength2!="[]"){
            $scorestrengths_summary++;
        }
@@ -1468,7 +1463,7 @@ class DashboardController extends Controller
         $score5_4result1+$score5_4resultpdca+$scoreteachqua+$scoreccr+$scoreacademic+$scorenot_offered+
         $scoreincomplete_content+$scoreeffec+$scorenewteacher+$scoreactivity+$score6_1result1+$score6_1resultdoc1+$score6_1resultpdca+$scorecoursemanage+
         $scoreassessmentsummary+$scoreassessmentsummary2+$scorecomment_course+$scorestrength+$scoredevelopment_proposal+$scorenewstrength+
-        $scorestrengths_summary)*100)/188;
+        $scorestrengths_summary)*100)/187;
 
 
         $color="";
@@ -1546,10 +1541,10 @@ class DashboardController extends Controller
             return view('dashboard/year',compact('year','getAllyear'));
         }
        else if($user_group==2||$user_group==3){
-        return view('dashboard/dashboard',compact('allcategory','getwork','color'));
+            return view('dashboard/dashboard',compact('allcategory','getwork','color'));
        }
        else{
-        return view('dashboard/dashboard2',compact('allcategory','getwork','color'));
+            return view('dashboard/dashboard2',compact('allcategory','getwork','color'));
        }
     }
     public function index2()

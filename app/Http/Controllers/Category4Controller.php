@@ -30,14 +30,16 @@ class Category4Controller extends Controller
         $ccr=category4_course_results::where('course_id',session()->get('usercourse'))
         ->where('year_id',session()->get('year_id'))
         ->get();
-        return view('category4/course_summary',compact('ccr'));
+        $checkedit="asdasd";
+        return view('category4/course_summary',compact('ccr','checkedit'));
     }
     public function notcoursesummary()
     {
         $ccr=category4_notcourse_results::where('course_id',session()->get('usercourse'))
         ->where('year_id',session()->get('year_id'))
         ->get();
-        return view('category4/not_course_summary',compact('ccr'));
+        $checkedit="asdasd";
+        return view('category4/not_course_summary',compact('ccr','checkedit'));
     }
     public function indicator5_4()
     {
@@ -114,14 +116,16 @@ class Category4Controller extends Controller
        ->get();
        $teachquagroup=category4_teaching_quality::groupBy('student_year')
        ->get();
-        return view('category4/teaching_quality',compact('teachqua','teachquagroup'));
+       $checkedit="asdasd";
+        return view('category4/teaching_quality',compact('teachqua','teachquagroup','checkedit'));
     }
     public function effectiveness()
     {
         $effec=category4_effectiveness::where('course_id',session()->get('usercourse'))
         ->where('year_id',session()->get('year_id'))
         ->get();
-        return view('category4/effectiveness',compact('effec'));
+        $checkedit="asd";
+        return view('category4/effectiveness',compact('effec','checkedit'));
     }
     public function newteacher()
     {
@@ -134,27 +138,31 @@ class Category4Controller extends Controller
                 $checkpass=true;
             }
         }
-        return view('category4/newteacher',compact('th','checkpass'));
+        $checkedit="asd";
+        return view('category4/newteacher',compact('th','checkpass','checkedit'));
     }
     public function activity()
     {
         $activity=category4_activity::where('course_id',session()->get('usercourse'))
         ->where('year_id',session()->get('year_id'))
         ->get();
-        return view('category4/activity',compact('activity'));
+        $checkedit="asd";
+        return view('category4/activity',compact('activity','checkedit'));
     }
     public function academic_performance()
     {
         $academic=category4_academic_performance::where('course_id',session()->get('usercourse'))
         ->where('year_id',session()->get('year_id'))
         ->get();
-        return view('category4/academic_performance',compact('academic'));
+        $checkedit="adasd";
+        return view('category4/academic_performance',compact('academic','checkedit'));
     }
     public function incomplete_content()
     {
         $academic=category4_incomplete_content::where('course_id',session()->get('usercourse'))
         ->where('year_id',session()->get('year_id'))
         ->get();
-        return view('category4/incomplete_content',compact('academic'));
+        $checkedit="asdsa";
+        return view('category4/incomplete_content',compact('academic','checkedit'));
     }
 }

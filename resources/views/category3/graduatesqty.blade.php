@@ -20,7 +20,7 @@
                             <?php $zero=$zero+1 ?>
                       @endif
                     @endforeach
-                    
+                         
                     @if($zero!=0)
                     <?php $getinfo[$key]['check']=1; ?>
                     <?php $yearresult[$i]=$value['year_add'];?>
@@ -43,13 +43,17 @@
                   </tr>
                   <tr></tr>
                   <tr>
-                  <?php $n=0 ?>
+                  <?php $n=0 ;
+                        $data=[];
+                  ?>
                   @for($y=$get[0]['year_add'];$y<=$yearname; $y++)
-                  <?php $data=$getinfo->where('year_add',$y); ?>
+                  <?php $data=$getinfo->where('year_add',$y); 
+                        $countdata=count($data);
+                        $countdata2=intval($countdata)-1; 
+                  ?>
+                  <?php $check1=0; ?>
                   @foreach($data as $t)
-                  @if($t['reported_year_qty']==0)
-                  <?php $check1=0 ?>
-                  @else
+                  @if($t['reported_year_qty']!=0)
                   <?php $check1=1 ?>
                   @endif
                   @endforeach
@@ -57,7 +61,6 @@
                   @continue
                   @endif
                   <?php $data1=$getinfo2->where('year_add',$y)->where('reported_year_qty','!=',0)->first(); ?>
-                            
                             <td style="background-color:#9ddfd3">{{$y}}</td>
                             <td>{{$data1['reported_year_qty']}}</td>
                             <?php $k=0 ?>
@@ -69,6 +72,7 @@
                                 <?php $result=$value['reported_year_qty']*100/$data1['reported_year_qty']; ?> 
                                 <?php  $result2 = sprintf('%.2f',$result); ?>
                                 <?php $getc=count($yearresult); ?>
+                                
                                 <?php $show=0 ?>
                                 @for($ii=0;$ii<$getc;$ii++)
                                 @if($yearresult[$ii]==$value['reported_year'])

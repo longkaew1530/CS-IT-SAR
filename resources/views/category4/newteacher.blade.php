@@ -4,7 +4,7 @@
 <div class="box box-warning marginl">
 <div class="box-header">
             <div class="box-body">
-            <a href="/getteacher_orientation/{{$th[0]['id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i>แก้ไขข้อมูล</a>
+            @if($th!="[]"&&$checkedit!="")<a href="/getteacher_orientation/{{$th[0]['id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i>แก้ไขข้อมูล</a>@endif
             <h4>การปฐมนิเทศอาจารย์ใหม่</h4></b>
             @foreach($th as $row)
             @if(!$checkpass)

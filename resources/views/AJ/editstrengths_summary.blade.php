@@ -16,25 +16,6 @@
     @csrf
     @foreach($query as $row)
     <input type="hidden" class="form-control" id="id" name="id" value="{{$row['id']}}"/>
-    <div class="col-md-12">
-          <div class="box-header col-md-12 col-sm-9 col-xs-12">
-            <h3 class="box-title">ผลการดำเนินงาน</h3>
-          </div>
-            <div class="col-md-12 col-sm-9 col-xs-12">
-            <select class="form-control"  id="composition_id"  class="form-control @error('role') is-invalid @enderror" name="composition_id">
-            @foreach($get as $key=>$value) 
-                                      @if($key+1==$query[0]['composition_id'])
-                                       <option value="{{$value['id']}}"  selected>{{$value['name']}}</option>
-                                      @else 
-                                        @if($value['id']!==$getdata[0]&&$value['id']!==$getdata[1]&&$value['id']!==$getdata[2]&&$value['id']!==$getdata[3]&&
-                                        $value['id']!==$getdata[4]&&$value['id']!==$getdata[5]&&$value['id'])
-                                        <option value="{{$value['id']}}">{{$value['name']}}</option>
-                                        @endif
-                                    @endif
-                                    @endforeach
-              </select>
-            </div>
-        </div>
         <div class="col-md-12">
           <div class="box-header col-md-12 col-sm-9 col-xs-12">
             <h3 class="box-title">จุดแข็ง</h3>

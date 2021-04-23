@@ -15,6 +15,7 @@ class Category5Controller extends Controller
         $coursemanage=category5_course_manage::where('course_id',session()->get('usercourse'))
         ->where('year_id',session()->get('year_id'))
         ->get();
-        return view('category5/course_administration',compact('coursemanage'));
+        $checkedit="asdasd";
+        return view('category5/course_administration',compact('coursemanage','checkedit'));
     }
 }

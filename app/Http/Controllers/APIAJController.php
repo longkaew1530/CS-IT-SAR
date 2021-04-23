@@ -1215,7 +1215,9 @@ class APIAJController extends Controller
      /////assessment_summary////assessment_summary/////assessment_summary/////assessment_summary/////assessment_summary/////assessment_summary
     public function getassessment_summary($id)
     {
-        $editdata=category6_assessment_summary::where('id',$id)
+        $editdata=category6_assessment_summary::where('category_assessor',$id)
+        ->where('year_id',session()->get('year_id'))
+        ->where('course_id',session()->get('usercourse'))
         ->get();
         return view('AJ/editassessment_summary',compact('editdata'));
     }
@@ -1784,24 +1786,11 @@ class APIAJController extends Controller
     /////strengths_summary/////strengths_summary/////strengths_summary/////strengths_summary/////strengths_summary/////strengths_summary
     public function getstrengths_summary($id)
     {
-        $get=composition::all();
-        $check=category7_strengths_summary::where('course_id',session()->get('usercourse'))
-        ->where('year_id',session()->get('year_id'))
-        ->get();
         $query=category7_strengths_summary::where('id',$id)
         ->where('course_id',session()->get('usercourse'))
         ->where('year_id',session()->get('year_id'))
         ->get();
-        $getdata[0]=0;
-        $getdata[1]=0;
-        $getdata[2]=0;
-        $getdata[3]=0;
-        $getdata[4]=0;
-        $getdata[5]=0;
-        foreach($check as $key=>$row){
-                $getdata[$key]=$row['composition_id'];          
-        }
-        return view('AJ/editstrengths_summary',compact('get','getdata','query'));
+        return view('AJ/editstrengths_summary',compact('query'));
     }
     function addstrengths_summary(Request $request)
     {
@@ -1822,7 +1811,6 @@ class APIAJController extends Controller
         $data->strength=$request->strength;
         $data->points_development=$request->points_development;
         $data->development_approach=$request->development_approach;
-        $data->composition_id=$request->composition_id;
         $data->save();
         return $data;
     }
@@ -3439,19 +3427,16 @@ class APIAJController extends Controller
         ///ปิดหมวดที่ 5 
 
         ////หมวดที่ 6 
-         //// การประเมินจากผู้ที่สำเร็จการศึกษา
+         //// สรุปการประเมินหลักสูตร	
          $scoreassessmentsummary=0;
+         $scoreassessmentsummary2=0;
          $queryassessmentsummary=category6_assessment_summary::where('course_id',session()->get('usercourse'))
          ->where('category_assessor','=','การประเมินจากผู้ที่สำเร็จการศึกษา')
          ->where('year_id',session()->get('year_id'))
          ->get();
          if($queryassessmentsummary!="[]"){
              $scoreassessmentsummary++;
-         }
-         //// ปิด การประเมินจากผู้ที่สำเร็จการศึกษา
-         
-         //// การประเมินจากผู้ที่สำเร็จการศึกษา
-         $scoreassessmentsummary2=0;
+         }        
          $queryassessmentsummary2=category6_assessment_summary::where('course_id',session()->get('usercourse'))
          ->where('category_assessor','=','การประเมินจากผู้ที่มีส่วนเกี่ยวข้อง')
          ->where('year_id',session()->get('year_id'))
@@ -3459,7 +3444,7 @@ class APIAJController extends Controller
          if($queryassessmentsummary2!="[]"){
              $scoreassessmentsummary2++;
          }
-         //// ปิด การประเมินจากผู้ที่สำเร็จการศึกษา
+         //// ปิด สรุปการประเมินหลักสูตร
  
          //// ข้อคิดเห็น และข้อเสนอแนะเกี่ยวกับคุณภาพหลักสูตรจากผู้ประเมิน
          $scorecomment_course=0;
@@ -3508,10 +3493,6 @@ class APIAJController extends Controller
         ////สรุปผลการดำเนินงาน
         //// สรุปจุดแข็ง จุดที่ควรพัฒนา และแนวทางการพัฒนา
         $scorestrengths_summary=0;
-        $querynewstrength1=category7_strengths_summary::where('course_id',session()->get('usercourse'))
-        ->where('year_id',session()->get('year_id'))
-        ->where('composition_id',1)
-        ->get();
         $querynewstrength2=category7_strengths_summary::where('course_id',session()->get('usercourse'))
         ->where('year_id',session()->get('year_id'))
         ->where('composition_id',2)
@@ -3532,9 +3513,7 @@ class APIAJController extends Controller
         ->where('year_id',session()->get('year_id'))
         ->where('composition_id',6)
         ->get();
-        if($querynewstrength1!="[]"){
-            $scorestrengths_summary++;
-        }
+
         if($querynewstrength2!="[]"){
            $scorestrengths_summary++;
        }
@@ -3575,7 +3554,7 @@ class APIAJController extends Controller
         $result5=(($score6_1result1+$score6_1resultdoc1+$score6_1resultpdca+$scorecoursemanage)*100)/10;
         $result6=(($scoreassessmentsummary+$scoreassessmentsummary2+$scorecomment_course)*100)/3; 
         $result7=(($scorestrength+$scoredevelopment_proposal+$scorenewstrength)*100)/3;
-        $result8=($scorestrengths_summary*100)/6;
+        $result8=($scorestrengths_summary*100)/5;
 
 
         $scorecategory1 = sprintf('%.0f',$result1);
@@ -5064,8 +5043,9 @@ class APIAJController extends Controller
         //// ปิด การบริหารหลักสูตร
 
 
-        //// การประเมินจากผู้ที่สำเร็จการศึกษา
+        //// สรุปการประเมินหลักสูตร	
         $scoreassessmentsummary=0;
+        $scoreassessmentsummary2=0;
         $queryassessmentsummary=category6_assessment_summary::where('course_id',session()->get('usercourse'))
         ->where('category_assessor','=','การประเมินจากผู้ที่สำเร็จการศึกษา')
         ->where('year_id',session()->get('year_id'))
@@ -5073,10 +5053,7 @@ class APIAJController extends Controller
         if($queryassessmentsummary!="[]"){
             $scoreassessmentsummary++;
         }
-        //// ปิด การประเมินจากผู้ที่สำเร็จการศึกษา
-        
-        //// การประเมินจากผู้ที่สำเร็จการศึกษา
-        $scoreassessmentsummary2=0;
+
         $queryassessmentsummary2=category6_assessment_summary::where('course_id',session()->get('usercourse'))
         ->where('category_assessor','=','การประเมินจากผู้ที่มีส่วนเกี่ยวข้อง')
         ->where('year_id',session()->get('year_id'))
@@ -5084,7 +5061,7 @@ class APIAJController extends Controller
         if($queryassessmentsummary2!="[]"){
             $scoreassessmentsummary2++;
         }
-        //// ปิด การประเมินจากผู้ที่สำเร็จการศึกษา
+        //// ปิด สรุปการประเมินหลักสูตร
 
         //// ข้อคิดเห็น และข้อเสนอแนะเกี่ยวกับคุณภาพหลักสูตรจากผู้ประเมิน
         $scorecomment_course=0;
@@ -5129,10 +5106,6 @@ class APIAJController extends Controller
 
          //// สรุปจุดแข็ง จุดที่ควรพัฒนา และแนวทางการพัฒนา
          $scorestrengths_summary=0;
-         $querynewstrength1=category7_strengths_summary::where('course_id',session()->get('usercourse'))
-         ->where('year_id',session()->get('year_id'))
-         ->where('composition_id',1)
-         ->get();
          $querynewstrength2=category7_strengths_summary::where('course_id',session()->get('usercourse'))
          ->where('year_id',session()->get('year_id'))
          ->where('composition_id',2)
@@ -5153,9 +5126,7 @@ class APIAJController extends Controller
          ->where('year_id',session()->get('year_id'))
          ->where('composition_id',6)
          ->get();
-         if($querynewstrength1!="[]"){
-             $scorestrengths_summary++;
-         }
+
          if($querynewstrength2!="[]"){
             $scorestrengths_summary++;
         }
@@ -5204,13 +5175,12 @@ class APIAJController extends Controller
         $resultscoreactivity=($scoreactivity*100)/1;
         $result6_1=(($score6_1result1+$score6_1resultdoc1+$score6_1resultpdca)*100)/9;
         $course_manage=($scorecoursemanage*100)/1;
-        $assessmentsummary=($scoreassessmentsummary*100)/1;
-        $assessmentsummary2=($scoreassessmentsummary2*100)/1;
+        $assessmentsummary=(($scoreassessmentsummary+$scoreassessmentsummary2)*100)/2;
         $resultscorecomment_course=($scorecomment_course*100)/1;
         $resultscorestrength=($scorestrength*100)/1;
         $resultscoredevelopment_proposal=($scoredevelopment_proposal*100)/1;
         $resultscorenewstrength=($scorenewstrength*100)/1;
-        $resultscorestrengths_summary=($scorestrengths_summary*100)/6;
+        $resultscorestrengths_summary=($scorestrengths_summary*100)/5;
 
 
         $indicator1_1 = sprintf('%.0f',$result1_1);
@@ -5242,10 +5212,9 @@ class APIAJController extends Controller
         $indicator6_1 = sprintf('%.0f',$result6_1);
         $getcourse_manage = sprintf('%.0f',$course_manage);
         $getassessmentsummary = sprintf('%.0f',$assessmentsummary);
-        $getassessmentsummary2 = sprintf('%.0f',$assessmentsummary2);
         $getresultscorecomment_course = sprintf('%.0f',$resultscorecomment_course);
         $getresultscorestrength = sprintf('%.0f',$resultscorestrength);
-        $getscoredevelopment_proposal = sprintf('%.0f',$scoredevelopment_proposal);
+        $getscoredevelopment_proposal = sprintf('%.0f',$resultscoredevelopment_proposal);
         $getresultscorenewstrength = sprintf('%.0f',$resultscorenewstrength);
         $getresultscorestrengths_summary = sprintf('%.0f',$resultscorestrengths_summary);
          ////สรุปคะแนน
@@ -5593,7 +5562,7 @@ class APIAJController extends Controller
                          }
                          $i++;
                         }
-                        if($value['Indicator_name']=="การประเมินจากผู้ที่สำเร็จการศึกษา"){
+                        if($value['Indicator_name']=="สรุปการประเมินหลักสูตร"){
                             $clind[$i]['score']=$getassessmentsummary;
                             if($getassessmentsummary<=25){
                                  $clind[$i]['color']='danger';
@@ -5613,27 +5582,7 @@ class APIAJController extends Controller
                              }
                              $i++;
                             }
-                            if($value['Indicator_name']=="การประเมินจากผู้ที่มีส่วนเกี่ยวข้อง"){
-                                $clind[$i]['score']=$getassessmentsummary2;
-                                if($getassessmentsummary2<=25){
-                                     $clind[$i]['color']='danger';
-                                     $clind[$i]['color2']='red';
-                                 }
-                                 else if($getassessmentsummary2<=50){
-                                     $clind[$i]['color']='yellow';
-                                     $clind[$i]['color2']='yellow';
-                                 }
-                                 else if($getassessmentsummary2<=75){
-                                     $clind[$i]['color']='striped';
-                                     $clind[$i]['color2']='blue';
-                                 }
-                                 else if($getassessmentsummary2<=100){
-                                     $clind[$i]['color']='success';
-                                     $clind[$i]['color2']='green';
-                                 }
-                                 $i++;
-                                }
-                                if($value['Indicator_name']=="สรุปผลรายวิชาที่เปิดสอนในภาค/ปีการศึกษา"){
+                                if($value['Indicator_name']=="สรุปผลรายวิชาที่เปิดสอน"){
                                     $clind[$i]['score']=$course_results;
                                     if($course_results<=25){
                                          $clind[$i]['color']='danger';

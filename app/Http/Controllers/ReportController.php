@@ -10,12 +10,28 @@ use App\composition;
 use App\indicator;
 use App\category;
 use App\assessment_results;
+use App\category6_comment_course;
+use App\category6_assessment_summary;
+use App\category5_course_manage;
 use App\indicator1_1;
 use App\indicator2_1;
-use App\indicator2_2;
-use App\indicator4_3;
+use App\category4_course_results;
+use App\category4_notcourse_results;
+use App\in_index;
 use App\indicator5_4;
+use App\category4_teaching_quality;
+use App\category4_effectiveness;
+use App\category4_newteacher;
+use App\category4_activity;
+use App\indicator2_2;
+use App\category7_strength;
+use App\category7_newstrength;
+use App\category7_development_proposal_detail;
+use App\category7_strengths_summary;
+use App\indicator4_3;
 use App\DocPDCA;
+use App\ModelAJ\category4_academic_performance;
+use App\ModelAJ\category4_incomplete_content;
 use App\Groupmenu;
 use App\Menu;
 use App\Course;
@@ -92,6 +108,7 @@ class ReportController extends Controller
     {
         $query=assessment_results::leftjoin('category','assessment_results.category_id','=','category.category_id')
         ->where('assessment_results.year_id',session()->get('year_id'))
+        ->where('assessment_results.course_id',session()->get('usercourse'))
         ->get();
             return view('report/download',compact('query'));
     }
@@ -582,19 +599,400 @@ class ReportController extends Controller
             return view('report/download',compact('query'));
         }
         else if($id==4){
-            return view('report/download',compact('query'));
+            $ccr=category4_course_results::where('course_id',session()->get('usercourse'))
+            ->where('year_id',session()->get('year_id'))
+            ->get();
+            $checkedit="";
+            $ccr2=category4_notcourse_results::where('course_id',session()->get('usercourse'))
+            ->where('year_id',session()->get('year_id'))
+            ->get();
+        $getcategorypdca5_1=indicator::where('Indicator_id',5.1)
+        ->where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        $pdca5_1=PDCA::leftjoin('indicator','pdca.Indicator_id','=','indicator.indicator_id')
+        ->where('pdca.Indicator_id',5.1)
+        ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.year_id',session()->get('year_id'))
+        ->get();
+        $getcourse5_1=Course::where('course_id',session()->get('usercourse'))
+        ->get();
+        $name5_1="";
+        $id5_1="";
+        ////ดึงผลการประเมินตนเอง ตัวบ่งชี้ที่ 1.1
+        $inc5_1= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+        ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.year_id',session()->get('year_id'))
+        ->where('pdca.indicator_id',5.1)
+        ->where('pdca.target','!=',null)
+        ->get();
+        if(count($inc5_1)==0){
+            $inc5_1="";
+        }
+        foreach($getcategorypdca5_1 as $value)
+        {
+            $name5_1=$value['Indicator_name'];
+            $id5_1=$value['Indicator_id'];
+        }
+
+        $getcategorypdca5_2=indicator::where('Indicator_id',5.2)
+        ->where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        $pdca5_2=PDCA::leftjoin('indicator','pdca.Indicator_id','=','indicator.indicator_id')
+        ->where('pdca.Indicator_id',5.2)
+        ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.year_id',session()->get('year_id'))
+        ->get();
+        $getcourse5_2=Course::where('course_id',session()->get('usercourse'))
+        ->get();
+        $name5_2="";
+        $id5_2="";
+        ////ดึงผลการประเมินตนเอง ตัวบ่งชี้ที่ 1.1
+        $inc5_2= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+        ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.year_id',session()->get('year_id'))
+        ->where('pdca.indicator_id',5.2)
+        ->where('pdca.target','!=',null)
+        ->get();
+        if(count($inc5_2)==0){
+            $inc5_2="";
+        }
+        foreach($getcategorypdca5_2 as $value)
+        {
+            $name5_2=$value['Indicator_name'];
+            $id5_2=$value['Indicator_id'];
+        }
+
+        $getcategorypdca5_3=indicator::where('Indicator_id',5.3)
+        ->where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        $pdca5_3=PDCA::leftjoin('indicator','pdca.Indicator_id','=','indicator.indicator_id')
+        ->where('pdca.Indicator_id',5.3)
+        ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.year_id',session()->get('year_id'))
+        ->get();
+        $getcourse5_3=Course::where('course_id',session()->get('usercourse'))
+        ->get();
+        $name5_3="";
+        $id5_3="";
+        ////ดึงผลการประเมินตนเอง ตัวบ่งชี้ที่ 1.1
+        $inc5_3= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+        ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.year_id',session()->get('year_id'))
+        ->where('pdca.indicator_id',5.3)
+        ->where('pdca.target','!=',null)
+        ->get();
+        if(count($inc5_3)==0){
+            $inc5_3="";
+        }
+        foreach($getcategorypdca5_3 as $value)
+        {
+            $name5_3=$value['Indicator_name'];
+            $id5_3=$value['Indicator_id'];
+        }
+
+
+        $indi=in_index::all();
+        $perfor=indicator5_4::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        $inc5_4= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+        ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.year_id',session()->get('year_id'))
+        ->where('pdca.indicator_id',5.4)
+        ->where('pdca.target','!=',null)
+        ->get();
+        $per1="asdsad";
+        $result=0;
+        $resultpass1_5=0;
+        $resultpass1_5persen=0;
+        $resultpass1_5count=0;
+        $resultpassall=0;
+        $result=count($perfor);
+        foreach($perfor as $value){
+            if($value['in_index_id']==1||$value['in_index_id']==2||$value['in_index_id']==3||$value['in_index_id']==4||$value['in_index_id']==5){
+                $resultpass1_5count++;
+                if($value['status']==1){
+                    $resultpass1_5++;
+                }
+            }
+            if($value['status']==1){
+                $resultpassall++;
+            }
+        }
+        $resultpass1_5persen=($resultpass1_5count*100)/5;
+        if($resultpassall!=0&&$resultpassall!=0){
+            $resultavg=($resultpassall*100)/$result;
+        }
+        else{
+            $resultavg=0;
+        }
+        session()->put('resultpass',$resultpassall);
+        session()->put('result',$result);
+        $resultavg2=0;
+        if($resultavg>=1&&$resultavg<=20){
+            $resultavg2=1;
+           }
+           else if($resultavg>=21&&$resultavg<=40){
+            $resultavg2=2;
+           }
+           else if($resultavg>=41&&$resultavg<=60){
+            $resultavg2=3;
+          }
+          else if($resultavg>=61&&$resultavg<=80){
+            $resultavg2=4;
+          }
+          else if($resultavg>=81&&$resultavg<=100){
+            $resultavg2=5;
+          }
+          $getcategorypdca5_4=defaulindicator::where('id',14)
+          ->get();
+          $name5_4="";
+          $id5_4="";
+          foreach($getcategorypdca5_4 as $value)
+          {
+              $name5_4=$value['Indicator_name'];
+              $id5_4=$value['Indicator_id'];
+          }
+        session()->put('resultavg',$resultavg2);   
+        
+
+        $academic=category4_academic_performance::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+
+        $academic2=category4_incomplete_content::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        $teachqua=category4_teaching_quality::where('course_id',session()->get('usercourse'))
+       ->where('year_id',session()->get('year_id'))
+       ->get();
+       $teachquagroup=category4_teaching_quality::groupBy('student_year')
+       ->get();
+
+       $effec=category4_effectiveness::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        $th=category4_newteacher::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        $checkpass=false;
+        foreach($th as $row){
+            if($row['point_out']==1){
+                $checkpass=true;
+            }
+        }
+
+        $activity=category4_activity::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+            return view('showcategory/category4',compact('ccr','ccr2','checkedit','pdca5_1','name5_1',
+            'id5_1','getcourse5_1','getcategorypdca5_1','inc5_1','pdca5_2','name5_2','id5_2','getcourse5_2',
+            'getcategorypdca5_2','inc5_2','pdca5_3','name5_3','id5_3','getcourse5_3','getcategorypdca5_3','inc5_3'
+         ,'indi','id5_4','name5_4','perfor','result','resultpass1_5','resultpass1_5persen','resultpassall','inc5_4',
+         'per1','academic','academic2','teachqua','teachquagroup','effec','th','checkpass','activity'));
         }
         else if($id==5){
-            return view('report/download',compact('query'));
+            $coursemanage=category5_course_manage::where('course_id',session()->get('usercourse'))
+            ->where('year_id',session()->get('year_id'))
+            ->get();
+            $checkedit="";
+
+            $getcategorypdca=indicator::where('Indicator_id',6.1)
+        ->where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        $pdca=PDCA::leftjoin('indicator','pdca.Indicator_id','=','indicator.indicator_id')
+        ->where('pdca.Indicator_id',6.1)
+        ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.year_id',session()->get('year_id'))
+        ->get();
+        $getcourse=Course::where('course_id',session()->get('usercourse'))
+        ->get();
+        $name="";
+        $id="";
+        ////ดึงผลการประเมินตนเอง ตัวบ่งชี้ที่ 1.1
+        $inc= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+        ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.year_id',session()->get('year_id'))
+        ->where('pdca.indicator_id',6.1)
+        ->where('pdca.target','!=',null)
+        ->get();
+        if(count($inc)==0){
+            $inc="";
+        }
+        foreach($getcategorypdca as $value)
+        {
+            $name=$value['Indicator_name'];
+            $id=$value['Indicator_id'];
+        }
+        $checkedit="";
+            return view('showcategory/category5',compact('coursemanage','checkedit','pdca','name','id','getcourse','getcategorypdca','inc'));
         }
         else if($id==6){
-            return view('report/download',compact('query'));
+            $coursemanage=category6_comment_course::where('course_id',session()->get('usercourse'))
+            ->where('year_id',session()->get('year_id'))
+            ->get();
+            $checkedit="";
+            $assessmentsummary=category6_assessment_summary::where('course_id',session()->get('usercourse'))
+            ->where('category_assessor',"การประเมินจากผู้ที่สำเร็จการศึกษา")
+            ->where('year_id',session()->get('year_id'))
+            ->get();
+            $assessmentsummary2=category6_assessment_summary::where('course_id',session()->get('usercourse'))
+            ->where('category_assessor',"การประเมินจากผู้ที่มีส่วนเกี่ยวข้อง")
+            ->where('year_id',session()->get('year_id'))
+            ->get();
+            return view('showcategory/category6',compact('coursemanage','checkedit','assessmentsummary','assessmentsummary2',));
         }
         else if($id==7){
-            return view('report/download',compact('query'));
+            $querystrength=category7_strength::where('course_id',session()->get('usercourse'))
+          ->where('year_id',session()->get('year_id'))
+         ->get();
+         $checkedit="";
+
+         $querydevelopment_proposal=category7_development_proposal_detail::where('course_id',session()->get('usercourse'))
+         ->where('year_id',session()->get('year_id'))
+         ->get();
+         $year=session()->get('year');
+         $querynewstrength=category7_newstrength::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+            return view('showcategory/category7',compact('querystrength','checkedit','querydevelopment_proposal','querynewstrength'));
         }
         else if($id==8){
-            return view('report/download',compact('query'));
+            $getall=composition::all();
+            $indicator=defaulindicator::where('Indicator_id','!=',null)
+            ->get();
+            $pdca=indicator::leftjoin('pdca','indicator.Indicator_id','=','pdca.indicator_id')
+            ->where('indicator.course_id',session()->get('usercourse'))
+            ->where('indicator.year_id',session()->get('year_id'))
+            ->where('pdca.year_id',session()->get('year_id'))
+            ->where('pdca.course_id',session()->get('usercourse'))
+            ->where('target','!=',null)
+            ->get();
+    
+            $per1="";
+            foreach($pdca as $value)
+            {
+                $per1=$value['performance1'];
+            }
+
+        $getall2=composition::all();
+        $indicator2=defaulindicator::where('Indicator_id','!=',null)
+        ->get();
+        $pdca2=defaulindicator::leftjoin('pdca','defaulindicator.Indicator_id','=','pdca.indicator_id')
+        ->where('pdca.year_id',session()->get('year_id'))
+        ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('target','!=',null)
+        ->get();
+        $per1="";
+        $result1_1=0;
+        $result2_1=0;
+        $result2_2=0;
+        $result3_1=0;
+        $result3_2=0;
+        $result3_3=0;
+        $result4_1=0;
+        $result4_2=0;
+        $result4_3=0;
+        $result5_1=0;
+        $result5_2=0;
+        $result5_3=0;
+        $result5_4=0;
+        $result6_1=0;
+        foreach($pdca2 as $row){
+            if($row['Indicator_id']==1.1){
+                    if($row['score']=="ผ่านมาตรฐาน"){
+                        $result1_1="ผ่านการประเมิน";
+                    }
+                    else{
+                        $result1_1="ไม่ผ่านการประเมิน";
+                    }
+            }
+            else if($row['Indicator_id']==2.1){
+                $result2_1=$row['score'];
+            }
+            else if($row['Indicator_id']==2.2){
+                $result2_2=$row['score'];
+            }
+            else if($row['Indicator_id']==3.1){
+                $result3_1=$row['performance3'];
+            }
+            else if($row['Indicator_id']==3.2){
+                $result3_2=$row['performance3'];
+            }
+            else if($row['Indicator_id']==3.3){
+                $result3_3=$row['score'];
+            }
+            else if($row['Indicator_id']==4.1){
+                $result4_1=$row['performance3'];
+            }
+            else if($row['Indicator_id']==4.2){
+                $result4_2=$row['target'];
+            }
+            else if($row['Indicator_id']==4.3){
+                $result4_3=$row['score'];
+            }
+            else if($row['Indicator_id']==5.1){
+                $result5_1=$row['performance3'];
+            }
+            else if($row['Indicator_id']==5.2){
+                $result5_2=$row['performance3'];
+            }
+            else if($row['Indicator_id']==5.3){
+                $result5_3=$row['performance3'];
+            }
+            else if($row['Indicator_id']==5.4){
+                $result5_4=$row['score'];
+            }
+            else if($row['Indicator_id']==6.1){
+                $result6_1=$row['performance3'];
+            }
+        }
+        $data[0]['o']=$result1_1;
+        $data[1]['o']=($result2_1+$result2_2)/2;
+        $data[1]['avr']=($result2_1+$result2_2)/2;
+        $data[2]['p']=($result3_1+$result3_2)/2;
+        $data[2]['o']=$result3_3;
+        $data[2]['avr']=($result3_1+$result3_2+$result3_3)/3;
+        $data[3]['i']=$result4_2;
+        $data[3]['p']=$result4_1;
+        $data[3]['o']=$result4_3;
+        $data[3]['avr']=($result4_2+$result4_1+$result4_3)/3;
+        $data[4]['p']=($result5_1+$result5_2+$result5_3)/3;
+        $data[4]['o']=$result5_4;
+        $data[4]['avr']=($result5_1+$result5_2+$result5_3+$result5_4)/4;
+        $data[5]['p']=$result6_1;
+        $data[5]['avr']=$result6_1;
+        for($i = 1; $i <= 5; $i++){
+            if($data[$i]['avr']>=0.01&&$data[$i]['avr']<=2.00){
+                $data[$i]['result']="น้อย";
+            }
+            else if($data[$i]['avr']>=2.01&&$data[$i]['avr']<=3.00){
+                $data[$i]['result']="ปานกลาง";
+            }
+            else if($data[$i]['avr']>=3.01&&$data[$i]['avr']<=4.00){
+                $data[$i]['result']="ดี";
+            }
+            else if($data[$i]['avr']>=4.01&&$data[$i]['avr']<=5.00){
+                $data[$i]['result']="ดีมาก";
+            }
+        }
+        foreach($pdca2 as $value)
+        {
+            $per2=$value['performance1'];
+        }
+
+
+        $querynewstrength=composition::where('id','!=',1)
+        ->get();
+        $getnewstrength=category7_strengths_summary::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        $checkedit="";
+            return view('showcategory/category8',compact('querynewstrength','getnewstrength','checkedit','pdca','per1','getall','indicator','pdca2','per2','getall2','indicator2','data'));
         }
          
     }

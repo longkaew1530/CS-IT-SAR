@@ -65,7 +65,7 @@ Route::get('/addp/{id}', 'AJController@addp');
 Route::get('/addd/{id}', 'AJController@addd');
 Route::get('/addc/{id}', 'AJController@addc');
 Route::get('/adda/{id}', 'AJController@adda');
-Route::get('/addstrengths_summary', 'AJController@addstrengths_summary');
+Route::get('/addstrengths_summary/{id}', 'AJController@addstrengths_summary');
 Route::get('/graduate', 'AJController@addgraduate');
 Route::get('/addteachingquality', 'AJController@addteaching_quality');
 Route::get('/addresignation', 'AJController@addresignation');

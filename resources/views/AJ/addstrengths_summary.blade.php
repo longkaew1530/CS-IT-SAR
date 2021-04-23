@@ -4,7 +4,6 @@
 <div class="box box-warning marginl">
   <div class="box-header">
     <div class="box-body">
-    <a href="/category7/strengths_summary" class="btn btn-info fr"><i class='fa fa-eye'></i> ดูรายงาน</a>
       <div class="col-sm-2" align="right"></div>
       <div class="col-sm-8" align="center">
       
@@ -14,21 +13,7 @@
     </div>
     <form id="adddata" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data">
     @csrf
-    <div class="col-md-12">
-          <div class="box-header col-md-12 col-sm-9 col-xs-12">
-            <h3 class="box-title">องค์ประกอบ</h3>
-          </div>
-            <div class="col-md-12 col-sm-9 col-xs-12">
-            <select class="form-control"  id="composition_id"  class="form-control @error('role') is-invalid @enderror" name="composition_id">
-                                    @foreach($get as $value) 
-                                        @if($value['id']!==$getdata[0]&&$value['id']!==$getdata[1]&&$value['id']!==$getdata[2]&&$value['id']!==$getdata[3]&&
-                                        $value['id']!==$getdata[4]&&$value['id']!==$getdata[5])
-                                        <option value="{{$value['id']}}">{{$value['name']}}</option>
-                                        @endif
-                                    @endforeach
-              </select>
-            </div>
-        </div>
+    <input type="hidden" class="form-control" id="composition_id" name="composition_id" value="{{$get[0]['id']}}">
         <div class="col-md-12">
           <div class="box-header col-md-12 col-sm-9 col-xs-12">
             <h3 class="box-title">จุดแข็ง</h3>
