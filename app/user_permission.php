@@ -11,4 +11,8 @@ class user_permission extends Model
     protected $fillable=[
         'user_id','g_id','m_id','year_id'
     ];
+    public function user()
+    {
+        return $this->belongsTo('App\User','user_id');
+    }
 }

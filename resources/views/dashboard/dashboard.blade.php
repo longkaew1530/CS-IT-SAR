@@ -9,11 +9,10 @@
             <!-- /.box-header -->
             <div class="box-body text-center">
              
-                   
-                      <input type="text" class="knob" value="{{$allcategory}}" data-width="150" data-height="150" data-fgColor="{{$color}}" readonly>
-                      <div class="knob-label"></div>
-                  
-               
+           
+                      <input type="text" class="knob" id="title"   data-width="150" data-height="150" data-fgColor="#00a65a" readonly>
+                      <div  id="title"  class="knob-label"></div>
+                      <h1 ></h1>
             </div>
 </div>     
 <div class="box box-warning marginl wid90 fr">
@@ -69,8 +68,23 @@
   float:left;
 }
 </style>
+<script
+    src=//code.jquery.com/jquery-3.5.1.min.js
+    integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+    crossorigin=anonymous></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script>
+<script type=text/javascript>
+$(document).ready(function(){
+  $.ajax({  //create an ajax request to display.php
+          type: "GET",
+          url: "/getallresult",       
+          success: function (data) {
+            document.getElementById("title").value = data.score;
+            document.getElementById("title").datafgColor = data.color;
+            $("#title").trigger('change');
+          }
+        });
+});
   $(function () {
     $('#example3').DataTable({
       lengthMenu: [ 5, 10, 15, 100]

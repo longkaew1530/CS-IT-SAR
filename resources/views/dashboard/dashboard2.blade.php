@@ -21,10 +21,22 @@
         <div class="col-md-4 col-sm-6 col-xs-12">
           <div class="info-box">
             <span class="info-box-icon bg-yellow"><i class="fa fa-spinner"></i></span>
-
+            <?php 
+                    $success=0;
+                    $not=0;
+                    foreach($queryworkandindicator as $value1){
+                    if($value1['score']==100){
+                        $success++;
+                    }
+                    else{
+                      $not++;
+                    }
+            }
+            
+            ?>
             <div class="info-box-content">
               <span class="info-box-text"><font size="3">อยู่ระหว่างดำเนินการ</font></span>
-              <span class="info-box-number"><font size="5">5</font></span>
+              <span class="info-box-number"><font size="5">{{$not}}</font></span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -38,10 +50,10 @@
         <div class="col-md-4 col-sm-6 col-xs-12">
           <div class="info-box">
             <span class="info-box-icon bg-green"><i class="fa fa-check"></i></span>
-
+            
             <div class="info-box-content">
               <span class="info-box-text"><font size="3">เสร็จสิ้น</font></span>
-              <span class="info-box-number"><font size="5">5</font></span>
+              <span class="info-box-number"><font size="5">{{$success}}</font></span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -60,23 +72,30 @@
             </div>
               <table class="table table-condensed">
                 <tbody><tr>
-                  <th>ที่</th>
-                  <th>ตัวบ่งชี้</th>
-                  <th>ความคืบหน้า</th>
-                  <th></th>
+                  <th width="5%">ที่</th>
+                  <th width="50%">ตัวบ่งชี้</th>
+                  <th width="30%">ความคืบหน้า</th>
+                  <th ></th>
                 </tr>
                 
                 <div >
+                @foreach($queryworkandindicator as $key=>$value)
                 <tr>
-                  <td>1</td>
-                  <td>5.4</td>
+                  <td>{{$key+1}}</td>
+                  <td>ตัวบ่งชี้ {{$value['Indicator_id']}} {{$value['Indicator_name']}}</td>
                   <td>
                     <div class="progress progress-xs">
-                      <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
+                      <div class="progress-bar progress-bar-{{$value['color']}}" style="width: {{$value['score']}}%"></div>
                     </div>
                   </td>
-                  <td><span class="badge bg-red">55%</span>&nbsp&nbsp&nbsp&nbsp<a href=""  id="add" >ดูรายละเอียด</a></td>
+                  <td><span class="badge bg-{{$value['color2']}}">{{$value['score']}}%</span>&nbsp&nbsp&nbsp&nbsp
+                  @if($value['Indicator_id']!="")
+                  <a href="/showindicator/{{$value['Indicator_id']}}"  id="add" >ดูรายละเอียด</a></td>
+                  @else
+                  <a href="/showindicator/{{$value['Indicator_name']}}"  id="add" >ดูรายละเอียด</a></td>
+                  @endif
                 </tr>
+                @endforeach
                 </div>
                 
               </tbody></table>

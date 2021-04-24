@@ -15,6 +15,25 @@ use App\category6_assessment_summary;
 use App\category5_course_manage;
 use App\indicator1_1;
 use App\indicator2_1;
+use App\category3_resignation;
+use App\categoty_researh;
+use App\ModelAJ\Research_results;
+use App\Year;
+use App\Tps;
+use App\indicator4_3;
+use App\indicator2_2;
+use App\category3_infostudent;
+use App\category3_infostudent_qty;
+use App\year_acceptance;
+use App\performance3_3;
+use App\categorypdca;
+use App\category3_GD;
+use App\Menu;
+use App\ModelAJ\category3_inforstudent;
+use App\course_responsible_teacher;
+use App\year_acceptance_graduate;
+use App\category3_graduate;
+use App\Educational_background;
 use App\category4_course_results;
 use App\category4_notcourse_results;
 use App\in_index;
@@ -23,24 +42,15 @@ use App\category4_teaching_quality;
 use App\category4_effectiveness;
 use App\category4_newteacher;
 use App\category4_activity;
-use App\indicator2_2;
 use App\category7_strength;
 use App\category7_newstrength;
 use App\category7_development_proposal_detail;
 use App\category7_strengths_summary;
-use App\indicator4_3;
 use App\DocPDCA;
 use App\ModelAJ\category4_academic_performance;
 use App\ModelAJ\category4_incomplete_content;
 use App\Groupmenu;
-use App\Menu;
 use App\Course;
-use App\categoty_researh;
-use App\ModelAJ\Research_results;
-use App\Year;
-use App\Tps;
-use App\course_responsible_teacher;
-use App\Educational_background;
 use Exception;
 class ReportController extends Controller
 {
@@ -51,6 +61,14 @@ class ReportController extends Controller
         ->get();
        
             return view('report/overview',compact('query'));
+    }
+    public function teacheroverview()
+    {
+        $query=assessment_results::leftjoin('category','assessment_results.category_id','=','category.category_id')
+        ->where('assessment_results.year_id',session()->get('year_id'))
+        ->get();
+       
+            return view('report/teacheroverview',compact('query'));
     }
     public function instructor()
     {
@@ -596,7 +614,208 @@ class ReportController extends Controller
                     ,'cate','qty1','B','qty2','C','qty3','E','inc4_2','id4_2','name4_2','in4_3','inc3','name4_3','id4_3'));
         }
         else if($id==3){
-            return view('report/download',compact('query'));
+            $get=year_acceptance::where('course_id',session()->get('usercourse'))
+                    ->get();
+                    $getinfo="";
+                    if($get!=""){
+                        $getinfo=category3_infostudent::where('course_id',session()->get('usercourse'))
+                        ->where('year_add', '>=',$get[0]['year_add'])
+                        ->where('year_add', '<=',session()->get('year'))
+                        ->where('reported_year', '>=',$get[0]['year_add'])
+                        ->where('reported_year', '<=',session()->get('year'))
+                        ->get();
+                    }
+                    if(count($get)==0){
+                        $get="";
+                    }
+                $getqty=category3_infostudent_qty::where('course_id',session()->get('usercourse'))
+                ->where('year_id',session()->get('year_id'))
+                ->get();
+                $countnumber=count($getinfo);
+                $checkedit="";
+
+
+        $get2=year_acceptance_graduate::where('course_id',session()->get('usercourse'))
+        ->get();
+        $getinfo1="";
+        $getinfo2="";
+        $gropby="";
+        if($get!='[]'){
+        $getinfo1=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->where('year_add', '>=',$get[0]['year_add'])
+        ->where('year_add', '<=',session()->get('year'))
+        ->where('reported_year', '>=',$get[0]['year_add'])
+        ->where('reported_year', '<=',session()->get('year'))
+        ->get();
+        $getinfo2=category3_infostudent::where('course_id',session()->get('usercourse'))
+        ->where('year_add', '>=',$get[0]['year_add'])
+        ->where('year_add', '<=',session()->get('year'))
+        ->where('reported_year', '>=',$get[0]['year_add'])
+        ->where('reported_year', '<=',session()->get('year'))
+        ->get();
+        $gropby=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->where('year_add', '>=',$get[0]['year_add'])
+        ->where('year_add', '<=',session()->get('year'))
+        ->where('reported_year', '>=',$get[0]['year_add'])
+        ->where('reported_year', '<=',session()->get('year'))
+        ->groupBy('year_add')
+        ->get();
+             }
+             $getyear=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->where('year_add',session()->get('year'))
+        ->get();
+        if(count($get2)==0){
+            $get2="";
+        }
+        $factor=category3_GD::where('category_factor','ปัจจัยที่มีผลกระทบต่อจำนวนนักศึกษา')
+        ->where('course_id',session()->get('usercourse'))
+         ->where('year_id',session()->get('year_id'))
+        ->get();
+        $factor2=category3_GD::where('category_factor','ปัยจัยที่มีผลกระทบต่อการสำเร็จการศึกษา')
+        ->where('course_id',session()->get('usercourse'))
+         ->where('year_id',session()->get('year_id'))
+        ->get();
+        
+
+        $factor3=indicator2_1::where('course_id',session()->get('usercourse'))
+         ->where('year_id',session()->get('year_id'))
+         ->get();
+         $pdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+        ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.year_id',session()->get('year_id'))
+        ->where('pdca.Indicator_id',2.1)
+        ->where('pdca.target','!=',null)
+        ->get();
+        $per1="ssssss";
+        $getcategorypdca=defaulindicator::where('id',2)
+        ->get();
+        $name="";
+        $id="";
+        foreach($getcategorypdca as $value)
+        {
+            $name=$value['Indicator_name'];
+            $id=$value['Indicator_id'];
+        }
+
+        $factor4=indicator2_2::where('course_id',session()->get('usercourse'))
+         ->where('year_id',session()->get('year_id'))
+         ->get();
+         $pdca2= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+        ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.year_id',session()->get('year_id'))
+        ->where('pdca.Indicator_id',2.2)
+        ->where('pdca.target','!=',null)
+        ->get();
+
+        $getcategorypdca3_1=indicator::where('Indicator_id',3.1)
+        ->where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        $pdca3_1=PDCA::leftjoin('indicator','pdca.Indicator_id','=','indicator.indicator_id')
+        ->where('pdca.Indicator_id',3.1)
+        ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.year_id',session()->get('year_id'))
+        ->get();
+        $getcourse3_1=Course::where('course_id',session()->get('usercourse'))
+        ->get();
+        $name3_1="";
+        $id3_1="";
+        ////ดึงผลการประเมินตนเอง ตัวบ่งชี้ที่ 1.1
+        $inc3_1= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+        ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.year_id',session()->get('year_id'))
+        ->where('pdca.indicator_id',3.1)
+        ->where('pdca.target','!=',null)
+        ->get();
+        if(count($inc3_1)==0){
+            $inc3_1="";
+        }
+        foreach($getcategorypdca3_1 as $value)
+        {
+            $name3_1=$value['Indicator_name'];
+            $id3_1=$value['Indicator_id'];
+        }
+
+        $getcategorypdca3_2=indicator::where('Indicator_id',3.2)
+        ->where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        $pdca3_2=PDCA::leftjoin('indicator','pdca.Indicator_id','=','indicator.indicator_id')
+        ->where('pdca.Indicator_id',3.2)
+        ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.year_id',session()->get('year_id'))
+        ->get();
+        $getcourse3_2=Course::where('course_id',session()->get('usercourse'))
+        ->get();
+        $name3_2="";
+        $id3_2="";
+        ////ดึงผลการประเมินตนเอง ตัวบ่งชี้ที่ 1.1
+        $inc3_2= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+        ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.year_id',session()->get('year_id'))
+        ->where('pdca.indicator_id',3.2)
+        ->where('pdca.target','!=',null)
+        ->get();
+        if(count($inc3_2)==0){
+            $inc3_2="";
+        }
+        foreach($getcategorypdca3_2 as $value)
+        {
+            $name3_2=$value['Indicator_name'];
+            $id3_2=$value['Indicator_id'];
+        }
+
+
+        $get5=year_acceptance_graduate::where('course_id',session()->get('usercourse'))
+        ->get();
+        $getinfo5="";
+        $getinfo6="";
+        $gropby5="";
+        if($get5!='[]'){
+        $getinfo5=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->where('year_add', '>=',$get[0]['year_add'])
+        ->where('year_add', '<=',session()->get('year'))
+        ->where('reported_year', '>=',$get[0]['year_add'])
+        ->where('reported_year', '<=',session()->get('year'))
+        ->get();
+        
+        $getinfo6=category3_infostudent::where('course_id',session()->get('usercourse'))
+        ->where('year_add', '>=',$get[0]['year_add'])
+        ->where('year_add', '<=',session()->get('year'))
+        ->where('reported_year', '>=',$get[0]['year_add'])
+        ->where('reported_year', '<=',session()->get('year'))
+        ->get();
+        $gropby5=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->where('year_add', '>=',$get[0]['year_add'])
+        ->where('year_add', '<=',session()->get('year'))
+        ->where('reported_year', '>=',$get[0]['year_add'])
+        ->where('reported_year', '<=',session()->get('year'))
+        ->groupBy('year_add')
+        ->get();
+        }
+        $getyear5=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->where('year_add',session()->get('year'))
+        ->get();
+        $re5=category3_resignation::where('course_id',session()->get('usercourse'))
+        ->where('year_present',session()->get('year'))
+        ->get();
+
+        $in3_3=performance3_3::where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        $inc3_3= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+        ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.year_id',session()->get('year_id'))
+        ->where('pdca.indicator_id',3.3)
+        ->where('pdca.target','!=',null)
+        ->get();
+            return view('showcategory/category3',compact('get','getinfo','getqty','countnumber'
+            ,'checkedit','get2','getinfo1','getyear','getinfo2','gropby','factor','factor2',
+            'factor3','pdca','per1','name','id','factor4','pdca2','pdca3_1','name3_1',
+            'id3_1','getcourse3_1','getcategorypdca3_1','inc3_1','pdca3_2','name3_2',
+            'id3_2','getcourse3_2','getcategorypdca3_2','inc3_2',
+            'get5','getinfo5','getyear5','getinfo6','gropby5','re5','in3_3','inc3_3'
+            ));
         }
         else if($id==4){
             $ccr=category4_course_results::where('course_id',session()->get('usercourse'))

@@ -247,6 +247,7 @@ class Category3Controller extends Controller
         ->where('pdca.indicator_id',3.3)
         ->where('pdca.target','!=',null)
         ->get();
-        return view('category3/perfoment3_3',compact('in3_3','inc'));
+        $checkedit="asdasd";
+        return view('category3/perfoment3_3',compact('in3_3','inc','checkedit'));
     }
 }

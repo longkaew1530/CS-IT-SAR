@@ -71,6 +71,7 @@ Route::get('/addteachingquality', 'AJController@addteaching_quality');
 Route::get('/addresignation', 'AJController@addresignation');
 /////รายงาน
 Route::get('/overview', 'ReportController@overview');
+Route::get('/teacheroverview', 'ReportController@teacheroverview');
 Route::get('/download', 'ReportController@download');
 Route::get('/instructor', 'ReportController@instructor');
 Route::get('/performance_summary', 'ReportController@performance_summary');
@@ -348,10 +349,18 @@ Route::post('/updateteaching_quality','APIAJController@updateteaching_quality');
 Route::get('/getresignation','APIAJController@getresignation');
 Route::post('/addresignation','APIAJController@addresignation');
 Route::post('/updateresignation','APIAJController@updateresignation');
+/////teacheroverview
+Route::GET('/getteacheroverview','APIAJController@getteacheroverview');
+Route::GET('/getclidincategory3/{id}','APIAJController@getclidincategory3');
 /////download
 Route::get('/dowloaddoxc','ReportController@generateDocx');
-
-
+/////showdata
+Route::get('/getallresult','ShowdataController@allresult');
+Route::get('/getsuccess','ShowdataController@getsuccess');
+Route::get('/clear-cache', function() {
+    Artisan::call('cache:clear');
+    return "Cache is cleared";
+});
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
