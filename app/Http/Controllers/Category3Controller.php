@@ -117,8 +117,8 @@ class Category3Controller extends Controller
         ->where('course_id',session()->get('usercourse'))
          ->where('year_id',session()->get('year_id'))
         ->get();
-        
-        return view('category3/Impactfactors',compact('factor'));
+        $checkedit="asdasd";
+        return view('category3/Impactfactors',compact('factor','checkedit'));
     }
     public function Impactgraduation()
     {
@@ -126,7 +126,8 @@ class Category3Controller extends Controller
         ->where('course_id',session()->get('usercourse'))
          ->where('year_id',session()->get('year_id'))
          ->get();
-        return view('category3/Impactgraduation',compact('factor'));
+         $checkedit="asdasd";
+        return view('category3/Impactgraduation',compact('factor','checkedit'));
     }
     public function indicator2_1()
     {
@@ -144,12 +145,13 @@ class Category3Controller extends Controller
         ->get();
         $name="";
         $id="";
+        $checkedit="asdasd";
         foreach($getcategorypdca as $value)
         {
             $name=$value['Indicator_name'];
             $id=$value['Indicator_id'];
         }
-        return view('category3/indicator2-1',compact('factor','pdca','per1','name','id'));
+        return view('category3/indicator2-1',compact('factor','pdca','per1','name','id','checkedit'));
     }
     public function assess()
     {
@@ -158,7 +160,8 @@ class Category3Controller extends Controller
         ->where('pdca.course_id',session()->get('usercourse'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->get();
-        return view('category3/assessment',compact('pdca'));
+        $checkedit="asdasd";
+        return view('category3/assessment',compact('pdca','checkedit'));
     }
     public function showassess($id)
     {
@@ -168,11 +171,12 @@ class Category3Controller extends Controller
         ->where('pdca.year_id',session()->get('year_id'))
         ->get();
         $per1="";
+        $checkedit="asdasd";
         foreach($pdca as $value)
         {
             $per1=$value['performance1'];
         }
-        return view('category3/showassessment',compact('pdca','per1'));
+        return view('category3/showassessment',compact('pdca','per1','checkedit'));
     }
     public function indicator2_2()
     {
@@ -186,7 +190,8 @@ class Category3Controller extends Controller
         ->where('pdca.target','!=',null)
         ->get();
         $per1="ssssss";
-        return view('category3/indicator2-2',compact('factor','pdca','per1'));
+        $checkedit="asdasd";
+        return view('category3/indicator2-2',compact('factor','pdca','per1','checkedit'));
     }
     public function getpdca()
     {

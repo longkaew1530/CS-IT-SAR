@@ -94,7 +94,17 @@
     $('#adddata').submit(function(e) {
       e.preventDefault();
       var formData = new FormData(this);
-      $.ajax({
+      
+
+      swal({
+      title: "ยืนยันการบันทึก?",
+      icon: "warning",
+      buttons: true,
+      successMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        $.ajax({
         type: 'POST',
         url: "/addgraduate",
         data: formData,
@@ -105,7 +115,7 @@
         success: (data) => {
           if(data){
             swal({
-          title: "แก้ไขข้อมูลสำเร็จ",
+          title: "แก้ไขข้อมูลเรียบร้อย",
           text: "Success",
           icon: "success",
           button: "ตกลง",
@@ -119,6 +129,10 @@
           console.log(data.responseJSON.errors);
         }
       });
+      } else {
+        
+      }
+    });
     });
 
     $('#adddata1').submit(function(e) {

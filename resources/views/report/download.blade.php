@@ -21,7 +21,7 @@
                   <td>
                     
                   </td>
-                  <td><button onclick="Export2Word('exportContent');">ดาวโหลด</button></td>
+                  <td><img src="/images1/word.png" width="20px"> <a href="downloadcategory/{{$row['category_id']}}" ><b>ดาวน์โหลด</b></a></td>
                   
                 </tr>
                 </div>

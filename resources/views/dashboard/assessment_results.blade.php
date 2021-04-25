@@ -340,7 +340,14 @@ $('#myTable tbody').on('click', 'td.details-control', function () {
     $('.toggle-class').change(function() {
         var status = $(this).prop('checked') == true ? 1 : 0; 
         var user_id = $(this).data('id'); 
-         
+        swal({
+      title: "ยืนยันการบันทึก?",
+      icon: "warning",
+      buttons: true,
+      successMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
         $.ajax({
             type: "GET",
             dataType: "json",
@@ -350,6 +357,10 @@ $('#myTable tbody').on('click', 'td.details-control', function () {
               console.log(data.success)
             }
         });
+      } else {
+        
+      }
+    });
     })
   })
 </script>

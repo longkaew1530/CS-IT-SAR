@@ -2,32 +2,78 @@
 
 @section('content')
 
-<div class="box box-warning  wid30 ml">
-            <div class="box-header">
-              <h4 class="box-title">ความคืบหน้าของผลการดำเนินงานทั้งหมด</h4>
-            </div>          
-            <!-- /.box-header -->
-            <div class="box-body text-center">
-             
-           
-                      <input type="text" class="knob" id="title"   data-width="150" data-height="150" data-fgColor="#00a65a" readonly>
-                      <div  id="title"  class="knob-label"></div>
-                      <h1 ></h1>
+<div class="row">
+        <div class="col-md-4 col-sm-6 col-xs-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-aqua"><i class="fa  fa-file-text-o"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text"><font size="3">ความคืบหน้าของผลการดำเนินงาน</font></span>
+              <span class="info-box-number"><font size="5" id="getwork">%</font></span>
             </div>
-</div>     
-<div class="box box-warning marginl wid90 fr">
-            <div class="box-header">
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-yellow"><i class="fa fa-spinner"></i></span>
+
             
-              <h2 class="box-title">ความคืบหน้าแต่ละหมวด</h2>
+            
+            <div class="info-box-content">
+              <span class="info-box-text"><font size="3">อยู่ระหว่างดำเนินการ</font></span>
+              <span class="info-box-number"><font size="5" id="not"></font></span>
             </div>
-           
-            <!-- /.box-header -->
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+
+        <!-- fix for small devices only -->
+        <div class="clearfix visible-sm-block"></div>
+
+        <div class="col-md-4 col-sm-6 col-xs-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-green"><i class="fa fa-check"></i></span>
+            
+            <div class="info-box-content">
+              <span class="info-box-text"><font size="3">เสร็จสิ้น</font></span>
+              <span class="info-box-number"><font size="5" id="success"></font></span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+
+        <!-- /.col -->
+      </div>   
+<div class="box box-warning marginl ml">
+            <div class="box-header">
+              <h2 class="box-title">ความคืบหน้าในภาพรวม</h2>
+            </div>
             <div class="box-body">
-            <div class="box-body">
-              <div id="bar-chart" style="height: 300px;"></div>
+              <table id="myTable" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+            <th width="5%">ที่</th>
+                  <th width="50%">หมวด</th>
+                  <th width="25%">ความคืบหน้า</th>
+                  <th width="5%"></th>
+                  <th ></th>
+                  <th width="5%"></th>
+            </tr>
+        </thead>
+    </table>
             </div>
-            </div>
-</div> 
+          </div>
+          </div>
+          <div class="slider">
+    ... Data to be shown ...
+</div>
 
           
 <style>
@@ -67,23 +113,145 @@
 .ml{
   float:left;
 }
+td.details-control {
+    background: url('images1/Untitled-2.png') no-repeat center center;
+    cursor: pointer;
+    
+}
+ 
+tr.shown td.details-control {
+    background: url('images1/Untitled-1.png') no-repeat center center;
+}
+ 
+div.slider {
+    display: none;
+}
 </style>
 <script
     src=//code.jquery.com/jquery-3.5.1.min.js
     integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
     crossorigin=anonymous></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css"></script>
+<script src="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css"></script>
 <script type=text/javascript>
 $(document).ready(function(){
   $.ajax({  //create an ajax request to display.php
           type: "GET",
           url: "/getallresult",       
           success: function (data) {
-            document.getElementById("title").value = data.score;
-            document.getElementById("title").datafgColor = data.color;
-            $("#title").trigger('change');
+            $("#getwork").html(data.score+'%');
           }
         });
+        $.ajax({  //create an ajax request to display.php
+          type: "GET",
+          url: "/getallindicator",       
+          success: function (data) {
+            var success=0;
+           var not=0;
+            for (index = 0; index < data.length; ++index) {
+              if(data[index].score==100){
+              success=success+1;
+             }
+             else{
+              not=not+1;
+             }
+            }
+            $("#not").html(not);
+            $("#success").html(success);
+          }
+        });
+        var table = $('#myTable').DataTable( {
+    ajax: {url:"/getoverview",dataSrc:""},
+    columns: [
+        { data: "category_id" },
+        { data: "category_name" },
+        {"data" : function(data) {
+          return '<div class="progress progress-xs"><div class="progress-bar progress-bar-'+data.color+'" style="width: '+data.score+'%"></div></div>'
+       }},
+       {"data" : function(data) {
+          return '<span class="badge bg-'+data.color2+'">'+data.score+'%</span>'
+       }},
+       {"data" : function(data) {
+          return '<a href="/showcategory/'+data.category_id+'">ดูรายละเอียด</a>'
+       }},
+        {
+                "class":          'details-control',
+                "orderable":      false,
+                "data":           null,
+                "defaultContent": ''
+            }
+    ],
+} );
+function validate(id) {
+        if (document.getElementById(id).checked) {
+            alert("checked");
+        } else {
+            alert("You didn't check it! Let me check it for you.");
+        }
+    }
+function format ( d ) {
+     var text="";
+     for (const [key, value] of Object.entries(d)) {
+      if(value.Indicator_id!=null){
+        text=text+'<tr>'+
+                '<td width="5%"></td>'+
+                '<td width="50%">'+"ตัวบ่งชี้"+`${value.Indicator_id} ${value.Indicator_name}`+'</td>'+
+                '<td width="25%">'+'<div class="progress progress-xs"><div class="progress-bar progress-bar-'+`${value.color}`+'" style="width:'+`${value.score}`+'%"></div></div>'+'</td>'+
+                '<td width="5%">'+'<span class="badge bg-'+`${value.color2}`+'">'+`${value.score}`+'%</span>'+'</td>'+
+                '<td ><a href="/showindicator/'+`${value.Indicator_id}`+'">ดูรายละเอียด</a></td>'+
+                '<td ></td>'+
+            '</tr>';
+      }
+      else{
+        text=text+'<tr>'+
+                '<td width="5%"></td>'+
+                '<td width="50%">'+`${value.Indicator_name}`+'</td>'+
+                '<td width="25%">'+'<div class="progress progress-xs"><div class="progress-bar progress-bar-'+`${value.color}`+'" style="width:'+`${value.score}`+'%"></div></div>'+'</td>'+
+                '<td width="5%">'+'<span class="badge bg-'+`${value.color2}`+'">'+`${value.score}`+'%</span>'+'</td>'+
+                '<td ><a href="/showindicator/'+`${value.Indicator_name}`+'">ดูรายละเอียด</a></td>'+
+                '<td ></td>'+
+            '</tr>';
+      }
+    }
+    return '<div class="slider">'+
+        '<table  class="table table-striped table-bordered" style="width:100%" >'+
+          text+
+        '</table>'+
+    '</div>';
+}
+$('#myTable tbody').on('click', 'td.details-control', function () {
+        var tr = $(this).closest('tr');
+        var row = table.row( tr );
+        var get =row.data();
+        var url = "/getclidincategory2";
+        var getdata;
+        $.get(url + '/' + get.category_id, function (data) {
+            getdata=data; 
+        })
+
+        if ( row.child.isShown() ) {
+            // This row is already open - close it
+            $('div.slider', row.child()).slideUp( function () {
+                row.child.hide();
+                tr.removeClass('shown');
+            } );
+        }
+        else {
+            // Open this row
+            $.get(url + '/' + get.category_id, function (data) {
+              row.child( format(data), 'no-padding' ).show();
+             tr.addClass('shown');
+ 
+            $('div.slider', row.child()).slideDown(); 
+            })
+            
+        }
+    } );
+
 });
   $(function () {
     $('#example3').DataTable({

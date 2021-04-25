@@ -13,7 +13,7 @@
 
               <h3 class="profile-username text-center">{{ Auth::user()->user_fullname }}</h3>
 
-              <p class="text-muted text-center">Software Engineer</p>
+              <p class="text-muted text-center mt-3"></p>
 
               <ul class="list-group list-group-unbordered">
                 <li class="list-group-item">

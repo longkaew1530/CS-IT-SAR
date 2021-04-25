@@ -21,22 +21,12 @@
         <div class="col-md-4 col-sm-6 col-xs-12">
           <div class="info-box">
             <span class="info-box-icon bg-yellow"><i class="fa fa-spinner"></i></span>
-            <?php 
-                    $success=0;
-                    $not=0;
-                    foreach($queryworkandindicator as $value1){
-                    if($value1['score']==100){
-                        $success++;
-                    }
-                    else{
-                      $not++;
-                    }
-            }
+
             
-            ?>
+            
             <div class="info-box-content">
               <span class="info-box-text"><font size="3">อยู่ระหว่างดำเนินการ</font></span>
-              <span class="info-box-number"><font size="5">{{$not}}</font></span>
+              <span class="info-box-number"><font size="5" id="not"></font></span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -53,7 +43,7 @@
             
             <div class="info-box-content">
               <span class="info-box-text"><font size="3">เสร็จสิ้น</font></span>
-              <span class="info-box-number"><font size="5">{{$success}}</font></span>
+              <span class="info-box-number"><font size="5" id="success"></font></span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -68,38 +58,21 @@
 <div class="box-header">
   <div id="exportContent">
             <div class="box-header" >
-            <h3 class="box-title">ความคืบหน้าแต่ละตัวบ่งชี้</h3>
+            <h3 class="box-title">ความคืบหน้าตัวบ่งชี้ที่ได้รับมอบหมาย</h3>
             </div>
-              <table class="table table-condensed">
-                <tbody><tr>
-                  <th width="5%">ที่</th>
+              <table id="myTable" class="table table-condensed" style="width:100%">
+        <thead>
+            <tr>
+            <th width="5%">ที่</th>
                   <th width="50%">ตัวบ่งชี้</th>
                   <th width="30%">ความคืบหน้า</th>
                   <th ></th>
-                </tr>
-                
-                <div >
-                @foreach($queryworkandindicator as $key=>$value)
-                <tr>
-                  <td>{{$key+1}}</td>
-                  <td>ตัวบ่งชี้ {{$value['Indicator_id']}} {{$value['Indicator_name']}}</td>
-                  <td>
-                    <div class="progress progress-xs">
-                      <div class="progress-bar progress-bar-{{$value['color']}}" style="width: {{$value['score']}}%"></div>
-                    </div>
-                  </td>
-                  <td><span class="badge bg-{{$value['color2']}}">{{$value['score']}}%</span>&nbsp&nbsp&nbsp&nbsp
-                  @if($value['Indicator_id']!="")
-                  <a href="/showindicator/{{$value['Indicator_id']}}"  id="add" >ดูรายละเอียด</a></td>
-                  @else
-                  <a href="/showindicator/{{$value['Indicator_name']}}"  id="add" >ดูรายละเอียด</a></td>
-                  @endif
-                </tr>
-                @endforeach
-                </div>
-                
-              </tbody></table>
+                  <th ></th>
+            </tr>
+        </thead>
+    </table>
 </div></div></div> 
+
 <style>
 .marginl{
   padding:10px;
@@ -137,9 +110,67 @@
 .ml{
   float:left;
 }
+td.details-control {
+    background: url('images1/Untitled-2.png') no-repeat center center;
+    cursor: pointer;
+    
+}
+ 
+tr.shown td.details-control {
+    background: url('images1/Untitled-1.png') no-repeat center center;
+}
+ 
+div.slider {
+  display: none;
+}
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css"></script>
+<script src="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css"></script>
 <script>
+$(document).ready(function(){
+  $.ajax({  //create an ajax request to display.php
+          type: "GET",
+          url: "/getsuccess",       
+          success: function (data) {
+           var success=0;
+           var not=0;
+            for (index = 0; index < data.length; ++index) {
+              if(data[index].score==100){
+              success=success+1;
+             }
+             else{
+              not=not+1;
+             }
+            }
+            $("#not").html(not);
+            $("#success").html(success);
+ 
+          }
+        });
+
+  var table = $('#myTable').DataTable( {
+    ajax: {url:"/getsuccess",dataSrc:""},
+    columns: [
+        { data: "getid" },
+        {"data" : function(data) {
+          return 'ตัวบ่งชี้ '+data.Indicator_id+' '+data.Indicator_name
+        }},
+        {"data" : function(data) {
+          return '<div class="progress progress-xs"><div class="progress-bar progress-bar-'+data.color+'" style="width: '+data.score+'%"></div></div>'
+       }},
+       {"data" : function(data) {
+          return '<span class="badge bg-'+data.color2+'">'+data.score+'%</span>'
+       }},
+       {"data" : function(data) {
+          return '<a href="/showindicator/'+data.Indicator_id+'">ดูรายละเอียด</a>'
+       }}
+    ],
+} );
+});
   $(function () {
     $('#example3').DataTable({
       lengthMenu: [ 5, 10, 15, 100]

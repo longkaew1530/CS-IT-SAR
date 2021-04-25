@@ -103,7 +103,17 @@
     $('#adddata').submit(function(e) {
       e.preventDefault();
       var formData = new FormData(this);
-      $.ajax({
+      
+
+      swal({
+      title: "ยืนยันการบันทึก?",
+      icon: "warning",
+      buttons: true,
+      successMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        $.ajax({
         type: 'POST',
         url: "/updatestrength",
         data: formData,
@@ -114,7 +124,7 @@
         success: (data) => {
           if(data){
             swal({
-          title: "เพิ่มข้อมูลเรียบร้อยแล้ว",
+          title: "แก้ไขข้อมูลเรียบร้อย",
           text: "",
           icon: "success",
           button: "ตกลง",
@@ -128,6 +138,10 @@
           console.log(data.responseJSON.errors);
         }
       });
+      } else {
+        
+      }
+    });
     });
   });
   

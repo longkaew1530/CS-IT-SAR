@@ -109,7 +109,18 @@
         formData.append('files' + i, files.files[i]);
       }
       formData.append('TotalFiles', TotalFiles);
-      $.ajax({
+      
+
+      
+      swal({
+      title: "ยืนยันการบันทึก?",
+      icon: "warning",
+      buttons: true,
+      successMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        $.ajax({
         type: 'POST',
         url: "/addd",
         data: formData,
@@ -119,7 +130,7 @@
         dataType: 'json',
         success: (data) => {
           swal({
-          title: "บันทึกข้อมูลสำเร็จ",
+          title: "บันทึกข้อมูลเรียบร้อย",
           text: "",
           icon: "success",
           button: "ตกลง",
@@ -132,6 +143,10 @@
           console.log(data.responseJSON.errors);
         }
       });
+      } else {
+        
+      }
+    });
     });
   });
 </script>

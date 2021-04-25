@@ -29,16 +29,16 @@
                 <input type="hidden" class="form-control" id="check" name="check" value="{{$row['Indicator_id']}}"/>
                 <tr>
                   <td rowspan="2">ตัวบ่งชี้ที่ {{$row['Indicator_id']." ".$row['Indicator_name']}}</td>           
-                  <td rowspan="2"><input class="form-control" name="target"></td>
+                  <td rowspan="2"><input type="number" class="form-control text-center" max="5" min="0" name="target"></td>
                   @if($per1!=null)
                     <td ><input class="form-control" name="performance1" ></td></td>
                   @endif  
-                  <td rowspan="2"><input class="form-control" name="performance3" ></td>
-                  <td rowspan="2"><input class="form-control" name="score"></td>
+                  <td rowspan="2"><input type="number" class="form-control text-center" max="5" min="0" name="performance3" ></td>
+                  <td rowspan="2"><input type="number" class="form-control text-center" max="5" min="0" name="score"></td>
                 </tr>
                 <tr>
                 @if($per1!=null)
-                    <td ><input class="form-control" name="performance2" ></td></td>
+                    <td ><input type="number" class="form-control text-center" max="5" min="0" name="performance2" ></td></td>
                   @endif  
                 </tr>
                 <tr>
@@ -61,12 +61,14 @@
                 <input type="hidden" class="form-control" id="check" name="check" value="{{$row['Indicator_id']}}"/>
                 <tr>
                   <td rowspan="2">ตัวบ่งชี้ที่ {{$row['Indicator_id']." ".$row['Indicator_name']}}</td>           
-                  <td rowspan="2"><input type="text" class="form-control" name="target"></td>
+                  <td rowspan="2"><input type="number" class="form-control text-center" max="5" min="0" name="target"></td>
                   @if($per1!=null)
                     <td ><input type="text" class="form-control" name="performance1" value="{{session()->get('resultpass')}}" readonly ></td></td>
+                    <td rowspan="2"><input type="text" class="form-control" name="performance3" value="{{session()->get('resultavg')}}" readonly></td>
+                  @else
+                  <td rowspan="2"><input type="number" class="form-control text-center" max="5" min="0" name="performance3" ></td>
                   @endif  
-                  <td rowspan="2"><input type="text" class="form-control" name="performance3" value="{{session()->get('resultavg')}}" readonly></td>
-                  <td rowspan="2"><input type="text" class="form-control" name="score"></td>
+                  <td rowspan="2"><input type="number" class="form-control text-center" max="5" min="0" name="score"></td>
                 </tr>
                 <tr>
                 @if($per1!=null)
@@ -167,7 +169,17 @@
       e.preventDefault();
       var formData = new FormData(this);
       var id = document.getElementById("check");
-      $.ajax({
+      
+
+      swal({
+      title: "ยืนยันการบันทึก?",
+      icon: "warning",
+      buttons: true,
+      successMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        $.ajax({
         type: 'POST',
         url: "/addself_assessment_results",
         data: formData,
@@ -178,7 +190,7 @@
         success: (data) => {
           if(data){
             swal({
-          title: "เพิ่มข้อมูลเรียบร้อยแล้ว",
+          title: "บันทึกข้อมูลเรียบร้อย",
           text: "",
           icon: "success",
           button: "ตกลง",
@@ -204,6 +216,10 @@
           console.log(data.responseJSON.errors);
         }
       });
+      } else {
+        
+      }
+    });
     });
   });
   

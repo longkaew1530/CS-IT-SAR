@@ -29,16 +29,19 @@
                 <input type="hidden" class="form-control" id="check" name="check" value="{{$row['Indicator_id']}}"/>
                 <tr>
                   <td rowspan="2">ตัวบ่งชี้ที่ {{$row['Indicator_id']." ".$row['Indicator_name']}}</td>           
-                  <td rowspan="2"><input class="form-control" name="target" value="{{$row['target']}}"></td>
+                  <td rowspan="2"><input type="number" max="5" min="0" class="form-control text-center" name="target" value="{{$row['target']}}"></td>
                   @if($per1!=null)
-                    <td ><input class="form-control" name="performance1" value="{{$row['performance1']}}" readonly></td></td>
-                  @endif  
-                  <td rowspan="2"><input class="form-control" name="performance3" value="{{$row['performance3']}}" readonly></td>
-                  <td rowspan="2"><input class="form-control" name="score" value="{{$row['score']}}"></td>
+                    <td ><input class="form-control" type="number" name="performance1" max="5" min="0" value="{{$row['performance1']}}" readonly></td></td>
+                    <td rowspan="2"><input type="number" class="form-control text-center" max="5" min="0" name="performance3" value="{{$row['performance3']}}" readonly></td>
+                  @else
+                  <td rowspan="2"><input type="number" class="form-control text-center" max="5" min="0" name="performance3" value="{{$row['performance3']}}" ></td>
+                  @endif 
+                  <td rowspan="2"><input type="number" class="form-control text-center" max="5" min="0" name="score" value="{{$row['score']}}"></td> 
+                  
                 </tr>
                 <tr>
                 @if($per1!=null)
-                    <td ><input class="form-control" name="performance2" value="{{$row['performance2']}}" readonly></td></td>
+                    <td ><input type="number" class="form-control text-center" max="5" min="0" name="performance2" value="{{$row['performance2']}}" readonly></td></td>
                   @endif  
                 </tr>
                 <tr>
@@ -135,7 +138,17 @@
       e.preventDefault();
       var formData = new FormData(this);
       var id = document.getElementById("check");
-      $.ajax({
+      
+
+      swal({
+      title: "ยืนยันการบันทึก?",
+      icon: "warning",
+      buttons: true,
+      successMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        $.ajax({
         type: 'POST',
         url: "/updateself_assessment_results",
         data: formData,
@@ -146,7 +159,7 @@
         success: (data) => {
           if(data){
             swal({
-          title: "อัปเดตข้อมูลสำเร็จ",
+          title: "แก้ไขข้อมูลเรียบร้อย",
           text: "Success",
           icon: "success",
           button: "ตกลง",
@@ -171,6 +184,10 @@
           console.log(data.responseJSON.errors);
         }
       });
+      } else {
+        
+      }
+    });
     });
   });
   

@@ -113,7 +113,7 @@
         success: (data) => {
           if(data){
             swal({
-          title: "เพิ่มข้อมูลสำเร็จ",
+          title: "บันทึกข้อมูลเรียบร้อย",
           text: "Success",
           icon: "success",
           button: "ตกลง",

@@ -3776,6 +3776,7 @@ class APIAJController extends Controller
         $clind=indicator::where('category_id',$id)
         ->where('year_id',session()->get('year_id'))
         ->where('course_id',session()->get('usercourse'))
+        ->where('active',1)
         ->get();
 
         ////ตัวบ่งชี้ 1.1

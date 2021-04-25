@@ -201,7 +201,17 @@
         }
       var formData = new FormData(this);
 
-      $.ajax({
+      
+
+      swal({
+      title: "ยืนยันการบันทึก?",
+      icon: "warning",
+      buttons: true,
+      successMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        $.ajax({
         type: 'POST',
         url: "/updateindicator3_3",
         data: formData,
@@ -211,7 +221,7 @@
         dataType: 'json',
         success: (data) => {
           swal({
-          title: "แก้ไขข้อมูลเรียบร้อยแล้ว",
+          title: "แก้ไขข้อมูลเรียบร้อย",
           text: "",
           icon: "success",
           button: "ตกลง",
@@ -224,10 +234,24 @@
           console.log(data.responseJSON.errors);
         }
       });
+      } else {
+        
+      }
+    });
     });
     $('.delete').click(function(e) {
       var id = $(this).attr('id');
-      $.ajax({
+      
+
+      swal({
+      title: "ยืนยันการลบข้อมูล?",
+      icon: "warning",
+      buttons: true,
+      successMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        $.ajax({
         type: 'delete',
         url: "/deletedoc3_3/"+id,
         data: {id:id},
@@ -237,7 +261,7 @@
         dataType: 'json',
         success: (data) => {
           swal({
-          title: "ลบข้อมูลเรียบร้อยแล้ว",
+          title: "ลบข้อมูลเรียบร้อย",
           text: "",
           icon: "success",
           button: "ตกลง",
@@ -250,6 +274,10 @@
           console.log(data.responseJSON.errors);
         }
       });
+      } else {
+        
+      }
+    });
     });
   });
   

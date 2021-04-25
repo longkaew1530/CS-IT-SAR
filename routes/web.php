@@ -354,9 +354,12 @@ Route::GET('/getteacheroverview','APIAJController@getteacheroverview');
 Route::GET('/getclidincategory3/{id}','APIAJController@getclidincategory3');
 /////download
 Route::get('/dowloaddoxc','ReportController@generateDocx');
+/////downloadcategory
+Route::get('/downloadcategory/{id}','DownloadController@downloadall');
 /////showdata
 Route::get('/getallresult','ShowdataController@allresult');
 Route::get('/getsuccess','ShowdataController@getsuccess');
+Route::get('/getallindicator','ShowdataController@getallindicator');
 Route::get('/clear-cache', function() {
     Artisan::call('cache:clear');
     return "Cache is cleared";
