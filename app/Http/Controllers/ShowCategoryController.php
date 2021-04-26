@@ -580,7 +580,16 @@ class ShowCategoryController extends Controller
         ->where('pdca.target','!=',null)
         ->get();
         $checkedit="";
-        return view('category/indicator4-3',compact('in4_3','inc','checkedit'));
+        $getcategorypdca=defaulindicator::where('id',10)
+        ->get();
+        $name="";
+        $id="";
+        foreach($getcategorypdca as $value)
+        {
+            $name=$value['Indicator_name'];
+            $id=$value['Indicator_id'];
+        }
+        return view('category/indicator4-3',compact('in4_3','inc','checkedit','name','id','getcategorypdca'));
        }
        if($id=="5.1"){
         $getcategorypdca=indicator::where('Indicator_id',5.1)
@@ -912,7 +921,7 @@ class ShowCategoryController extends Controller
                                                                                 $get=year_acceptance::where('course_id',session()->get('usercourse'))
                                                                                 ->get();
                                                                                 $getinfo="";
-                                                                                if($get!=""){
+                                                                                if($get!="[]"){
                                                                                     $getinfo=category3_infostudent::where('course_id',session()->get('usercourse'))
                                                                                     ->where('year_add', '>=',$get[0]['year_add'])
                                                                                     ->where('year_add', '<=',session()->get('year'))
@@ -927,7 +936,11 @@ class ShowCategoryController extends Controller
                                                                             $getqty=category3_infostudent_qty::where('course_id',session()->get('usercourse'))
                                                                             ->where('year_id',session()->get('year_id'))
                                                                             ->get();
-                                                                            $countnumber=count($getinfo);
+                                                                            $countnumber=0;
+                                                                            if($getinfo!=""){
+                                                                                $countnumber=count($getinfo);
+                                                                            }
+                                                                            
                                                                             return view('category3/infostudents',compact('checkedit','get','getinfo','getqty','countnumber'));
                                                                                    }
                                                                                    if($id=="จุดแข็ง จุดที่ควรพัฒนา"){

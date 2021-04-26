@@ -11,31 +11,31 @@
             <div class="box-body">
               <table class="table table-bordered ">
                 <tbody><tr>
-                  <th width="50%">รายการข้อมูล</th>
-                  <th width="30%">จำนวน</th>
+                  <th width="50%" class="text-center">รายการข้อมูล</th>
+                  <th width="30%" class="text-center">จำนวน</th>
                 </tr>
                 
                 <tr>
                   <td>1. จำนวนอาจารย์ผู้รับผิดชอบหลักสูตรทั้งหมด</td>
-                  <td>{{$count}}</td>
+                  <td class="text-center">{{$count}}</td>
                </tr>
                <tr>
                   <td>2. จำนวนอาจารย์ผู้รับผิดชอบหลักสูตรที่มีคุณวุฒิปริญญาเอก</td>
-                  <td>
+                  <td class="text-center">
                   {{$counteb_name}}
                   </td>
                </tr>
                <tr>
                   <td>3. จำนวนอาจารย์ผู้รับผิดชอบหลักสูตรที่เป็น ผู้ช่วยศาสตราจารย์</td>
-                  <td>{{$countposition1}}</td>
+                  <td class="text-center">{{$countposition1}}</td>
                </tr>
                <tr>
                   <td>4. จำนวนอาจารย์ผู้รับผิดชอบหลักสูตรที่เป็น รองศาตราจารย์</td>
-                  <td>{{$countposition2}}</td>
+                  <td class="text-center">{{$countposition2}}</td>
                </tr>
                <tr>
                   <td>5. จำนวนอาจารย์ผู้รับผิดชอบหลักสูตรที่เป็น ศาสตราจารย์</td>
-                  <td>{{$countposition3}}</td>
+                  <td class="text-center">{{$countposition3}}</td>
                </tr>
               </tbody></table>
             </div>
@@ -62,10 +62,10 @@
                        @endif 
                       @endforeach
                   </td>           
-                  <td>
+                  <td class="text-center">
                   {{$row['score']}}
                   </td>
-                  <td>
+                  <td class="text-center">
                   <?php $i=0 ?>
                   @foreach($row->research_results as $ke =>$value1)
                         @if($value1['research_results_year']==session()->get('year'))
@@ -77,7 +77,7 @@
                   <?php echo $i ?>
                   @endif
                   </td>
-                  <td>
+                  <td class="text-center">
                   @if( $i!=0)
                   <?php echo $i*$row['score'];
                         $total=$total+($i*$row['score']);
@@ -88,12 +88,12 @@
                 </tr>
                 <tr>
                 <td colspan="2" class="text-right">รวม</td>
-                <td><?php echo $totalqty ?></td>
-                <td><?php echo $total ?></td>
+                <td class="text-center"><?php echo $totalqty ?></td>
+                <td class="text-center"><?php echo $total ?></td>
                 </tr>
                 <tr>
                 <td colspan="3" class="text-right">ร้อยละของผลรวมถ่วงน้ำหนักของผลงานที่ตีพิมพ์หรือเผยแพร่ต่ออาจารย์ผู้รับผิดชอบหลักสูตรทั้งหมด</td>
-                <td>{{$E}}</td>
+                <td class="text-center">{{$E}}</td>
                 </tr>
               </tbody></table>
             </div>
@@ -128,7 +128,7 @@
                 </tr>
                 <tr>
                   <td>1. ร้อยละของอาจารย์ผู้รับผิดชอบหลักสูตรที่มีคุณวุติปริญญาเอก</td> 
-                  <td>@if($B<=20)
+                  <td class="text-center">@if($B<=20)
                       {{$B}}
                       @else
                       20
@@ -136,11 +136,11 @@
                   </td>  
                   <td class="text-center">ร้อยละ 20=5</td>
                   <?php  $result1 = sprintf('%.2f',$qty1); ?>  
-                  <td>{{$result1}}</td>            
+                  <td class="text-center">{{$result1}}</td>            
                 </tr>
                 <tr>
                   <td>2. ร้อยละของอาจารย์ผู้รับผิดชอบหลักสูตรที่มีตำแหน่งทางวิชาการ</td> 
-                  <td>@if($C<=60)
+                  <td class="text-center">@if($C<=60)
                       {{$C}}
                       @else
                       60
@@ -148,11 +148,11 @@
                   </td>  
                   <td class="text-center">ร้อยละ 60=5</td>  
                   <?php  $result2 = sprintf('%.2f',$qty2); ?> 
-                  <td>{{$result2}}</td>            
+                  <td class="text-center">{{$result2}}</td>            
                 </tr>
                 <tr>
                   <td>3. ผลงานทางวิชาการของอาจารย์ผู้รับผิดชอบหลักสูตร</td>   
-                  <td>@if($E<=20)
+                  <td class="text-center">@if($E<=20)
                       {{$E}}
                       @else
                       20
@@ -160,7 +160,7 @@
                   </td>  
                   <td class="text-center">ร้อยละ 20=5</td>  
                   <?php  $result3 = sprintf('%.2f',$qty3); ?>
-                  <td>{{$result3}}</td>          
+                  <td class="text-center">{{$result3}}</td>          
                 </tr>
                 <tr>
                   <td class="text-center" colspan="3">คะแนนเฉลี่ยรวม</td>  
@@ -173,7 +173,7 @@
                     session()->put('resultavg',$get3); 
                     ?>
                     
-                  <td>{{$result4}}</td>          
+                  <td class="text-center">{{$result4}}</td>          
                 </tr>
               </tbody></table>
             </div>

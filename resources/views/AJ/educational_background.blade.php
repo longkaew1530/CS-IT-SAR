@@ -12,7 +12,7 @@
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">เพิ่มข้อมูลกลุ่มเมนู</h4>
+                <h4 class="modal-title">เพิ่มวุฒิการศึกษา</h4>
               </div>
               <form id="formadd" method="POST" action="/addeducational_background">
                 @csrf
@@ -93,7 +93,7 @@
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">เพิ่มข้อมูลกลุ่มเมนู</h4>
+                <h4 class="modal-title">แก้ไขวุฒิการศึกษา</h4>
               </div>
               <form id="updatedata" method="POST" action="/updateeducational_background">
                 @csrf

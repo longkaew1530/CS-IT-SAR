@@ -21,7 +21,7 @@
           </div>
           <div id="body">
             <div class="col-md-12 col-sm-9 col-xs-12">
-              <textarea id="editor1" name="editor1" rows="10" cols="80">
+              <textarea id="editor1" name="editor1" rows="10" cols="80" >
               </textarea>
             </div>
           </div>
@@ -39,8 +39,8 @@
             <div class="table-responsive">  
                 <table class="table table-bordered" id="dynamic_field">  
                     <tr>  
-                        <td ><input multiple="true" type="file" id="doc_file" name="doc_file[0]" class="form-control name_list"></td> 
-                        <td width="60%"><input type="text" name="name[0]" placeholder="ตั้งชื่อไฟล์" class="form-control name_list" /></td>   
+                        <td ><input multiple="true" type="file" id="doc_file" name="doc_file[]" class="form-control name_list" ></td> 
+                        <td width="60%"><input type="text" id="name" name="name[]" placeholder="ตั้งชื่อไฟล์" class="form-control name_list" /></td>   
                         <td><button type="button" name="add" id="add" class="btn btn-success"><i class="fa fa-plus"></i></button></td>  
                     </tr>  
                 </table>  
@@ -93,7 +93,7 @@
 
       $('#add').click(function(){  
            i++;  
-           $('#dynamic_field').append('<tr id="row'+i+'" class="dynamic-added"><td><input multiple="true" type="file" id="doc_file" name="doc_file['+i+']" class="form-control name_list"></td><td width="60%"><input type="text" name="name['+i+']" placeholder="ตั้งชื่อไฟล์" class="form-control name_list" /></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');  
+           $('#dynamic_field').append('<tr id="row'+i+'" class="dynamic-added"><td><input multiple="true" type="file" id="doc_file" name="doc_file[]" class="form-control name_list"></td><td width="60%"><input type="text" id="name" name="name[]" placeholder="ตั้งชื่อไฟล์" class="form-control name_list" /></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');  
       });  
 
 
@@ -113,8 +113,57 @@
         formData.append('files' + i, files.files[i]);
       }
       formData.append('TotalFiles', TotalFiles);
-      
+      var editor1 = document.getElementById("editor1").value;
+      var getdoc_file = $("input[name='doc_file[]']")
+              .map(function(){return $(this).val();}).get();
+      var getname = $("input[name='name[]']")
+              .map(function(){return $(this).val();}).get();
+      var doc_file="";
+            for (index = 0; index < getdoc_file.length; ++index) {
+              if(getdoc_file[index]!=""){
+                doc_file="aaaa";
+             }
+             else{
+                doc_file="";
+             }
+            }
+      var name="";
+            for (index = 0; index < getname.length; ++index) {
+              if(getname[index]!=""){
+                name="aaaa";
+             }
+             else{
+              name="";
+             }
+            }
+            console.log(name);
+      if(editor1==""&&doc_file==""&&name==""){
+         swal({
+          title: "กรุณาป้อนข้อมูล",
+          text: "",
+          icon: "warning",
+          showConfirmButton: false,
+        });
+      }
+      else if(doc_file!=""&&name==""){
+        swal({
+          title: "กรุณาตั้งชื่อไฟล์",
+          text: "",
+          icon: "warning",
+          showConfirmButton: false,
+        });
+      }
+      else if(doc_file==""&&name!=""){
+        swal({
+          title: "กรุณาแนบหลักฐานอ้างอิง",
+          text: "",
+          icon: "warning",
+          showConfirmButton: false,
+        });
+      }
+      else{
 
+      
       swal({
       title: "ยืนยันการบันทึก?",
       icon: "warning",
@@ -142,6 +191,12 @@
         });
         },
         error: function(data) {
+          swal({
+          title: "เอกสารอ้างอิงไม่ถูกต้อง",
+          text: "",
+          icon: "error",
+          showConfirmButton: false,
+        });
           alert(data.responseJSON.errors.files[0]);
           console.log(data.responseJSON.errors);
         }
@@ -150,6 +205,7 @@
         
       }
     });
+  }
     });
   });
   function example(){

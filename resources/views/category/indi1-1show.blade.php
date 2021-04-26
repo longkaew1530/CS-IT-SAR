@@ -337,12 +337,8 @@
                 <tr>
                   <td rowspan="2">ตัวบ่งชี้ที่ {{$id}} {{$name}}</td>           
                   <td rowspan="2"></td>
-                  <td ></td>
-                  <td rowspan="2"></td>
-                  @if($checkedit!="")<td rowspan="2"><a href="/getself_assessment_results/1.1" class="btn btn-success fr ml-1"><i class='fa fa-plus'></i> เพิ่ม</a>@endif</td>
-                </tr>
-                <tr>
-                <td></td>
+                  <td rowspan="2">@if($checkedit!="")<td rowspan="2"><a href="/getself_assessment_results/1.1" class="btn btn-success fr ml-1"><i class='fa fa-plus'></i> เพิ่ม</a>@endif</td>
+                  
                 </tr>
                 <tr>
                 @endif
@@ -391,7 +387,17 @@
   } else {
     getvalue=2;
   }
-  $.ajax({
+  
+
+        swal({
+      title: "ยืนยันการบันทึก?",
+      icon: "warning",
+      buttons: true,
+      successMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        $.ajax({
            type:'POST',
            url:'/addresultindicator1_1',
            data: {
@@ -401,8 +407,8 @@
         },
            success:function(data){
             swal({
-              title: "เพิ่มข้อมูลสำเร็จ",
-            text: "Success",
+              title: "บันทึกข้อมูลเรียบร้อย",
+            text: "",
             icon: "success",
             button: "ตกลง",
            }).then(function() {
@@ -410,5 +416,9 @@
            });
            }
         });
+      } else {
+        
+      }
+    });
 }
 </script>

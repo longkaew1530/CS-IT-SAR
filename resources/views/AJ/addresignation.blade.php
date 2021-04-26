@@ -10,6 +10,7 @@
         <hr>
       </div>
     </div>
+            @if($get!="[]")
             <div class="box-body">
             
             <form id="adddata" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data">
@@ -135,6 +136,7 @@
     </form>
   </div>
 </div>
+@endif
 </div>
 
 <style>

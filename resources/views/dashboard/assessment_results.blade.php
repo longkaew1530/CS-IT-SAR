@@ -242,7 +242,7 @@ $(document).ready(function() {
         { data: "category_id" },
         {"data" : function(data) {
         if(data.active==1){
-          return '<label class="toggle" for="cate'+data.id+'"><input class="toggle__input add" onclick="calc('+data.id+');"  type="checkbox" id="cate'+data.id+'"checked><div class="toggle__fill"></div></label>'
+          return '<label class="toggle" for="cate'+data.id+'"><input class="toggle__input add" onclick="calc('+data.id+');"  type="checkbox" id="cate'+data.id+'"checked ><div class="toggle__fill"></div></label>'
         }
         else{
           return '<label class="toggle" for="cate'+data.id+'"><input class="toggle__input add" onclick="calc('+data.id+');"  type="checkbox" id="cate'+data.id+'"><div class="toggle__fill"></div></label>'
@@ -340,14 +340,7 @@ $('#myTable tbody').on('click', 'td.details-control', function () {
     $('.toggle-class').change(function() {
         var status = $(this).prop('checked') == true ? 1 : 0; 
         var user_id = $(this).data('id'); 
-        swal({
-      title: "ยืนยันการบันทึก?",
-      icon: "warning",
-      buttons: true,
-      successMode: true,
-    })
-    .then((willDelete) => {
-      if (willDelete) {
+         
         $.ajax({
             type: "GET",
             dataType: "json",
@@ -357,10 +350,6 @@ $('#myTable tbody').on('click', 'td.details-control', function () {
               console.log(data.success)
             }
         });
-      } else {
-        
-      }
-    });
     })
   })
 </script>
@@ -403,7 +392,17 @@ function calc(id)
   } else {
     getvalue=0;
   }
-  $.ajax({
+  
+
+        swal({
+      title: "ยืนยันการบันทึก?",
+      icon: "warning",
+      buttons: true,
+      successMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        $.ajax({
            type:'PUT',
            url:'/updateactive/'+id,
            data: {
@@ -412,7 +411,7 @@ function calc(id)
         },
            success:function(data){
             swal({
-              title: "อัปเดตข้อมูลเรียบร้อยแล้ว",
+              title: "แก้ไขข้อมูลเรียบร้อย",
             text: "",
             icon: "success",
             button: "ตกลง",
@@ -421,6 +420,10 @@ function calc(id)
            });
            }
         });
+      } else {
+       
+      }
+    });
 }
 function calc2(id)
 {
@@ -432,7 +435,17 @@ function calc2(id)
   } else {
     getvalue=0;
   }
-  $.ajax({
+  
+
+        swal({
+      title: "ยืนยันการบันทึก?",
+      icon: "warning",
+      buttons: true,
+      successMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        $.ajax({
            type:'PUT',
            url:'/updateactive2/'+id,
            data: {
@@ -441,7 +454,7 @@ function calc2(id)
         },
            success:function(data){
             swal({
-              title: "อัปเดตข้อมูลเรียบร้อยแล้ว",
+              title: "แก้ไขข้อมูลเรียบร้อย",
             text: "",
             icon: "success",
             button: "ตกลง",
@@ -450,6 +463,10 @@ function calc2(id)
            });
            }
         });
+      } else {
+       
+      }
+    });
 }
 </script>
 @endsection

@@ -158,7 +158,7 @@
                   </td>
                   <td>
                   @foreach($row1->docpdca as $key2 =>$row2)
-                   {{$row2['doc_file']}}<br>
+                  {{$value['composition_id']}}.{{$id5_1}}-{{$key2+1}} {{$row2['doc_file']}}<br>
                   @endforeach
                   </td> 
                   @endforeach
@@ -278,7 +278,7 @@
                   </td>
                   <td>
                   @foreach($row1->docpdca as $key2 =>$row2)
-                   {{$row2['doc_file']}}<br>
+                  {{$value['composition_id']}}.{{$id5_2}}-{{$key2+1}} {{$row2['doc_file']}}<br>
                   @endforeach
                   </td> 
                   @endforeach
@@ -397,7 +397,7 @@
                   </td>
                   <td>
                   @foreach($row1->docpdca as $key2 =>$row2)
-                   {{$row2['doc_file']}}<br>
+                  {{$value['composition_id']}}.{{$id5_3}}-{{$key2+1}} {{$row2['doc_file']}}<br>
                   @endforeach
                   </td> 
                   @endforeach

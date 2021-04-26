@@ -6,11 +6,13 @@
               <h3 class="text-center">หมวดที่3 นักศึกษาและบัณฑิต</h3><br>
               <div class="box-body">
               <h4>ข้อมูลนักศึกษา</h4>
+              @if($get!="[]")
             <table class="table table-bordered text-center">
                 <tbody><tr>
                   <th width="10%" rowspan="2" style="background-color:#9ddfd3">ปีการศึกษาที่รับเข้า</th>
                   <th width="10%" colspan="{{$countnumber}}" style="background-color:#9ddfd3">ปีการศึกษาที่รับเข้า</th>
                   </tr>
+                  
                   <tr>
                   <?php $yearname=session()->get('year'); ?>
                   <?php $sss=0; 
@@ -82,7 +84,7 @@
                 @endfor
                
               </tbody></table>
-              
+              @endif
               
             
            @if($getqty!="[]") จำนวนนักศึกษาที่รับเข้าตามแผน (ตาม มคอ2 ของปีที่ประเมิน) {{$getqty[0]['qty']}} คน @endif

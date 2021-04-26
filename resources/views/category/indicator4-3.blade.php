@@ -17,10 +17,10 @@
               <table class="table table-bordered" >
                 <tbody><tr>
                   <th width="60%" class="text-center">ประเด็นอธิบาย</th>
-                  <th width="15%" class="text-center">หลักฐานอ้างอิง</th>
+                  <th width="30%" class="text-center">หลักฐานอ้างอิง</th>
                 </tr>
                 @if($in4_3!="[]")
-                @foreach($in4_3 as $value)
+                @foreach($in4_3 as $key=>$value)
               <tr>
                 <td><b>{{$value['category_retention_rate']}}</b><br>
                 {!!$value['retention_rate']!!}
@@ -28,7 +28,7 @@
                 </td>
                 <td>
                 @foreach($value->docindicator4_3 as $row)
-                -{!!$row['doc_file']!!}<br>
+                {{$getcategorypdca[0]['composition_id']}}.{{$id}}-{{$key+1}} {!!$row['doc_file']!!}<br>
                 @endforeach
                 </td>
               </tr>

@@ -260,8 +260,8 @@
                 
                 </td>
                 <td>
-                @foreach($value->docindicator4_3 as $row)
-                -{!!$row['doc_file']!!}<br>
+                @foreach($value->docindicator4_3 as $key4_3=>$row)
+                {{$getcategorypdca4_3[0]['composition_id']}}.{{$id4_3}}-{{$key4_3+1}} {!!$row['doc_file']!!}<br>
                 @endforeach
                 </td>
               </tr>

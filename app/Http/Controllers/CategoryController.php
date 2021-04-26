@@ -13,6 +13,7 @@ use App\categoty_researh;
 use App\ModelAJ\Research_results;
 use App\Year;
 use App\Tps;
+use App\branch;
 use App\indicator4_3;
 use App\indicator1_1;
 use App\course_responsible_teacher;
@@ -222,7 +223,8 @@ class CategoryController extends Controller
          }
         //ดึงค่าตารางหลักสูตร
         $course = Course::where('course_id',session()->get('usercourse'))->get();
-
+        $user=auth()->user();
+        $user_branch=branch::where('id',$user->user_branch)->get();
         //ดึงค่าตารางอาจารย์ผู้รับผิดชอบหลักสูตร
         $trc = course_responsible_teacher::join('year','course_responsible_teacher.year_id','=','year.year_id')
         ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
@@ -292,7 +294,7 @@ class CategoryController extends Controller
             $checkpass=false;
         }
         return view('category/category1',compact('c','count','nameteacher'
-        ,'educ_bg','y','checkpass','checknotpass','tc_course','instructor','specialinstructor','inc','course','per'));
+        ,'educ_bg','y','checkpass','checknotpass','tc_course','instructor','specialinstructor','inc','course','per','user_branch'));
     }
     public function indicator4_1($id)
     {
@@ -428,16 +430,16 @@ class CategoryController extends Controller
         }
         $getcategorypdca=defaulindicator::where('id',9)
         ->get();
-        $name="";
-        $id="";
+        $name4_2="";
+        $id4_2="";
         $checkedit="asdasd";
         foreach($getcategorypdca as $value)
         {
-            $name=$value['Indicator_name'];
-            $id=$value['Indicator_id'];
+            $name4_2=$value['Indicator_name'];
+            $id4_2=$value['Indicator_id'];
         }
         return view('category/indicator4-2',compact('checkedit','category_re','count','counteb_name','countposition1','countposition2','countposition3'
-                    ,'cate','qty1','B','qty2','C','qty3','E','inc','id','name'));
+                    ,'cate','qty1','B','qty2','C','qty3','E','inc','id4_2','name4_2'));
     }
     public function indicator4_3()
     {
@@ -451,7 +453,15 @@ class CategoryController extends Controller
         ->where('pdca.target','!=',null)
         ->get();
         $checkedit="asdsad";
-        
-        return view('category/indicator4-3',compact('in4_3','inc','checkedit'));
+        $getcategorypdca=defaulindicator::where('id',10)
+        ->get();
+        $name="";
+        $id="";
+        foreach($getcategorypdca as $value)
+        {
+            $name=$value['Indicator_name'];
+            $id=$value['Indicator_id'];
+        }
+        return view('category/indicator4-3',compact('in4_3','inc','checkedit','id','name'));
     }
 }

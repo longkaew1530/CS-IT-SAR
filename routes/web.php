@@ -292,10 +292,10 @@ Route::get('/getstrengths_summary/{id}','APIAJController@getstrengths_summary');
 Route::post('/updatestrengths_summary','APIAJController@updatestrengths_summary');
 /////tccourse
 Route::post('/addtccourse','APIController@addtccourse');
-Route::delete('/deletetccourse/{id}','APIController@deletetccourse');
+Route::post('/deletetccourse/{id}','APIController@deletetccourse');
 /////instructor
 Route::post('/addinstructor','APIController@addinstructor');
-Route::delete('/deleteinstructor/{id}','APIController@deleteinstructor');
+Route::post('/deleteinstructor/{id}','APIController@deleteinstructor');
 ///addindicatorpermiss
 Route::post('/save', 'APIController@store');
 Route::post('/addindicator', 'APIController@addindicator');
@@ -306,7 +306,7 @@ Route::post('/updateprofile','APIController@updateprofile');
 Route::post('/updatepassword','APIController@updatepassword');
 /////course_responsible_teacher
 Route::post('/addcourse_responsible_teacher','APIController@addcourse_responsible_teacher');
-Route::delete('/deletecourse_responsible_teacher/{id}','APIController@deletecourse_responsible_teacher');
+Route::post('/deletecourse_responsible_teacher/{id}','APIController@deletecourse_responsible_teacher');
 /////year_acceptance
 Route::post('/addyear_acceptance','APIAJController@addyear_acceptance');
 Route::delete('/deletecourse_responsible_teacher/{id}','APIAJController@deletecourse_responsible_teacher');

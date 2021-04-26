@@ -55,7 +55,7 @@ class APIController extends Controller
         //     {
         //         $user->assignRole('อาจารย์');
         //     }
-        return redirect('dashboard/addmember');
+        return redirect('/addmember');
     }
     public function addpermission(Request $request)
     {
@@ -182,7 +182,7 @@ class APIController extends Controller
          $data['update_course']=$request->update_course;
          $data['place']=$request->place;
          Course::insert($data);
-         return redirect('/dashboard/course');
+         return redirect('/course');
      }
      public function updatecourse(Request $request)
      {
@@ -194,14 +194,14 @@ class APIController extends Controller
          $data->update_course = $request->input('update_course');
          $data->place = $request->input('place');
          $data->save();
-         return redirect('/dashboard/course');
+         return redirect('/course');
      }
      public function deletecourse($id)
      {
          $product = Course::find($id);
          $product->delete();
          
-         return redirect('/dashboard/course');
+         return redirect('/course');
      }
      /////หลักสูตร/////หลักสูตร/////หลักสูตร/////หลักสูตร/////หลักสูตร/////หลักสูตร
 
@@ -215,7 +215,7 @@ class APIController extends Controller
      {
          $data['faculty_name']=$request->faculty_name;
          Faculty::insert($data);
-         return redirect('/dashboard/faculty');
+         return redirect('/faculty');
      }
      public function updatefaculty(Request $request)
      {
@@ -223,14 +223,14 @@ class APIController extends Controller
          $data = Faculty::find($course_id);
          $data->faculty_name = $request->input('faculty_name');
          $data->save();
-         return redirect('/dashboard/faculty');
+         return redirect('/faculty');
      }
      public function deletefaculty($id)
      {
          $product = Faculty::find($id);
          $product->delete();
          
-         return redirect('/dashboard/faculty');
+         return redirect('/faculty');
      }
      /////คณะ/////คณะ/////คณะ/////คณะ/////คณะ/////คณะ
 
@@ -244,7 +244,7 @@ class APIController extends Controller
      {
          $data['user_group_name']=$request->user_group_name;
          groupuser::insert($data);
-         return redirect('/dashboard/usergroup');
+         return redirect('/usergroup');
      }
      public function updateusergroup(Request $request)
      {
@@ -252,14 +252,14 @@ class APIController extends Controller
          $data = groupuser::find($course_id);
          $data->user_group_name = $request->input('user_group_name');
          $data->save();
-         return redirect('/dashboard/usergroup');
+         return redirect('/usergroup');
      }
      public function deleteusergroup($id)
      {
          $product = groupuser::find($id);
          $product->delete();
          
-         return redirect('/dashboard/usergroup');
+         return redirect('/usergroup');
      }
      /////กลุ่มผู้ใช้งาน/////กลุ่มผู้ใช้งาน/////กลุ่มผู้ใช้งาน/////กลุ่มผู้ใช้งาน/////กลุ่มผู้ใช้งาน/////กลุ่มผู้ใช้งาน
      
@@ -385,6 +385,7 @@ class APIController extends Controller
        }
        $data->user_faculty = $request->input('user_faculty');
        $data->user_course = $request->input('user_course');
+       $data->branch = $request->input('branch');
        $data->user_group_id = $request->input('user_group_id');
        $data->academic_position = $request->input('academic_position');
         if ($files = $request->file('image')) {
@@ -397,7 +398,7 @@ class APIController extends Controller
            $data->image = "$profileImage";
         }
         $data->save();
-        return redirect('/dashboard/addmember'); 
+        return redirect('/addmember'); 
      }
      public function deleteuser($id)
      {
@@ -418,6 +419,7 @@ class APIController extends Controller
       public function addcategory(Request $request)
       {
           $data['category_name']=$request->category_name;
+          $data['icon']="fa fa-list-ul";
           category::insert($data);
           return redirect('/category');
       }
@@ -503,10 +505,10 @@ class APIController extends Controller
     {
         $product = course_teacher::where('user_id',$id)
         ->where('year_id',session()->get('year_id'))
-        ->where('course_id',session()->get('year_id'))
+        ->where('course_id',session()->get('usercourse'))
         ->delete();
         
-        return $product;
+        return true;
     }
     /////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร
 
@@ -530,10 +532,10 @@ class APIController extends Controller
       {
           $product = instructor::where('user_id',$id)
           ->where('year_id',session()->get('year_id'))
-          ->where('course_id',session()->get('year_id'))
+          ->where('course_id',session()->get('usercourse'))
           ->delete();
           
-          return $product;
+          return true;
       }
       /////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร
 
@@ -645,10 +647,10 @@ class APIController extends Controller
       {
           $product = course_responsible_teacher::where('user_id',$id)
           ->where('year_id',session()->get('year_id'))
-          ->where('course_id',session()->get('usercourse'))
-          ->delete();
-          
-          return $product;
+          ->where('course_id',session()->get('usercourse'));
+
+          $product->delete();
+          return true;
       }
       /////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร/////เพิ่มอาจารย์ประจำหลักสูตร
 

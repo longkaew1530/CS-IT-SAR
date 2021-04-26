@@ -134,11 +134,20 @@ class AJController extends Controller
         ->where('pdca.target','!=',null)
         ->get();
         $checkedit="asdsad";
+        $getcategorypdca=defaulindicator::where('id',10)
+        ->get();
+        $name="";
+        $id="";
+        foreach($getcategorypdca as $value)
+        {
+            $name=$value['Indicator_name'];
+            $id=$value['Indicator_id'];
+        }
         if(count($in4_3)===0){
             return view('AJ/add4_3',compact('pdca','per1'));
         }
         else{
-            return view('category/indicator4-3',compact('in4_3','inc','checkedit'));
+            return view('category/indicator4-3',compact('in4_3','inc','checkedit','name','id','getcategorypdca'));
         }
     }
     public function addinfostd()

@@ -5,7 +5,6 @@
             <div class="box-header">
               <h2 class="box-title">รายชื่ออาจารย์ประจำหลักสูตร</h2>
             </div>
-            
         <div class="modal  fade" id="modal-edit">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -23,7 +22,10 @@
                   <th>ชื่อ-สกุล</th>
                   <th>เลือก</th>
                 </tr>
+               
+                <?php $geti=1 ?>
                 @foreach($tc as $key=>$row)
+                
                 <tr>
                 <td>{{$key+1}}</td>
                   <td>{{$row['user_fullname']}}</td>
@@ -33,7 +35,9 @@
                 </div>
                   </td>
                 </tr>
+                
                 </div>
+                
                 @endforeach
               </tbody></table>
               {{$tc->links()}}
@@ -153,6 +157,7 @@
 .itemcenter{
   align-items: center;
 }
+
 </style>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -169,7 +174,18 @@
                 CKEDITOR.instances[instance].updateElement();
         }
       var formData = new FormData(this);
-      $.ajax({
+      
+
+
+      swal({
+      title: "ยืนยันการบันทึก?",
+      icon: "warning",
+      buttons: true,
+      successMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        $.ajax({
         type: 'POST',
         url: "/addtccourse",
         data: formData,
@@ -179,7 +195,7 @@
         dataType: 'json',
         success: (data) => {
           swal({
-          title: "เพิ่มข้อมูลเรียบร้อยแล้ว",
+          title: "บันทึกข้อมูลเรียบร้อย",
           text: "",
           icon: "success",
           button: "ตกลง",
@@ -192,13 +208,25 @@
           console.log(data.responseJSON.errors);
         }
       });
+      } else {
+        
+      }
+    });
     });
 
     $('.ddd').click(function(e) {
       e.preventDefault();
       var id = $(this).attr('id');
-      $.ajax({
-        type: 'DELETE',
+      swal({
+      title: "ยืนยันการลบข้อมูล?",
+      icon: "warning",
+      buttons: true,
+      successMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        $.ajax({
+        type: 'POST',
         url: "/deletetccourse/"+id,
         cache: false,
         contentType: false,
@@ -206,7 +234,7 @@
         dataType: 'json',
         success: (data) => {
           swal({
-          title: "ลบข้อมูลเรียบร้อยแล้ว",
+          title: "ลบข้อมูลเรียบร้อย",
           text: "",
           icon: "success",
           button: "ตกลง",
@@ -219,6 +247,10 @@
           console.log(data.responseJSON.errors);
         }
       });
+      } else {
+        
+      }
+    });
     });
   });
   

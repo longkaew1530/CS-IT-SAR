@@ -35,7 +35,7 @@
 
               <a href="#" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modal-edit" data-id="{{$data[0]['id']}}"><b>แก้ไขข้อมูลส่วนตัว</b></a>
               <a href="#" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modal-edit2" data-id="{{$data[0]['id']}}"><b>เปลี่ยนรหัสผ่าน</b></a>
-              <a href="#" class="btn btn-primary btn-block"><b>ประวัติการเข้าใช้งาน</b></a>
+              <!-- <a href="#" class="btn btn-primary btn-block"><b>ประวัติการเข้าใช้งาน</b></a> -->
             </div>
             <!-- /.box-body -->
           </div>

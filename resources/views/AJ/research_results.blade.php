@@ -12,7 +12,7 @@
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">เพิ่มข้อมูลผลงานวิจัย</h4>
+                <h4 class="modal-title">เพิ่มผลงานวิจัย</h4>
               </div>
               <form id="formadd" method="POST" action="/addresearch_results">
                 @csrf
@@ -108,16 +108,16 @@
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">เพิ่มข้อมูลกลุ่มเมนู</h4>
+                <h4 class="modal-title">แก้ไขผลงานวิจัย</h4>
               </div>
-              <form id="updatedata" method="POST" action="/updateeducational_background">
+              <form id="updatedata" method="POST" action="/updateresearch_results">
                 @csrf
                 {{ method_field('PUT') }}
                 <div class="box-body">
                     <input type="hidden" class="form-control" id="id" name="id">
                   <div class="form-group">
                     <label for="exampleInputPassword1">ชื่อผู้วิจัย</label>
-                    <select class="form-control" id="research_results_category" class="form-control @error('role') is-invalid @enderror" name="research_results_category">
+                    <select class="form-control" id="owner1" class="form-control @error('role') is-invalid @enderror" name="owner">
                       @foreach($userall as $value)
                       <option value="{{$value['id']}}">{{$value['user_fullname']}}</option>
                       @endforeach
@@ -126,7 +126,7 @@
                   
                   <div class="form-group">
                 <label>ชื่อผู้ร่วมวิจัย</label>
-                <select class="form-control select2" id="select" name="teacher_name[]" multiple="multiple" data-placeholder="Select a State"
+                <select class="form-control select3" id="select" name="teacher_name[]" multiple="multiple" data-placeholder="ชื่อผู้ร่วมวิจัย"
                         style="width: 100%;">
                         @foreach($userall as $value)
                       <option value="{{$value['id']}}">{{$value['user_fullname']}}</option>
@@ -244,7 +244,7 @@
 <script type="text/javascript">
   $('#formadd').ajaxForm(function() {
     swal({
-      title: "เพิ่มข้อมูลเรียบร้อยแล้ว",
+      title: "บันทึกข้อมูลเรียบร้อย",
       text: "",
       icon: "success",
       button: "ตกลง",
@@ -254,7 +254,7 @@
   });
   $('#updatedata').ajaxForm(function() {
     swal({
-      title: "อัปเดตข้อมูลเรียบร้อยแล้ว",
+      title: "แก้ไขข้อมูลเรียบร้อย",
       text: "",
       icon: "success",
       button: "ตกลง",
@@ -274,7 +274,16 @@
       var url = "/getresearch_results";
       $.get(url + '/' + id, function(data) {
         //success data
-        $("#id").val(data[0].id);
+        $("#id").val(data[0].research_results_id);
+        $("#owner1").val(data[0].owner);
+        var get=[];
+        for (index = 0; index < data.length; ++index) {
+                if(data[index].user_id!=data[0].owner){
+                  get[index]=data[index].user_id;
+                } 
+        }
+        $("#select").val(get);
+        $("#research_results_year1").val(data[0].research_results_year);
         $("#research_results_year1").val(data[0].research_results_year);
         $("#research_results_category1").val(data[0].research_results_category);
         $("#research_results_name1").val(data[0].research_results_name);
@@ -282,14 +291,7 @@
         $("#research_results_salary1").val(data[0].research_results_salary);
         
 
-        // var option = new Option(data[0].user_fullname,data[0].id,true, true);
-        // studentSelect.append(option).trigger('change');
-        // studentSelect.trigger({
-        //     type: 'select2:select',
-        //     params: {
-        //         data: data
-        //     }
-        // });
+        
 
         $('#select').select2({
         // ...

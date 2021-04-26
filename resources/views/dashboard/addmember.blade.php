@@ -33,13 +33,19 @@
                   <td>{{$row['faculty_name']}}</td>
                   <td>{{$row['course_name']}}</td>
                   <td>{{$row['user_group_name']}}</td>                 
-                  <td class="text-center"><button class="btn btn-warning" type="button"   data-toggle="modal" data-target="#modal-edit" data-id="{{$row['id']}}"><i class='fa fas fa-edit'></i></button></td>
+                  <td class="text-center"><button class="btn btn-warning" type="button" data-id="{{$row['id']}}"  data-toggle="modal" data-target="#modal-edit" ><i class='fa fas fa-edit'></i></button></td>
                   <td class="text-center">
                   <meta name="csrf-token" content="{{ csrf_token() }}">
                   <button  type="button" class="btn btn-danger deletedata" data-id="{{$row['id']}}"><i class='fa fa-trash'></i></button>
                   </td>
                 </tr>
-                <div class="modal  fade" id="modal-info">
+               
+                @endforeach
+                </tbody>
+              </table>
+                
+            </div>
+            <div class="modal  fade" id="modal-info">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
@@ -90,6 +96,14 @@
                                   </select>
                                   </div>
                                   <div class="form-group">
+                <label for="exampleInputPassword1">สาขา</label>
+                                  <select class="form-control"  id="branch"  class="form-control @error('role') is-invalid @enderror" name="branch">
+                                    @foreach($branch as $value)
+                                    <option value="{{$value['id']}}">{{$value['name']}}</option>
+                                    @endforeach
+                                  </select>
+                                  </div>
+                                  <div class="form-group">
                 <label for="exampleInputPassword1">กลุ่มผู้ใช้งาน</label>
                                   <select class="form-control"  id="user_group_id"  class="form-control @error('role') is-invalid @enderror" name="user_group_id">
                                     @foreach($groupuser as $value)
@@ -100,6 +114,7 @@
                                   <div class="form-group">
                 <label for="exampleInputPassword1">ตำแหน่งทางวิชาการ</label>
                                   <select class="form-control"  id="academic_position"  class="form-control @error('role') is-invalid @enderror" name="academic_position">
+                                  <option value=""></option>
                                     <option value="ศาสตราจารย์">ศาสตราจารย์</option>
                                     <option value="รองศาสตราจารย์">รองศาสตราจารย์</option>
                                     <option value="ผู้ช่วยศาสตราจารย์">ผู้ช่วยศาสตราจารย์</option>
@@ -171,6 +186,14 @@
                                   </select>
                                   </div>
                                   <div class="form-group">
+                                 <label for="exampleInputPassword1">สาขา</label>
+                                  <select class="form-control"  id="branch1"  class="form-control @error('role') is-invalid @enderror" name="branch">
+                                    @foreach($branch as $value)
+                                    <option value="{{$value['id']}}">{{$value['name']}}</option>
+                                    @endforeach
+                                  </select>
+                                  </div>
+                                  <div class="form-group">
                 <label for="exampleInputPassword1">กลุ่มผู้ใช้งาน</label>
                                   <select class="form-control"  id="user_group_id1"  class="form-control @error('role') is-invalid @enderror" name="user_group_id">
                                     @foreach($groupuser as $value)
@@ -178,10 +201,14 @@
                                     @endforeach
                                   </select>
                                   </div>
-                 <div class="form-group">
-                  <label for="exampleInputPassword1">ตำแหน่งทางวิชาการ</label>
-                  <input type="text" class="form-control" id="academic_position1" name="academic_position" placeholder="ตำแหน่งทางวิชาการ">
-                </div>
+                                  <div class="form-group">
+                <label for="exampleInputPassword1">ตำแหน่งทางวิชาการ</label>
+                                  <select class="form-control"  id="academic_position1"  class="form-control @error('role') is-invalid @enderror" name="academic_position">
+                                    <option value="ศาสตราจารย์">ศาสตราจารย์</option>
+                                    <option value="รองศาสตราจารย์">รองศาสตราจารย์</option>
+                                    <option value="ผู้ช่วยศาสตราจารย์">ผู้ช่วยศาสตราจารย์</option>
+                                  </select>
+                                  </div>
                 <input type="hidden" class="form-control " name="id" id="user_id" >
                 <div class="modal-footer">
                 <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">ปิด</button>
@@ -195,12 +222,6 @@
           <!-- /.modal-dialog -->
         </div>
             </div>
-                @endforeach
-                </tbody>
-              </table>
-                
-            </div>
-
             
             <!-- /.box-body -->
           </div>
@@ -266,6 +287,7 @@ var url = "/getuser";
             $("#password1").val(data[0].password);
             $("#user_faculty1").val(data[0].user_faculty);
             $("#user_course1").val(data[0].user_course);
+            $("#branch1").val(data[0].branch);
             $("#user_group_id1").val(data[0].user_group_id);
             $("#academic_position1").val(data[0].academic_position);
             // $("#image1").val(data[0].image);
@@ -295,7 +317,7 @@ var url = "/getuser";
             icon: "success",
             button: "ตกลง",
            }).then(function() {
-              window.location = "/dashboard/addmember";
+              window.location = "/addmember";
            });        
          });
 </script>
@@ -319,7 +341,7 @@ var url = "/getuser";
             icon: "success",
             button: "ตกลง",
            }).then(function() {
-              window.location = "/dashboard/addmember";
+              window.location = "/addmember";
            });
            }
     });

@@ -4,8 +4,10 @@
 <div class="box box-warning marginl" id="exportContent">
 <div class="box-header" >
               <h3 class="text-center">หมวดที่3 นักศึกษาและบัณฑิต</h3><br>
+              @if($get!="")
               <div class="box-body">
               <h4>ข้อมูลนักศึกษา</h4>
+              
             <table class="table table-bordered text-center">
                 <tbody><tr>
                   <th width="10%" rowspan="2" style="background-color:#9ddfd3">ปีการศึกษาที่รับเข้า</th>
@@ -87,9 +89,11 @@
             
            @if($getqty!="[]") จำนวนนักศึกษาที่รับเข้าตามแผน (ตาม มคอ2 ของปีที่ประเมิน) {{$getqty[0]['qty']}} คน @endif
             </div>
-
+            @endif
+            @if($get2!="")
             <div class="box-body">
             <h4>จำนวนผู้สำเร็จการศึกษา</h4>
+            
             <table class="table table-bordered text-center">
                 <tbody><tr>
                   <th width="5%" rowspan="3" style="background-color:#9ddfd3">ปีการศึกษาที่รับเข้า</th>
@@ -177,10 +181,14 @@
                 </tr>
                 @endfor
                 
-              </tbody></table></div>
-
+              </tbody></table>
+             
+              </div>
+              @endif
+              @if($get!="")
               <div class="box-body">
               <h4>การคงอยู่ของนักศึกษา</h4>
+              
             <table class="table table-bordered text-center">
                 <tbody><tr>
                   <th width="10%" rowspan="2" style="background-color:#9ddfd3">ปีการศึกษาที่รับเข้า</th>
@@ -257,16 +265,19 @@
                 @endfor
                
               </tbody></table>
-
+             
             </div>
+            @endif
+            @if($factor!="[]")
             <div class="box-body">
               <h4>ปัจจัยที่มีผลกระทบต่อจำนวนนักศึกษา</h4>
             @foreach($factor as $row)
                 {!!$row['factor']!!}
              @endforeach 
             </div>
-
+            @endif
             <div class="box-body">
+            @if($get2!="")
             <h4>จำนวนผู้สำเร็จการศึกษา</h4>
             <table class="table table-bordered text-center">
                 <tbody><tr>
@@ -355,14 +366,18 @@
                 </tr>
                 @endfor
                 
-              </tbody></table></div>
+              </tbody></table>
+              @endif
+              </div>
+              @if($factor2!="[]")
               <div class="box-body">
               <h4>ปัจจัยที่มีผลกระทบต่อการสำเร็จการศึกษา</h4>
             @foreach($factor2 as $row)
                 {!!$row['factor']!!}
              @endforeach 
             </div>
-
+            @endif
+            @if($factor3!="[]")
             <div class="box-body">
             <h4>คุณภาพบัณฑิตตามกรอบมาตรฐานคุณวุฒิระดับอุดมศึกษาแห่งชาติ (ตัวบ่งชี้ที่ 2.1)</h4>
               <table class="table table-bordered mt-1">
@@ -443,7 +458,8 @@
                 @endif
               </tbody></table>
             </div>
-
+            @endif
+            @if($factor4!="[]")
             <div class="box-body">
             <h4><li >ร้อยละของบัณฑิตปริญญาตรีที่ได้งานทำหรือประกอบอาชีพอิสระภายใน 1 ปี (ตัวบ่งชี้ 2.2)</li></h4>
             <ins>ผลการดำเนินงาน</ins>
@@ -568,8 +584,8 @@
                 @endif
               </tbody></table>
             </div>
-
-
+            @endif
+              @if($getcategorypdca3_1!="[]")
             <br> <div class="box-body">
               <h1 class="box-title">{{$name3_1}} (ตัวบ่งชี้ที่ {{$id3_1}})</h1>
               <br>
@@ -625,7 +641,7 @@
                   </td>
                   <td>
                   @foreach($row1->docpdca as $key2 =>$row2)
-                   {{$row2['doc_file']}}<br>
+                  {{$value['composition_id']}}.{{$id3_1}}-{{$key2+1}} {{$row2['doc_file']}}<br>
                   @endforeach
                   </td> 
                   @endforeach
@@ -688,7 +704,8 @@
               </tbody></table>
             </div>
               </div>
-
+                @endif
+              @if($getcategorypdca3_2!='[]')
               <br> <div class="box-body">
               <h1 class="box-title">{{$name3_2}} (ตัวบ่งชี้ที่ {{$id3_2}})</h1>
               <br>
@@ -743,8 +760,8 @@
                   {!!$row1['a']!!}</b><br><br>
                   </td>
                   <td>
-                  @foreach($row1->docpdca as $key2 =>$row2)
-                   {{$row2['doc_file']}}<br>
+                  @foreach($row1->docpdca as $key3_2 =>$row2)
+                  {{$value['composition_id']}}.{{$id3_2}}-{{$key3_2+1}} {{$row2['doc_file']}}<br>
                   @endforeach
                   </td> 
                   @endforeach
@@ -807,7 +824,8 @@
               </tbody></table>
             </div>
               </div>
-
+              @endif
+              @if($get2!="")
               <br><div class="box-body">
               <h4>ผลที่เกิดกับนักศึกษา (ตัวบ่งชี้ 3.3)</h4>
               <br><ins><b>เกณฑ์การประเมิน</b></ins><br><p>
@@ -937,7 +955,7 @@
                 </tr>
                 @endfor
                 
-              </tbody></table></div></div>
+              </tbody></table></div></div>@endif
 
               <div class="box-body">
             <ins>ผลการดำเนินงาน</ins>
@@ -947,15 +965,15 @@
                   <th width="15%" class="text-center">หลักฐานอ้างอิง</th>
                 </tr>
                 @if($in3_3!="[]")
-                @foreach($in3_3 as $value)
+                @foreach($in3_3 as $key1=>$value)
               <tr>
                 <td><b>{{$value['category_retention_rate']}}</b><br>
                 {!!$value['retention_rate']!!}
                 
                 </td>
                 <td>
-                @foreach($value->doc_performance3_3 as $row)
-                -{!!$row['doc_file']!!}<br>
+                @foreach($value->doc_performance3_3 as $key2=>$row)
+                {{$id3_3}}.{{$key1+1}}-{{$key2+1}} {!!$row['doc_file']!!}<br>
                 @endforeach
                 </td>
               </tr>
@@ -991,7 +1009,7 @@
                 @endforeach
                 @else
                 <tr>
-                  <td>ตัวบ่งชี้ที่ {{$id}} {{$name}}</td>             
+                  <td>ตัวบ่งชี้ที่ {{$id3_3}} {{$name3_3}}</td>             
                   <td class="text-center"></td>
                   <td class="text-center"></td>
                   <td class="text-center"></td>

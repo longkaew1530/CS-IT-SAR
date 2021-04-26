@@ -10,18 +10,18 @@
               <table class="table table-bordered " >
                 <tbody><tr>
                   <th width="60%" class="text-center">ประเด็นอธิบาย</th>
-                  <th width="15%" class="text-center">หลักฐานอ้างอิง</th>
+                  <th width="30%" class="text-center">หลักฐานอ้างอิง</th>
                 </tr>
                 @if($in3_3!="[]")
-                @foreach($in3_3 as $value)
+                @foreach($in3_3 as $key1=>$value)
               <tr>
                 <td><b>{{$value['category_retention_rate']}}</b><br>
                 {!!$value['retention_rate']!!}
                 
                 </td>
                 <td>
-                @foreach($value->doc_performance3_3 as $row)
-                -{!!$row['doc_file']!!}<br>
+                @foreach($value->doc_performance3_3 as $key2=>$row)
+                {{$id}}.{{$key1+1}}-{{$key2+1}} {!!$row['doc_file']!!}<br>
                 @endforeach
                 </td>
               </tr>

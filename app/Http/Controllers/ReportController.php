@@ -15,6 +15,7 @@ use App\category6_assessment_summary;
 use App\category5_course_manage;
 use App\indicator1_1;
 use App\indicator2_1;
+use App\branch;
 use App\category3_resignation;
 use App\categoty_researh;
 use App\ModelAJ\Research_results;
@@ -157,7 +158,7 @@ class ReportController extends Controller
         $result6_1=0;
         foreach($pdca as $row){
             if($row['Indicator_id']==1.1){
-                    if($row['score']=="ผ่านมาตรฐาน"){
+                    if($row['score']=="ผ่านมาตรฐาน"&&$row['performance3']=="ผ่านมาตรฐาน"&&$row['target']=="ผ่านมาตรฐาน"){
                         $result1_1="ผ่านการประเมิน";
                     }
                     else{
@@ -205,20 +206,20 @@ class ReportController extends Controller
             }
         }
         $data[0]['o']=$result1_1;
-        $data[1]['o']=($result2_1+$result2_2)/2;
-        $data[1]['avr']=($result2_1+$result2_2)/2;
-        $data[2]['p']=($result3_1+$result3_2)/2;
-        $data[2]['o']=$result3_3;
-        $data[2]['avr']=($result3_1+$result3_2+$result3_3)/3;
-        $data[3]['i']=$result4_2;
-        $data[3]['p']=$result4_1;
-        $data[3]['o']=$result4_3;
-        $data[3]['avr']=($result4_2+$result4_1+$result4_3)/3;
-        $data[4]['p']=($result5_1+$result5_2+$result5_3)/3;
-        $data[4]['o']=$result5_4;
-        $data[4]['avr']=($result5_1+$result5_2+$result5_3+$result5_4)/4;
-        $data[5]['p']=$result6_1;
-        $data[5]['avr']=$result6_1;
+        $data[1]['o']=sprintf('%.2f',($result2_1+$result2_2)/2);
+        $data[1]['avr']=sprintf('%.2f',($result2_1+$result2_2)/2);
+        $data[2]['p']=sprintf('%.2f',($result3_1+$result3_2)/2);     
+        $data[2]['o']=sprintf('%.2f',$result3_3);
+        $data[2]['avr']=sprintf('%.2f',($result3_1+$result3_2+$result3_3)/3);       
+        $data[3]['i']=sprintf('%.2f',$result4_2);
+        $data[3]['p']=sprintf('%.2f',$result4_1);
+        $data[3]['o']=sprintf('%.2f',$result4_3);
+        $data[3]['avr']=sprintf('%.2f',($result4_2+$result4_1+$result4_3)/3);
+        $data[4]['p']=sprintf('%.2f',($result5_1+$result5_2+$result5_3)/3);
+        $data[4]['o']=sprintf('%.2f',$result5_4);
+        $data[4]['avr']=sprintf('%.2f',($result5_1+$result5_2+$result5_3+$result5_4)/4);
+        $data[5]['p']=sprintf('%.2f',$result6_1);
+        $data[5]['avr']=sprintf('%.2f',$result6_1);
         for($i = 1; $i <= 5; $i++){
             if($data[$i]['avr']>=0.01&&$data[$i]['avr']<=2.00){
                 $data[$i]['result']="น้อย";
@@ -427,10 +428,12 @@ class ReportController extends Controller
             $name=$value['Indicator_name'];
             $id=$value['Indicator_id'];
         }
+        $user=auth()->user();
+        $user_branch=branch::where('id',$user->user_branch)->get();
         return view('category/category1',compact('c','count','nameteacher'
         ,'educ_bg','y','checkpass','checknotpass','tc_course','instructor','specialinstructor'
         ,'inc','course','result1','result2','result3','result4','result5','result6','result7'
-        ,'result8','result9','result10','id','name','checkedit','inc'));
+        ,'result8','result9','result10','id','name','checkedit','inc','user_branch'));
         }
         else if($id==2){
 
@@ -607,17 +610,18 @@ class ReportController extends Controller
             $name4_3=$value['Indicator_name'];
             $id4_3=$value['Indicator_id'];
         }
+        
         ////4.3
 
 
         return view('category3/category2',compact('pdca','name','id','getcourse','getcategorypdca','inc','checkedit','category_re','count','counteb_name','countposition1','countposition2','countposition3'
-                    ,'cate','qty1','B','qty2','C','qty3','E','inc4_2','id4_2','name4_2','in4_3','inc3','name4_3','id4_3'));
+                    ,'cate','qty1','B','qty2','C','qty3','E','inc4_2','id4_2','name4_2','in4_3','inc3','name4_3','id4_3','getcategorypdca4_3'));
         }
         else if($id==3){
             $get=year_acceptance::where('course_id',session()->get('usercourse'))
-                    ->get();
+            ->get();
                     $getinfo="";
-                    if($get!=""){
+                    if($get!="[]"){
                         $getinfo=category3_infostudent::where('course_id',session()->get('usercourse'))
                         ->where('year_add', '>=',$get[0]['year_add'])
                         ->where('year_add', '<=',session()->get('year'))
@@ -631,7 +635,10 @@ class ReportController extends Controller
                 $getqty=category3_infostudent_qty::where('course_id',session()->get('usercourse'))
                 ->where('year_id',session()->get('year_id'))
                 ->get();
+                $countnumber=0;
+                if($getinfo!=""){
                 $countnumber=count($getinfo);
+                }
                 $checkedit="";
 
 
@@ -640,7 +647,7 @@ class ReportController extends Controller
         $getinfo1="";
         $getinfo2="";
         $gropby="";
-        if($get!='[]'){
+        if($get2!='[]'){
         $getinfo1=category3_graduate::where('course_id',session()->get('usercourse'))
         ->where('year_add', '>=',$get[0]['year_add'])
         ->where('year_add', '<=',session()->get('year'))
@@ -809,12 +816,21 @@ class ReportController extends Controller
         ->where('pdca.indicator_id',3.3)
         ->where('pdca.target','!=',null)
         ->get();
+        $getcategorypdca3_3=defaulindicator::where('id',7)
+        ->get();
+        $name3_3="";
+        $id3_3="";
+        foreach($getcategorypdca3_3 as $value)
+        {
+            $name3_3=$value['Indicator_name'];
+            $id3_3=$value['Indicator_id'];
+        }
             return view('showcategory/category3',compact('get','getinfo','getqty','countnumber'
             ,'checkedit','get2','getinfo1','getyear','getinfo2','gropby','factor','factor2',
             'factor3','pdca','per1','name','id','factor4','pdca2','pdca3_1','name3_1',
             'id3_1','getcourse3_1','getcategorypdca3_1','inc3_1','pdca3_2','name3_2',
             'id3_2','getcourse3_2','getcategorypdca3_2','inc3_2',
-            'get5','getinfo5','getyear5','getinfo6','gropby5','re5','in3_3','inc3_3'
+            'get5','getinfo5','getyear5','getinfo6','gropby5','re5','in3_3','inc3_3','name3_3','id3_3'
             ));
         }
         else if($id==4){

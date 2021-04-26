@@ -16,25 +16,57 @@
                   โดยใช้กระบวนการ PDCA เป็นพื้นฐานและมีผลการดำเนินงานในปีการศึกษา {{ Session::get('year')}} ดังนี้ <br><br><br>
                   @if(count($row->pdca)!=0)
                   @foreach($row->pdca as $row1)
-                  @if($row1['p']!=null&&$checkedit!="")<a href="/getp/{{$row1['pdca_id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไข</a>
+                  <?php 
+                  $checkcheck=0;
+                  foreach($row1->docpdca as $check2){
+                      if($check2['doc_file']!=""&&$check2['categorypdca']=="p"){
+                        $checkcheck=1;
+                      }
+                  }
+                  ?>
+                  @if($row1['p']!=null||$checkcheck!=0)@if($checkedit!="")<a href="/getp/{{$row1['pdca_id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไข</a>@endif
                   @else
                   @if($checkedit!="")<a href="/addp/{{$row['id']}}" class="btn btn-success fr"><i class='fa fa-plus'></i> เพิ่ม</a>@endif
                   @endif
                   <ins><b>ขั้นตอนการวางแผน (P)</b></ins><br>
                   {!!$row1['p']!!}<br><br>
-                  @if($row1['d']!=null&&$checkedit!="")<a href="/getd/{{$row1['pdca_id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไข</a>
+                  <?php 
+                  $checkcheck2=0;
+                  foreach($row1->docpdca as $check3){
+                      if($check3['doc_file']!=""&&$check3['categorypdca']=="d"){
+                        $checkcheck2=1;
+                      }
+                  }
+                  ?>
+                  @if($row1['d']!=null||$checkcheck2!=0)@if($checkedit!="")<a href="/getd/{{$row1['pdca_id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไข</a>@endif
                   @else
                   @if($checkedit!="")<a href="/addd/{{$row['id']}}" class="btn btn-success fr"><i class='fa fa-plus'></i> เพิ่ม</a>@endif
                   @endif
                   <ins><b>การดำเนินงานตามแผน (D)</b></ins><br>
                   {!!$row1['d']!!}</b><br><br>
-                  @if($row1['c']!=null&&$checkedit!="")<a href="/getc/{{$row1['pdca_id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไข</a>
+                  <?php 
+                  $checkcheck3=0;
+                  foreach($row1->docpdca as $check4){
+                      if($check4['doc_file']!=""&&$check4['categorypdca']=="c"){
+                        $checkcheck3=1;
+                      }
+                  }
+                  ?>
+                  @if($row1['c']!=null||$checkcheck3!=0)@if($checkedit!="")<a href="/getc/{{$row1['pdca_id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไข</a>@endif
                   @else
                   @if($checkedit!="")<a href="/addc/{{$row['id']}}" class="btn btn-success fr"><i class='fa fa-plus'></i> เพิ่ม</a>@endif
                   @endif
                   <ins><b>การประเมินกระบวนการ (C)</b></ins><br>
                   {!!$row1['c']!!}</b><br><br>
-                  @if($row1['a']!=null&&$checkedit!="")<a href="/geta/{{$row1['pdca_id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไข</a>
+                  <?php 
+                  $checkcheck4=0;
+                  foreach($row1->docpdca as $check5){
+                      if($check5['doc_file']!=""&&$check5['categorypdca']=="a"){
+                        $checkcheck4=1;
+                      }
+                  }
+                  ?>
+                  @if($row1['a']!=null||$checkcheck4!=0)@if($checkedit!="")<a href="/geta/{{$row1['pdca_id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไข</a>@endif
                   @else
                   @if($checkedit!="")<a href="/adda/{{$row['id']}}" class="btn btn-success fr"><i class='fa fa-plus'></i> เพิ่ม</a>@endif
                   @endif
@@ -43,7 +75,7 @@
                   </td>
                   <td>
                   @foreach($row1->docpdca as $key2 =>$row2)
-                   {{$row2['doc_file']}}<br>
+                  {{$value['composition_id']}}.{{$id}}-{{$key2+1}} {{$row2['doc_file']}}<br>
                   @endforeach
                   </td> 
                   @endforeach

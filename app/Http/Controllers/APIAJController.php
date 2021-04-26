@@ -120,7 +120,7 @@ class APIAJController extends Controller
         foreach($getdata['teacher_name'] as $row){
             $query=User::find($row);
             if($i!=$countgetname){
-                $text=$text.", ".$query->user_fullname.", ";
+                $text=$text.", ".$query->user_fullname;
             }
             else{
                 $text=$text." และ".$query->user_fullname;
@@ -149,17 +149,48 @@ class APIAJController extends Controller
             $insert->save();
         }
     }
-    public function updatresearch_results(Request $request)
+    public function updateresearch_results(Request $request)
     {
-        $id=$request->input('id');
-        $data = Research_results::find($id);
-        $data->eb_yearsuccess = $request->input('eb_yearsuccess');
-        $data->eb_name = $request->input('eb_name');
-        $data->eb_fieldofstudy = $request->input('eb_fieldofstudy');
-        $data->abbreviations = $request->input('abbreviations');
-        $data->education = $request->input('education');
+        $getdata=$request->all();
+        $countgetname=count($getdata['teacher_name']);
+        $getname=User::where('id',$request->owner)
+        ->get();
+        $text=$getname[0]['user_fullname'];
+        $i=1;
+        foreach($getdata['teacher_name'] as $row){
+            $query=User::find($row);
+            if($i!=$countgetname){
+                $text=$text.", ".$query->user_fullname;
+            }
+            else{
+                $text=$text." และ".$query->user_fullname;
+            }
+            $i++;
+        }
+        $data=Research_results::find($request->id);
+        $data->owner=$request->owner;
+        $data->teacher_name=$text;
+        $data->research_results_category=$request->research_results_category;
+        $data->research_results_year=$request->research_results_year;
+        $data->research_results_name=$request->research_results_name;
+        $data->research_results_description=$request->research_results_description;
+        $data->research_results_salary=$request->research_results_salary;
         $data->save();
-        return redirect('/educational_background');
+        $checkdata=Research_results_user::where('research_results_research_results_id',$request->id);
+        if($checkdata!="[]"){
+            $checkdata->delete();
+        }
+        $insert3=new Research_results_user;
+        $insert3->research_results_research_results_id=$data->research_results_id;
+        $insert3->user_id=$request->owner;
+        $insert3->save();
+        foreach($getdata['teacher_name'] as $row){
+            $query=User::find($row);
+            $insert=new Research_results_user;
+            $insert->research_results_research_results_id=$data->research_results_id;
+            $insert->user_id=$row;
+            $insert->save();
+        }
     }
     public function deleteresearch_results($id)
     {
@@ -5996,6 +6027,12 @@ class APIAJController extends Controller
       {
           $data=PDCA::find($request->Indicator_id);
           $data->target=$request->target;
+          if(isset($request->performance1)){
+            $data->performance1=$request->performance1;
+          }
+          if(isset($request->performance2)){
+            $data->performance2=$request->performance2;
+          }
           $data->performance3=$request->performance3;
           $data->score=$request->score;
           $data->save();

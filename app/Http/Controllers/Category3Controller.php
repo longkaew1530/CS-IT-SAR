@@ -253,6 +253,15 @@ class Category3Controller extends Controller
         ->where('pdca.target','!=',null)
         ->get();
         $checkedit="asdasd";
-        return view('category3/perfoment3_3',compact('in3_3','inc','checkedit'));
+        $getcategorypdca=defaulindicator::where('id',7)
+        ->get();
+        $name="";
+        $id="";
+        foreach($getcategorypdca as $value)
+        {
+            $name=$value['Indicator_name'];
+            $id=$value['Indicator_id'];
+        }
+        return view('category3/perfoment3_3',compact('in3_3','inc','checkedit','name','id'));
     }
 }
