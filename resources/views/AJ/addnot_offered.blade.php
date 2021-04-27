@@ -114,7 +114,19 @@
     $('#adddata').submit(function(e) {
       e.preventDefault();
       var formData = new FormData(this);
-      
+      var code_name = document.getElementById("code_name").value;
+      var term = document.getElementById("term").value;
+      var description = document.getElementById("description").value;
+      var measure = document.getElementById("measure").value;
+      if(code_name==""||term==""||description==""||measure==""){
+         swal({
+          title: "กรุณาป้อนข้อมูลให้ครบ",
+          text: "",
+          icon: "warning",
+          showConfirmButton: false,
+        });
+      }
+      else{
 
       swal({
       title: "ยืนยันการบันทึก?",
@@ -151,6 +163,7 @@
         
       }
     });
+  }
     });
   });
   

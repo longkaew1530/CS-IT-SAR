@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class branch extends Model
 {
     protected $table = 'branch';
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'branch_id';
     protected $fillable=[
         'name','course_id'
     ];

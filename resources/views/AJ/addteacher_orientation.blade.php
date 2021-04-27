@@ -92,7 +92,17 @@
     $('#adddata').submit(function(e) {
       e.preventDefault();
       var formData = new FormData(this);
-     
+      var new_teacher_qty = document.getElementById("new_teacher_qty").value;
+      var teacher_point_out_qty = document.getElementById("teacher_point_out_qty").value;
+      if(new_teacher_qty==""||teacher_point_out_qty==""){
+         swal({
+          title: "กรุณาป้อนข้อมูลให้ครบ",
+          text: "",
+          icon: "warning",
+          showConfirmButton: false,
+        });
+      }
+      else{
 
       swal({
       title: "ยืนยันการบันทึก?",
@@ -129,6 +139,7 @@
         
       }
     });
+  }
     });
   });
   

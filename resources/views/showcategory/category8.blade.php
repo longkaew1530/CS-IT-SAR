@@ -94,7 +94,7 @@
                 @endforeach
               </tbody></table>  
           
-
+                @if($check1==1)
               <div class="box-header">
             <div class="box-body">
               <h4>3. สรุปจุดแข็ง จุดที่ควรพัฒนา และแนวทางการพัฒนา</h4></br>
@@ -134,6 +134,7 @@
               @endforeach
               
 </div>
+@endif
 </div>
 <style>
 .marginl{

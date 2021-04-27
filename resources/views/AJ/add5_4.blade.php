@@ -49,8 +49,8 @@
             <div class="table-responsive">  
                 <table class="table table-bordered" id="dynamic_field">  
                     <tr>  
-                        <td ><input multiple="true" type="file" id="doc_file" name="doc_file[0]" class="form-control name_list"></td> 
-                        <td width="60%"><input type="text" name="name[0]" placeholder="ตั้งชื่อไฟล์" class="form-control name_list" /></td>   
+                        <td ><input multiple="true" type="file" id="doc_file" name="doc_file[]" class="form-control name_list"></td> 
+                        <td width="60%"><input type="text" name="name[]" placeholder="ตั้งชื่อไฟล์" class="form-control name_list" /></td>   
                         <td><button type="button" name="add" id="add" class="btn btn-success"><i class="fa fa-plus"></i></button></td>  
                     </tr>  
                 </table>  
@@ -121,7 +121,41 @@
         formData.append('files1' + i, files1.files[i]);
       }
       formData.append('TotalFiles', TotalFiles);
-      
+      var editor5 = document.getElementById("editor5").value;
+      var getdoc_file1 = $("input[name='doc_file[]']")
+              .map(function(){return $(this).val();}).get();
+      var getname1 = $("input[name='name[]']")
+              .map(function(){return $(this).val();}).get();
+
+      var doc_file1="";
+            for (index = 0; index < getdoc_file1.length; ++index) {
+              if(getdoc_file1[index]!=""){
+                doc_file1="aaaa";
+             }
+             else{
+              doc_file1="";
+             }
+            }
+      var name1="";
+            for (index = 0; index < getname1.length; ++index) {
+              if(getname1[index]!=""){
+                name1="aaaa";
+             }
+             else{
+              name1="";
+             }
+            }
+
+
+      if(editor5==""||doc_file1==""||name1==""){
+         swal({
+          title: "กรุณาป้อนข้อมูลให้ครบ",
+          text: "",
+          icon: "warning",
+          showConfirmButton: false,
+        });
+      }
+      else{
 
       swal({
       title: "ยืนยันการบันทึก?",
@@ -150,6 +184,12 @@
         });
         },
         error: function(data) {
+          swal({
+          title: "เอกสารอ้างอิงไม่ถูกต้อง",
+          text: "",
+          icon: "error",
+          showConfirmButton: false,
+        });
           alert(data.responseJSON.errors.files1[0]);
           console.log(data.responseJSON.errors);
         }
@@ -158,6 +198,7 @@
         
       }
     });
+  }
     });
   });
   

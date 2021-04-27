@@ -14,21 +14,21 @@
                   <span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">เพิ่มผลงานวิจัย</h4>
               </div>
-              <form id="formadd" method="POST" action="/addresearch_results">
+              <form id="adddata" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data" >
                 @csrf
                 <div class="box-body">
                 <div class="form-group">
                     <label for="exampleInputPassword1">ชื่อผู้วิจัย</label>
                     <select class="form-control" id="owner" class="form-control @error('role') is-invalid @enderror" name="owner">
                       @foreach($userall as $value)
-                      <option value="{{$value['id']}}">{{$value['user_fullname']}}</option>
+                      <option  value="{{$value['id']}}">{{$value['user_fullname']}}</option>
                       @endforeach
                     </select>
                   </div>
                   
                   <div class="form-group">
                 <label>ชื่อผู้ร่วมวิจัย</label>
-                <select class="form-control select2" name="teacher_name[]" multiple="multiple" data-placeholder="Select a State"
+                <select class="form-control select2" id="teacher_name" name="teacher_name[]" multiple="multiple" data-placeholder="ชื่อผู้ร่วมวิจัย"
                         style="width: 100%;">
                         @foreach($userall as $value)
                       <option value="{{$value['id']}}">{{$value['user_fullname']}}</option>
@@ -46,7 +46,9 @@
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">ปีที่ทำวิจัย/ตีพิมพ์</label>
-                    <input type="text" class="form-control" id="research_results_year" name="research_results_year" placeholder="ปีที่จัดทำ">
+                    <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                  type = "number"
+                  maxlength = "4" class="form-control" id="research_results_year" name="research_results_year" placeholder="ปีที่จัดทำ">
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">ชื่อผลงาน</label>
@@ -58,7 +60,7 @@
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">งบประมาณ</label>
-                    <input type="text" class="form-control" id="research_results_salary" name="research_results_salary" placeholder="งบประมาณ">
+                    <input type="number" class="form-control" id="research_results_salary" name="research_results_salary" placeholder="งบประมาณ">
                   </div>
                 </div>
 
@@ -110,14 +112,13 @@
                   <span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">แก้ไขผลงานวิจัย</h4>
               </div>
-              <form id="updatedata" method="POST" action="/updateresearch_results">
+              <form id="updatedata" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data" >
                 @csrf
-                {{ method_field('PUT') }}
                 <div class="box-body">
                     <input type="hidden" class="form-control" id="id" name="id">
                   <div class="form-group">
                     <label for="exampleInputPassword1">ชื่อผู้วิจัย</label>
-                    <select class="form-control" id="owner1" class="form-control @error('role') is-invalid @enderror" name="owner">
+                    <select class="form-control" id="owner1" class="form-control @error('role') is-invalid @enderror" name="owner" >
                       @foreach($userall as $value)
                       <option value="{{$value['id']}}">{{$value['user_fullname']}}</option>
                       @endforeach
@@ -143,7 +144,9 @@
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">ปีที่ทำวิจัย/ตีพิมพ์</label>
-                    <input type="text" class="form-control" id="research_results_year1" name="research_results_year" placeholder="ปีที่จัดทำ">
+                    <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                  type = "number"
+                  maxlength = "4" class="form-control" id="research_results_year1" name="research_results_year" placeholder="ปีที่จัดทำ">
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">ชื่อผลงาน</label>
@@ -155,7 +158,7 @@
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">งบประมาณ</label>
-                    <input type="text" class="form-control" id="research_results_salary1" name="research_results_salary" placeholder="งบประมาณ">
+                    <input type="number" class="form-control" id="research_results_salary1" name="research_results_salary" placeholder="งบประมาณ">
                   </div>
                 </div>
                 <div class="modal-footer">
@@ -242,29 +245,207 @@
 </script>
 
 <script type="text/javascript">
-  $('#formadd').ajaxForm(function() {
-    swal({
-      title: "บันทึกข้อมูลเรียบร้อย",
-      text: "",
-      icon: "success",
-      button: "ตกลง",
-    }).then(function() {
-      window.location = "/research_results";
-    });
-  });
-  $('#updatedata').ajaxForm(function() {
-    swal({
-      title: "แก้ไขข้อมูลเรียบร้อย",
-      text: "",
-      icon: "success",
-      button: "ตกลง",
-    }).then(function() {
-      window.location = "/research_results";
-    });
-  });
+// function doAction(el) {
+
+// for (var i = 0; i < document.getElementById('owner1').length; i++) {
+//     var v = (i != el.selectedIndex ? '' : 'disabled');
+
+//     document.getElementById('owner1')[i].disabled = v;
+//     if (document.getElementById('owner1').selectedIndex == el.selectedIndex)
+//         document.getElementById('owner1').selectedIndex = 0;
+
+//     document.getElementById('select')[i].disabled = v;
+//     if (document.getElementById('select').selectedIndex == el.selectedIndex)
+//         document.getElementById('select').selectedIndex = 0;
+// }
+// }
+  // $('#formadd').ajaxForm(function() {
+  //   swal({
+  //     title: "บันทึกข้อมูลเรียบร้อย",
+  //     text: "",
+  //     icon: "success",
+  //     button: "ตกลง",
+  //   }).then(function() {
+  //     window.location = "/research_results";
+  //   });
+  // });
+  // $('#updatedata').ajaxForm(function() {
+  //   swal({
+  //     title: "แก้ไขข้อมูลเรียบร้อย",
+  //     text: "",
+  //     icon: "success",
+  //     button: "ตกลง",
+  //   }).then(function() {
+  //     window.location = "/research_results";
+  //   });
+  // });
 </script>
 <script>
   $(document).ready(function() {
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $('#adddata').submit(function(e) {
+      e.preventDefault();
+      var formData = new FormData(this);
+      var owner = document.getElementById("owner").value;
+      var research_results_year = document.getElementById("research_results_year").value;
+      var research_results_name = document.getElementById("research_results_name").value;
+      var research_results_description = document.getElementById("research_results_description").value;
+      var research_results_salary = document.getElementById("research_results_salary").value;
+      var teacher_name = $('#teacher_name').val();
+      
+      var checkdup="aaaaa";
+            for (index = 0; index < teacher_name.length; ++index) {
+              if(teacher_name[index]==owner){
+                checkdup="";
+              }
+            }
+      var gettname="";
+            for (index = 0; index < teacher_name.length; ++index) {
+              if(teacher_name[index]!=""){
+                gettname="aaaa";
+             }
+            }
+            console.log(research_results_salary);
+      if(checkdup==""){
+         swal({
+          title: "ชื่อผู้วิจัยไม่สามารถซ้ำกับชื่อผู้ร่วมวิจัยได้",
+          text: "",
+          icon: "warning",
+          showConfirmButton: false,
+        });
+      }
+      else if(gettname==""||owner==""||research_results_year==""||research_results_name==""||research_results_description==""||research_results_salary==""){
+        swal({
+          title: "กรุณาป้อนข้อมูลให้ครบ",
+          text: "",
+          icon: "warning",
+          showConfirmButton: false,
+        });
+      }
+      else{
+      swal({
+      title: "ยืนยันการบันทึก?",
+      icon: "warning",
+      buttons: true,
+      successMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        $.ajax({
+        type: 'POST',
+        url: "/addresearch_results",
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        success: (data) => {
+          if(data){
+            swal({
+          title: "บันทึกข้อมูลเรียบร้อย",
+          text: "",
+          icon: "success",
+          button: "ตกลง",
+        }).then(function() {
+          window.location = "/research_results";
+        });
+          }
+        },
+        error: function(data) {
+         
+          
+          console.log(data.responseJSON.errors);
+        }
+      });
+      } else {
+        
+      }
+    });
+  }
+    });
+    $('#updatedata').submit(function(e) {
+      e.preventDefault();
+      var formData = new FormData(this);
+      var owner = document.getElementById("owner1").value;
+      var research_results_year = document.getElementById("research_results_year1").value;
+      var research_results_name = document.getElementById("research_results_name1").value;
+      var research_results_description = document.getElementById("research_results_description1").value;
+      var research_results_salary = document.getElementById("research_results_salary1").value;
+      var teacher_name = $('#select').val();
+      var checkdup="aaaaa";
+            for (index = 0; index < teacher_name.length; ++index) {
+              if(teacher_name[index]==owner){
+                checkdup="";
+              }
+            }
+      var gettname="";
+            for (index = 0; index < teacher_name.length; ++index) {
+              if(teacher_name[index]!=""){
+                gettname="aaaa";
+             }
+            }
+      if(checkdup==""){
+         swal({
+          title: "ชื่อผู้วิจัยไม่สามารถซ้ำกับชื่อผู้ร่วมวิจัยได้",
+          text: "",
+          icon: "warning",
+          showConfirmButton: false,
+        });
+      }
+      else if(gettname==""||owner==""||research_results_year==""||research_results_name==""||research_results_description==""||research_results_salary==""){
+        swal({
+          title: "กรุณาป้อนข้อมูลให้ครบ",
+          text: "",
+          icon: "warning",
+          showConfirmButton: false,
+        });
+      }
+      else{
+      swal({
+      title: "ยืนยันการบันทึก?",
+      icon: "warning",
+      buttons: true,
+      successMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        $.ajax({
+        type: 'POST',
+        url: "/updateresearch_results",
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        success: (data) => {
+          if(data){
+            swal({
+          title: "แก้ไขข้อมูลเรียบร้อย",
+          text: "",
+          icon: "success",
+          button: "ตกลง",
+        }).then(function() {
+          window.location = "/research_results";
+        });
+          }
+        },
+        error: function(data) {
+         
+          
+          console.log(data.responseJSON.errors);
+        }
+      });
+      } else {
+        
+      }
+    });
+  }
+    });
+
     $('#modal-edit').on('show.bs.modal', function(event) {
       var button = $(event.relatedTarget);
       var id = button.data('id');
@@ -325,7 +506,15 @@
     var id = $(this).data("id");
     var token = $("meta[name='csrf-token']").attr("content");
 
-    $.ajax({
+    swal({
+      title: "ยืนยันการลบข้อมูล?",
+      icon: "warning",
+      buttons: true,
+      successMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        $.ajax({
       url: "/deleteresearch_results/" + id,
       type: 'post',
       data: {
@@ -343,7 +532,10 @@
         });
       }
     });
-
+      } else {
+        
+      }
+    });
   });
   
 </script>

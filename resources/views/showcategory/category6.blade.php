@@ -5,6 +5,7 @@
 <div class="box-header" >
               <h3 class="text-center">หมวดที่6 ข้อคิดเห็นและข้อเสนอแนะเกี่ยวกับคุณภาพหลักสูตรจากผู้ประเมิน</h3><br>
               <div class="box-header">
+              @if($check2==1)
               <div class="box-body">
            <b><h4>ข้อคิดเห็น และข้อเสนอแนะเกี่ยวกับคุณภาพหลักสูตรจากผู้ประเมิน</h4></b>
               <table class="table table-bordered" >
@@ -31,6 +32,8 @@
                 @endif
               </tbody></table>
 </div>
+@endif
+@if($check1==1)
 <div class="box-body">
             <b><h3 class="text-center">สรุปการประเมินหลักสูตร</h3></b>
             <br>
@@ -104,6 +107,7 @@
               @endif
               </tbody></table>
 </div>
+@endif
 </div>
 </div>
 <style>

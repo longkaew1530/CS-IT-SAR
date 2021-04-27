@@ -4,6 +4,7 @@
 <div class="box box-warning marginl">
   <div class="box-header">
     <div class="box-body">
+    @if($get!="[]")
       <div class="col-sm-2" align="right"></div>
       <div class="col-sm-8" align="center">
         <h3><i class=""></i>จำนวนที่ลาออกและคัดชื่อออกสะสมจนถึงสิ้นปีการศึกษา</h3>
@@ -134,9 +135,18 @@
         </div>
       </div>
     </form>
+    
   </div>
+  @endif
+  @else
+    <div class="text-center">
+    <img src="/images1/exclamation-mark.png" width="150">
+    <h2>กรุณาป้อนข้อมูลจำนวนผู้สำเร็จการศึกษา</h2>
+    </div>
+    @endif
 </div>
-@endif
+
+
 </div>
 
 <style>

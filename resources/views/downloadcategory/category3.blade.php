@@ -457,62 +457,62 @@
                 </tr>
                 @foreach($factor4 as $value)
                 <tr>
-                <td>1. จำนวนบัณฑิตทั้งหมด</td>
-                <td class="text-center">{{$value['total']}}</td>
-                <td class="text-center">{{$value['totalpersen']}}</td>
+                <td>จำนวนบัณฑิตทั้งหมด</td>
+                <td class="text-center">@if($value['total']!=0){{$value['total']}}@else-@endif</td>
+                <td class="text-center">@if($value['totalpersen']!=0){{$value['totalpersen']}}@else-@endif</td>
                 </tr>
                
                 <tr>
-                <td >2. จำนวนบัณฑิตที่ตอบแบบสำรวจ</td>
-                <td class="text-center">{{$value['answer']}}</td>
-                <td class="text-center">{{$value['answerpersen']}}</td>
+                <td >จำนวนบัณฑิตที่ตอบแบบสำรวจ</td>
+                <td class="text-center">@if($value['answer']!=0){{$value['answer']}}@else-@endif</td>
+                <td class="text-center">@if($value['answerpersen']!=0){{$value['answerpersen']}}@else-@endif</td>
                 </tr>
                 
                 <tr>
-                <td >3. จำนวนบัณฑิตที่ได้งานทำหลังสำเร็จการศึกษา<br>
+                <td >จำนวนบัณฑิตที่ได้งานทำหลังสำเร็จการศึกษา<br>
                 (ไม่นับรวมผู้ประกอบอาชีพอิสระ)<br>
                     - ตรงสาขาที่เรียน<br>
                     - ไม่ตรงสาขาที่เรียน
                 </td>
-                <td class="text-center">{{$value['job']}}<br><br>
-                    {{$value['straight_line']}}<br>
-                    {{$value['not_straight_line']}}
+                <td class="text-center">@if($value['job']!=0){{$value['job']}}@else-@endif<br><br>
+                @if($value['straight_line']!=0){{$value['straight_line']}}@endif<br>
+                @if($value['not_straight_line']!=0){{$value['not_straight_line']}}@endif
                 </td>
-                <td class="text-center">{{$value['jobpersen']}}<br><br>
-                    {{$value['straight_linepersen']}}<br>
-                    {{$value['not_straight_linepersen']}}
+                <td class="text-center">@if($value['jobpersen']!=0){{$value['jobpersen']}}@else-@endif<br><br>
+                @if($value['straight_linepersen']!=0){{$value['straight_linepersen']}}@endif<br>
+                @if($value['not_straight_linepersen']!=0){{$value['not_straight_linepersen']}}@endif
                 </td>
                 </tr>
                 <tr>
-                <td>4. จำนวนบัณฑิตที่ประกอบอาชีพอิสระ</td>
-                <td class="text-center">{{$value['freelance']}}</td>
-                 <td class="text-center">{{$value['freelancepersen']}}</td>
+                <td>จำนวนบัณฑิตที่ประกอบอาชีพอิสระ</td>
+                <td class="text-center">@if($value['freelance']!=0){{$value['freelance']}}@else-@endif</td>
+                 <td class="text-center">@if($value['freelancepersen']!=0){{$value['freelancepersen']}}@else-@endif</td>
                 </tr>
                 
                 <tr>
-                <td>5. จำนวนผู้สำเร็จการศึกษาที่มีงานทำก่อนเข้าศึกษา</td>
-                <td class="text-center">{{$value['before']}}</td>
-                <td class="text-center">{{$value['beforepersen']}}</td>
+                <td>จำนวนผู้สำเร็จการศึกษาที่มีงานทำก่อนเข้าศึกษา</td>
+                <td class="text-center">@if($value['before']!=0){{$value['before']}}@else-@endif</td>
+                <td class="text-center">@if($value['beforepersen']!=0){{$value['beforepersen']}}@else-@endif</td>
                 </tr>
                 <tr>
-                <td>6. จำนวนบัณฑิตที่ศึกษาต่อ</td>
-                <td class="text-center">{{$value['continue_study']}}</td>
-                <td class="text-center">{{$value['continue_studypersen']}}</td>
+                <td>จำนวนบัณฑิตที่ศึกษาต่อ</td>
+                <td class="text-center">@if($value['continue_study']!=0){{$value['continue_study']}}@else-@endif</td>
+                <td class="text-center">@if($value['continue_studypersen']!=0){{$value['continue_studypersen']}}@else-@endif</td>
                 </tr>
                 <tr>
-                <td>7. จำนวนบัณฑิตที่อุปสมบท</td>
-                <td class="text-center">{{$value['ordain']}}</td>
-                <td class="text-center">{{$value['ordainpersen']}}</td>
+                <td>จำนวนบัณฑิตที่อุปสมบท</td>
+                <td class="text-center">@if($value['ordain']!=0){{$value['ordain']}}@else-@endif</td>
+                <td class="text-center">@if($value['ordainpersen']!=0){{$value['ordainpersen']}}@else-@endif</td>
                 </tr>
                 <tr>
-                <td>8. จำนวนบัณฑิตที่เกณฑ์ทหาร</td>
-                <td class="text-center">{{$value['soldier']}}</td>
-                <td class="text-center">{{$value['soldierpersen']}}</td>
+                <td>จำนวนบัณฑิตที่เกณฑ์ทหาร</td>
+                <td class="text-center">@if($value['soldier']!=0){{$value['soldier']}}@else-@endif</td>
+                <td class="text-center">@if($value['soldierpersen']!=0){{$value['soldierpersen']}}@else-@endif</td>
                 </tr>
                 <tr>
-                <td>9. จำนวนบัณฑิตที่ไม่มีงานทำ</td>
-                <td class="text-center">{{$value['unemployed']}}</td>
-                <td class="text-center">{{$value['unemployedpersen']}}</td>
+                <td>จำนวนบัณฑิตที่ไม่มีงานทำ</td>
+                <td class="text-center">@if($value['unemployed']!=0){{$value['unemployed']}}@else-@endif</td>
+                <td class="text-center">@if($value['unemployedpersen']!=0){{$value['unemployedpersen']}}@else-@endif</td>
                 </tr>
                 @endforeach
               </tbody></table>

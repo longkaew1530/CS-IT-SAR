@@ -16,31 +16,27 @@
               <form  id="adddata" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data">
               @csrf
               <div class="box-body">
-              <table class="table table-condensed">
-                <tbody><tr>
-                  <th>ที่</th>
-                  <th>ชื่อ-สกุล</th>
-                  <th>เลือก</th>
+              <table id="example11" class="table table-bordered table-striped ">
+                <thead>
+                <tr>
+                  <th width="30px">ที่</th>
+                  <th >ชื่อ-สกุล</th>
+                  <th width="30px">เลือก</th>
                 </tr>
-               
-                <?php $geti=1 ?>
-                @foreach($tc as $key=>$row)
-                
+                </thead>
+                <tbody>
+                  @foreach($tc as $key=>$row)
                 <tr>
                 <td>{{$key+1}}</td>
                   <td>{{$row['user_fullname']}}</td>
                   <td>
-                  <div class="form-check">
-                  <input class="form-check-input" value="{{$row['id']}}" name="idall[]" type="checkbox" id="flexCheckChecked" >
+                  <div class="form-check text-center">
+                  <input class="form-check-input " value="{{$row['id']}}" name="idall[]" type="checkbox" id="flexCheckChecked" >
                 </div>
                   </td>
                 </tr>
-                
-                </div>
-                
                 @endforeach
-              </tbody></table>
-              {{$tc->links()}}
+                </tbody></table>
            
               </div>
              
@@ -259,7 +255,10 @@
   $(function () {
     $('#example3').DataTable({
       lengthMenu: [ 8, 20, 50, 100]
-    })
+    });
+    $('#example11').DataTable({
+      lengthMenu: [ 10, 20, 50, 100]
+    });
   })
 </script>
 

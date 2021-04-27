@@ -59,7 +59,16 @@
     $('#adddata').submit(function(e) {
       e.preventDefault();
       var formData = new FormData(this);
-     
+      var doc_file = document.getElementById("infostd").value;
+      if(doc_file==""){
+         swal({
+          title: "กรุณาป้อนข้อมูลให้ครบ",
+          text: "",
+          icon: "warning",
+          showConfirmButton: false,
+        });
+      }
+      else{
 
       swal({
       title: "ยืนยันการบันทึก?",
@@ -98,6 +107,7 @@
         
       }
     });
+  }
     });
   });
   

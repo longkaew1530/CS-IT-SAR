@@ -84,8 +84,22 @@
     });
     $('#adddata').submit(function(e) {
       e.preventDefault();
+      for (instance in CKEDITOR.instances) {
+                CKEDITOR.instances[instance].updateElement();
+        }
       var formData = new FormData(this);
-      
+      var composition = document.getElementById("composition").value;
+      var strength = document.getElementById("strength").value;
+      var should_develop = document.getElementById("should_develop").value;
+      if(strength==""||should_develop==""||composition==""){
+         swal({
+          title: "กรุณาป้อนข้อมูลให้ครบ",
+          text: "",
+          icon: "warning",
+          showConfirmButton: false,
+        });
+      }
+      else{
 
       swal({
       title: "ยืนยันการบันทึก?",
@@ -124,6 +138,7 @@
         
       }
     });
+  }
     });
   });
   

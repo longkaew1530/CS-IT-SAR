@@ -67,7 +67,11 @@
         <div id="body">
           <div class="col-md-12 col-sm-9 col-xs-12">
             <hr>
+            @if($get!="")
             <button type="submit" class="btn btn-info pull-right">บันทึกข้อมูล</button>
+            @else
+            <button type="button" class="btn btn-info pull-right" disabled>บันทึกข้อมูล</button>
+            @endif
             </textarea>
           </div>
         </div>

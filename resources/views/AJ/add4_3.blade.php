@@ -36,8 +36,8 @@
             <div class="table-responsive">  
                 <table class="table table-bordered" id="dynamic_field">  
                     <tr>  
-                        <td ><input multiple="true" type="file" id="doc_file1" name="doc_file1[0]" class="form-control name_list"></td> 
-                        <td width="60%"><input type="text" name="name1[0]" placeholder="ตั้งชื่อไฟล์" class="form-control name_list" /></td>   
+                        <td ><input multiple="true" type="file" id="doc_file1" name="doc_file1[]" class="form-control name_list"></td> 
+                        <td width="60%"><input type="text" name="name1[]" placeholder="ตั้งชื่อไฟล์" class="form-control name_list" /></td>   
                         <td><button type="button" name="add" id="add" class="btn btn-success"><i class="fa fa-plus"></i></button></td>  
                     </tr>  
                 </table>  
@@ -71,8 +71,8 @@
             <div class="table-responsive">  
                 <table class="table table-bordered" id="dynamic_field2">  
                     <tr>  
-                        <td ><input multiple="true" type="file" id="doc_file2" name="doc_file2[0]" class="form-control name_list"></td> 
-                        <td width="60%"><input type="text" name="name2[0]" placeholder="ตั้งชื่อไฟล์" class="form-control name_list" /></td>   
+                        <td ><input multiple="true" type="file" id="doc_file2" name="doc_file2[]" class="form-control name_list"></td> 
+                        <td width="60%"><input type="text" name="name2[]" placeholder="ตั้งชื่อไฟล์" class="form-control name_list" /></td>   
                         <td><button type="button" name="add" id="add2" class="btn btn-success"><i class="fa fa-plus"></i></button></td>  
                     </tr>  
                 </table>  
@@ -105,12 +105,12 @@
                 <input type="hidden" class="form-control" id="Indicator_id" name="Indicator_id" value="{{$row['Indicator_id']}}"/>
                 <tr>
                   <td rowspan="2">ตัวบ่งชี้ที่ {{$row['Indicator_id']}} {{$row['Indicator_name']}}</td>           
-                  <td rowspan="2"><input type="number" class="form-control text-center" name="target" min="0" max="5"></td>
+                  <td rowspan="2"><input type="number" class="form-control text-center" id="target" name="target" min="0" max="5"></td>
                   @if($per1!=null)
                     <td ><input type="number" class="form-control text-center" name="performance1" min="0" max="5"></td></td>
                   @endif  
-                  <td rowspan="2"><input type="number" class="form-control text-center" name="performance3" min="0" max="5"></td>
-                  <td rowspan="2"><input type="number" class="form-control text-center" name="score" min="0" max="5"></td>
+                  <td rowspan="2"><input type="number" class="form-control text-center" id="performance3" name="performance3" min="0" max="5"></td>
+                  <td rowspan="2"><input type="number" class="form-control text-center" id="score" name="score" min="0" max="5"></td>
                 </tr>
                 <tr>
                 @if($per1!=null)
@@ -167,7 +167,7 @@
 
       $('#add').click(function(){  
            i++;  
-           $('#dynamic_field').append('<tr id="row'+i+'" class="dynamic-added"><td><input multiple="true" type="file" id="doc_file" name="doc_file1['+i+']" class="form-control name_list"></td><td width="60%"><input type="text" name="name1['+i+']" placeholder="ตั้งชื่อไฟล์" class="form-control name_list" /></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');  
+           $('#dynamic_field').append('<tr id="row'+i+'" class="dynamic-added"><td><input multiple="true" type="file" id="doc_file" name="doc_file1[]" class="form-control name_list"></td><td width="60%"><input type="text" name="name1[]" placeholder="ตั้งชื่อไฟล์" class="form-control name_list" /></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');  
       });  
 
 
@@ -178,7 +178,7 @@
 
       $('#add2').click(function(){  
            x++;  
-           $('#dynamic_field2').append('<tr id="row'+x+'" class="dynamic-added"><td><input multiple="true" type="file" id="doc_file2" name="doc_file2['+x+']" class="form-control name_list"></td><td width="60%"><input type="text" name="name2['+x+']" placeholder="ตั้งชื่อไฟล์" class="form-control name_list" /></td><td><button type="button" name="remove" id="'+x+'" class="btn btn-danger btn_remove2">X</button></td></tr>');  
+           $('#dynamic_field2').append('<tr id="row'+x+'" class="dynamic-added"><td><input multiple="true" type="file" id="doc_file2" name="doc_file2[]" class="form-control name_list"></td><td width="60%"><input type="text" name="name2[]" placeholder="ตั้งชื่อไฟล์" class="form-control name_list" /></td><td><button type="button" name="remove" id="'+x+'" class="btn btn-danger btn_remove2">X</button></td></tr>');  
       });  
 
 
@@ -207,7 +207,68 @@
         formData.append('files2' + i2, files2.files[i2]);
       }
       formData.append('TotalFiles2', TotalFiles2);
-      
+      var editor5 = document.getElementById("editor5").value;
+      var editor6 = document.getElementById("editor6").value;
+      var target = document.getElementById("target").value;
+      var score = document.getElementById("score").value;
+      var performance3 = document.getElementById("performance3").value;
+      var getdoc_file1 = $("input[name='doc_file1[]']")
+              .map(function(){return $(this).val();}).get();
+      var getname1 = $("input[name='name1[]']")
+              .map(function(){return $(this).val();}).get();
+      var getdoc_file2 = $("input[name='doc_file2[]']")
+              .map(function(){return $(this).val();}).get();
+      var getname2 = $("input[name='name2[]']")
+              .map(function(){return $(this).val();}).get();
+
+      var doc_file1="";
+            for (index = 0; index < getdoc_file1.length; ++index) {
+              if(getdoc_file1[index]!=""){
+                doc_file1="aaaa";
+             }
+             else{
+              doc_file1="";
+             }
+            }
+      var name1="";
+            for (index = 0; index < getname1.length; ++index) {
+              if(getname1[index]!=""){
+                name1="aaaa";
+             }
+             else{
+              name1="";
+             }
+            }
+
+
+      var doc_file2="";
+            for (index = 0; index < getdoc_file2.length; ++index) {
+              if(getdoc_file2[index]!=""){
+                doc_file2="aaaa";
+             }
+             else{
+              doc_file2="";
+             }
+            }
+      var name2="";
+            for (index = 0; index < getname2.length; ++index) {
+              if(getname2[index]!=""){
+                name2="aaaa";
+             }
+             else{
+              name2="";
+             }
+            }
+
+      if(editor5==""||editor6==""||doc_file2==""||doc_file1==""||name1==""||name2==""||performance3==""||score==""||target==""){
+         swal({
+          title: "กรุณาป้อนข้อมูลให้ครบ",
+          text: "",
+          icon: "warning",
+          showConfirmButton: false,
+        });
+      }
+      else{
 
       swal({
       title: "ยืนยันการบันทึก?",
@@ -236,6 +297,12 @@
         });
         },
         error: function(data) {
+          swal({
+          title: "เอกสารอ้างอิงไม่ถูกต้อง",
+          text: "",
+          icon: "error",
+          showConfirmButton: false,
+        });
           alert(data.responseJSON.errors.files1[0]);
           console.log(data.responseJSON.errors);
         }
@@ -244,6 +311,7 @@
         
       }
     });
+  }
     });
   });
   

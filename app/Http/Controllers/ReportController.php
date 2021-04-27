@@ -14,6 +14,7 @@ use App\category6_comment_course;
 use App\category6_assessment_summary;
 use App\category5_course_manage;
 use App\indicator1_1;
+use App\user_permission;
 use App\indicator2_1;
 use App\branch;
 use App\category3_resignation;
@@ -429,11 +430,21 @@ class ReportController extends Controller
             $id=$value['Indicator_id'];
         }
         $user=auth()->user();
-        $user_branch=branch::where('id',$user->user_branch)->get();
+        $user_branch=branch::where('branch_id',$user->user_branch)->get();
+        $getpermiss=indicator::where('active',1)
+        ->where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        $check1_1=0;
+        foreach($getpermiss as $checkper){
+            if($checkper['Indicator_id']==1.1){
+                $check4_1=1;
+            }
+        }
         return view('category/category1',compact('c','count','nameteacher'
         ,'educ_bg','y','checkpass','checknotpass','tc_course','instructor','specialinstructor'
         ,'inc','course','result1','result2','result3','result4','result5','result6','result7'
-        ,'result8','result9','result10','id','name','checkedit','inc','user_branch'));
+        ,'result8','result9','result10','id','name','checkedit','inc','user_branch','check1_1'));
         }
         else if($id==2){
 
@@ -612,9 +623,25 @@ class ReportController extends Controller
         }
         
         ////4.3
-
-
-        return view('category3/category2',compact('pdca','name','id','getcourse','getcategorypdca','inc','checkedit','category_re','count','counteb_name','countposition1','countposition2','countposition3'
+        $getpermiss=indicator::where('active',1)
+        ->where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        $check4_1=0;
+        $check4_2=0;
+        $check4_3=0;
+        foreach($getpermiss as $checkper){
+            if($checkper['Indicator_id']==4.1){
+                $check4_1=1;
+            }
+            else if($checkper['Indicator_id']==4.2){
+                $check4_2=1;
+            }
+            else if($checkper['Indicator_id']==4.3){
+                $check4_3=1;
+            }
+        }
+        return view('category3/category2',compact('check4_1','check4_2','check4_3','pdca','name','id','getcourse','getcategorypdca','inc','checkedit','category_re','count','counteb_name','countposition1','countposition2','countposition3'
                     ,'cate','qty1','B','qty2','C','qty3','E','inc4_2','id4_2','name4_2','in4_3','inc3','name4_3','id4_3','getcategorypdca4_3'));
         }
         else if($id==3){
@@ -825,12 +852,59 @@ class ReportController extends Controller
             $name3_3=$value['Indicator_name'];
             $id3_3=$value['Indicator_id'];
         }
+        $getpermiss=indicator::where('active',1)
+        ->where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        $check2_1=0;
+        $check2_2=0;
+        $check3_1=0;
+        $check3_2=0;
+        $check3_3=0;
+        $checkfoctor1=0;
+        $checkfoctor2=0;
+        $checkinfostd=0;
+        $checkgdqty=0;
+        $checkres=0;
+        foreach($getpermiss as $checkper){
+            if($checkper['Indicator_id']==2.1){
+                $check2_1=1;
+            }
+            else if($checkper['Indicator_id']==2.2){
+                $check2_2=1;
+            }
+            else if($checkper['Indicator_id']==3.1){
+                $check3_1=1;
+            }
+            if($checkper['Indicator_id']==3.2){
+                $check3_2=1;
+            }
+            else if($checkper['Indicator_id']==3.3){
+                $check3_3=1;
+            }
+            else if($checkper['Indicator_name']=="ปัจจัยที่มีผลกระทบต่อจำนวนนักศึกษา"){
+                $checkfoctor1=1;
+            }
+            if($checkper['Indicator_name']=="ปัยจัยที่มีผลกระทบต่อการสำเร็จการศึกษา"){
+                $checkfoctor2=1;
+            }
+            else if($checkper['Indicator_name']=="ข้อมูลนักศึกษา"){
+                $checkinfostd=1;
+            }
+            else if($checkper['Indicator_name']=="จำนวนผู้สำเร็จการศึกษา"){
+                $checkgdqty=1;
+            }
+            else if($checkper['Indicator_name']=="จำนวนการลาออกและคัดชื่อออก"){
+                $checkres=1;
+            }
+        }
             return view('showcategory/category3',compact('get','getinfo','getqty','countnumber'
             ,'checkedit','get2','getinfo1','getyear','getinfo2','gropby','factor','factor2',
             'factor3','pdca','per1','name','id','factor4','pdca2','pdca3_1','name3_1',
             'id3_1','getcourse3_1','getcategorypdca3_1','inc3_1','pdca3_2','name3_2',
             'id3_2','getcourse3_2','getcategorypdca3_2','inc3_2',
-            'get5','getinfo5','getyear5','getinfo6','gropby5','re5','in3_3','inc3_3','name3_3','id3_3'
+            'get5','getinfo5','getyear5','getinfo6','gropby5','re5','in3_3','inc3_3','name3_3','id3_3',
+            'check2_1','check2_2','check3_1','check3_2','check3_3','checkfoctor1','checkfoctor2','checkinfostd','checkgdqty','checkres'
             ));
         }
         else if($id==4){
@@ -1023,11 +1097,67 @@ class ReportController extends Controller
         $activity=category4_activity::where('course_id',session()->get('usercourse'))
         ->where('year_id',session()->get('year_id'))
         ->get();
+
+        $getpermiss=indicator::where('active',1)
+        ->where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        $check5_1=0;
+        $check5_2=0;
+        $check5_3=0;
+        $check5_4=0;
+        $check1=0;
+        $check2=0;
+        $check3=0;
+        $check4=0;
+        $check5=0;
+        $check6=0;
+        $check7=0;
+        $check8=0;
+        foreach($getpermiss as $checkper){
+            if($checkper['Indicator_id']==5.1){
+                $check5_1=1;
+            }
+            else if($checkper['Indicator_id']==5.2){
+                $check5_2=1;
+            }
+            else if($checkper['Indicator_id']==5.3){
+                $check5_3=1;
+            }
+            if($checkper['Indicator_id']==5.4){
+                $check5_4=1;
+            }
+            else if($checkper['Indicator_name']=="คุณภาพการสอน"){
+                $check1=1;
+            }
+            else if($checkper['Indicator_name']=="สรุปผลรายวิชาที่เปิดสอน"){
+                $check2=1;
+            }
+            if($checkper['Indicator_name']=="รายวิชาที่มีผลการเรียนที่ไม่ปกติ"){
+                $check3=1;
+            }
+            else if($checkper['Indicator_name']=="รายวิชาที่ไม่ได้เปิดสอน"){
+                $check4=1;
+            }
+            else if($checkper['Indicator_name']=="รายวิชาที่สอนเนื้อหาไม่ครบ"){
+                $check5=1;
+            }
+            else if($checkper['Indicator_name']=="ประสิทธิผลของกลยุทธ์การสอน"){
+                $check6=1;
+            }
+            else if($checkper['Indicator_name']=="การปฐมนิเทศอาจารย์ใหม่"){
+                $check7=1;
+            }
+            else if($checkper['Indicator_name']=="กิจกรรมการพัฒนาวิชาชีพ"){
+                $check8=1;
+            }
+        }
             return view('showcategory/category4',compact('ccr','ccr2','checkedit','pdca5_1','name5_1',
             'id5_1','getcourse5_1','getcategorypdca5_1','inc5_1','pdca5_2','name5_2','id5_2','getcourse5_2',
             'getcategorypdca5_2','inc5_2','pdca5_3','name5_3','id5_3','getcourse5_3','getcategorypdca5_3','inc5_3'
          ,'indi','id5_4','name5_4','perfor','result','resultpass1_5','resultpass1_5persen','resultpassall','inc5_4',
-         'per1','academic','academic2','teachqua','teachquagroup','effec','th','checkpass','activity'));
+         'per1','academic','academic2','teachqua','teachquagroup','effec','th','checkpass','activity',
+        'check5_1','check5_2','check5_3','check5_4','check1','check2','check3','check4','check5','check6','check7','check8',));
         }
         else if($id==5){
             $coursemanage=category5_course_manage::where('course_id',session()->get('usercourse'))
@@ -1064,7 +1194,22 @@ class ReportController extends Controller
             $id=$value['Indicator_id'];
         }
         $checkedit="";
-            return view('showcategory/category5',compact('coursemanage','checkedit','pdca','name','id','getcourse','getcategorypdca','inc'));
+        $getpermiss=indicator::where('active',1)
+        ->where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        $check6_1=0;
+        $check1=0;
+        foreach($getpermiss as $checkper){
+            if($checkper['Indicator_id']==6.1){
+                $check6_1=1;
+            }
+            else if($checkper['Indicator_name']=="การบริหารหลักสูตร"){
+                $check1=1;
+            }
+            }
+            return view('showcategory/category5',compact('coursemanage','checkedit','pdca','name','id'
+            ,'getcourse','getcategorypdca','inc','check6_1','check1'));
         }
         else if($id==6){
             $coursemanage=category6_comment_course::where('course_id',session()->get('usercourse'))
@@ -1079,7 +1224,22 @@ class ReportController extends Controller
             ->where('category_assessor',"การประเมินจากผู้ที่มีส่วนเกี่ยวข้อง")
             ->where('year_id',session()->get('year_id'))
             ->get();
-            return view('showcategory/category6',compact('coursemanage','checkedit','assessmentsummary','assessmentsummary2',));
+            $getpermiss=indicator::where('active',1)
+            ->where('course_id',session()->get('usercourse'))
+            ->where('year_id',session()->get('year_id'))
+            ->get();
+            $check1=0;
+            $check2=0;
+            foreach($getpermiss as $checkper){
+                if($checkper['Indicator_name']=="สรุปการประเมินหลักสูตร"){
+                    $check1=1;
+                }
+                else if($checkper['Indicator_name']=="ข้อคิดเห็น และข้อเสนอแนะ"){
+                    $check2=1;
+                }
+                }
+            return view('showcategory/category6',compact('coursemanage','checkedit','assessmentsummary'
+            ,'assessmentsummary2','check1','check2'));
         }
         else if($id==7){
             $querystrength=category7_strength::where('course_id',session()->get('usercourse'))
@@ -1094,7 +1254,26 @@ class ReportController extends Controller
          $querynewstrength=category7_newstrength::where('course_id',session()->get('usercourse'))
         ->where('year_id',session()->get('year_id'))
         ->get();
-            return view('showcategory/category7',compact('querystrength','checkedit','querydevelopment_proposal','querynewstrength'));
+        $getpermiss=indicator::where('active',1)
+        ->where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        $check1=0;
+        $check2=0;
+        $check3=0;
+        foreach($getpermiss as $checkper){
+                if($checkper['Indicator_name']=="ความก้าวหน้าของการดำเนินงาน"){
+                    $check1=1;
+                }
+                else if($checkper['Indicator_name']=="ข้อเสนอในการพัฒนาหลักสูตร"){
+                    $check2=1;
+                }
+                else if($checkper['Indicator_name']=="แผนปฏิบัติการใหม่"){
+                    $check3=1;
+                }
+        }
+            return view('showcategory/category7',compact('querystrength','checkedit','querydevelopment_proposal'
+            ,'querynewstrength','check1','check2','check3'));
         }
         else if($id==8){
             $getall=composition::all();
@@ -1187,20 +1366,20 @@ class ReportController extends Controller
             }
         }
         $data[0]['o']=$result1_1;
-        $data[1]['o']=($result2_1+$result2_2)/2;
-        $data[1]['avr']=($result2_1+$result2_2)/2;
-        $data[2]['p']=($result3_1+$result3_2)/2;
-        $data[2]['o']=$result3_3;
-        $data[2]['avr']=($result3_1+$result3_2+$result3_3)/3;
-        $data[3]['i']=$result4_2;
-        $data[3]['p']=$result4_1;
-        $data[3]['o']=$result4_3;
-        $data[3]['avr']=($result4_2+$result4_1+$result4_3)/3;
-        $data[4]['p']=($result5_1+$result5_2+$result5_3)/3;
-        $data[4]['o']=$result5_4;
-        $data[4]['avr']=($result5_1+$result5_2+$result5_3+$result5_4)/4;
-        $data[5]['p']=$result6_1;
-        $data[5]['avr']=$result6_1;
+        $data[1]['o']=sprintf('%.2f',($result2_1+$result2_2)/2);
+        $data[1]['avr']=sprintf('%.2f',($result2_1+$result2_2)/2);
+        $data[2]['p']=sprintf('%.2f',($result3_1+$result3_2)/2);     
+        $data[2]['o']=sprintf('%.2f',$result3_3);
+        $data[2]['avr']=sprintf('%.2f',($result3_1+$result3_2+$result3_3)/3);       
+        $data[3]['i']=sprintf('%.2f',$result4_2);
+        $data[3]['p']=sprintf('%.2f',$result4_1);
+        $data[3]['o']=sprintf('%.2f',$result4_3);
+        $data[3]['avr']=sprintf('%.2f',($result4_2+$result4_1+$result4_3)/3);
+        $data[4]['p']=sprintf('%.2f',($result5_1+$result5_2+$result5_3)/3);
+        $data[4]['o']=sprintf('%.2f',$result5_4);
+        $data[4]['avr']=sprintf('%.2f',($result5_1+$result5_2+$result5_3+$result5_4)/4);
+        $data[5]['p']=sprintf('%.2f',$result6_1);
+        $data[5]['avr']=sprintf('%.2f',$result6_1);
         for($i = 1; $i <= 5; $i++){
             if($data[$i]['avr']>=0.01&&$data[$i]['avr']<=2.00){
                 $data[$i]['result']="น้อย";
@@ -1227,7 +1406,18 @@ class ReportController extends Controller
         ->where('year_id',session()->get('year_id'))
         ->get();
         $checkedit="";
-            return view('showcategory/category8',compact('querynewstrength','getnewstrength','checkedit','pdca','per1','getall','indicator','pdca2','per2','getall2','indicator2','data'));
+        $getpermiss=indicator::where('active',1)
+        ->where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        $check1=0;
+        foreach($getpermiss as $checkper){
+                if($checkper['Indicator_name']=="จุดแข็ง จุดที่ควรพัฒนา"){
+                    $check1=1;
+                }
+        }
+            return view('showcategory/category8',compact('querynewstrength','getnewstrength','checkedit','pdca'
+            ,'per1','getall','indicator','pdca2','per2','getall2','indicator2','data','check1'));
         }
          
     }

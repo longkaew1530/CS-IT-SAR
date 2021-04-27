@@ -4,6 +4,7 @@
 <div class="box box-warning marginl" id="exportContent">
 <div class="box-header" >
               <h3 class="text-center">หมวดที่4 ข้อมูลผลการเรียนรายวิชาของหลักสูตรและคุณภาพการสอนในหลักสูตร</h3><br>
+              @if($check2==1)
               <div class="box-body">
             @if($checkedit!="")<a href="/getcourse_results" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>@endif
             <b><h4>สรุปผลรายวิชาที่เปิดสอนในภาค/ปีการศึกษา</h4></b>
@@ -65,6 +66,8 @@
               @endif
               </tbody></table>
             </div>
+            @endif
+            @if($check4==1)
             <div class="box-body">
             @if($checkedit!="")<a href="/getnot_offered" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>@endif
             <h4>รายวิชาที่ไม่ได้เปิดสอนในปีการศึกษา</h4></b>
@@ -102,7 +105,8 @@
               @endif
               </tbody></table>
               </div> 
-
+              @endif
+              @if($check5_1==1)
               <br> <div class="box-body">
               <h1 class="box-title">{{$name5_1}} (ตัวบ่งชี้ที่ {{$id5_1}})</h1>
               <br>
@@ -221,8 +225,8 @@
               </tbody></table>
             </div>
               </div>   
-
-
+              @endif
+              @if($check5_2==1)
               <br> <div class="box-body">
               <h1 class="box-title">{{$name5_2}} (ตัวบ่งชี้ที่ {{$id5_2}})</h1>
               <br>
@@ -341,7 +345,8 @@
               </tbody></table>
             </div>
               </div>   
-
+              @endif
+              @if($check5_3==1)
               <br> <div class="box-body">
               <h1 class="box-title">{{$name5_3}} (ตัวบ่งชี้ที่ {{$id5_3}})</h1>
               <br>
@@ -460,8 +465,8 @@
               </tbody></table>
             </div>
               </div>   
-
-
+              @endif
+              @if($check5_4==1)
               <div class="box-body">
             
             <b><h4>ผลการดำเนินงานหลักสูตรตามกรอบมาตรฐานคุณวุฒิระดับอุดมศึกษาแห่งชาติ (ตัวบ่งชี้ที่ 5.4)</h4></b><br>
@@ -503,8 +508,8 @@
                                  @if($getcount!=0)
                                  @foreach($value->indicator5_4 as $row)
                                  @if($checkedit)<a href="/getindicator5_4/{{$row['id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i></a> @endif                                                                 
-                                         @foreach($row->doc_indicator5_4 as $row1)
-                                         -{{$row1['doc_file']}}
+                                         @foreach($row->doc_indicator5_4 as $key2=>$row1)
+                                         {{$id5_4}}.{{$key+1}}-{{$key2+1}} {{$row1['doc_file']}}
                                          <br>
                                          @endforeach
                                   @endforeach
@@ -544,8 +549,8 @@
                      <td class="text-center" colspan="3">{{$result1}}</td>
                  </tr>
                </tbody></table>
- </div>
- <div class="box-body">
+          </div>
+          <div class="box-body">
  
              <ins>ผลการประเมินตนเอง</ins>
              <table class="table table-bordered text-center">
@@ -599,7 +604,8 @@
                  @endif
                </tbody></table>
              </div>
-
+              @endif
+              @if($check3==1)
              <div class="box-body">
             
             @if($checkedit!="")<a href="/getacademic_performance" class="btn btn-warning fr"><i class='fa fas fa-edit'></i></a>@endif
@@ -647,8 +653,11 @@
             </tr>
             @endif
             </tbody></table>
-                          </div>
-                          <div class="box-body">
+            </div>
+            @endif
+
+              @if($check4==1)
+            <div class="box-body">
             @if($checkedit!="")<a href="/getnot_offered" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>@endif
             <h4>รายวิชาที่ไม่ได้เปิดสอนในปีการศึกษา</h4></b>
             <table class="table table-bordered" >
@@ -685,7 +694,9 @@
               @endif
               </tbody></table>
               </div> 
+              @endif
 
+              @if($check5==1)
               <div class="box-body">
             @if($checkedit!="")<a href="/getincomplete_content" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>@endif
             <h4>รายวิชาที่สอนเนื้อหาไม่ครบในปีการศึกษา</h4></b>
@@ -728,7 +739,8 @@
               @endif
               </tbody></table>
             </div>
-
+            @endif
+            @if($check1==1)
             <br><div class="box-body"><h4 class="text-center">คุณภาพการสอน</h4></br><br><br>
             <b>การประเมินรายวิชาที่เปิดสอนในปีที่รายงาน<br>
             รายวิชาที่มีการประเมินคุณภาพการสอน และแผนการปรับปรุงจากผลการประเมิน</b><br>
@@ -899,7 +911,9 @@
               <br>-
               @endif
               </div>
+                @endif
 
+                @if($check6==1)
               <div class="box-body">
             <b><h4>ประสิทธิผลของกลยุทธ์การสอน</h4></b>
               <table class="table table-bordered" >
@@ -927,7 +941,9 @@
                 @endif
               </tbody></table>
           </div>
+            @endif
 
+            @if($check7==1)
           <div class="box-body">
             @if($th!="[]"&&$checkedit!="")<a href="/getteacher_orientation/{{$th[0]['id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i>แก้ไขข้อมูล</a>@endif
             <h4>การปฐมนิเทศอาจารย์ใหม่</h4></b>
@@ -948,7 +964,8 @@
             @endforeach
           
         </div>
-
+          @endif
+          @if($check8==1)
         <div class="box-body">
             
             <h4 >กิจกรรมการพัฒนาวิชาชีพของอาจารย์และบุคลากรสายสนับสนุน</h4></b>
@@ -996,7 +1013,8 @@
               </tbody></table><br><br>
           
 
-</div>
+          </div>
+          @endif
 </div>
 </div>
 <style>

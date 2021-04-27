@@ -4,7 +4,7 @@
 <div class="box box-warning marginl" id="exportContent">
 <div class="box-header" >
               <h3 class="text-center">หมวดที่3 นักศึกษาและบัณฑิต</h3><br>
-              @if($get!="")
+              @if($get!=""&&$checkinfostd==1)
               <div class="box-body">
               <h4>ข้อมูลนักศึกษา</h4>
               
@@ -90,7 +90,7 @@
            @if($getqty!="[]") จำนวนนักศึกษาที่รับเข้าตามแผน (ตาม มคอ2 ของปีที่ประเมิน) {{$getqty[0]['qty']}} คน @endif
             </div>
             @endif
-            @if($get2!="")
+            @if($get2!=""&&$checkgdqty==1)
             <div class="box-body">
             <h4>จำนวนผู้สำเร็จการศึกษา</h4>
             
@@ -185,7 +185,7 @@
              
               </div>
               @endif
-              @if($get!="")
+              @if($get!=""&&$checkinfostd==1)
               <div class="box-body">
               <h4>การคงอยู่ของนักศึกษา</h4>
               
@@ -268,6 +268,7 @@
              
             </div>
             @endif
+            @if($checkfoctor1==1)
             @if($factor!="[]")
             <div class="box-body">
               <h4>ปัจจัยที่มีผลกระทบต่อจำนวนนักศึกษา</h4>
@@ -275,9 +276,15 @@
                 {!!$row['factor']!!}
              @endforeach 
             </div>
+            @else
+            <div class="box-body">
+              <h4>ปัจจัยที่มีผลกระทบต่อจำนวนนักศึกษา</h4>
+                -
+            </div>
+            @endif
             @endif
             <div class="box-body">
-            @if($get2!="")
+            @if($get2!=""&&$checkgdqty==1)
             <h4>จำนวนผู้สำเร็จการศึกษา</h4>
             <table class="table table-bordered text-center">
                 <tbody><tr>
@@ -369,21 +376,29 @@
               </tbody></table>
               @endif
               </div>
+              @if($checkfoctor2==1)
               @if($factor2!="[]")
               <div class="box-body">
               <h4>ปัจจัยที่มีผลกระทบต่อการสำเร็จการศึกษา</h4>
-            @foreach($factor2 as $row)
+                  @foreach($factor2 as $row)
                 {!!$row['factor']!!}
-             @endforeach 
+                 @endforeach 
+            </div>
+            @else
+            <div class="box-body">
+              <h4>ปัจจัยที่มีผลกระทบต่อการสำเร็จการศึกษา</h4>
+                  -
             </div>
             @endif
-            @if($factor3!="[]")
+            @endif
+            @if($check2_1==1)
             <div class="box-body">
             <h4>คุณภาพบัณฑิตตามกรอบมาตรฐานคุณวุฒิระดับอุดมศึกษาแห่งชาติ (ตัวบ่งชี้ที่ 2.1)</h4>
               <table class="table table-bordered mt-1">
                 <tbody><tr>
                   <th width="80%" class="text-center">ข้อมูลพื้นฐาน</th>
                   <th width="10%" class="text-center">จำนวน</th>
+                  @if($factor3!="[]")
                   @foreach($factor3 as $value)
                 </tr>
                 <td>1. จำนวนบัณฑิตที่สำเร็จการศึกษาในหลักสูตรนี้ทั้งหมด</td>
@@ -407,6 +422,12 @@
                 <tr>
                 </tr>
                 @endforeach
+                @else
+                <tr>
+                <td>-</td>
+                <td>-</td>
+                </tr>
+                @endif
               </tbody></table></div>
               <div class="box-body">
             <ins>ผลการประเมินตนเอง</ins>
@@ -459,7 +480,7 @@
               </tbody></table>
             </div>
             @endif
-            @if($factor4!="[]")
+            @if($check2_2==1)
             <div class="box-body">
             <h4><li >ร้อยละของบัณฑิตปริญญาตรีที่ได้งานทำหรือประกอบอาชีพอิสระภายใน 1 ปี (ตัวบ่งชี้ 2.2)</li></h4>
             <ins>ผลการดำเนินงาน</ins>
@@ -471,62 +492,62 @@
                 </tr>
                 @foreach($factor4 as $value)
                 <tr>
-                <td>1. จำนวนบัณฑิตทั้งหมด</td>
-                <td class="text-center">{{$value['total']}}</td>
-                <td class="text-center">{{$value['totalpersen']}}</td>
+                <td>จำนวนบัณฑิตทั้งหมด</td>
+                <td class="text-center">@if($value['total']!=0){{$value['total']}}@else-@endif</td>
+                <td class="text-center">@if($value['totalpersen']!=0){{$value['totalpersen']}}@else-@endif</td>
                 </tr>
                
                 <tr>
-                <td >2. จำนวนบัณฑิตที่ตอบแบบสำรวจ</td>
-                <td class="text-center">{{$value['answer']}}</td>
-                <td class="text-center">{{$value['answerpersen']}}</td>
+                <td >จำนวนบัณฑิตที่ตอบแบบสำรวจ</td>
+                <td class="text-center">@if($value['answer']!=0){{$value['answer']}}@else-@endif</td>
+                <td class="text-center">@if($value['answerpersen']!=0){{$value['answerpersen']}}@else-@endif</td>
                 </tr>
                 
                 <tr>
-                <td >3. จำนวนบัณฑิตที่ได้งานทำหลังสำเร็จการศึกษา<br>
+                <td >จำนวนบัณฑิตที่ได้งานทำหลังสำเร็จการศึกษา<br>
                 (ไม่นับรวมผู้ประกอบอาชีพอิสระ)<br>
                     - ตรงสาขาที่เรียน<br>
                     - ไม่ตรงสาขาที่เรียน
                 </td>
-                <td class="text-center">{{$value['job']}}<br><br>
-                    {{$value['straight_line']}}<br>
-                    {{$value['not_straight_line']}}
+                <td class="text-center">@if($value['job']!=0){{$value['job']}}@else-@endif<br><br>
+                @if($value['straight_line']!=0){{$value['straight_line']}}@endif<br>
+                @if($value['not_straight_line']!=0){{$value['not_straight_line']}}@endif
                 </td>
-                <td class="text-center">{{$value['jobpersen']}}<br><br>
-                    {{$value['straight_linepersen']}}<br>
-                    {{$value['not_straight_linepersen']}}
+                <td class="text-center">@if($value['jobpersen']!=0){{$value['jobpersen']}}@else-@endif<br><br>
+                @if($value['straight_linepersen']!=0){{$value['straight_linepersen']}}@endif<br>
+                @if($value['not_straight_linepersen']!=0){{$value['not_straight_linepersen']}}@endif
                 </td>
                 </tr>
                 <tr>
-                <td>4. จำนวนบัณฑิตที่ประกอบอาชีพอิสระ</td>
-                <td class="text-center">{{$value['freelance']}}</td>
-                 <td class="text-center">{{$value['freelancepersen']}}</td>
+                <td>จำนวนบัณฑิตที่ประกอบอาชีพอิสระ</td>
+                <td class="text-center">@if($value['freelance']!=0){{$value['freelance']}}@else-@endif</td>
+                 <td class="text-center">@if($value['freelancepersen']!=0){{$value['freelancepersen']}}@else-@endif</td>
                 </tr>
                 
                 <tr>
-                <td>5. จำนวนผู้สำเร็จการศึกษาที่มีงานทำก่อนเข้าศึกษา</td>
-                <td class="text-center">{{$value['before']}}</td>
-                <td class="text-center">{{$value['beforepersen']}}</td>
+                <td>จำนวนผู้สำเร็จการศึกษาที่มีงานทำก่อนเข้าศึกษา</td>
+                <td class="text-center">@if($value['before']!=0){{$value['before']}}@else-@endif</td>
+                <td class="text-center">@if($value['beforepersen']!=0){{$value['beforepersen']}}@else-@endif</td>
                 </tr>
                 <tr>
-                <td>6. จำนวนบัณฑิตที่ศึกษาต่อ</td>
-                <td class="text-center">{{$value['continue_study']}}</td>
-                <td class="text-center">{{$value['continue_studypersen']}}</td>
+                <td>จำนวนบัณฑิตที่ศึกษาต่อ</td>
+                <td class="text-center">@if($value['continue_study']!=0){{$value['continue_study']}}@else-@endif</td>
+                <td class="text-center">@if($value['continue_studypersen']!=0){{$value['continue_studypersen']}}@else-@endif</td>
                 </tr>
                 <tr>
-                <td>7. จำนวนบัณฑิตที่อุปสมบท</td>
-                <td class="text-center">{{$value['ordain']}}</td>
-                <td class="text-center">{{$value['ordainpersen']}}</td>
+                <td>จำนวนบัณฑิตที่อุปสมบท</td>
+                <td class="text-center">@if($value['ordain']!=0){{$value['ordain']}}@else-@endif</td>
+                <td class="text-center">@if($value['ordainpersen']!=0){{$value['ordainpersen']}}@else-@endif</td>
                 </tr>
                 <tr>
-                <td>8. จำนวนบัณฑิตที่เกณฑ์ทหาร</td>
-                <td class="text-center">{{$value['soldier']}}</td>
-                <td class="text-center">{{$value['soldierpersen']}}</td>
+                <td>จำนวนบัณฑิตที่เกณฑ์ทหาร</td>
+                <td class="text-center">@if($value['soldier']!=0){{$value['soldier']}}@else-@endif</td>
+                <td class="text-center">@if($value['soldierpersen']!=0){{$value['soldierpersen']}}@else-@endif</td>
                 </tr>
                 <tr>
-                <td>9. จำนวนบัณฑิตที่ไม่มีงานทำ</td>
-                <td class="text-center">{{$value['unemployed']}}</td>
-                <td class="text-center">{{$value['unemployedpersen']}}</td>
+                <td>จำนวนบัณฑิตที่ไม่มีงานทำ</td>
+                <td class="text-center">@if($value['unemployed']!=0){{$value['unemployed']}}@else-@endif</td>
+                <td class="text-center">@if($value['unemployedpersen']!=0){{$value['unemployedpersen']}}@else-@endif</td>
                 </tr>
                 @endforeach
               </tbody></table>
@@ -584,8 +605,8 @@
                 @endif
               </tbody></table>
             </div>
-            @endif
-              @if($getcategorypdca3_1!="[]")
+           @endif
+           @if($check3_1==1)
             <br> <div class="box-body">
               <h1 class="box-title">{{$name3_1}} (ตัวบ่งชี้ที่ {{$id3_1}})</h1>
               <br>
@@ -705,7 +726,7 @@
             </div>
               </div>
                 @endif
-              @if($getcategorypdca3_2!='[]')
+             @if($check3_2==1)
               <br> <div class="box-body">
               <h1 class="box-title">{{$name3_2}} (ตัวบ่งชี้ที่ {{$id3_2}})</h1>
               <br>
@@ -825,7 +846,7 @@
             </div>
               </div>
               @endif
-              @if($get2!="")
+              @if($check3_3==1)
               <br><div class="box-body">
               <h4>ผลที่เกิดกับนักศึกษา (ตัวบ่งชี้ 3.3)</h4>
               <br><ins><b>เกณฑ์การประเมิน</b></ins><br><p>
@@ -839,6 +860,7 @@
               1.  การประเมินความพึงพอใจของนักศึกษา เป็นการประเมินความพึงพอใจของนักศึกษาต่อกระบวนที่ดำเนินการให้กับนักศึกษาตามกิจกรรมในตัวบ่งชี้ 3.1 และ 3.2<br></p>
               2.  อัตราการคงอยู่ของนักศึกษา คิดจากจำนวนนักศึกษาที่เข้าในแต่ละรุ่น ลบด้วยจำนวนนักศึกษาที่ออกทุกกรณีนับถึงสิ้นปีการศึกษาที่ประเมิน ยกเว้นเสียชีวิต
                   การย้ายสถานที่ทำงานของนักศึกษาในระดับบัณฑิตศึกษา คิดเป็นร้อยละของจำนวนที่รับเข้าในแต่ละรุ่นที่มีบัณฑิตสำเร็จการศึกษาแล้ว<br>
+                @if($get5!="[]")
               <p class="text-center">ตารางคำนวณอัตราการคงอยู่และการสำเร็จการศึกษาของนักศึกษา</p>
             <table class="table table-bordered text-center">
                 <tbody><tr>
@@ -955,7 +977,7 @@
                 </tr>
                 @endfor
                 
-              </tbody></table></div></div>@endif
+              </tbody></table>@endif</div></div>
 
               <div class="box-body">
             <ins>ผลการดำเนินงาน</ins>
@@ -1018,7 +1040,7 @@
                 @endif
               </tbody></table>
             </div>
-              
+              @endif
 </div>
 </div>
 <style>

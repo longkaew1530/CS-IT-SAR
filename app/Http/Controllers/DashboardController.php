@@ -2318,7 +2318,7 @@ class DashboardController extends Controller
         $groupuser=groupuser::all();
         $user=User::leftjoin('course','users.user_course','=','course.course_id')
         ->leftjoin('faculty','users.user_faculty','=','faculty.faculty_id')
-        ->leftjoin('branch','users.user_branch','=','branch.id')
+        ->leftjoin('branch','users.user_branch','=','branch.branch_id')
         ->leftjoin('user_group','users.user_group_id','=','user_group.user_group_id')
         ->get();
         return view('dashboard.addmember',compact('user','course','faculty','groupuser','branch'));
@@ -2496,7 +2496,7 @@ class DashboardController extends Controller
              $join1->select('user_id')->from('course_responsible_teacher');;
 
          })
-        ->paginate(10);
+        ->get();
         return view('dashboard/crt',compact('tc_course','tc'));
     }
 }

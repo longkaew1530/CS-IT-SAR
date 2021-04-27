@@ -5,9 +5,11 @@
     <div class="box-body">
       <div class="col-sm-2" align="right"></div>
       <div class="col-sm-8" align="center">
+      @if($data!="[]")
       <h3><i class=""></i>คุณภาพการสอน</h3><hr>
       </div>
     </div>
+    
     <div class="data">
         <div class="col-md-12">
     <div id="body">
@@ -75,7 +77,10 @@
         </div>
       </div>
     </form>
-
+    @else
+    <img src="/images1/exclamation-mark.png" width="150">
+    <h2>กรุณาป้อนข้อมูลสรุปผลรายวิชาที่เปิดสอน</h2>
+    @endif
   </div>
 </div>
 </div>

@@ -577,7 +577,6 @@ class ShowCategoryController extends Controller
         ->where('pdca.course_id',session()->get('usercourse'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.indicator_id',4.3)
-        ->where('pdca.target','!=',null)
         ->get();
         $checkedit="";
         $getcategorypdca=defaulindicator::where('id',10)

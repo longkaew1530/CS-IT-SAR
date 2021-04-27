@@ -75,7 +75,17 @@
                 CKEDITOR.instances[instance].updateElement();
         }
       var formData = new FormData(this);
-      
+      var topic = document.getElementById("topic").value;
+      var editor1 = document.getElementById("editor1").value;
+      if(topic==""||editor1==""){
+         swal({
+          title: "กรุณาป้อนข้อมูลให้ครบ",
+          text: "",
+          icon: "warning",
+          showConfirmButton: false,
+        });
+      }
+      else{
 
       swal({
       title: "ยืนยันการบันทึก?",
@@ -112,6 +122,7 @@
         
       }
     });
+  }
     });
   });
   

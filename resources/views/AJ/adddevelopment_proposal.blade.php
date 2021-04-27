@@ -28,7 +28,7 @@
             <h3 class="box-title">รายละเอียด</h3>
           </div>
             <div class="col-md-11 col-sm-9 col-xs-12" id="hed">
-            <input type="text" class="form-control" id="detail" name="detail[]" placeholder="รายละเอียด">
+            <input type="text" class="form-control" id="editor1" name="editor1" placeholder="รายละเอียด">
             </div>
             <div class="col-md-1">
             <button type="button" name="add" id="add" class="btn btn-success"><i class="fa fa-plus"></i></button>
@@ -73,8 +73,21 @@
     });
     $('#adddata').submit(function(e) {
       e.preventDefault();
+      for (instance in CKEDITOR.instances) {
+                CKEDITOR.instances[instance].updateElement();
+        }
       var formData = new FormData(this);
-     
+      var topic = document.getElementById("topic").value;
+      var editor5 = document.getElementById("editor5").value;
+      if(topic==""||detail==""){
+         swal({
+          title: "กรุณาป้อนข้อมูลให้ครบ",
+          text: "",
+          icon: "warning",
+          showConfirmButton: false,
+        });
+      }
+      else{
 
       swal({
       title: "ยืนยันการบันทึก?",
@@ -111,6 +124,7 @@
         
       }
     });
+  }
     });
   });
   

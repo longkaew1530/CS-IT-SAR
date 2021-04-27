@@ -1,3 +1,4 @@
+            @if($check1_1==1)
             <div class="box-header">
               <h1 class="box-title">การกำกับให้เป็นไปตามมาตรฐาน (เกณฑ์มาตรฐานหลักสูตร พ.ศ.2558)</h1>
               <br>
@@ -344,6 +345,7 @@
                 @endif
               </tbody></table>
             </div>
+            @endif
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script type="text/javascript">
     $.ajaxSetup({

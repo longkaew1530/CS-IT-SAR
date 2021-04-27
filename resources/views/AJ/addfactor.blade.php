@@ -65,7 +65,16 @@
                 CKEDITOR.instances[instance].updateElement();
         }
       var formData = new FormData(this);
-      
+      var editor1 = document.getElementById("editor1").value;
+      if(editor1==""){
+         swal({
+          title: "กรุณาป้อนข้อมูลให้ครบ",
+          text: "",
+          icon: "warning",
+          showConfirmButton: false,
+        });
+      }
+      else{
 
       swal({
       title: "ยืนยันการบันทึก?",
@@ -107,6 +116,7 @@
         
       }
     });
+  }
     });
   });
 </script>

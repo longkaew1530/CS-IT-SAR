@@ -99,7 +99,7 @@
                 <label for="exampleInputPassword1">สาขา</label>
                                   <select class="form-control"  id="branch"  class="form-control @error('role') is-invalid @enderror" name="branch">
                                     @foreach($branch as $value)
-                                    <option value="{{$value['id']}}">{{$value['name']}}</option>
+                                    <option value="{{$value['branch_id']}}">{{$value['name']}}</option>
                                     @endforeach
                                   </select>
                                   </div>
@@ -189,7 +189,7 @@
                                  <label for="exampleInputPassword1">สาขา</label>
                                   <select class="form-control"  id="branch1"  class="form-control @error('role') is-invalid @enderror" name="branch">
                                     @foreach($branch as $value)
-                                    <option value="{{$value['id']}}">{{$value['name']}}</option>
+                                    <option value="{{$value['branch_id']}}">{{$value['name']}}</option>
                                     @endforeach
                                   </select>
                                   </div>

@@ -21,23 +21,23 @@
                   
                 </tr>
                 <td>1. จำนวนบัณฑิตที่สำเร็จการศึกษาในหลักสูตรนี้ทั้งหมด</td>
-                <td><input type="text" class="form-control" id="qtyall" name="qtyall" /></td>
+                <td><input type="text" class="form-control text-center" id="qtyall" name="qtyall" /></td>
                 <tr>
                 </tr>
                 <td>2. จำนวนบัณฑิตในหลักสูตรที่ได้รับการประเมินจากผู้ใช้บัณฑิต</td>
-                <td><input type="text" class="form-control" id="qtyrate" name="qtyrate" onchange="myScript()"/></td>
+                <td><input type="text" class="form-control text-center" id="qtyrate" name="qtyrate" onchange="myScript()"/></td>
                 <tr>
                 </tr>
                 <td>3. ร้อยละของบัณฑิตที่ได้รับจากการประเมินผู้ใช้บัณฑิตต่อจำนวนบัณฑิตที่สำเร็จการศึกษาทั้งหมด</td>
-                <td><input type="text" class="form-control" id="persen" name="persen" /></td>
+                <td><input type="text" class="form-control text-center" id="persen" name="persen" /></td>
                 <tr>
                 </tr>
                 <td>4. ผลรวมของค่าคะแนนที่ได้จากการประเมินบัณฑิต</td>
-                <td><input type="text" class="form-control" id="sumscore" name="sumscore" /></td>
+                <td><input type="text" class="form-control text-center" id="sumscore" name="sumscore" /></td>
                 <tr>
                 </tr>
                 <td>5. ค่าเฉลี่ยของคะแนนประเมินบัณฑิต (คะแนนเต็ม5)</td>
-                <td><input type="text" class="form-control" id="resultscore" name="resultscore" onchange="myScript1()"/></td>
+                <td><input type="text" class="form-control text-center" id="resultscore" name="resultscore" onchange="myScript1()"/></td>
                 <tr>
                 </tr>
                 
@@ -65,7 +65,7 @@
                 <input type="hidden" class="form-control" id="Indicator_id" name="Indicator_id" value="{{$row['Indicator_id']}}"/>
                 <tr>
                   <td rowspan="2">ตัวบ่งชี้ที่ {{$row['Indicator_id']}} {{$row['Indicator_name']}}</td>           
-                  <td rowspan="2"><input type="text" class="form-control text-center" name="target" ></td>
+                  <td rowspan="2"><input type="number" max="5" min="0" class="form-control text-center" id="target" name="target" ></td>
                   @if($per1!=null)
                     <td ><input type="text" class="form-control text-center" id="performance1" name="performance1"  readonly></td></td>
                   @endif  
@@ -126,8 +126,21 @@
                 CKEDITOR.instances[instance].updateElement();
         }
       var formData = new FormData(this);
-      
-
+      var qtyall = document.getElementById("qtyall").value;
+      var qtyrate = document.getElementById("qtyrate").value;
+      var persen = document.getElementById("persen").value;
+      var sumscore = document.getElementById("sumscore").value;
+      var resultscore = document.getElementById("resultscore").value;
+      var target = document.getElementById("target").value;
+      if(qtyall==""||qtyrate==""||persen==""||sumscore==""||resultscore==""||target==""){
+         swal({
+          title: "กรุณาป้อนข้อมูลให้ครบ",
+          text: "",
+          icon: "warning",
+          showConfirmButton: false,
+        });
+      }
+      else{
       swal({
       title: "ยืนยันการบันทึก?",
       icon: "warning",
@@ -168,6 +181,7 @@
         
       }
     });
+  }
     });
   });
 

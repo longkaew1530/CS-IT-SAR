@@ -148,6 +148,7 @@ class APIAJController extends Controller
             $insert->user_id=$row;
             $insert->save();
         }
+     return $insert;
     }
     public function updateresearch_results(Request $request)
     {
@@ -191,6 +192,7 @@ class APIAJController extends Controller
             $insert->user_id=$row;
             $insert->save();
         }
+        return $insert;
     }
     public function deleteresearch_results($id)
     {
@@ -198,7 +200,7 @@ class APIAJController extends Controller
         $product1 = Research_results_user::find($id);
         $product->delete();
         $product1->delete();
-        return redirect('/educational_background');
+        return $product1;
     }
     /////ผลงานวิจัย/////ผลงานวิจัย/////ผลงานวิจัย/////ผลงานวิจัย/////ผลงานวิจัย/////ผลงานวิจัย
 
@@ -304,7 +306,6 @@ class APIAJController extends Controller
         ->where('pdca.course_id',session()->get('usercourse'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.indicator_id',$id)
-        ->where('pdca.target','!=',null)
         ->get();
         $per1="";
         if($id=="4.2"&&$id=="2.1"&&$id=="2.2"&&$id=="5.4")

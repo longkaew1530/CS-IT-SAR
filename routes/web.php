@@ -169,7 +169,7 @@ Route::put('/updateeducational_background','APIAJController@updateeducational_ba
 Route::post('/addresearch_results','APIAJController@addresearch_results');
 Route::post('/deleteresearch_results/{id}', 'APIAJController@deleteresearch_results');
 Route::get('/getresearch_results/{id}','APIAJController@getresearch_results');
-Route::put('/updateresearch_results','APIAJController@updateresearch_results');
+Route::post('/updateresearch_results','APIAJController@updateresearch_results');
 
 /////pdca
 Route::post('/addpdca','APIAJController@addpdca');

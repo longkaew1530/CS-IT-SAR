@@ -142,7 +142,21 @@
     $('#adddata').submit(function(e) {
       e.preventDefault();
       var formData = new FormData(this);
-     
+      var code_name = document.getElementById("code_name").value;
+      var term = document.getElementById("term").value;
+      var anomaly = document.getElementById("anomaly").value;
+      var tocheck = document.getElementById("tocheck").value;
+      var reason = document.getElementById("reason").value;
+      var plan_update = document.getElementById("plan_update").value;
+      if(code_name==""||term==""||anomaly==""||tocheck==""||reason==""||plan_update==""){
+         swal({
+          title: "กรุณาป้อนข้อมูลให้ครบ",
+          text: "",
+          icon: "warning",
+          showConfirmButton: false,
+        });
+      }
+      else{
 
       swal({
       title: "ยืนยันการบันทึก?",
@@ -179,6 +193,7 @@
         
       }
     });
+  }
     });
   });
   

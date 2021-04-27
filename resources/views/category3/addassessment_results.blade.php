@@ -29,16 +29,16 @@
                 <input type="hidden" class="form-control" id="check" name="check" value="{{$row['Indicator_id']}}"/>
                 <tr>
                   <td rowspan="2">ตัวบ่งชี้ที่ {{$row['Indicator_id']." ".$row['Indicator_name']}}</td>           
-                  <td rowspan="2"><input type="number" class="form-control text-center" max="5" min="0" name="target"></td>
+                  <td rowspan="2"><input type="number" id="target" class="form-control text-center" max="5" min="0" name="target"></td>
                   @if($per1!=null)
-                    <td ><input class="form-control" name="performance1" ></td></td>
+                    <td ><input class="form-control" id="performance1" name="performance1" ></td></td>
                   @endif  
-                  <td rowspan="2"><input type="number" class="form-control text-center" max="5" min="0" name="performance3" ></td>
-                  <td rowspan="2"><input type="number" class="form-control text-center" max="5" min="0" name="score"></td>
+                  <td rowspan="2"><input type="number" id="performance3" class="form-control text-center" max="5" min="0" name="performance3" ></td>
+                  <td rowspan="2"><input type="number" id="score" class="form-control text-center" max="5" min="0" name="score"></td>
                 </tr>
                 <tr>
                 @if($per1!=null)
-                    <td ><input type="number" class="form-control text-center" max="5" min="0" name="performance2" ></td></td>
+                    <td ><input type="number" id="performance2" class="form-control text-center" max="5" min="0" name="performance2" ></td></td>
                   @endif  
                 </tr>
                 <tr>
@@ -61,18 +61,18 @@
                 <input type="hidden" class="form-control" id="check" name="check" value="{{$row['Indicator_id']}}"/>
                 <tr>
                   <td rowspan="2">ตัวบ่งชี้ที่ {{$row['Indicator_id']." ".$row['Indicator_name']}}</td>           
-                  <td rowspan="2"><input type="number" class="form-control text-center" max="5" min="0" name="target"></td>
+                  <td rowspan="2"><input type="number" id="target" class="form-control text-center" max="5" min="0" name="target"></td>
                   @if($per1!=null)
-                    <td ><input type="text" class="form-control" name="performance1" value="{{session()->get('resultpass')}}" readonly ></td></td>
-                    <td rowspan="2"><input type="text" class="form-control" name="performance3" value="{{session()->get('resultavg')}}" readonly></td>
+                    <td ><input type="text" id="performance1" class="form-control" name="performance1" value="{{session()->get('resultpass')}}" readonly ></td></td>
+                    <td rowspan="2"><input type="text" id="performance3" class="form-control" name="performance3" value="{{session()->get('resultavg')}}" readonly></td>
                   @else
-                  <td rowspan="2"><input type="number" class="form-control text-center" max="5" min="0" name="performance3" ></td>
+                  <td rowspan="2"><input type="number" id="performance3" class="form-control text-center" max="5" min="0" name="performance3" ></td>
                   @endif  
-                  <td rowspan="2"><input type="number" class="form-control text-center" max="5" min="0" name="score"></td>
+                  <td rowspan="2"><input type="number" id="score" class="form-control text-center" max="5" min="0" name="score"></td>
                 </tr>
                 <tr>
                 @if($per1!=null)
-                    <td ><input type="text" class="form-control" name="performance2" value="{{session()->get('result')}}"  readonly></td></td>
+                    <td ><input type="text" class="form-control" id="performance2" name="performance2" value="{{session()->get('result')}}"  readonly></td></td>
                   @endif  
                 </tr>
                 <tr>
@@ -169,8 +169,37 @@
       e.preventDefault();
       var formData = new FormData(this);
       var id = document.getElementById("check");
+      var target = document.getElementById("target").value;
+      var performance1="";
+      var performance2="";
+      if(id==5.4||id==4.2){
+         performance1 = document.getElementById("performance1").value;
+         performance2 = document.getElementById("performance2").value;
+      }
       
+      
+      var performance3 = document.getElementById("performance3").value;
+      var score = document.getElementById("score").value;
+      console.log(target);
+      if(target==""&&performance1!=""&&performance2!=""&&performance3!=""&&score==""){
+         swal({
+          title: "กรุณาป้อนข้อมูล",
+          text: "",
+          icon: "warning",
+          showConfirmButton: false,
+        });
+      }
+      else if(target==""&&performance1==""&&performance2==""&&performance3==""&&score==""){
+        swal({
+          title: "กรุณาป้อนข้อมูล",
+          text: "",
+          icon: "warning",
+          showConfirmButton: false,
+        });
+      }
+      else{
 
+      
       swal({
       title: "ยืนยันการบันทึก?",
       icon: "warning",
@@ -220,6 +249,7 @@
         
       }
     });
+  }
     });
   });
   

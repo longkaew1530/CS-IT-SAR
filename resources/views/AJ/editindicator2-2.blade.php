@@ -108,7 +108,7 @@
                 <input type="hidden" class="form-control" id="Indicator_id" name="Indicator_id" value="{{$row['pdca_id']}}"/>
                 <tr>
                   <td rowspan="2">ตัวบ่งชี้ที่ {{$row['Indicator_id']}} {{$row['Indicator_name']}}</td>           
-                  <td rowspan="2"><input type="text" class="form-control text-center" name="target"  value="{{$row['target']}}"></td>
+                  <td rowspan="2"><input type="number" max="5" min="0" class="form-control text-center" name="target"  value="{{$row['target']}}"></td>
                   @if($per1!=null)
                     <td ><input type="text" class="form-control text-center" id="performance1" name="performance1"  value="{{$row['performance1']}}" readonly></td></td>
                   @endif  

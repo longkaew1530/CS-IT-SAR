@@ -4,6 +4,7 @@
 <div class="box box-warning marginl" id="exportContent">
 <div class="box-header" >
               <h3 class="text-center">หมวดที่5 การบริหารหลักสูตร</h3><br>
+              @if($check1==1)
               <div class="box-body">
             <b><h4>การบริหารหลักสูตร</h4></b>
               <table class="table table-bordered" >
@@ -30,6 +31,8 @@
                 @endif
               </tbody></table>
         </div><br>
+        @endif
+        @if($check6_1==1)
         <div class="box-body">
         <h1 class="box-title">{{$name}} (ตัวบ่งชี้ที่ {{$id}})</h1>
               <br>
@@ -43,6 +46,7 @@
               
               @include('category3/newpdca',['pdca','name','id','getcourse','getcategorypdca','inc','checkedit'])
               </div>
+              @endif
 </div>
 </div>
 <style>

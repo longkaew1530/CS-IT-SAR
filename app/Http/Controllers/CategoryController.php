@@ -443,6 +443,7 @@ class CategoryController extends Controller
     }
     public function indicator4_3()
     {
+        $in4_3="";
         $in4_3=indicator4_3::where('course_id',session()->get('usercourse'))
         ->where('year_id',session()->get('year_id'))
         ->get();
@@ -450,7 +451,6 @@ class CategoryController extends Controller
         ->where('pdca.course_id',session()->get('usercourse'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.indicator_id',4.3)
-        ->where('pdca.target','!=',null)
         ->get();
         $checkedit="asdsad";
         $getcategorypdca=defaulindicator::where('id',10)
@@ -462,6 +462,7 @@ class CategoryController extends Controller
             $name=$value['Indicator_name'];
             $id=$value['Indicator_id'];
         }
+        
         return view('category/indicator4-3',compact('in4_3','inc','checkedit','id','name'));
     }
 }

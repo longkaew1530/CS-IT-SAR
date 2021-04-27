@@ -4,6 +4,7 @@
 <div class="box box-warning marginl" id="exportContent">
 <div class="box-header" >
               <h3 class="text-center">หมวดที่ 2 อาจารย์</h3><br>
+              @if($check4_1==1)
               <h1 class="box-title">{{$name}} (ตัวบ่งชี้ที่ {{$id}})</h1>
               <br>
               <ins>เกณฑ์การประเมิน</ins>
@@ -16,6 +17,8 @@
               
               @include('category3/newpdca',['pdca','name','id','getcourse','getcategorypdca','inc','checkedit'])
               <br><br>
+              @endif
+              @if($check4_2==1)
               <h1 class="box-title"><li>คุณภาพอาจารย์ (ตัวบ่งชี้ที่ 4.2)</li></h1>
               <br><br>
             <ins>ข้อมูลพื้นฐานตัวบ่งชี้</ins>
@@ -233,8 +236,8 @@
               </tbody></table>
             </div>
           </div>
-
-
+          @endif
+          @if($check4_3==1)
           <div class="box-header">
               <h1 class="box-title"><li>ผลที่เกิดกับอาจารย์ (ตัวบ่งชี้ที่ 4.3)</li></h1>
               @if($in4_3!="[]"&&$checkedit!="")<a href="/getindicator4_3/{{$inc[0]['Indicator_id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>@endif
@@ -312,7 +315,7 @@
                 @endif
               </tbody></table>
             </div>
-
+            @endif
           
               
 </div>
