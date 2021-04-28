@@ -5795,4 +5795,7 @@ class ShowdataController extends Controller
         }
         return response()->json($clind);
     }
+    public function checkresultall()
+    {
+    }
 }

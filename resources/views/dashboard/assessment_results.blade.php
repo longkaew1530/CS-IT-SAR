@@ -392,9 +392,12 @@ function calc(id)
   } else {
     getvalue=0;
   }
-  
-
-        swal({
+  $.ajax({  //create an ajax request to display.php
+          type: "GET",
+          url: "/getallresult",       
+          success: function (data) {
+            if(data==0){
+              swal({
       title: "ยืนยันการบันทึก?",
       icon: "warning",
       buttons: true,
@@ -424,6 +427,21 @@ function calc(id)
        
       }
     });
+            }
+            else{
+              swal({
+              title: "ไม่สามารถแก้ไขข้อมูลได้",
+              text: "เนื่องจากเพิ่มข้อมูลไปแล้ว",
+              icon: "error",
+              showConfirmButton: false,
+            }).then(function() {
+              window.location = "/assessment_results";
+            });
+            }
+          }
+        });
+
+        
 }
 function calc2(id)
 {
@@ -435,9 +453,12 @@ function calc2(id)
   } else {
     getvalue=0;
   }
-  
-
-        swal({
+    $.ajax({  //create an ajax request to display.php
+          type: "GET",
+          url: "/getallresult",       
+          success: function (data) {
+            if(data==0){
+              swal({
       title: "ยืนยันการบันทึก?",
       icon: "warning",
       buttons: true,
@@ -467,6 +488,19 @@ function calc2(id)
        
       }
     });
+            }
+            else{
+              swal({
+              title: "ไม่สามารถแก้ไขข้อมูลได้",
+              text: "เนื่องจากเพิ่มข้อมูลไปแล้ว",
+              icon: "error",
+              showConfirmButton: false,
+            }).then(function() {
+              window.location = "/assessment_results";
+            });
+            }
+          }
+        });
 }
 </script>
 @endsection

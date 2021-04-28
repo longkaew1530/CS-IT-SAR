@@ -350,6 +350,7 @@ class APIController extends Controller
           'username' => $request->username,
           'password' => Hash::make($request->password),
           'user_faculty' => $request->user_faculty,
+          'user_branch' => $request->branch,
           'user_course' => $request->user_course,
           'user_group_id' => $request->user_group_id,
           'academic_position' => $request->academic_position,
@@ -368,15 +369,19 @@ class APIController extends Controller
         
         User::insert($data);  
     
-        
+        return $data;
      }
      public function updateuser(Request $request)
      {
         $user_id=$request->input('userid');
         $data = User::find($user_id);
+        if($files = $request->file('image')){
+
+        
          request()->validate([
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
        ]); 
+    }
        $data->user_fullname = $request->input('user_fullname');
        $data->email = $request->input('email');
        $data->username = $request->input('username');
@@ -385,7 +390,7 @@ class APIController extends Controller
        }
        $data->user_faculty = $request->input('user_faculty');
        $data->user_course = $request->input('user_course');
-       $data->branch = $request->input('branch');
+       $data->user_branch = $request->input('branch');
        $data->user_group_id = $request->input('user_group_id');
        $data->academic_position = $request->input('academic_position');
         if ($files = $request->file('image')) {
@@ -398,7 +403,7 @@ class APIController extends Controller
            $data->image = "$profileImage";
         }
         $data->save();
-        return redirect('/addmember'); 
+        return $data; 
      }
      public function deleteuser($id)
      {
