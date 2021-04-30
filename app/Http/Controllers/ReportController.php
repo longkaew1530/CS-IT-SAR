@@ -129,6 +129,7 @@ class ReportController extends Controller
         $query=assessment_results::leftjoin('category','assessment_results.category_id','=','category.category_id')
         ->where('assessment_results.year_id',session()->get('year_id'))
         ->where('assessment_results.course_id',session()->get('usercourse'))
+        ->where('assessment_results.active',1)
         ->get();
             return view('report/download',compact('query'));
     }

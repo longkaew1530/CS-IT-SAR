@@ -71,7 +71,7 @@
                 </div>
                 <div class="form-group">
                   <label for="exampleInputPassword1">username</label>
-                  <input type="text" class="form-control" id="username" name="username" placeholder="username">
+                  <input type="text" class="form-control" id="username" name="username" placeholder="username" readonly>
                 </div>
                 <div class="form-group">
                   <label for="exampleInputPassword1">password</label>
@@ -95,7 +95,7 @@
                                   </div>
                 <div class="form-group">
                 <label for="exampleInputPassword1">หลักสูตร</label>
-                                  <select class="form-control"  id="user_course"  class="form-control @error('role') is-invalid @enderror" name="user_course">
+                                  <select class="form-control"  id="user_course" onchange="myFunction()"  class="form-control @error('role') is-invalid @enderror" name="user_course">
                                     @foreach($course as $value)
                                     <option value="{{$value['course_id']}}">{{$value['course_name']}}</option>
                                     @endforeach
@@ -176,7 +176,7 @@
                 </div>
                 <div class="form-group">
                   <label for="exampleInputPassword1">username</label>
-                  <input type="text" class="form-control" id="username1" name="username" placeholder="username">
+                  <input type="text" class="form-control" id="username1" name="username" placeholder="username" readonly>
                 </div>
                 <div class="form-group">
                   <label for="exampleInputPassword1">password</label>
@@ -398,5 +398,21 @@ $('#image').change(function(){
           reader.readAsDataURL(this.files[0]); 
 
       });
+
+function myFunction()
+{
+  var token = $('meta[name="csrf-token"]').attr('content');
+  var e = document.getElementById("user_course");
+  var strUser = e.options[e.selectedIndex].value;
+    $.ajax({  //create an ajax request to display.php
+          type: "GET",
+          url: "/getcourse_username/"+strUser,       
+      success: function (data) {
+        console.log(data);
+        document.getElementById("username").value =data;
+          }
+          });
+
+}
 </script>
 @endsection

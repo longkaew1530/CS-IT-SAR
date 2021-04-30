@@ -3564,30 +3564,407 @@ class APIAJController extends Controller
        }
         //// ปิด สรุปจุดแข็ง จุดที่ควรพัฒนา และแนวทางการพัฒนา
         ////ปิด  สรุปผลการดำเนินงาน
-        $result1=(($getscore1_1+$getscore1_1result)*100)/9;
+        $getpermiss=indicator::where('active',1)
+        ->where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        $check1=0;
+        $check2=0;
+        $check3=0;
+        $check4=0;
+        $check5=0;
+        $check6=0;
+        $check7=0;
+        $check8=0;
+        $check9=0;
+        $check10=0;
+        $check11=0;
+        $check12=0;
+        $check13=0;
+        $check14=0;
+        $check15=0;
+        $check16=0;
+        $check17=0;
+        $check18=0;
+        $check19=0;
+        $check20=0;
+        $check21=0;
+        $check22=0;
+        $check23=0;
+        $check24=0;
+        $check25=0;
+        $check26=0;
+        $check27=0;
+        $check28=0;
+        $check29=0;
+        $check30=0;
+        $check31=0;
+        $check32=0;
+        $check33=0;
+        $check34=0;
+
+
+        $checkdis1=0;
+        $checkdis2=0;
+        $checkdis3=0;
+        $checkdis4=0;
+        $checkdis5=0;
+        $checkdis6=0;
+        $checkdis7=0;
+        $checkdis8=0;
+        $checkdis9=0;
+        $checkdis10=0;
+        $checkdis11=0;
+        $checkdis12=0;
+        $checkdis13=0;
+        $checkdis14=0;
+        $checkdis15=0;
+        $checkdis16=0;
+        $checkdis17=0;
+        $checkdis18=0;
+        $checkdis19=0;
+        $checkdis20=0;
+        $checkdis21=0;
+        $checkdis22=0;
+        $checkdis23=0;
+        $checkdis24=0;
+        $checkdis25=0;
+        $checkdis26=0;
+        $checkdis27=0;
+        $checkdis28=0;
+        $checkdis29=0;
+        $checkdis30=0;
+        $checkdis31=0;
+        $checkdis32=0;
+        $checkdis33=0;
+        $checkdis34=0;
+
+        foreach($getpermiss as $checkper){
+            if($checkper['Indicator_id']=="1.1"){
+                $check1=9;
+                $checkdis1=1;
+            }
+             if($checkper['Indicator_id']=="2.1"){
+                $check2=2;
+                $checkdis2=1;
+            }
+            if($checkper['Indicator_id']=="2.2"){
+                $check3=2;
+                $checkdis3=1;
+            }
+             if($checkper['Indicator_id']=="3.1"){
+                $check4=17;
+                $checkdis4=1;
+            }
+             if($checkper['Indicator_id']=="3.2"){
+                $check5=17;
+                $checkdis5=1;
+            }
+             if($checkper['Indicator_id']=="3.3"){
+                $check6=4;
+                $checkdis6=1;
+            }
+             if($checkper['Indicator_id']=="4.1"){
+                $check7=25;
+                $checkdis7=1;
+            }
+            if($checkper['Indicator_id']=="4.2"){
+                $check8=3;
+                $checkdis8=1;
+           }
+           if($checkper['Indicator_id']=="4.3"){
+            $check9=3;
+            $checkdis9=1;
+           }
+           if($checkper['Indicator_id']=="5.1"){
+            $check10=25;
+            $checkdis10=1;
+           }
+           if($checkper['Indicator_id']=="5.2"){
+            $check11=25;
+            $checkdis11=1;
+           }
+           if($checkper['Indicator_id']=="5.3"){
+            $check12=17;
+            $checkdis12=1;
+           }
+           if($checkper['Indicator_id']=="5.4"){
+            $check13=2;
+            $checkdis13=1;
+           }
+           if($checkper['Indicator_id']=="6.1"){
+            $check14=9;
+            $checkdis14=1;
+               }
+           
+               if($checkper['Indicator_name']=="คุณภาพการสอน"){
+                $check15=1;
+                $checkdis15=1;
+                   }
+                if($checkper['Indicator_name']=="ปัจจัยที่มีผลกระทบต่อจำนวนนักศึกษา"){
+                    $check16=1;
+                    $checkdis16=1;
+                       }
+                if($checkper['Indicator_name']=="ปัยจัยที่มีผลกระทบต่อการสำเร็จการศึกษา"){
+                    $check17=1;
+                    $checkdis17=1;
+                           }
+              if($checkper['Indicator_name']=="สรุปการประเมินหลักสูตร"){
+                $check18=2;
+                $checkdis18=1;
+                               }
+               if($checkper['Indicator_name']=="สรุปผลรายวิชาที่เปิดสอน"){
+                $check19=1;
+                $checkdis19=1;       
+                                       }
+               if($checkper['Indicator_name']=="รายวิชาที่มีผลการเรียนที่ไม่ปกติ"){
+                $check20=1;
+                $checkdis20=1;            
+                                           }
+               if($checkper['Indicator_name']=="รายวิชาที่ไม่ได้เปิดสอน"){
+                $check21=1;
+                $checkdis21=1;                
+                                               }
+               if($checkper['Indicator_name']=="รายวิชาที่สอนเนื้อหาไม่ครบ"){
+                $check22=1;
+                $checkdis22=1;                     
+                                                   }
+               if($checkper['Indicator_name']=="ประสิทธิผลของกลยุทธ์การสอน"){
+                $check23=1;
+                $checkdis23=1;                          
+                                                       }
+               if($checkper['Indicator_name']=="การปฐมนิเทศอาจารย์ใหม่"){
+                $check24=1;
+                $checkdis24=1;                              
+                                                         }
+              if($checkper['Indicator_name']=="กิจกรรมการพัฒนาวิชาชีพ"){
+                $check25=1;
+                $checkdis25=1;                                   
+                                                            }
+             if($checkper['Indicator_name']=="การบริหารหลักสูตร"){
+                $check26=1;
+                $checkdis26=1;                                        
+                                                                }
+            if($checkper['Indicator_name']=="ข้อคิดเห็น และข้อเสนอแนะ"){
+                $check27=1;
+                $checkdis27=1;                                             
+                                                                 }
+           if($checkper['Indicator_name']=="ความก้าวหน้าของการดำเนินงาน"){
+            $check28=1;
+            $checkdis28=1;                                                
+                                                                   }
+           if($checkper['Indicator_name']=="ข้อเสนอในการพัฒนาหลักสูตร"){
+            $check29=1;
+            $checkdis29=1;                                                     
+                                                                 }
+          if($checkper['Indicator_name']=="แผนปฏิบัติการใหม่"){
+            $check30=1;
+            $checkdis30=1;                                                            
+                                                        }
+          if($checkper['Indicator_name']=="ข้อมูลนักศึกษา"){
+            $check31=2;
+            $checkdis31=1;                                                                
+                                                         }
+        if($checkper['Indicator_name']=="จุดแข็ง จุดที่ควรพัฒนา"){
+            $check32=5;
+            $checkdis32=1;                                                                  
+                                                          }
+        if($checkper['Indicator_name']=="จำนวนผู้สำเร็จการศึกษา"){
+            $check33=1;
+            $checkdis33=1;                                                                        
+                                                          }
+        if($checkper['Indicator_name']=="จำนวนการลาออกและคัดชื่อออก"){
+            $check34=1;
+            $checkdis34=1;                                                      
+                                                               }
+        }
+        
+        if($checkdis1==0){
+            $getscore1_1=0;
+            $getscore1_1result=0;
+        }
+        if($checkdis2==0){
+            $getscore2_1=0;
+        }
+        if($checkdis3==0){
+            $getscore2_2=0;
+        }
+        if($checkdis4==0){
+            $score3_1result1=0;
+            $score3_1result2=0;
+            $score3_1resultdoc1=0;
+            $score3_1resultdoc2=0;
+            $score3_1resultpdca=0;
+        }
+        if($checkdis5==0){
+            $score3_2result1=0;
+            $score3_2result2=0;
+            $score3_2resultdoc1=0;
+            $score3_2resultdoc2=0;
+            $score3_2resultpdca=0;
+        }
+        if($checkdis6==0){
+            $score3_3result1=0;
+            $score3_3result2=0;
+            $score3_3result3=0;
+            $score3_3resultpdca=0;
+        }
+        if($checkdis7==0){
+            $score4_1result1=0;
+            $score4_1result2=0;
+            $score4_1result3=0;
+            $score4_1resultdoc1=0;
+            $score4_1resultdoc2=0;
+            $score4_1resultdoc3=0;
+            $score4_1resultpdca=0;
+        }
+        if($checkdis8==0){
+            $score4_2result1=0;
+            $score4_2result2=0;
+            $score4_2resultpdca=0;
+        }
+        if($checkdis9==0){
+            $score4_3result1=0;
+            $score4_3result2=0;
+            $score4_3resultpdca=0;
+        }
+        if($checkdis10==0){
+            $score5_1result1=0;
+            $score5_1result2=0;
+            $score5_1result3=0;
+            $score5_1resultdoc1=0;
+            $score5_1resultdoc2=0;
+            $score5_1resultdoc3=0;
+            $score5_1resultpdca=0;
+        }
+        if($checkdis11==0){
+            $score5_2result1=0;
+            $score5_2result2=0;
+            $score5_2result3=0;
+            $score5_2resultdoc1=0;
+            $score5_2resultdoc2=0;
+            $score5_2resultdoc3=0;
+            $score5_2resultpdca=0;
+        }
+        if($checkdis12==0){
+            $score5_3result1=0;
+            $score5_3result2=0;
+            $score5_3resultdoc1=0;
+            $score5_3resultdoc2=0;
+            $score5_3resultpdca=0;
+        }
+        if($checkdis13==0){
+            $score5_4result1=0;
+            $score5_4resultpdca=0;
+        }
+        if($checkdis14==0){
+            $score6_1result1=0;
+            $score6_1resultdoc1=0;
+            $score6_1resultpdca=0;
+        }
+        if($checkdis15==0){
+            $scoreteachqua=0;
+        }
+        if($checkdis16==0){
+            $scorfactor=0;
+        }
+        if($checkdis17==0){
+            $scorfactor2=0;
+        }
+        if($checkdis18==0){
+            $scoreassessmentsummary=0;
+            $scoreassessmentsummary2=0;
+        }
+        if($checkdis19==0){
+            $scoreccr=0;
+        }
+        if($checkdis20==0){
+            $scoreacademic=0;
+        }
+        if($checkdis21==0){
+            $scorenot_offered=0;
+        }
+        if($checkdis22==0){
+            $scoreincomplete_content=0;
+        }
+        if($checkdis23==0){
+            $scoreeffec=0;
+        }
+        if($checkdis24==0){
+            $scorenewteacher=0;
+        }
+        if($checkdis25==0){
+            $scoreactivity=0;
+        }
+        if($checkdis26==0){
+            $scorecoursemanage=0;
+        }
+        if($checkdis27==0){
+            $scorecomment_course=0;
+        }
+        if($checkdis28==0){
+            $scorestrength=0;
+        }
+        if($checkdis29==0){
+            $scoredevelopment_proposal=0;
+        }
+        if($checkdis30==0){
+            $scorenewstrength=0;
+        }
+        if($checkdis31==0){
+            $scoreinfo=0;
+            $scoreinfoqty=0;
+        }
+        if($checkdis32==0){
+            $scorestrengths_summary=0;
+        }
+        if($checkdis33==0){
+            $scoregraduate=0;
+        }
+        if($checkdis34==0){
+            $scorere=0;
+        }
+
+
+        $discount1=$check1;
+        $discount2=$check7+$check8+$check9;
+        $discount3=$check2+$check3+$check4+$check5+$check6+$check16+$check17+$check31+$check33+$check34;
+        $discount4=$check10+$check11+$check12+$check13+$check15+$check18+$check19+$check20+$check21+$check22+$check23+$check24+$check25;
+        $discount5=$check14+$check26;
+        $discount6=$check18+$check27;
+        $discount7=$check28+$check29+$check30;
+        $discount8=$check32;
+
+
+
+
+
+
+
+
+        $result1=(($getscore1_1+$getscore1_1result)*100)/$discount1;
         $result2=(($score4_1result1+$score4_1result2+$score4_1result3+$score4_1resultdoc1+$score4_1resultdoc2+
         $score4_1resultdoc3+$score4_1resultpdca+$score4_2result1+$score4_2result2+$score4_2resultpdca+$score4_3result1+
-        $score4_3result2+$score4_3resultpdca)*100)/31;
+        $score4_3result2+$score4_3resultpdca)*100)/$discount2;
         
 
 
         $result3=(($getscore2_1+$getscore2_2+$score3_1result1+$score3_1result2+$score3_1resultdoc1+$score3_1resultdoc2+$score3_1resultpdca
                 +$score3_2result1+$score3_2result2+$score3_2resultdoc1+$score3_2resultdoc2+$score3_2resultpdca
                 +$score3_3result1+$score3_3result2+$score3_3result3+$score3_3resultpdca
-                +$scorfactor+$scorfactor2+$scoreinfo+$scoreinfoqty+$scoregraduate+$scoregraduate+$scorere)*100)/49;
+                +$scorfactor+$scorfactor2+$scoreinfo+$scoreinfoqty+$scoregraduate+$scoregraduate+$scorere)*100)/$discount3;
 
         $result4=(($score5_1result1+$score5_1result2+$score5_1result3+$score5_1resultdoc1+$score5_1resultdoc2+
                     $score5_1resultdoc3+$score5_1resultpdca+$score5_2result1+$score5_2result2+$score5_2result3+
                     $score5_2resultdoc1+$score5_2resultdoc2+$score5_2resultdoc3+$score5_2resultpdca+
                     $score5_3result1+$score5_3result2+$score5_3resultdoc1+$score5_3resultdoc2+$score5_3resultpdca+
                     $score5_4result1+$score5_4resultpdca+$scoreteachqua+$scoreccr+$scoreacademic+$scorenot_offered+
-                    $scoreincomplete_content+$scoreeffec+$scorenewteacher+$scoreactivity)*100)/77;
-
-
-        $result5=(($score6_1result1+$score6_1resultdoc1+$score6_1resultpdca+$scorecoursemanage)*100)/10;
-        $result6=(($scoreassessmentsummary+$scoreassessmentsummary2+$scorecomment_course)*100)/3; 
-        $result7=(($scorestrength+$scoredevelopment_proposal+$scorenewstrength)*100)/3;
-        $result8=($scorestrengths_summary*100)/5;
+                    $scoreincomplete_content+$scoreeffec+$scorenewteacher+$scoreactivity)*100)/$discount4;
+        
+        $result5=(($score6_1result1+$score6_1resultdoc1+$score6_1resultpdca+$scorecoursemanage)*100)/$discount5;
+        $result6=(($scoreassessmentsummary+$scoreassessmentsummary2+$scorecomment_course)*100)/$discount6; 
+        $result7=(($scorestrength+$scoredevelopment_proposal+$scorenewstrength)*100)/$discount7;
+        $result8=($scorestrengths_summary*100)/$discount8;
 
 
         $scorecategory1 = sprintf('%.0f',$result1);
@@ -3637,8 +4014,12 @@ class APIAJController extends Controller
             $crt=0;
         }
          ////สรุปคะแนน
+        $max=count($role);
         $i=0;
-        if($role[$i]['category_id']==1){
+        foreach($role as $getrole){
+
+        
+        if($getrole['category_id']==1){
             $role[$i]['score']=$scorecategory1;
             if($scorecategory1<=25){
                 $role[$i]['color']='danger';
@@ -3656,9 +4037,12 @@ class APIAJController extends Controller
                 $role[$i]['color']='success';
                 $role[$i]['color2']='green';
             }
-            $i++;
+            if($i<$max){
+                $i++;
+            }
+           
         }
-         if($role[$i]['category_id']==2){
+         if($getrole['category_id']==2){
             $role[$i]['score']=$scorecategory2;
             if($scorecategory2<=25){
                 $role[$i]['color']='danger';
@@ -3677,9 +4061,11 @@ class APIAJController extends Controller
                 $role[$i]['color2']='green';
             }
             
-            $i++;
+            if($i<$max){
+                $i++;
+            }
         }
-        if($role[$i]['category_id']==3){
+        if($getrole['category_id']==3){
             $role[$i]['score']=$scorecategory3;
             if($scorecategory3<=25){
                 $role[$i]['color']='danger';
@@ -3697,9 +4083,11 @@ class APIAJController extends Controller
                 $role[$i]['color']='success';
                 $role[$i]['color2']='green';
             }
-            $i++;
+            if($i<$max){
+                $i++;
+            }
         }
-         if($role[$i]['category_id']==4){
+         if($getrole['category_id']==4){
             $role[$i]['score']=$scorecategory4;
             if($scorecategory4<=25){
                 $role[$i]['color']='danger';
@@ -3717,9 +4105,11 @@ class APIAJController extends Controller
                 $role[$i]['color']='success';
                 $role[$i]['color2']='green';
             }
-            $i++;
+            if($i!=$max){
+                $i++;
+            }
         }
-         if($role[$i]['category_id']==5){
+         if($getrole['category_id']==5){
             $role[$i]['score']=$scorecategory5;
             if($scorecategory5<=25){
                 $role[$i]['color']='danger';
@@ -3737,9 +4127,11 @@ class APIAJController extends Controller
                 $role[$i]['color']='success';
                 $role[$i]['color2']='green';
             }
-            $i++;
+            if($i!=$max){
+                $i++;
+            }
         }
-         if($role[$i]['category_id']==6){
+         if($getrole['category_id']==6){
             $role[$i]['score']=$scorecategory6;
             if($scorecategory6<=25){
                 $role[$i]['color']='danger';
@@ -3757,9 +4149,11 @@ class APIAJController extends Controller
                 $role[$i]['color']='success';
                 $role[$i]['color2']='green';
             }
-            $i++;
+            if($i!=$max){
+                $i++;
+            }
         }
-         if($role[$i]['category_id']==7){
+         if($getrole['category_id']==7){
             $role[$i]['score']=$scorecategory7;
             if($scorecategory7<=25){
                 $role[$i]['color']='danger';
@@ -3777,9 +4171,11 @@ class APIAJController extends Controller
                 $role[$i]['color']='success';
                 $role[$i]['color2']='green';
             }
-            $i++;
+            if($i!=$max){
+                $i++;
+            }
         }
-        if($role[$i]['category_id']==8){
+        if($getrole['category_id']==8){
             $role[$i]['score']=$scorecategory8;
             if($scorecategory8<=25){
                 $role[$i]['color']='danger';
@@ -3797,8 +4193,11 @@ class APIAJController extends Controller
                 $role[$i]['color']='success';
                 $role[$i]['color2']='green';
             }
-            $i++;
+            if($i!=$max){
+                $i++;
+            }
         }
+    }
          ////สรุปคะแนน
        return $role;
        

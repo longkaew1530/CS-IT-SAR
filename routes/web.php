@@ -360,10 +360,8 @@ Route::get('/downloadcategory/{id}','DownloadController@downloadall');
 Route::get('/getallresult','ShowdataController@allresult');
 Route::get('/getsuccess','ShowdataController@getsuccess');
 Route::get('/getallindicator','ShowdataController@getallindicator');
-Route::get('/clear-cache', function() {
-    Artisan::call('cache:clear');
-    return "Cache is cleared";
-});
+/////getcourse_user
+Route::get('/getcourse_username/{id}','APIController@getcourse_username');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

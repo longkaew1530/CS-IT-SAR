@@ -180,7 +180,7 @@
           icon: "success",
           button: "ตกลง",
         }).then(function() {
-          window.location = "/addinfostudent";
+          window.location = "/graduate";
         });
           }
         },

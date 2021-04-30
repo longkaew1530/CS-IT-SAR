@@ -463,6 +463,6 @@ class CategoryController extends Controller
             $id=$value['Indicator_id'];
         }
         
-        return view('category/indicator4-3',compact('in4_3','inc','checkedit','id','name'));
+        return view('category/indicator4-3',compact('in4_3','inc','checkedit','id','name','getcategorypdca'));
     }
 }

@@ -1442,8 +1442,157 @@ class ShowdataController extends Controller
         //// ปิด สรุปจุดแข็ง จุดที่ควรพัฒนา และแนวทางการพัฒนา
         ////ปิด  สรุปผลการดำเนินงาน
 
-
-       
+        $getpermiss=assessment_results::where('active',1)
+        ->where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+        $check1=0;
+        $check2=0;
+        $check3=0;
+        $check4=0;
+        $check5=0;
+        $check6=0;
+        $check7=0;
+        $check8=0;
+        $check11=0;
+        $check21=0;
+        $check31=0;
+        $check41=0;
+        $check51=0;
+        $check61=0;
+        $check71=0;
+        $check81=0;
+        foreach($getpermiss as $checkper){
+                if($checkper['category_id']==1){
+                    $check1=9;
+                    $check11=1;
+                }
+                else if($checkper['category_id']==2){
+                    $check2=31;
+                    $check21=1;
+                }
+                else if($checkper['category_id']==3){
+                    $check3=49;
+                    $check31=1;
+                }
+                else if($checkper['category_id']==4){
+                    $check4=77;
+                    $check41=1;
+                }
+                else if($checkper['category_id']==5){
+                    $check5=10;
+                    $check51=1;
+                }
+                else if($checkper['category_id']==6){
+                    $check6=3;
+                    $check61=1;
+                }
+                else if($checkper['category_id']==7){
+                    $check7=3;
+                    $check71=1;
+                }
+                else if($checkper['category_id']==8){
+                    $check8=5;
+                    $check81=1;
+                }
+        }
+        
+        if($check11==0){
+            $getscore1_1=0;
+            $getscore1_1result=0;
+        }
+         if($check21==0){
+            $score4_1result1=0;
+            $score4_1result2=0;
+            $score4_1result3=0;
+            $score4_1resultdoc1=0;
+            $score4_1resultdoc2=0;
+            $score4_1resultdoc3=0;
+            $score4_1resultpdca=0;
+            $score4_2result1=0;
+            $score4_2result2=0;
+            $score4_2resultpdca=0;
+            $score4_3result1=0;
+            $score4_3result2=0;
+            $score4_3resultpdca=0;
+        }
+         if($check31==0){
+            $getscore2_1=0;
+            $getscore2_2=0;
+            $score3_1result1=0;
+            $score3_1result2=0;
+            $score3_1resultdoc1=0;
+            $score3_1resultdoc2=0;
+            $score3_1resultpdca=0;
+            $score3_2result1=0;
+            $score3_2result2=0;
+            $score3_2resultdoc1=0;
+            $score3_2resultdoc2=0;
+            $score3_2resultpdca=0;
+            $score3_3result1=0;
+            $score3_3result2=0;
+            $score3_3result3=0;
+            $score3_3resultpdca=0;
+            $scorfactor=0;
+            $scorfactor2=0;
+            $scoreinfo=0;
+            $scoreinfoqty=0;
+            $scoregraduate=0;
+            $scoregraduate=0;
+            $scorere=0;
+        }
+         if($check41==0){
+            $score5_1result1=0;
+            $score5_1result2=0;
+            $score5_1result3=0;
+            $score5_1resultdoc1=0;
+            $score5_1resultdoc2=0;
+            $score5_1resultdoc3=0;
+            $score5_1resultpdca=0;
+            $score5_2result1=0;
+            $score5_2result2=0;
+            $score5_2result3=0;
+            $score5_2resultdoc1=0;
+            $score5_2resultdoc2=0;
+            $score5_2resultdoc3=0;
+            $score5_2resultpdca=0;
+            $score5_3result1=0;
+            $score5_3result2=0;
+            $score5_3resultdoc1=0;
+            $score5_3resultdoc2=0;
+            $score5_3resultpdca=0;
+            $score5_4result1=0;
+            $score5_4resultpdca=0;
+            $scoreteachqua=0;
+            $scoreccr=0;
+            $scoreacademic=0;
+            $scorenot_offered=0;
+            $scoreincomplete_content=0;
+            $scoreeffec=0;
+            $scorenewteacher=0;
+            $scoreactivity=0;
+        }
+         if($check51==0){
+            $score6_1result1=0;
+            $score6_1resultdoc1=0;
+            $score6_1resultpdca=0;
+            $scorecoursemanage=0;
+        }
+         if($check61==0){
+            $scoreassessmentsummary=0;
+            $scoreassessmentsummary2=0;
+            $scorecomment_course=0;
+        }
+         if($check71==0){
+            $scorestrength=0;
+            $scoredevelopment_proposal=0;
+            $scorenewstrength=0;
+        }
+         if($check81==0){
+            $scorestrengths_summary=0;
+        }
+        $discount=0;
+        $discount=$check1+$check2+$check3+$check4+$check5+$check6+$check7+$check8;
 
 
         $allcategory1=(($getscore1_1+$getscore1_1result+$score4_1result1+$score4_1result2+$score4_1result3+$score4_1resultdoc1+$score4_1resultdoc2+
@@ -1458,7 +1607,7 @@ class ShowdataController extends Controller
         $score5_4result1+$score5_4resultpdca+$scoreteachqua+$scoreccr+$scoreacademic+$scorenot_offered+
         $scoreincomplete_content+$scoreeffec+$scorenewteacher+$scoreactivity+$score6_1result1+$score6_1resultdoc1+$score6_1resultpdca+$scorecoursemanage+
         $scoreassessmentsummary+$scoreassessmentsummary2+$scorecomment_course+$scorestrength+$scoredevelopment_proposal+$scorenewstrength+
-        $scorestrengths_summary)*100)/187;
+        $scorestrengths_summary)*100)/$discount;
 
         
         $color="";
@@ -3662,9 +3811,13 @@ class ShowdataController extends Controller
     }
     public function getallindicator()
     {
-        $clind=indicator::where('year_id',session()->get('year_id'))
-        ->where('course_id',session()->get('usercourse'))
-        ->where('active',1)
+        $clind=indicator::leftjoin('assessment_results','indicator.category_id','=','assessment_results.category_id')
+        ->where('indicator.year_id',session()->get('year_id'))
+        ->where('indicator.course_id',session()->get('usercourse'))
+        ->where('indicator.active',1)
+        ->where('assessment_results.year_id',session()->get('year_id'))
+        ->where('assessment_results.course_id',session()->get('usercourse'))
+        ->where('assessment_results.active',1)
         ->get();
 
         ////ตัวบ่งชี้ 1.1

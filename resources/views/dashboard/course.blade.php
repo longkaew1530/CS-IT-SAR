@@ -70,6 +70,10 @@
                   <label for="exampleInputPassword1">สถานที่</label>
                   <input type="text" class="form-control" id="place" name="place" placeholder="สถานที่">
                 </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">ชื่อย่อ</label>
+                  <input type="text" class="form-control" id="initials" name="initials" placeholder="ชื่อย่อ">
+                </div>
               </div>
             
               <div class="modal-footer">
@@ -122,6 +126,10 @@
                 <div class="form-group">
                   <label for="exampleInputPassword1">สถานที่</label>
                   <input type="text" class="form-control" id="place1" name="place" placeholder="สถานที่">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">ชื่อย่อ</label>
+                  <input type="text" class="form-control" id="initials1" name="initials" placeholder="ชื่อย่อ">
                 </div>
               </div>
             
@@ -210,6 +218,7 @@ var url = "/getcourse";
             $("#coursecode").val(data[0].course_code);
             $("#updatecourse").val(data[0].update_course);
             $("#place1").val(data[0].place);
+            $("#initials1").val(data[0].initials);
         }) 
 });
 });

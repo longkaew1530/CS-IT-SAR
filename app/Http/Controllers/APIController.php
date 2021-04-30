@@ -181,6 +181,7 @@ class APIController extends Controller
          $data['course_code']=$request->course_code;
          $data['update_course']=$request->update_course;
          $data['place']=$request->place;
+         $data['initials']=$request->initials;
          Course::insert($data);
          return redirect('/course');
      }
@@ -193,6 +194,7 @@ class APIController extends Controller
          $data->course_code = $request->input('course_code');
          $data->update_course = $request->input('update_course');
          $data->place = $request->input('place');
+         $data->initials = $request->input('initials');
          $data->save();
          return redirect('/course');
      }
@@ -713,5 +715,23 @@ class APIController extends Controller
           
          
           return $data;
+      }
+      public function getcourse_username($id)
+      {
+          $course = course::where('course_id',$id)->get();
+          $getuser=User::where('user_course',$id)->get();
+          $username="";
+          $getcount=0;
+          $getcount=User::where('user_course',$id)->orderBy('id', 'DESC')->first();
+          $getusername="a0";
+          if($getcount!=""){
+            $getusername=$getcount['username'];
+          }
+          
+          $filteredNumbers = array_filter(preg_split("/\D+/",$getusername));
+          $firstOccurence = reset($filteredNumbers);
+          $conventusername=strval($firstOccurence+1);
+          $username=$course[0]['initials'].$conventusername;
+          return $username;
       }
 }

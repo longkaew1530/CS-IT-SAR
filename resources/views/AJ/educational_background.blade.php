@@ -19,7 +19,9 @@
                 <div class="box-body">
                   <div class="form-group">
                     <label for="exampleInputEmail1">ปีที่สำเร็จการศึกษา</label>
-                    <input type="text" class="form-control" id="eb_yearsuccess" name="eb_yearsuccess" placeholder="ปีที่สำเร็จการศึกษา">
+                    <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                  type = "number"
+                  maxlength = "4" class="form-control" id="eb_yearsuccess" name="eb_yearsuccess" placeholder="ปีที่สำเร็จการศึกษา">
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">วุฒิการศึกษา</label>
