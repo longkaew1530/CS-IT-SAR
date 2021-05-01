@@ -1,4 +1,4 @@
-            @if($check1_1==1)
+            
             <div class="box-header">
               <h1 class="box-title">การกำกับให้เป็นไปตามมาตรฐาน (เกณฑ์มาตรฐานหลักสูตร พ.ศ.2558)</h1>
               <br>
@@ -226,12 +226,14 @@
             <div class="box-body">
               <table class="table table-bordered">
                 <tbody><tr>
-                  <th width="15%">รายชื่ออาจารย์</th>
-                  <th width="30%">สาขาวิชาที่จบ</th>
+                <th width="5%">ที่</th>
+                  <th width="25%">รายชื่ออาจารย์</th>
+                  <th width="50%">สาขาวิชาที่จบ</th>
                 </tr>
                 @foreach($instructor as $key =>$row )
                 <tr>
-                  <td>{{($key + 1)}}.{{$row['user_fullname']}}</td>             
+                <td>{{($key + 1)}}</td>
+                  <td>{{$row['user_fullname']}}</td>             
                   <td>
                   @foreach($row->educational_background as $value) 
                   {{$value['abbreviations']." (".$value['eb_fieldofstudy'].")"}}<br>
@@ -345,7 +347,7 @@
                 @endif
               </tbody></table>
             </div>
-            @endif
+            
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script type="text/javascript">
     $.ajaxSetup({

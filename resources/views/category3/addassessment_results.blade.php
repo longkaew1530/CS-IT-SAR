@@ -92,27 +92,27 @@
                 <tr>
                   <td rowspan="2">ตัวบ่งชี้ที่ {{$row['Indicator_id']." ".$row['Indicator_name']}}</td>           
                   <td rowspan="2"><div class="form-group">
-                                  <select class="form-control"  id="courseid"  class="form-control @error('role') is-invalid @enderror" name="target">
+                                  <select class="form-control"  id="target"  class="form-control @error('role') is-invalid @enderror" name="target">
                                     <option value="ผ่านมาตรฐาน">ผ่านมาตรฐาน</option>
                                     <option value="ไม่ผ่านมาตรฐาน">ไม่ผ่านมาตรฐาน</option>
                                   </select>
                                   </div></td>
                   @if($per1!=null)
                     <td ><div class="form-group">
-                                  <select class="form-control"  id="courseid"  class="form-control @error('role') is-invalid @enderror" name="performance1">
+                                  <select class="form-control"  id="performance1"  class="form-control @error('role') is-invalid @enderror" name="performance1">
                                     <option value="ผ่านมาตรฐาน">ผ่านมาตรฐาน</option>
                                     <option value="ไม่ผ่านมาตรฐาน">ไม่ผ่านมาตรฐาน</option>
                                   </select>
                                   </div></td></td>
                   @endif  
                   <td rowspan="2"><div class="form-group">
-                                  <select class="form-control"  id="courseid"  class="form-control @error('role') is-invalid @enderror" name="performance3">
+                                  <select class="form-control"  id="performance3"  class="form-control @error('role') is-invalid @enderror" name="performance3">
                                     <option value="ผ่านมาตรฐาน">ผ่านมาตรฐาน</option>
                                     <option value="ไม่ผ่านมาตรฐาน">ไม่ผ่านมาตรฐาน</option>
                                   </select>
                                   </div></td>
                   <td rowspan="2"><div class="form-group">
-                                  <select class="form-control"  id="courseid"  class="form-control @error('role') is-invalid @enderror" name="score">
+                                  <select class="form-control"  id="score"  class="form-control @error('role') is-invalid @enderror" name="score">
                                     <option value="ผ่านมาตรฐาน">ผ่านมาตรฐาน</option>
                                     <option value="ไม่ผ่านมาตรฐาน">ไม่ผ่านมาตรฐาน</option>
                                   </select>
@@ -121,7 +121,7 @@
                 <tr>
                 @if($per1!=null)
                     <td ><div class="form-group">
-                                  <select class="form-control"  id="courseid"  class="form-control @error('role') is-invalid @enderror" name="performance2">
+                                  <select class="form-control"  id="performance2"  class="form-control @error('role') is-invalid @enderror" name="performance2">
                                     <option value="ผ่านมาตรฐาน">ผ่านมาตรฐาน</option>
                                     <option value="ไม่ผ่านมาตรฐาน">ไม่ผ่านมาตรฐาน</option>
                                   </select>

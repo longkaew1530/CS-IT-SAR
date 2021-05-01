@@ -185,7 +185,9 @@ class AJController extends Controller
                         ->where('year_add', '<=',session()->get('year'))
                         ->where('reported_year', '>=',$get[0]['year_add'])
                         ->where('reported_year', '<=',session()->get('year'))
+                        ->orderBy('year_add','desc')
                         ->get();
+                        
                     }
                     if(count($get)==0){
                         $get="";
@@ -193,7 +195,7 @@ class AJController extends Controller
                 $getqty=category3_infostudent_qty::where('course_id',session()->get('usercourse'))
                 ->where('year_id',session()->get('year_id'))
                 ->get();
-                $countnumber=count($getinfo);
+                $countnumber=count($getyear);
                 $checkedit="asdsad";
                 return view('category3/infostudents',compact('get','getinfo','getqty','countnumber','checkedit'));
             }

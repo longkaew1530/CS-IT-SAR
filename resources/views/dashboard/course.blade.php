@@ -36,17 +36,19 @@
                   </td>
                 </tr>
                 <div class="modal  fade" id="modal-info">
-          <div class="modal-dialog">
+          <div class="modal-dialog modal-lg">
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">เพิ่มข้อมูลกลุ่มเมนู</h4>
+                <h4 class="modal-title">เพิ่มข้อมูลหลักสูตร</h4>
               </div>
-              <form  method="POST" action="/addcourse">
+              <form id="adddata" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data" >
               @csrf
-              <div class="box-body">
-                <div class="form-group">
+              <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+            <div class="form-group">
                   <label for="exampleInputEmail1">หลักสูตร</label>
                   <input type="text" class="form-control" id="course_name" name="course_name" placeholder="หลักสูตร">
                 </div>
@@ -58,7 +60,7 @@
                                     @endforeach
                                   </select>
                                   </div>
-                <div class="form-group">
+                                  <div class="form-group">
                   <label for="exampleInputPassword1">รหัสหลักสูตร</label>
                   <input type="text" class="form-control" id="course_code" name="course_code" placeholder="รหัสหลักสูตร">
                 </div>
@@ -76,19 +78,41 @@
                   <label for="exampleInputPassword1">ชื่อย่อ</label>
                   <input type="text" class="form-control" id="initials" name="initials" placeholder="ชื่อย่อ">
                 </div>
-              </div>
+            </div>
+            <div class="col-md-6 ">
+            <label>มคอ.2</label>
+                  <div id="dynamic_field">
+                        <div class="row">
+                            <div class="col-md-10">
+                            <input type="text" id="name" name="name[]" placeholder="ชื่อ-สกุล" class="form-control" />
+                            </div>
+                            <div class="col-md-1">
+                            <button type="button" name="add" id="add" class="btn btn-success "><i class="fa fa-plus"></i></button>
+                            </div>
+                  
+                        </div>
+                        <br><div class="row">
+                                  <div class="col-md-10">
+                                  <textarea type="text" id="background" name="background[]" placeholder="วุฒิการศึกษา" class="form-control" ></textarea>
+                                  </div>               
+                            </div>
+                  </div>
+                  
+            </div>
+          </div>
             
               <div class="modal-footer">
                 <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">ปิด</button>
                 <button type="submit" class="btn btn-info">บันทึกข้อมูล</button>
               </div>
-              </form>
+              
               <input type="hidden" class="form-control" name="id" id="emp_id" >
               
             </div>
             
             <!-- /.modal-content -->
           </div>
+          </form>
           <!-- /.modal-dialog -->
         </div>
 
@@ -98,7 +122,7 @@
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">เพิ่มข้อมูลกลุ่มเมนู</h4>
+                <h4 class="modal-title">แก้ไขข้อมูลหลักสูตร</h4>
               </div>
               <form  method="POST" action="/updatecourse">
               @csrf
@@ -180,7 +204,7 @@
   width:40%;
 }
 .wid50{
-  width:50%;
+  width:80%;
 }
 .mt20{
   margin-top:50px
@@ -193,6 +217,9 @@
 }
 .mt-3{
   margin-top:30px;
+}
+.fr{
+  float:right;
 }
 </style>
 
@@ -207,6 +234,8 @@
 
 <script>
 $(document).ready(function() {
+
+  
 $('#modal-edit').on('show.bs.modal', function (event) {
 var button = $(event.relatedTarget);
 var id= button.data('id');
@@ -226,5 +255,233 @@ var url = "/getcourse";
         }) 
 });
 });
+</script>
+<script>
+  $(document).ready(function() {
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    var postURL = "<?php echo url('addmore'); ?>";
+      var i=0;  
+
+
+      $('#add').click(function(){  
+           i++;  
+           $('#dynamic_field').append('<br><div id="row'+i+'" class="row"><div class="col-md-10"><input type="text" id="name" name="name'+i+'" placeholder="ชื่อ-สกุล" class="form-control" /></div><div class="col-md-1"><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></div></div><br><div id="row2'+i+'"  class="row"><div class="col-md-10"><textarea type="text" id="background" name="background'+i+'" placeholder="วุฒิการศึกษา" class="form-control" ></textarea></div></div>');  
+      });  
+
+
+      $(document).on('click', '.btn_remove', function(){  
+           var button_id = $(this).attr("id");   
+           $('#row'+button_id+'').remove(); 
+           $('#row2'+button_id+'').remove();   
+      });
+    $('#adddata').submit(function(e) {
+      e.preventDefault();
+      for (instance in CKEDITOR.instances) {
+                CKEDITOR.instances[instance].updateElement();
+        }
+      var formData = new FormData(this);
+      var course_name = document.getElementById("course_name").value;
+      var faculty_id = document.getElementById("faculty_id").value;
+      var course_code = document.getElementById("course_code").value;
+      var update_course = document.getElementById("update_course").value;
+      var place = document.getElementById("place").value;
+      var initials = document.getElementById("initials").value;
+      var teacher_name = $('#name').val();
+      
+
+      var gettname="";
+            for (index = 0; index < teacher_name.length; ++index) {
+              if(teacher_name[index]!=""){
+                gettname="aaaa";
+             }
+            }
+            
+
+       if(course_name==""||faculty_id==""||course_code==""||update_course==""||place==""||initials==""){
+        swal({
+          title: "กรุณาป้อนข้อมูลให้ครบ",
+          text: "",
+          icon: "warning",
+          showConfirmButton: false,
+        });
+      }
+      else{
+      swal({
+      title: "ยืนยันการบันทึก?",
+      icon: "warning",
+      buttons: true,
+      successMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        $.ajax({
+        type: 'POST',
+        url: "/addcourse",
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        success: (data) => {
+          if(data){
+            swal({
+          title: "บันทึกข้อมูลเรียบร้อย",
+          text: "",
+          icon: "success",
+          button: "ตกลง",
+        }).then(function() {
+          window.location = "/course";
+        });
+          }
+        },
+        error: function(data) {
+         
+          
+          console.log(data.responseJSON.errors);
+        }
+      });
+      } else {
+        
+      }
+    });
+  }
+    });
+    $('#updatedata').submit(function(e) {
+      e.preventDefault();
+      var formData = new FormData(this);
+      var owner = document.getElementById("owner1").value;
+      var research_results_year = document.getElementById("research_results_year1").value;
+      var research_results_name = document.getElementById("research_results_name1").value;
+      var research_results_description = document.getElementById("research_results_description1").value;
+      var research_results_salary = document.getElementById("research_results_salary1").value;
+      var teacher_name = $('#select').val();
+      var checkdup="aaaaa";
+            for (index = 0; index < teacher_name.length; ++index) {
+              if(teacher_name[index]==owner){
+                checkdup="";
+              }
+            }
+      var gettname="";
+            for (index = 0; index < teacher_name.length; ++index) {
+              if(teacher_name[index]!=""){
+                gettname="aaaa";
+             }
+            }
+      if(checkdup==""){
+         swal({
+          title: "ชื่อผู้วิจัยไม่สามารถซ้ำกับชื่อผู้ร่วมวิจัยได้",
+          text: "",
+          icon: "warning",
+          showConfirmButton: false,
+        });
+      }
+      else if(gettname==""||owner==""||research_results_year==""||research_results_name==""||research_results_description==""||research_results_salary==""){
+        swal({
+          title: "กรุณาป้อนข้อมูลให้ครบ",
+          text: "",
+          icon: "warning",
+          showConfirmButton: false,
+        });
+      }
+      else{
+      swal({
+      title: "ยืนยันการบันทึก?",
+      icon: "warning",
+      buttons: true,
+      successMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        $.ajax({
+        type: 'POST',
+        url: "/updateresearch_results",
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        success: (data) => {
+          if(data){
+            swal({
+          title: "แก้ไขข้อมูลเรียบร้อย",
+          text: "",
+          icon: "success",
+          button: "ตกลง",
+        }).then(function() {
+          window.location = "/research_results";
+        });
+          }
+        },
+        error: function(data) {
+         
+          
+          console.log(data.responseJSON.errors);
+        }
+      });
+      } else {
+        
+      }
+    });
+  }
+    });
+
+    $('#modal-edit').on('show.bs.modal', function(event) {
+      var button = $(event.relatedTarget);
+      var id = button.data('id');
+      var modal = $(this);
+      var studentSelect = $('#select');
+      modal.find('#emp_id').val(id);
+      var url = "/getresearch_results";
+      $.get(url + '/' + id, function(data) {
+        //success data
+        $("#id").val(data[0].research_results_id);
+        $("#owner1").val(data[0].owner);
+        var get=[];
+        for (index = 0; index < data.length; ++index) {
+                if(data[index].user_id!=data[0].owner){
+                  get[index]=data[index].user_id;
+                } 
+        }
+        $("#select").val(get);
+        $("#research_results_year1").val(data[0].research_results_year);
+        $("#research_results_year1").val(data[0].research_results_year);
+        $("#research_results_category1").val(data[0].research_results_category);
+        $("#research_results_name1").val(data[0].research_results_name);
+        $("#research_results_description1").val(data[0].research_results_description);
+        $("#research_results_salary1").val(data[0].research_results_salary);
+        
+
+        
+
+        $('#select').select2({
+        // ...
+        templateSelection: function (data, container) {
+          // Add custom attributes to the <option> tag for the selected option
+          $(data.id).attr('data-custom-attribute', data.customValue);
+          return data.text;
+        }
+      });
+
+      // Retrieve custom attribute value of the first selected element
+      // $('#mySelect2').find(':selected').data('custom-attribute');
+      //   for (const [key, value] of Object.entries(data)) {
+      //       var option = new Option(value.user_fullname, value.id,true, true);
+      //   studentSelect.append(option).trigger('change');
+      //   studentSelect.trigger({
+      //       type: 'select2:select',
+      //       params: {
+      //           data: data
+      //       }
+      //   });
+      //   }
+        
+        
+      })
+    });
+  });
 </script>
 @endsection

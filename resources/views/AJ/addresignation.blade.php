@@ -199,7 +199,7 @@
           icon: "success",
           button: "ตกลง",
         }).then(function() {
-          window.location = "/category3/resignation";
+          window.location = "/addresignation";
         });
           }
         },

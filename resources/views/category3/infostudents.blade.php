@@ -30,17 +30,18 @@
                   @endfor
                   
                   @for($i =$get[0]['year_add'];$i<=$yearname; $i++)
-                  <?php $checkdata2=$getinfo->where('year_add',$i)->last();
+                  <?php $checkdata2=$getinfo->where('year_add',$i)->sortBy('year_add')->sortBy('reported_year')->last();
                         $getcheckdata2=$checkdata2['reported_year_qty'];
                   ?>
+                  
                   @if($getcheckdata2!=0)<th width="5%" style="background-color:#9ddfd3">{{$i}}</th>@endif
                   @endfor
                   </tr>
                   <?php $n=0 ?>
                   @for($y=$get[0]['year_add'];$y<=$yearname; $y++)
-                  
+                 
                   <?php $data=$getinfo->where('year_add',$y); ?>
-                  <?php $checkdata=$getinfo->where('year_add',$y)->last();
+                  <?php $checkdata=$getinfo->where('year_add',$y)->sortBy('year_add')->sortBy('reported_year')->last();
                         $getcheckdata=$checkdata['reported_year_qty'];
                   ?>
                   @if($getcheckdata!=0)

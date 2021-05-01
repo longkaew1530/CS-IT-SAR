@@ -2449,10 +2449,13 @@ class DashboardController extends Controller
         $tc=User::whereNotIn('users.id', function($join1)
             {
                 
-                $join1->select('user_id')->from('course_teacher');;
+                $join1->select('user_id')->from('course_teacher')
+                ->where('course_teacher.course_id',session()->get('usercourse'))
+             ->where('course_teacher.year_id',session()->get('year_id'));
 
             })
-        ->paginate(10);
+            ->where('user_course',session()->get('usercourse'))
+            ->get();
         return view('dashboard/tc_course',compact('tc_course','tc'));
     }
     public function index20()
@@ -2464,10 +2467,13 @@ class DashboardController extends Controller
          $tc=User::whereNotIn('users.id', function($join1)
          {
              
-             $join1->select('user_id')->from('instructor');;
+             $join1->select('user_id')->from('instructor')
+             ->where('instructor.course_id',session()->get('usercourse'))
+             ->where('instructor.year_id',session()->get('year_id'));
 
          })
-        ->paginate(10);
+         ->where('user_course',session()->get('usercourse'))
+         ->get();
         return view('dashboard/instructor1',compact('tc_course','tc'));
     }
     public function index21()
@@ -2493,9 +2499,12 @@ class DashboardController extends Controller
          $tc=User::whereNotIn('users.id', function($join1)
          {
              
-             $join1->select('user_id')->from('course_responsible_teacher');;
+             $join1->select('user_id')->from('course_responsible_teacher')
+             ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
+             ->where('course_responsible_teacher.year_id',session()->get('year_id'));
 
          })
+         ->where('user_course',session()->get('usercourse'))
         ->get();
         return view('dashboard/crt',compact('tc_course','tc'));
     }

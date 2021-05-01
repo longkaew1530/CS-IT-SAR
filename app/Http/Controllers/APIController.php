@@ -10,6 +10,7 @@ use App\Groupmenu;
 use App\defaulindicator;
 use App\branch;
 use App\instructor;
+use App\course_detail;
 use App\Course;
 use App\Faculty;
 use App\groupuser;
@@ -176,6 +177,7 @@ class APIController extends Controller
      }
      public function addcourse(Request $request)
      {
+         $getdata=$request->all();
          $data['course_name']=$request->course_name;
          $data['faculty_id']=$request->faculty_id ;
          $data['course_code']=$request->course_code;
@@ -183,7 +185,14 @@ class APIController extends Controller
          $data['place']=$request->place;
          $data['initials']=$request->initials;
          Course::insert($data);
-         return redirect('/course');
+         $getid=Course::latest('course_id')->first();
+         foreach($getdata['name'] as $key=>$value){
+            $insert[$key]['course_id'] = $getid->course_id;
+            $insert[$key]['name'] = $value;
+            $insert[$key]['background'] = $value;
+         }
+         course_detail::insert($insert);
+         return $data;
      }
      public function updatecourse(Request $request)
      {
