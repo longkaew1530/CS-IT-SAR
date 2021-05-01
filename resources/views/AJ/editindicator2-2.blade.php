@@ -278,5 +278,76 @@ function myScript1() {
     document.getElementById("score").value =5;
   }
 }
+function myScript() {
+    var id = document.getElementById("job");
+    var id2 = document.getElementById("freelance");
+    var id3 = document.getElementById("answer");
+    var result =parseInt(id.value);
+    var result2 =parseInt(id2.value);
+    var result3 =parseInt(id3.value);
+    document.getElementById("performance1").value =result+result2;
+    if(isNaN(result3)){
+      result3 =0;
+    }
+    else{
+      avg =((result+result2)*100)/result3;
+    }
+
+    if(avg>=1&&avg<=20){
+    document.getElementById("performance3").value =1;
+    document.getElementById("score").value =1;
+   }
+   else if(avg>=21&&avg<=40){
+    document.getElementById("performance3").value =2;
+    document.getElementById("score").value =2;
+   }
+   else if(avg>=41&&avg<=60){
+    document.getElementById("performance3").value =3;
+    document.getElementById("score").value =3;
+  }
+  else if(avg>=61&&avg<=80){
+    document.getElementById("performance3").value =4;
+    document.getElementById("score").value =4;
+  }
+  else if(avg>=81&&avg<=100){
+    document.getElementById("performance3").value =5;
+    document.getElementById("score").value =5;
+  }
+}
+function myScript1() {
+  var id = document.getElementById("job");
+    var id2 = document.getElementById("freelance");
+    var id3 = document.getElementById("answer");
+    var result =parseInt(id.value);
+    var result2 =parseInt(id2.value);
+    var result3 =parseInt(id3.value);
+    document.getElementById("performance2").value =result3;
+    if(isNaN(result)&&isNaN(result2)){
+      result3 =0;
+    }
+    else{
+      avg =((result+result2)*100)/result3;
+    }
+    if(avg>=1&&avg<=20){
+    document.getElementById("performance3").value =1;
+    document.getElementById("score").value =1;
+   }
+   else if(avg>=21&&avg<=40){
+    document.getElementById("performance3").value =2;
+    document.getElementById("score").value =2;
+   }
+   else if(avg>=41&&avg<=60){
+    document.getElementById("performance3").value =3;
+    document.getElementById("score").value =3;
+  }
+  else if(avg>=61&&avg<=80){
+    document.getElementById("performance3").value =4;
+    document.getElementById("score").value =4;
+  }
+  else if(avg>=81&&avg<=100){
+    document.getElementById("performance3").value =5;
+    document.getElementById("score").value =5;
+  }
+}
 </script>
 @endsection

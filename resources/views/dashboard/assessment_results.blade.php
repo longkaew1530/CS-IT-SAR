@@ -396,7 +396,7 @@ function calc(id)
           type: "GET",
           url: "/getallresult",       
           success: function (data) {
-            if(data==0){
+            if(data.score==0){
               swal({
       title: "ยืนยันการบันทึก?",
       icon: "warning",
@@ -419,7 +419,7 @@ function calc(id)
             icon: "success",
             button: "ตกลง",
            }).then(function() {
-              
+            window.location = "/assessment_results";
            });
            }
         });
@@ -457,7 +457,8 @@ function calc2(id)
           type: "GET",
           url: "/getallresult",       
           success: function (data) {
-            if(data==0){
+            console.log(data);
+            if(data.score==0){
               swal({
       title: "ยืนยันการบันทึก?",
       icon: "warning",
@@ -480,7 +481,7 @@ function calc2(id)
             icon: "success",
             button: "ตกลง",
            }).then(function() {
-              
+            window.location = "/assessment_results";
            });
            }
         });

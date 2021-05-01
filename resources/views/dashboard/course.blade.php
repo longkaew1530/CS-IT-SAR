@@ -64,7 +64,9 @@
                 </div>
                 <div class="form-group">
                   <label for="exampleInputPassword1">หลักสูตรปรับปรุง</label>
-                  <input type="text" class="form-control" id="update_course" name="update_course" placeholder="หลักสูตรปรับปรุง">
+                  <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                  type = "number"
+                  maxlength = "4" class="form-control" id="update_course" name="update_course" placeholder="หลักสูตรปรับปรุง">
                 </div>
                 <div class="form-group">
                   <label for="exampleInputPassword1">สถานที่</label>
@@ -121,7 +123,9 @@
                 </div>
                 <div class="form-group">
                   <label for="exampleInputPassword1">หลักสูตรปรับปรุง</label>
-                  <input type="text" class="form-control" id="updatecourse" name="update_course" placeholder="หลักสูตรปรับปรุง">
+                  <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                  type = "number"
+                  maxlength = "4" class="form-control" id="updatecourse" name="update_course" placeholder="หลักสูตรปรับปรุง">
                 </div>
                 <div class="form-group">
                   <label for="exampleInputPassword1">สถานที่</label>

@@ -2021,7 +2021,18 @@ class APIAJController extends Controller
         $data=assessment_results::find($id);
         $data->active=$request->value;
         $data->save();
-        return $data;
+        $cate=assessment_results::where('id',$id)->get();
+        $getdata=indicator::where('category_id',$cate[0]['category_id'])
+        ->where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+
+        foreach($getdata as $value){
+            $data2=indicator::find($value['id']);
+            $data2->active=$request->value;
+            $data2->save();
+        }
+        return $getdata;
     }
     public function updateactive2(Request $request ,$id)
     {
@@ -2828,12 +2839,9 @@ class APIAJController extends Controller
          ->get();
          $scoregraduate=0;
          if($get!="[]"){
-             $getinfo=category3_graduate::where('course_id',session()->get('usercourse'))
-             ->where('year_add', '>=',$get[0]['year_add'])
-             ->where('year_add', '<=',session()->get('year'))
-             ->where('reported_year', '>=',$get[0]['year_add'])
-             ->where('reported_year', '<=',session()->get('year'))
-             ->get();
+            $getinfo=category3_graduate::where('course_id',session()->get('usercourse'))
+            ->where('year_add',session()->get('year'))
+            ->get();
              if($getinfo!="[]"){
                 $scoregraduate++;
             }
@@ -3929,44 +3937,59 @@ class APIAJController extends Controller
         $discount1=$check1;
         $discount2=$check7+$check8+$check9;
         $discount3=$check2+$check3+$check4+$check5+$check6+$check16+$check17+$check31+$check33+$check34;
-        $discount4=$check10+$check11+$check12+$check13+$check15+$check18+$check19+$check20+$check21+$check22+$check23+$check24+$check25;
+        $discount4=$check10+$check11+$check12+$check13+$check15+$check19+$check20+$check21+$check22+$check23+$check24+$check25;
         $discount5=$check14+$check26;
         $discount6=$check18+$check27;
         $discount7=$check28+$check29+$check30;
         $discount8=$check32;
+        
+
+        $result1=0;
+        $result2=0;
+        $result3=0;
+        $result4=0;
+        $result5=0;
+        $result6=0;
+        $result7=0;
+        $result8=0;
 
 
 
-
-
-
-
-
+        if($discount1!=0){
         $result1=(($getscore1_1+$getscore1_1result)*100)/$discount1;
+        }
+        if($discount2!=0){
         $result2=(($score4_1result1+$score4_1result2+$score4_1result3+$score4_1resultdoc1+$score4_1resultdoc2+
         $score4_1resultdoc3+$score4_1resultpdca+$score4_2result1+$score4_2result2+$score4_2resultpdca+$score4_3result1+
         $score4_3result2+$score4_3resultpdca)*100)/$discount2;
-        
+        }
 
-
+        if($discount3!=0){
         $result3=(($getscore2_1+$getscore2_2+$score3_1result1+$score3_1result2+$score3_1resultdoc1+$score3_1resultdoc2+$score3_1resultpdca
                 +$score3_2result1+$score3_2result2+$score3_2resultdoc1+$score3_2resultdoc2+$score3_2resultpdca
                 +$score3_3result1+$score3_3result2+$score3_3result3+$score3_3resultpdca
                 +$scorfactor+$scorfactor2+$scoreinfo+$scoreinfoqty+$scoregraduate+$scoregraduate+$scorere)*100)/$discount3;
-
+        }
+        if($discount4!=0){
         $result4=(($score5_1result1+$score5_1result2+$score5_1result3+$score5_1resultdoc1+$score5_1resultdoc2+
                     $score5_1resultdoc3+$score5_1resultpdca+$score5_2result1+$score5_2result2+$score5_2result3+
                     $score5_2resultdoc1+$score5_2resultdoc2+$score5_2resultdoc3+$score5_2resultpdca+
                     $score5_3result1+$score5_3result2+$score5_3resultdoc1+$score5_3resultdoc2+$score5_3resultpdca+
                     $score5_4result1+$score5_4resultpdca+$scoreteachqua+$scoreccr+$scoreacademic+$scorenot_offered+
                     $scoreincomplete_content+$scoreeffec+$scorenewteacher+$scoreactivity)*100)/$discount4;
-        
+        }
+        if($discount5!=0){
         $result5=(($score6_1result1+$score6_1resultdoc1+$score6_1resultpdca+$scorecoursemanage)*100)/$discount5;
-        $result6=(($scoreassessmentsummary+$scoreassessmentsummary2+$scorecomment_course)*100)/$discount6; 
-        $result7=(($scorestrength+$scoredevelopment_proposal+$scorenewstrength)*100)/$discount7;
-        $result8=($scorestrengths_summary*100)/$discount8;
-
-
+        }
+        if($discount6!=0){
+            $result6=(($scoreassessmentsummary+$scoreassessmentsummary2+$scorecomment_course)*100)/$discount6; 
+        }
+        if($discount7!=0){
+            $result7=(($scorestrength+$scoredevelopment_proposal+$scorenewstrength)*100)/$discount7;
+        }
+        if($discount8!=0){
+            $result8=($scorestrengths_summary*100)/$discount8;
+        }
         $scorecategory1 = sprintf('%.0f',$result1);
         $scorecategory2 = sprintf('%.0f',$result2);
         $scorecategory3 = sprintf('%.0f',$result3);

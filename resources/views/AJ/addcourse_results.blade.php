@@ -15,6 +15,7 @@
           <div class="box-header col-md-12 col-sm-9 col-xs-12">
             <h3 class="box-title">สรุปผลรายวิชาที่เปิดสอน</h3>
           </div>
+          <i class="fa fa-download"><a>ดาวน์โหลดไฟล์ตัวอย่าง</a></i>
           <div id="body">
             <div class="col-md-12 col-sm-9 col-xs-12">
             <input   type="file" id="infostd" name="infostd">
