@@ -35,6 +35,9 @@
                                       <button type="submit" class="btn btn-danger"><i class='fa fa-trash'></i></button></form>
                   </td>
                 </tr>
+                @endforeach
+                </tbody>
+              </table>
                 <div class="modal  fade" id="modal-info">
           <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -81,26 +84,19 @@
             </div>
             <div class="col-md-6 ">
             <label>มคอ.2</label>
-                  <div id="dynamic_field">
-                        <div class="row">
-                            <div class="col-md-10">
-                            <input type="text" id="name" name="name[]" placeholder="ชื่อ-สกุล" class="form-control" />
-                            </div>
-                            <div class="col-md-1">
-                            <button type="button" name="add" id="add" class="btn btn-success "><i class="fa fa-plus"></i></button>
-                            </div>
-                  
-                        </div>
-                        <br><div class="row">
-                                  <div class="col-md-10">
-                                  <textarea type="text" id="background" name="background[]" placeholder="วุฒิการศึกษา" class="form-control" ></textarea>
-                                  </div>               
-                            </div>
-                  </div>
+            <div class="table-responsive">  
+                <table class="table table-bordered" id="dynamic_field">  
+                    <tr><td width="100%"><input type="text" id="name" name="name[]" placeholder="ชื่อ-สกุล" class="form-control name_list" /></td></tr>
+                    <tr>  
+                        <td><textarea type="text"   name="background[]" placeholder="วุฒิการศึกษา" class="form-control name_list"></textarea></td>    
+                        <td><button type="button" name="add" id="add" class="btn btn-success"><i class="fa fa-plus"></i></button></td>  
+                    </tr>  
+                </table>  
+            </div>
                   
             </div>
           </div>
-            
+           
               <div class="modal-footer">
                 <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">ปิด</button>
                 <button type="submit" class="btn btn-info">บันทึกข้อมูล</button>
@@ -112,12 +108,12 @@
             
             <!-- /.modal-content -->
           </div>
-          </form>
+          </div>
           <!-- /.modal-dialog -->
         </div>
-
+        </form>
         <div class="modal  fade" id="modal-edit">
-          <div class="modal-dialog">
+          <div class="modal-dialog modal-lg">
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -127,8 +123,10 @@
               <form  method="POST" action="/updatecourse">
               @csrf
               {{ method_field('PUT') }}
-              <div class="box-body">
-              <div class="form-group">
+              <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+            <div class="form-group">
               <input type="hidden" class="form-control" id="courseid" name="course_id" >
                   <label for="exampleInputEmail1">หลักสูตร</label>
                   <input type="text" class="form-control" id="coursename" name="course_name" placeholder="หลักสูตร">
@@ -141,7 +139,7 @@
                                     @endforeach
                                   </select>
                                   </div>
-                <div class="form-group">
+                                  <div class="form-group">
                   <label for="exampleInputPassword1">รหัสหลักสูตร</label>
                   <input type="text" class="form-control" id="coursecode" name="course_code" placeholder="รหัสหลักสูตร">
                 </div>
@@ -159,7 +157,33 @@
                   <label for="exampleInputPassword1">ชื่อย่อ</label>
                   <input type="text" class="form-control" id="initials1" name="initials" placeholder="ชื่อย่อ">
                 </div>
+            </div>
+            <div class="col-md-6">
+            <label>มคอ.2</label>
+            <div class="table-responsive">  
+                <table class="table table-bordered" id="dynamic_field2">
+                        <div id="get"></div>
+                </table>
+            </div>
+            <div class="table-responsive"> 
+            <table class="table table-bordered" id="dynamic_field3"> 
+                <tr><td width="100%"><input type="text" id="name" name="name[]" placeholder="ชื่อ-สกุล" class="form-control name_list" /></td></tr>
+                    <tr>  
+                        <td><textarea type="text"    name="background[]" placeholder="วุฒิการศึกษา" class="form-control name_list"></textarea></td>    
+                        <td><button type="button" name="add2" id="add2" class="btn btn-success"><i class="fa fa-plus"></i></button></td>  
+                    </tr>
+                </table>
               </div>
+            </div>
+          </div>
+             </div>
+              
+                
+                
+               
+                
+                
+              
             
               <div class="modal-footer">
                 <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">ปิด</button>
@@ -176,9 +200,7 @@
         </div>
             </div>
 
-                @endforeach
-                </tbody>
-              </table>
+               
                 
             </div>
 
@@ -229,10 +251,25 @@
     $('#example3').DataTable({
       lengthMenu: [ 8, 20, 50, 100]
     })
-  })
+  });
+  $(function () {
+ 
+ CKEDITOR.replace('editor',{
+   enterMode : Number(2),
+   toolbar: [],
+   width : '100%',
+   height:'10%',
+ })  
+});
+$(function () {
+ 
+ 
+});
 </script>
 
 <script>
+
+  
 $(document).ready(function() {
 
   
@@ -242,9 +279,9 @@ var id= button.data('id');
 var modal = $(this);
 modal.find('#emp_id').val(id);
 var url = "/getcourse";
+var url2 = "/getcoursedetail";
         $.get(url + '/' + id, function (data) {
             //success data
-            console.log(data)
             $("#courseid").val(data[0].course_id);
             $("#coursename").val(data[0].course_name);
             $("#facultyid").val(data[0].faculty_id);
@@ -252,7 +289,14 @@ var url = "/getcourse";
             $("#updatecourse").val(data[0].update_course);
             $("#place1").val(data[0].place);
             $("#initials1").val(data[0].initials);
+            $('#job-summ-panel').html(data[0].initials)
         }) 
+        $.get(url2 + '/' + id, function (data2) {
+            //success data
+            jQuery('#dynamic_field2').show();
+            jQuery('#dynamic_field2').html(data2.success);
+            console.log(data2);
+        })
 });
 });
 </script>
@@ -265,16 +309,37 @@ var url = "/getcourse";
     });
     var postURL = "<?php echo url('addmore'); ?>";
       var i=0;  
-
+      var x=10;  
 
       $('#add').click(function(){  
            i++;  
-           $('#dynamic_field').append('<br><div id="row'+i+'" class="row"><div class="col-md-10"><input type="text" id="name" name="name'+i+'" placeholder="ชื่อ-สกุล" class="form-control" /></div><div class="col-md-1"><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></div></div><br><div id="row2'+i+'"  class="row"><div class="col-md-10"><textarea type="text" id="background" name="background'+i+'" placeholder="วุฒิการศึกษา" class="form-control" ></textarea></div></div>');  
-      });  
 
+           $('#dynamic_field').append('<tr id="row2'+i+'"><td width="100%"><input type="text" id="name" name="name[]" placeholder="ชื่อ-สกุล" class="form-control name_list" /></td></tr><tr id="row'+i+'" class="dynamic-added"><td><textarea type="text"  id="editor" name="background[]" placeholder="วุฒิการศึกษา" class="form-control name_list"></textarea></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');  
+      });  
+      $('#add2').click(function(){  
+           x++;  
+           $('#dynamic_field3').append('<tr id="row'+x+'"><td width="100%"><input type="text" id="name" name="name[]" placeholder="ชื่อ-สกุล" class="form-control name_list" /></td></tr><tr id="row'+x+'" class="dynamic-added"><td><textarea type="text"  id="editor" name="background[]" placeholder="วุฒิการศึกษา" class="form-control name_list"></textarea></td><td><button type="button" name="remove" id="'+x+'" class="btn btn-danger btn_remove">X</button></td></tr>');  
+      });
 
       $(document).on('click', '.btn_remove', function(){  
            var button_id = $(this).attr("id");   
+           $('#row'+button_id+'').remove(); 
+           $('#row2'+button_id+'').remove();   
+      });
+      $(document).on('click', '.btn_remove2', function(){  
+           var button_id = $(this).attr("id"); 
+           var background = $('#background1').val();
+           var name = $('#name1').val();
+           console.log(name);
+          //  const index = background.indexOf(button_id);
+          //  const index2 = name.indexOf(button_id);
+          //  var index = array.indexOf(button_id);
+          // if (index !== -1) {
+          //   array.splice(index, 1);
+          // }
+            
+          //     name.splice(button_id, 1);
+          //   } 
            $('#row'+button_id+'').remove(); 
            $('#row2'+button_id+'').remove();   
       });

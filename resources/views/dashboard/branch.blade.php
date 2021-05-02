@@ -25,9 +25,9 @@
                   <td>{{$key+1}}</td>
                   <td>{{$row['name']}}</td>
                   <td>{{$row['course_name']}}</td>           
-                  <td class="text-center"><button class="btn btn-warning" type="button"   data-toggle="modal" data-target="#modal-edit" data-id="{{$row['id']}}"><i class='fa fas fa-edit'></i></button></td>
+                  <td class="text-center"><button class="btn btn-warning" type="button"   data-toggle="modal" data-target="#modal-edit" data-id="{{$row['branch_id']}}"><i class='fa fas fa-edit'></i></button></td>
                   <td class="text-center">
-                                      <form id="delete-form" method="POST" action="/deletebranch/{{$row['id']}}">
+                                      <form id="delete-form" method="POST" action="/deletebranch/{{$row['branch_id']}}">
                                         {{ csrf_field() }}
                                         {{ method_field('DELETE') }}
                                       <button type="submit" class="btn btn-danger"><i class='fa fa-trash'></i></button></form>
@@ -86,7 +86,7 @@
               <div class="box-body">
               <div class="form-group">
               <input type="hidden" class="form-control" id="id" name="id" >
-                  <label for="exampleInputEmail1">หมวด</label>
+                  <label for="exampleInputEmail1">สาขา</label>
                   <input type="text" class="form-control" id="bname" name="name" placeholder="หมวด">
                 </div>
                 <div class="form-group">

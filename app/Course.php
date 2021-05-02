@@ -12,4 +12,8 @@ class Course extends Model
         'course_name','faculty_id','course_code','update_course','place','initials'
     ];
     public $timestamps = false;
+    public function course_detail()
+    {
+        return $this->hasMany('App\course_detail','course_id','course_id');
+    }
 }

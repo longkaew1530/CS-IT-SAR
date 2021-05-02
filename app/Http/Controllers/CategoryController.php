@@ -223,6 +223,7 @@ class CategoryController extends Controller
          }
         //ดึงค่าตารางหลักสูตร
         $course = Course::where('course_id',session()->get('usercourse'))->get();
+        $course_detail = course_detail::where('course_id',session()->get('usercourse'))->get();
         $user=auth()->user();
         $user_branch=branch::where('id',$user->user_branch)->get();
         //ดึงค่าตารางอาจารย์ผู้รับผิดชอบหลักสูตร
@@ -294,7 +295,7 @@ class CategoryController extends Controller
             $checkpass=false;
         }
         return view('category/category1',compact('c','count','nameteacher'
-        ,'educ_bg','y','checkpass','checknotpass','tc_course','instructor','specialinstructor','inc','course','per','user_branch'));
+        ,'educ_bg','y','checkpass','checknotpass','tc_course','instructor','specialinstructor','inc','course','per','user_branch','course_detail'));
     }
     public function indicator4_1($id)
     {

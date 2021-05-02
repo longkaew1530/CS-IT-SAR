@@ -21,10 +21,15 @@
                     </tr>
                     @foreach($educ_bg as $key =>$row)
                     <tr>
-                      <td>{{($key + 1)}}. {{$row['user_fullname']}}<br>
-                      @foreach($row->educational_background as $value) 
-                      {{$value['abbreviations']." (".$value['eb_fieldofstudy'].")"}}<br>
-                      @endforeach
+                    @if($course_detail!="[]")<td>{{($key + 1)}}. {{$course_detail[$key]['name']}}<br>@else<td>-@endif
+                      @if($course_detail!="[]")
+                      <?php 
+                     $get=explode("\r\n",$course_detail[$key]['background']);
+                       ?>
+                       @foreach($get as $getvalue)
+                       {{$getvalue}}<br>
+                       @endforeach
+                       @endif
                       </td>
                       <td>{{($key + 1)}}. {{$row['user_fullname']}}<br>
                       @foreach($row->educational_background as $value) 

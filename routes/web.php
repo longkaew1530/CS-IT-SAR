@@ -140,6 +140,7 @@ Route::post('/addcourse', 'APIController@addcourse');
 Route::delete('/deletecourse/{id}', 'APIController@deletecourse');
 Route::put('/updatecourse','APIController@updatecourse');
 Route::get('/getcourse/{id}','APIController@getcourse');
+Route::get('/getcoursedetail/{id}','APIController@getcoursedetail');
 /////faculty
 Route::post('/addfaculty', 'APIController@addfaculty');
 Route::delete('/deletefaculty/{id}', 'APIController@deletefaculty');

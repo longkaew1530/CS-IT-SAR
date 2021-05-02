@@ -175,6 +175,17 @@ class APIController extends Controller
          $course = Course::where('course_id',$id)->get();
          return $course;
      }
+     public function getcoursedetail($id)
+     {
+         $course = course_detail::where('course_id',$id)->get();
+         $li = '';   
+        foreach ($course as $key=>$enrollment) {
+        $li .= '<tr id="row'.$key.'"><td width="110%"><input type="text" id="name1" name="name[]" placeholder="ชื่อ-สกุล" class="form-control name_list" value="'.$enrollment->name.'"/></td><td><button type="button" name="remove" id="'.$key.'" class="btn btn-danger ml-1 btn_remove2">X</button></td></tr>
+                <tr id="row2'.$key.'"><td><textarea type="text" id="background1"  name="background[]" placeholder="วุฒิการศึกษา" class="form-control name_list">'.$enrollment->background.'</textarea><br></td></tr>';
+        }
+    
+        return response()->json(['success'=> $li]);
+     }
      public function addcourse(Request $request)
      {
          $getdata=$request->all();
@@ -189,13 +200,14 @@ class APIController extends Controller
          foreach($getdata['name'] as $key=>$value){
             $insert[$key]['course_id'] = $getid->course_id;
             $insert[$key]['name'] = $value;
-            $insert[$key]['background'] = $value;
+            $insert[$key]['background'] = $getdata['background'][$key];
          }
          course_detail::insert($insert);
          return $data;
      }
      public function updatecourse(Request $request)
      {
+        $getdata=$request->all();
          $course_id=$request->input('course_id');
          $data = Course::find($course_id);
          $data->course_name = $request->input('course_name');
@@ -205,6 +217,19 @@ class APIController extends Controller
          $data->place = $request->input('place');
          $data->initials = $request->input('initials');
          $data->save();
+         $checkdata=course_detail::where('course_id',$data->course_id);
+         if($checkdata!=""){
+             $checkdata->delete();
+         }
+         foreach($getdata['name'] as $key=>$value){
+             if($getdata['background'][$key]==""){
+                 continue;
+             }
+            $insert[$key]['course_id'] = $data->course_id;
+            $insert[$key]['name'] = $value;
+            $insert[$key]['background'] = $getdata['background'][$key];
+         }
+         course_detail::insert($insert);
          return redirect('/course');
      }
      public function deletecourse($id)
@@ -459,7 +484,7 @@ class APIController extends Controller
       /////สาขา/////สาขา/////สาขา/////สาขา/////สาขา/////สาขา
       public function getbranch($id)
       {
-          $course = branch::where('id',$id)->get();
+          $course = branch::where('branch_id',$id)->get();
           return $course;
       }
       public function addbranch(Request $request)

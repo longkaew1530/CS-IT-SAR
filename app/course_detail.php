@@ -12,4 +12,8 @@ class course_detail extends Model
         'course_id','name','background'
     ];
     public $timestamps = false;
+    public function course()
+    {
+        return $this->belongsTo('App\Course','course_id');
+    }
 }

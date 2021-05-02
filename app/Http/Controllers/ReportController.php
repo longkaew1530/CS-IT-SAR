@@ -11,6 +11,7 @@ use App\indicator;
 use App\category;
 use App\assessment_results;
 use App\category6_comment_course;
+use App\course_detail;
 use App\category6_assessment_summary;
 use App\category5_course_manage;
 use App\indicator1_1;
@@ -442,10 +443,11 @@ class ReportController extends Controller
                 $check4_1=1;
             }
         }
+        $course_detail = course_detail::where('course_id',session()->get('usercourse'))->get();
         return view('category/category1',compact('c','count','nameteacher'
         ,'educ_bg','y','checkpass','checknotpass','tc_course','instructor','specialinstructor'
         ,'inc','course','result1','result2','result3','result4','result5','result6','result7'
-        ,'result8','result9','result10','id','name','checkedit','inc','user_branch','check1_1'));
+        ,'result8','result9','result10','id','name','checkedit','inc','user_branch','check1_1','course_detail'));
         }
         else if($id==2){
 
