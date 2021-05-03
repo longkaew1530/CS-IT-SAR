@@ -4,6 +4,7 @@
 <div class="box box-warning marginl">
 <div class="box-header">
             <div class="box-body">
+            <a href="/addeffectiveness" class="btn btn-success fr"><i class='fa fa-plus'></i> เพิ่ม</a>
             <b><h4>ประสิทธิผลของกลยุทธ์การสอน</h4></b>
               <table class="table table-bordered" >
                 <tbody><tr>

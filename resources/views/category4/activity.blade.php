@@ -4,7 +4,7 @@
 <div class="box box-warning marginl">
 <div class="box-header">
             <div class="box-body">
-            
+            <a href="/addactivity" class="btn btn-success fr"><i class='fa fa-plus'></i> เพิ่ม</a>
             <h4 >กิจกรรมการพัฒนาวิชาชีพของอาจารย์และบุคลากรสายสนับสนุน</h4></b>
             <table class="table table-bordered" >
                 <tbody ><tr>

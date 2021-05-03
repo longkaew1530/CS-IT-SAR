@@ -4,22 +4,22 @@
 <div class="box box-warning marginl" id="exportContent">
 <div class="box-header" >
               <h3 class="text-center">หมวดที่3 นักศึกษาและบัณฑิต</h3><br>
-              @if($get!=""&&$checkinfostd==1)
               <div class="box-body">
               <h4>ข้อมูลนักศึกษา</h4>
-              
-              <table class="table table-bordered text-center">
+              @if($get!="[]")
+            <table class="table table-bordered text-center">
                 <tbody><tr>
                   <th width="10%" rowspan="2" style="background-color:#9ddfd3">ปีการศึกษาที่รับเข้า</th>
                   <th width="10%" colspan="{{$countnumber}}" style="background-color:#9ddfd3">ปีการศึกษาที่รับเข้า</th>
                   </tr>
+                  
                   <tr>
                   <?php $yearname=session()->get('year'); ?>
                   <?php $sss=0; 
                         $getname[]=0;
                   ?>
                   @for($s=$get[0]['year_add'];$s<=$yearname; $s++)
-                  <?php $checkdata=$getinfo->where('year_add',$s)->sortBy('year_add')->sortBy('reported_year')->last();
+                  <?php $checkdata=$getinfo->where('year_add',$s)->last();
                         $getcheckdata=$checkdata['reported_year_qty'];
                   ?>
                   @if($getcheckdata==0)
@@ -30,18 +30,17 @@
                   @endfor
                   
                   @for($i =$get[0]['year_add'];$i<=$yearname; $i++)
-                  <?php $checkdata2=$getinfo->where('year_add',$i)->sortBy('year_add')->sortBy('reported_year')->last();
+                  <?php $checkdata2=$getinfo->where('year_add',$i)->last();
                         $getcheckdata2=$checkdata2['reported_year_qty'];
                   ?>
-                  
                   @if($getcheckdata2!=0)<th width="5%" style="background-color:#9ddfd3">{{$i}}</th>@endif
                   @endfor
                   </tr>
                   <?php $n=0 ?>
                   @for($y=$get[0]['year_add'];$y<=$yearname; $y++)
-                 
+                  
                   <?php $data=$getinfo->where('year_add',$y); ?>
-                  <?php $checkdata=$getinfo->where('year_add',$y)->sortBy('year_add')->sortBy('reported_year')->last();
+                  <?php $checkdata=$getinfo->where('year_add',$y)->last();
                         $getcheckdata=$checkdata['reported_year_qty'];
                   ?>
                   @if($getcheckdata!=0)
@@ -72,6 +71,8 @@
                                          
                                       @endif
                                 @endforeach  
+                            @else
+                                <td >aaaaa</td>
                             @endif    
                             <?php $n++ ?>                        
                             @endfor
@@ -83,16 +84,14 @@
                 @endfor
                
               </tbody></table>
-              
+              @endif
               
             
            @if($getqty!="[]") จำนวนนักศึกษาที่รับเข้าตามแผน (ตาม มคอ2 ของปีที่ประเมิน) {{$getqty[0]['qty']}} คน @endif
             </div>
-            @endif
-            @if($get2!=""&&$checkgdqty==1)
+
             <div class="box-body">
             <h4>จำนวนผู้สำเร็จการศึกษา</h4>
-            
             <table class="table table-bordered text-center">
                 <tbody><tr>
                   <th width="5%" rowspan="3" style="background-color:#9ddfd3">ปีการศึกษาที่รับเข้า</th>
@@ -180,15 +179,11 @@
                 </tr>
                 @endfor
                 
-              </tbody></table>
-             
-              </div>
-              @endif
-              @if($get!=""&&$checkinfostd==1)
+              </tbody></table></div>
+
               <div class="box-body">
               <h4>การคงอยู่ของนักศึกษา</h4>
-              
-              <table class="table table-bordered text-center">
+            <table class="table table-bordered text-center">
                 <tbody><tr>
                   <th width="10%" rowspan="2" style="background-color:#9ddfd3">ปีการศึกษาที่รับเข้า</th>
                   <th width="10%" colspan="{{$countnumber}}" style="background-color:#9ddfd3">ปีการศึกษาที่รับเข้า</th>
@@ -199,7 +194,7 @@
                         $getname[]=0;
                   ?>
                   @for($s=$get[0]['year_add'];$s<=$yearname; $s++)
-                  <?php $checkdata=$getinfo->where('year_add',$s)->sortBy('year_add')->sortBy('reported_year')->last();
+                  <?php $checkdata=$getinfo->where('year_add',$s)->last();
                         $getcheckdata=$checkdata['reported_year_qty'];
                   ?>
                   @if($getcheckdata==0)
@@ -210,18 +205,17 @@
                   @endfor
                   
                   @for($i =$get[0]['year_add'];$i<=$yearname; $i++)
-                  <?php $checkdata2=$getinfo->where('year_add',$i)->sortBy('year_add')->sortBy('reported_year')->last();
+                  <?php $checkdata2=$getinfo->where('year_add',$i)->last();
                         $getcheckdata2=$checkdata2['reported_year_qty'];
                   ?>
-                  
                   @if($getcheckdata2!=0)<th width="5%" style="background-color:#9ddfd3">{{$i}}</th>@endif
                   @endfor
                   </tr>
                   <?php $n=0 ?>
                   @for($y=$get[0]['year_add'];$y<=$yearname; $y++)
-                 
+                  
                   <?php $data=$getinfo->where('year_add',$y); ?>
-                  <?php $checkdata=$getinfo->where('year_add',$y)->sortBy('year_add')->sortBy('reported_year')->last();
+                  <?php $checkdata=$getinfo->where('year_add',$y)->last();
                         $getcheckdata=$checkdata['reported_year_qty'];
                   ?>
                   @if($getcheckdata!=0)
@@ -252,6 +246,8 @@
                                          
                                       @endif
                                 @endforeach  
+                            @else
+                                <td >aaaaa</td>
                             @endif    
                             <?php $n++ ?>                        
                             @endfor
@@ -263,26 +259,16 @@
                 @endfor
                
               </tbody></table>
-             
+
             </div>
-            @endif
-            @if($checkfoctor1==1)
-            @if($factor!="[]")
             <div class="box-body">
               <h4>ปัจจัยที่มีผลกระทบต่อจำนวนนักศึกษา</h4>
             @foreach($factor as $row)
                 {!!$row['factor']!!}
              @endforeach 
             </div>
-            @else
+
             <div class="box-body">
-              <h4>ปัจจัยที่มีผลกระทบต่อจำนวนนักศึกษา</h4>
-                -
-            </div>
-            @endif
-            @endif
-            <div class="box-body">
-            @if($get2!=""&&$checkgdqty==1)
             <h4>จำนวนผู้สำเร็จการศึกษา</h4>
             <table class="table table-bordered text-center">
                 <tbody><tr>
@@ -371,32 +357,20 @@
                 </tr>
                 @endfor
                 
-              </tbody></table>
-              @endif
-              </div>
-              @if($checkfoctor2==1)
-              @if($factor2!="[]")
+              </tbody></table></div>
               <div class="box-body">
               <h4>ปัจจัยที่มีผลกระทบต่อการสำเร็จการศึกษา</h4>
-                  @foreach($factor2 as $row)
+            @foreach($factor2 as $row)
                 {!!$row['factor']!!}
-                 @endforeach 
+             @endforeach 
             </div>
-            @else
-            <div class="box-body">
-              <h4>ปัจจัยที่มีผลกระทบต่อการสำเร็จการศึกษา</h4>
-                  -
-            </div>
-            @endif
-            @endif
-            @if($check2_1==1)
+
             <div class="box-body">
             <h4>คุณภาพบัณฑิตตามกรอบมาตรฐานคุณวุฒิระดับอุดมศึกษาแห่งชาติ (ตัวบ่งชี้ที่ 2.1)</h4>
               <table class="table table-bordered mt-1">
                 <tbody><tr>
                   <th width="80%" class="text-center">ข้อมูลพื้นฐาน</th>
                   <th width="10%" class="text-center">จำนวน</th>
-                  @if($factor3!="[]")
                   @foreach($factor3 as $value)
                 </tr>
                 <td>1. จำนวนบัณฑิตที่สำเร็จการศึกษาในหลักสูตรนี้ทั้งหมด</td>
@@ -420,12 +394,6 @@
                 <tr>
                 </tr>
                 @endforeach
-                @else
-                <tr>
-                <td>-</td>
-                <td>-</td>
-                </tr>
-                @endif
               </tbody></table></div>
               <div class="box-body">
             <ins>ผลการประเมินตนเอง</ins>
@@ -477,8 +445,7 @@
                 @endif
               </tbody></table>
             </div>
-            @endif
-            @if($check2_2==1)
+
             <div class="box-body">
             <h4><li >ร้อยละของบัณฑิตปริญญาตรีที่ได้งานทำหรือประกอบอาชีพอิสระภายใน 1 ปี (ตัวบ่งชี้ 2.2)</li></h4>
             <ins>ผลการดำเนินงาน</ins>
@@ -603,8 +570,8 @@
                 @endif
               </tbody></table>
             </div>
-           @endif
-           @if($check3_1==1)
+
+
             <br> <div class="box-body">
               <h1 class="box-title">{{$name3_1}} (ตัวบ่งชี้ที่ {{$id3_1}})</h1>
               <br>
@@ -660,7 +627,7 @@
                   </td>
                   <td>
                   @foreach($row1->docpdca as $key2 =>$row2)
-                  {{$value['composition_id']}}.{{$id3_1}}-{{$key2+1}} {{$row2['doc_file']}}<br>
+                   {{$row2['doc_file']}}<br>
                   @endforeach
                   </td> 
                   @endforeach
@@ -723,8 +690,7 @@
               </tbody></table>
             </div>
               </div>
-                @endif
-             @if($check3_2==1)
+
               <br> <div class="box-body">
               <h1 class="box-title">{{$name3_2}} (ตัวบ่งชี้ที่ {{$id3_2}})</h1>
               <br>
@@ -779,8 +745,8 @@
                   {!!$row1['a']!!}</b><br><br>
                   </td>
                   <td>
-                  @foreach($row1->docpdca as $key3_2 =>$row2)
-                  {{$value['composition_id']}}.{{$id3_2}}-{{$key3_2+1}} {{$row2['doc_file']}}<br>
+                  @foreach($row1->docpdca as $key2 =>$row2)
+                   {{$row2['doc_file']}}<br>
                   @endforeach
                   </td> 
                   @endforeach
@@ -843,8 +809,7 @@
               </tbody></table>
             </div>
               </div>
-              @endif
-              @if($check3_3==1)
+
               <br><div class="box-body">
               <h4>ผลที่เกิดกับนักศึกษา (ตัวบ่งชี้ 3.3)</h4>
               <br><ins><b>เกณฑ์การประเมิน</b></ins><br><p>
@@ -858,7 +823,6 @@
               1.  การประเมินความพึงพอใจของนักศึกษา เป็นการประเมินความพึงพอใจของนักศึกษาต่อกระบวนที่ดำเนินการให้กับนักศึกษาตามกิจกรรมในตัวบ่งชี้ 3.1 และ 3.2<br></p>
               2.  อัตราการคงอยู่ของนักศึกษา คิดจากจำนวนนักศึกษาที่เข้าในแต่ละรุ่น ลบด้วยจำนวนนักศึกษาที่ออกทุกกรณีนับถึงสิ้นปีการศึกษาที่ประเมิน ยกเว้นเสียชีวิต
                   การย้ายสถานที่ทำงานของนักศึกษาในระดับบัณฑิตศึกษา คิดเป็นร้อยละของจำนวนที่รับเข้าในแต่ละรุ่นที่มีบัณฑิตสำเร็จการศึกษาแล้ว<br>
-                @if($get5!="[]")
               <p class="text-center">ตารางคำนวณอัตราการคงอยู่และการสำเร็จการศึกษาของนักศึกษา</p>
             <table class="table table-bordered text-center">
                 <tbody><tr>
@@ -975,7 +939,7 @@
                 </tr>
                 @endfor
                 
-              </tbody></table>@endif</div></div>
+              </tbody></table></div></div>
 
               <div class="box-body">
             <ins>ผลการดำเนินงาน</ins>
@@ -985,15 +949,15 @@
                   <th width="15%" class="text-center">หลักฐานอ้างอิง</th>
                 </tr>
                 @if($in3_3!="[]")
-                @foreach($in3_3 as $key1=>$value)
+                @foreach($in3_3 as $value)
               <tr>
                 <td><b>{{$value['category_retention_rate']}}</b><br>
                 {!!$value['retention_rate']!!}
                 
                 </td>
                 <td>
-                @foreach($value->doc_performance3_3 as $key2=>$row)
-                {{$id3_3}}.{{$key1+1}}-{{$key2+1}} {!!$row['doc_file']!!}<br>
+                @foreach($value->doc_performance3_3 as $row)
+                -{!!$row['doc_file']!!}<br>
                 @endforeach
                 </td>
               </tr>
@@ -1029,7 +993,7 @@
                 @endforeach
                 @else
                 <tr>
-                  <td>ตัวบ่งชี้ที่ {{$id3_3}} {{$name3_3}}</td>             
+                  <td>ตัวบ่งชี้ที่ {{$id}} {{$name}}</td>             
                   <td class="text-center"></td>
                   <td class="text-center"></td>
                   <td class="text-center"></td>
@@ -1038,7 +1002,7 @@
                 @endif
               </tbody></table>
             </div>
-              @endif
+              
 </div>
 </div>
 <style>

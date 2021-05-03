@@ -423,7 +423,8 @@ class AJController extends Controller
             return view('AJ/addincomplete_content');
         }
         else{
-            return view('category4/not_course_summary',compact('ccr'));
+            $checkedit="asdasd";
+            return view('category4/not_course_summary',compact('ccr','checkedit'));
         }               
     }
     public function addeffectiveness()

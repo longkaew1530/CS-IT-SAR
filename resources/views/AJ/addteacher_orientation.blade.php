@@ -24,7 +24,7 @@
                       มี
                     </label>
                     &nbsp;&nbsp;&nbsp;<label>
-                      <input type="radio" name="point_out" id="optionsRadios1" value="0" onclick="EnableTxt()">
+                      <input type="radio" name="point_out" id="optionsRadios2" value="0" onclick="EnableTxt()">
                       ไม่มี
                     </label>
             </div>
@@ -92,8 +92,13 @@
     $('#adddata').submit(function(e) {
       e.preventDefault();
       var formData = new FormData(this);
+      var optionsRadios1 = document.getElementById("optionsRadios2").value;
       var new_teacher_qty = document.getElementById("new_teacher_qty").value;
       var teacher_point_out_qty = document.getElementById("teacher_point_out_qty").value;
+      if(optionsRadios1==0){
+        new_teacher_qty="a";
+        teacher_point_out_qty="a";
+      }
       if(new_teacher_qty==""||teacher_point_out_qty==""){
          swal({
           title: "กรุณาป้อนข้อมูลให้ครบ",

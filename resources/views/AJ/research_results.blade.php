@@ -293,7 +293,6 @@
       var owner = document.getElementById("owner").value;
       var research_results_year = document.getElementById("research_results_year").value;
       var research_results_name = document.getElementById("research_results_name").value;
-      var research_results_description = document.getElementById("research_results_description").value;
       var research_results_salary = document.getElementById("research_results_salary").value;
       var teacher_name = $('#teacher_name').val();
       
@@ -318,7 +317,7 @@
           showConfirmButton: false,
         });
       }
-      else if(gettname==""||owner==""||research_results_year==""||research_results_name==""||research_results_description==""||research_results_salary==""){
+      else if(owner==""||research_results_year==""||research_results_name==""||research_results_salary==""){
         swal({
           title: "กรุณาป้อนข้อมูลให้ครบ",
           text: "",
@@ -373,7 +372,6 @@
       var owner = document.getElementById("owner1").value;
       var research_results_year = document.getElementById("research_results_year1").value;
       var research_results_name = document.getElementById("research_results_name1").value;
-      var research_results_description = document.getElementById("research_results_description1").value;
       var research_results_salary = document.getElementById("research_results_salary1").value;
       var teacher_name = $('#select').val();
       var checkdup="aaaaa";
@@ -396,7 +394,7 @@
           showConfirmButton: false,
         });
       }
-      else if(gettname==""||owner==""||research_results_year==""||research_results_name==""||research_results_description==""||research_results_salary==""){
+      else if(owner==""||research_results_year==""||research_results_name==""||research_results_salary==""){
         swal({
           title: "กรุณาป้อนข้อมูลให้ครบ",
           text: "",

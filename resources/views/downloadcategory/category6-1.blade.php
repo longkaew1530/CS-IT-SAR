@@ -5,7 +5,6 @@
 <div class="box-header" >
               <h3 class="text-center">หมวดที่6 ข้อคิดเห็นและข้อเสนอแนะเกี่ยวกับคุณภาพหลักสูตรจากผู้ประเมิน</h3><br>
               <div class="box-header">
-              @if($check2==1)
               <div class="box-body">
            <b><h4>ข้อคิดเห็น และข้อเสนอแนะเกี่ยวกับคุณภาพหลักสูตรจากผู้ประเมิน</h4></b>
               <table class="table table-bordered" >
@@ -32,8 +31,6 @@
                 @endif
               </tbody></table>
 </div>
-@endif
-@if($check1==1)
 <div class="box-body">
             <b><h3 class="text-center">สรุปการประเมินหลักสูตร</h3></b>
             <br>
@@ -107,7 +104,6 @@
               @endif
               </tbody></table>
 </div>
-@endif
 </div>
 </div>
 <style>
@@ -144,10 +140,10 @@
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script type="text/javascript">
-$(document).ready(function(){      
+ $(document).ready(function(){      
   Export2Word('exportContent','หมวดที่6 ข้อคิดเห็น และข้อเสนอแนะเกี่ยวกับคุณภาพหลักสูตรจากผู้ประเมิน');
   window.history.back();
- }); 
+ });  
 
  function Export2Word(element, filename = ''){
     var preHtml = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Export HTML To Doc</title></head><body>";

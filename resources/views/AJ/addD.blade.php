@@ -141,7 +141,7 @@
           showConfirmButton: false,
         });
       }
-      else if(doc_file!=""&&name==""){
+      else if(doc_file!=""&&name==""&&editor1==""){
         swal({
           title: "กรุณาตั้งชื่อไฟล์",
           text: "",
@@ -149,7 +149,7 @@
           showConfirmButton: false,
         });
       }
-      else if(doc_file==""&&name!=""){
+      else if(doc_file==""&&name!=""&&editor1==""){
         swal({
           title: "กรุณาแนบหลักฐานอ้างอิง",
           text: "",

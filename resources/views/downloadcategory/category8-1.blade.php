@@ -14,8 +14,6 @@
                   <th colspan="2" width="20%" class="text-center">ผลการดำเนินงาน</th>
                   <th width="10%" class="text-center">คะแนนอิงเกณฑ์ สกอ.</th>
                 </tr>
-                <?php $resultall=0;
-                      $getloop=0; ?>
                 @foreach($getall as $key=>$value)
                 @php
                 $i = $key
@@ -43,13 +41,6 @@
                     @endif
                    @foreach($pdca as $row1)
                       @if($row1['Indicator_id']==$row['Indicator_id'])
-                      <?php 
-                            $getvalue=0.0000001;
-                            $getvalue=(float)$row1['performance3'];
-                             $resultall=$resultall+$getvalue;
-                            $getloop++;
-                            $gett=gettype($getvalue);
-                      ?>
                       <td class="text-center" rowspan="2">{{$row1['target']}}</td>  
                       @if($row1['performance1']!=null)<td class="text-center" >{{$row1['performance1']}}</td>
                       <td rowspan="2" class="text-center">{{$row1['performance3']}}</td>
@@ -73,13 +64,6 @@
                   @endforeach      
                 <tr>
                 @endforeach
-                <tr>
-                <td class="text-center" colspan="2">ผลการประเมิน</td>
-                <?php $getget=$resultall/($getloop-1); 
-                     $scorecategory1 = sprintf('%.2f',$getget);
-                ?>
-                <td  class="text-center" colspan="3">{{$scorecategory1}}</td>
-                </tr>
               </tbody></table>  
 
               <div class="box-header">
@@ -110,7 +94,7 @@
                 @endforeach
               </tbody></table>  
           
-                @if($check1==1)
+
               <div class="box-header">
             <div class="box-body">
               <h4>3. สรุปจุดแข็ง จุดที่ควรพัฒนา และแนวทางการพัฒนา</h4></br>
@@ -150,7 +134,6 @@
               @endforeach
               
 </div>
-@endif
 </div>
 <style>
 .marginl{
@@ -187,16 +170,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script type="text/javascript">
  $(document).ready(function(){      
-var i=1;  
-$('#add').click(function(){  
-var id = $("#add").attr("data-id")
-// i++;  
-$('#show'+id).append('<tr><td>'+id+'</td></tr>');  
-});  
-$(document).on('click', '.btn_remove', function(){  
-var button_id = $(this).attr("id");   
-$('#row'+button_id+'').remove();  
-}); 
+  Export2Word('exportContent','สรุปผลการประเมินคุณภาพ');
+  window.history.back();
  }); 
 
  function Export2Word(element, filename = ''){

@@ -5,8 +5,8 @@
 <div class="box-header" >
               <h3 class="text-center">หมวดที่7 แผนการดำเนินงานเพื่อพัฒนาหลักสูตร</h3><br>
               <div class="box-header">
-              @if($check1==1)
             <div class="box-body">
+            
            <h4>ความก้าวหน้าของการดำเนินงานตามแผนที่เสนอในรายงานของปีที่ผ่านมา</h4>
               <table class="table table-bordered" >
                 <tbody><tr>
@@ -36,8 +36,6 @@
                 @endif
               </tbody></table>
               </div>
-              @endif
-              @if($check2==1)
             <div class="box-body">
               <h4>ข้อเสนอในการพัฒนาหลักสูตร</h4></b>
               @if($querydevelopment_proposal!="[]")
@@ -49,8 +47,6 @@
               -
               @endif
               </div>
-              @endif
-              @if($check3==1)
             <div class="box-body">
               <h4>แผนปฏิบัติการใหม่ สำหรับปี {{ Session::get('year')}}</h4>
               <table class="table table-bordered" >
@@ -79,7 +75,6 @@
               </tbody></table>
 
               </div>
-              @endif
               </div>
               
 </div>

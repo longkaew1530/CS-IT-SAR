@@ -19,7 +19,7 @@
                         $getname[]=0;
                   ?>
                   @for($s=$get[0]['year_add'];$s<=$yearname; $s++)
-                  <?php $checkdata=$getinfo->where('year_add',$s)->last();
+                  <?php $checkdata=$getinfo->where('year_add',$s)->sortBy('year_add')->sortBy('reported_year')->last();
                         $getcheckdata=$checkdata['reported_year_qty'];
                   ?>
                   @if($getcheckdata==0)
@@ -72,8 +72,6 @@
                                          
                                       @endif
                                 @endforeach  
-                            @else
-                                <td >aaaaa</td>
                             @endif    
                             <?php $n++ ?>                        
                             @endfor

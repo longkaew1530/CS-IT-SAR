@@ -208,7 +208,7 @@
 <script type="text/javascript">
   $('#formadd').ajaxForm(function() {
     swal({
-      title: "เพิ่มข้อมูลเรียบร้อยแล้ว",
+      title: "บันทึกข้อมูลเรียบร้อย",
       text: "",
       icon: "success",
       button: "ตกลง",
@@ -218,7 +218,7 @@
   });
   $('#updatedata').ajaxForm(function() {
     swal({
-      title: "อัปเดตข้อมูลเรียบร้อยแล้ว",
+      title: "แก้ไขข้อมูลเรียบร้อย",
       text: "",
       icon: "success",
       button: "ตกลง",

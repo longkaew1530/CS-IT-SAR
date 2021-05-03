@@ -104,7 +104,7 @@
                      ||$value['research_results_year']==$y-2
                      ||$value['research_results_year']==$y-3
                      ||$value['research_results_year']==$y-4)
-                    -{{$value['teacher_name']."(".$value['research_results_year']."). ".$value['research_results_name'].". ".$value['research_results_description']}}<br>
+                    -{{$value['teacher_name'].".(".$value['research_results_year']."). ".$value['research_results_name'].". ".$value['research_results_description']}}<br>
                   @endif
                   @endforeach
                   </td>
@@ -174,7 +174,7 @@
                      ||$value['research_results_year']==$y-2
                      ||$value['research_results_year']==$y-3
                      ||$value['research_results_year']==$y-4)
-                    -{{$value['teacher_name']."(".$value['research_results_year']."). ".$value['research_results_name'].". ".$value['research_results_description']}}<br>
+                    -{{$value['teacher_name'].".(".$value['research_results_year']."). ".$value['research_results_name'].". ".$value['research_results_description']}}<br>
                   @endif
                   @endforeach
                   </td>

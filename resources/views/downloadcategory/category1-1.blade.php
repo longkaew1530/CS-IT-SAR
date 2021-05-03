@@ -6,7 +6,7 @@
 <div class="box-header" >
               <h1 class="box-title">หมวดที่ 1 ข้อมูลทั่วไป</h1>
               @foreach($course as $key =>$value)
-              <br><b>หลักสูตร{{$value['course_name']." สาขา" .$user_branch[0]['name']." หลักสูตรปรับปรุง พ.ศ. ".$value['update_course']}} ระดับปริญญาตรี</b><br>
+              <br><b>หลักสูตร{{$value['course_name']." สาขา".$value['branch']." หลักสูตรปรับปรุง พ.ศ. ".$value['update_course']}} ระดับปริญญาตรี</b><br>
               <b>รหัสหลักสูตร</b> {{$value['course_code']}}<br>
               <b>สถานที่จัดการเรียนการสอน</b> {{$value['place']}}<br>
               @endforeach
@@ -21,15 +21,10 @@
                     </tr>
                     @foreach($educ_bg as $key =>$row)
                     <tr>
-                    @if($course_detail!="[]")<td>{{($key + 1)}}. {{$course_detail[$key]['name']}}<br>@else<td>-@endif
-                      @if($course_detail!="[]")
-                      <?php 
-                     $get=explode("\r\n",$course_detail[$key]['background']);
-                       ?>
-                       @foreach($get as $getvalue)
-                       {{$getvalue}}<br>
-                       @endforeach
-                       @endif
+                      <td>{{($key + 1)}}. {{$row['user_fullname']}}<br>
+                      @foreach($row->educational_background as $value) 
+                      {{$value['abbreviations']." (".$value['eb_fieldofstudy'].")"}}<br>
+                      @endforeach
                       </td>
                       <td>{{($key + 1)}}. {{$row['user_fullname']}}<br>
                       @foreach($row->educational_background as $value) 

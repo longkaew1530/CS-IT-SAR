@@ -112,11 +112,14 @@ class APIAJController extends Controller
     public function addresearch_results(Request $request)
     {
         $getdata=$request->all();
-        $countgetname=count($getdata['teacher_name']);
+        if(isset($getdata['teacher_name'])){
+            $countgetname=count($getdata['teacher_name']);
+        }
         $getname=User::where('id',$request->owner)
         ->get();
         $text=$getname[0]['user_fullname'];
         $i=1;
+        if(isset($getdata['teacher_name'])){
         foreach($getdata['teacher_name'] as $row){
             $query=User::find($row);
             if($i!=$countgetname){
@@ -127,6 +130,7 @@ class APIAJController extends Controller
             }
             $i++;
         }
+    }
         $data=new Research_results;
         $data->owner=$request->owner;
         $data->teacher_name=$text;
@@ -141,6 +145,7 @@ class APIAJController extends Controller
         $insert3->research_results_research_results_id=$data->research_results_id;
         $insert3->user_id=$request->owner;
         $insert3->save();
+        if(isset($getdata['teacher_name'])){
         foreach($getdata['teacher_name'] as $row){
             $query=User::find($row);
             $insert=new Research_results_user;
@@ -148,16 +153,20 @@ class APIAJController extends Controller
             $insert->user_id=$row;
             $insert->save();
         }
-     return $insert;
+    }
+     return $insert3;
     }
     public function updateresearch_results(Request $request)
     {
         $getdata=$request->all();
+        if(isset($getdata['teacher_name'])){
         $countgetname=count($getdata['teacher_name']);
+        }
         $getname=User::where('id',$request->owner)
         ->get();
         $text=$getname[0]['user_fullname'];
         $i=1;
+        if(isset($getdata['teacher_name'])){
         foreach($getdata['teacher_name'] as $row){
             $query=User::find($row);
             if($i!=$countgetname){
@@ -168,6 +177,7 @@ class APIAJController extends Controller
             }
             $i++;
         }
+    }
         $data=Research_results::find($request->id);
         $data->owner=$request->owner;
         $data->teacher_name=$text;
@@ -185,6 +195,7 @@ class APIAJController extends Controller
         $insert3->research_results_research_results_id=$data->research_results_id;
         $insert3->user_id=$request->owner;
         $insert3->save();
+        if(isset($getdata['teacher_name'])){
         foreach($getdata['teacher_name'] as $row){
             $query=User::find($row);
             $insert=new Research_results_user;
@@ -192,7 +203,8 @@ class APIAJController extends Controller
             $insert->user_id=$row;
             $insert->save();
         }
-        return $insert;
+        }
+        return $insert3;
     }
     public function deleteresearch_results($id)
     {
@@ -1385,9 +1397,11 @@ class APIAJController extends Controller
     }
      public function addp(Request $request)
     {
+        if(isset($request->doc_file)){
         $validatedData = $request->validate([
             'doc_file.*' => 'mimes:csv,txt,xlsx,xls,pdf,docx,doc'
             ]);
+        }
             $get= PDCA::where('Indicator_id',$request->Indicator_id)
             ->where('category_pdca',$request->category_id)
             ->where('course_id',session()->get('usercourse'))
@@ -1412,7 +1426,7 @@ class APIAJController extends Controller
             $data->p=$request->editor1;
             $data->save();
         }
-            if(count($request->doc_file) > 0)
+            if(isset($request->doc_file))
             {
                     
                for ($x = 0; $x < count($request->doc_file); $x++) 
@@ -1491,9 +1505,12 @@ class APIAJController extends Controller
     }
     public function addd(Request $request)
     {
-        $validatedData = $request->validate([
-            'doc_file.*' => 'mimes:csv,txt,xlsx,xls,pdf,docx,doc'
-            ]);
+        if($request->hasFile('doc_file')){
+            $validatedData = $request->validate([
+                'doc_file.*' => 'mimes:csv,txt,xlsx,xls,pdf,docx,doc'
+                ]);
+        }
+        
             $get= PDCA::where('Indicator_id',$request->Indicator_id)
             ->where('year_id',session()->get('year_id'))
             ->where('course_id',session()->get('usercourse'))
@@ -1517,7 +1534,7 @@ class APIAJController extends Controller
             $data->d=$request->editor1;
             $data->save();
         }
-        if(count($request->doc_file) > 0)
+        if($request->hasFile('doc_file'))
         {
                 
            for ($x = 0; $x < count($request->doc_file); $x++) 
@@ -1596,9 +1613,11 @@ class APIAJController extends Controller
     }
       public function addc(Request $request)
       {
+          if(isset($request->doc_file)){
           $validatedData = $request->validate([
               'doc_file.*' => 'mimes:csv,txt,xlsx,xls,pdf,docx,doc'
               ]);
+          }
               $get= PDCA::where('Indicator_id',$request->Indicator_id)
               ->where('year_id',session()->get('year_id'))
             ->where('course_id',session()->get('usercourse'))
@@ -1623,7 +1642,7 @@ class APIAJController extends Controller
               $data->c=$request->editor1;
               $data->save();
           }
-          if(count($request->doc_file) > 0)
+          if(isset($request->doc_file))
           {
                   
              for ($x = 0; $x < count($request->doc_file); $x++) 
@@ -1701,9 +1720,11 @@ class APIAJController extends Controller
     }
       public function adda(Request $request)
       {
+        if(isset($request->doc_file)){
           $validatedData = $request->validate([
               'doc_file.*' => 'mimes:csv,txt,xlsx,xls,pdf,docx,doc'
               ]);
+          }
               $get= PDCA::where('Indicator_id',$request->Indicator_id)
               ->where('year_id',session()->get('year_id'))
             ->where('course_id',session()->get('usercourse'))
@@ -1728,7 +1749,7 @@ class APIAJController extends Controller
               $data->a=$request->editor1;
               $data->save();
           }
-                if(count($request->doc_file) > 0)
+                if(isset($request->doc_file))
                 {
                         
                     for ($x = 0; $x < count($request->doc_file); $x++) 
@@ -3657,7 +3678,7 @@ class APIAJController extends Controller
                 $checkdis2=1;
             }
             if($checkper['Indicator_id']=="2.2"){
-                $check3=2;
+                $check3=3;
                 $checkdis3=1;
             }
              if($checkper['Indicator_id']=="3.1"){

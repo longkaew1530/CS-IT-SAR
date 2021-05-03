@@ -87,8 +87,7 @@
         }
       var formData = new FormData(this);
       var editor5 = document.getElementById("editor5").value;
-      var editor1 = document.getElementById("editor1").value;
-      if(editor5==""||editor1==""){
+      if(editor5==""){
          swal({
           title: "กรุณาป้อนข้อมูลให้ครบ",
           text: "",

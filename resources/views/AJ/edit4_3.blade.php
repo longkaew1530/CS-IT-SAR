@@ -220,6 +220,12 @@
         });
         },
         error: function(data) {
+          swal({
+          title: "เอกสารอ้างอิงไม่ถูกต้อง",
+          text: "",
+          icon: "error",
+          showConfirmButton: false,
+        });
           alert(data.responseJSON.errors.files1[0]);
           console.log(data.responseJSON.errors);
         }
@@ -260,6 +266,7 @@
         });
         },
         error: function(data) {
+
           alert(data.responseJSON.errors.files[0]);
           console.log(data.responseJSON.errors);
         }

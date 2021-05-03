@@ -8,7 +8,7 @@
               <div class="box-body">
               <h4>ข้อมูลนักศึกษา</h4>
               
-            <table class="table table-bordered text-center">
+              <table class="table table-bordered text-center">
                 <tbody><tr>
                   <th width="10%" rowspan="2" style="background-color:#9ddfd3">ปีการศึกษาที่รับเข้า</th>
                   <th width="10%" colspan="{{$countnumber}}" style="background-color:#9ddfd3">ปีการศึกษาที่รับเข้า</th>
@@ -19,7 +19,7 @@
                         $getname[]=0;
                   ?>
                   @for($s=$get[0]['year_add'];$s<=$yearname; $s++)
-                  <?php $checkdata=$getinfo->where('year_add',$s)->last();
+                  <?php $checkdata=$getinfo->where('year_add',$s)->sortBy('year_add')->sortBy('reported_year')->last();
                         $getcheckdata=$checkdata['reported_year_qty'];
                   ?>
                   @if($getcheckdata==0)
@@ -30,17 +30,18 @@
                   @endfor
                   
                   @for($i =$get[0]['year_add'];$i<=$yearname; $i++)
-                  <?php $checkdata2=$getinfo->where('year_add',$i)->last();
+                  <?php $checkdata2=$getinfo->where('year_add',$i)->sortBy('year_add')->sortBy('reported_year')->last();
                         $getcheckdata2=$checkdata2['reported_year_qty'];
                   ?>
+                  
                   @if($getcheckdata2!=0)<th width="5%" style="background-color:#9ddfd3">{{$i}}</th>@endif
                   @endfor
                   </tr>
                   <?php $n=0 ?>
                   @for($y=$get[0]['year_add'];$y<=$yearname; $y++)
-                  
+                 
                   <?php $data=$getinfo->where('year_add',$y); ?>
-                  <?php $checkdata=$getinfo->where('year_add',$y)->last();
+                  <?php $checkdata=$getinfo->where('year_add',$y)->sortBy('year_add')->sortBy('reported_year')->last();
                         $getcheckdata=$checkdata['reported_year_qty'];
                   ?>
                   @if($getcheckdata!=0)
@@ -71,8 +72,6 @@
                                          
                                       @endif
                                 @endforeach  
-                            @else
-                                <td >aaaaa</td>
                             @endif    
                             <?php $n++ ?>                        
                             @endfor
@@ -189,7 +188,7 @@
               <div class="box-body">
               <h4>การคงอยู่ของนักศึกษา</h4>
               
-            <table class="table table-bordered text-center">
+              <table class="table table-bordered text-center">
                 <tbody><tr>
                   <th width="10%" rowspan="2" style="background-color:#9ddfd3">ปีการศึกษาที่รับเข้า</th>
                   <th width="10%" colspan="{{$countnumber}}" style="background-color:#9ddfd3">ปีการศึกษาที่รับเข้า</th>
@@ -200,7 +199,7 @@
                         $getname[]=0;
                   ?>
                   @for($s=$get[0]['year_add'];$s<=$yearname; $s++)
-                  <?php $checkdata=$getinfo->where('year_add',$s)->last();
+                  <?php $checkdata=$getinfo->where('year_add',$s)->sortBy('year_add')->sortBy('reported_year')->last();
                         $getcheckdata=$checkdata['reported_year_qty'];
                   ?>
                   @if($getcheckdata==0)
@@ -211,17 +210,18 @@
                   @endfor
                   
                   @for($i =$get[0]['year_add'];$i<=$yearname; $i++)
-                  <?php $checkdata2=$getinfo->where('year_add',$i)->last();
+                  <?php $checkdata2=$getinfo->where('year_add',$i)->sortBy('year_add')->sortBy('reported_year')->last();
                         $getcheckdata2=$checkdata2['reported_year_qty'];
                   ?>
+                  
                   @if($getcheckdata2!=0)<th width="5%" style="background-color:#9ddfd3">{{$i}}</th>@endif
                   @endfor
                   </tr>
                   <?php $n=0 ?>
                   @for($y=$get[0]['year_add'];$y<=$yearname; $y++)
-                  
+                 
                   <?php $data=$getinfo->where('year_add',$y); ?>
-                  <?php $checkdata=$getinfo->where('year_add',$y)->last();
+                  <?php $checkdata=$getinfo->where('year_add',$y)->sortBy('year_add')->sortBy('reported_year')->last();
                         $getcheckdata=$checkdata['reported_year_qty'];
                   ?>
                   @if($getcheckdata!=0)
@@ -252,8 +252,6 @@
                                          
                                       @endif
                                 @endforeach  
-                            @else
-                                <td >aaaaa</td>
                             @endif    
                             <?php $n++ ?>                        
                             @endfor

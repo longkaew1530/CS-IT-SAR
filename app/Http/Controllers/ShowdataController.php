@@ -1523,7 +1523,7 @@ class ShowdataController extends Controller
                 $checkdis2=1;
             }
             if($checkper['Indicator_id']=="2.2"){
-                $check3=2;
+                $check3=3;
                 $checkdis3=1;
             }
              if($checkper['Indicator_id']=="3.1"){
@@ -1840,7 +1840,7 @@ class ShowdataController extends Controller
         $check171=0;
         $check181=0;
         foreach($getpermiss2 as $checkper1){
-                if($checkper['category_id']==1){
+                if($checkper1['category_id']==1){
                     $check100=9;
                     $check111=1;
                 }
@@ -1970,7 +1970,7 @@ class ShowdataController extends Controller
         }
         $discount=0;
         $discount=$discountk1+$discountk2+$discountk3+$discountk4+$discountk5+$discountk6+$discountk7+$discountk8;
-
+       
 
         $allcategory1=(($getscore1_1+$getscore1_1result+$score4_1result1+$score4_1result2+$score4_1result3+$score4_1resultdoc1+$score4_1resultdoc2+
         $score4_1resultdoc3+$score4_1resultpdca+$score4_2result1+$score4_2result2+$score4_2resultpdca+$score4_3result1+
@@ -1985,7 +1985,6 @@ class ShowdataController extends Controller
         $scoreincomplete_content+$scoreeffec+$scorenewteacher+$scoreactivity+$score6_1result1+$score6_1resultdoc1+$score6_1resultpdca+$scorecoursemanage+
         $scoreassessmentsummary+$scoreassessmentsummary2+$scorecomment_course+$scorestrength+$scoredevelopment_proposal+$scorenewstrength+
         $scorestrengths_summary)*100)/$discount;
-
         
         $color="";
         $allcategory['score'] = sprintf('%.0f',$allcategory1);
