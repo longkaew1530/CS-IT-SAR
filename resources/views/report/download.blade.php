@@ -6,7 +6,7 @@
 
   <div id="exportContent">
             <div class="box-header" >
-            <h3 class="box-title">ดาวโหลดเอกสาร</h3>
+            <h3 class="box-title">ดาวน์โหลดเอกสาร</h3>
             </div>
               <table class="table table-condensed">
                 <tbody><tr>

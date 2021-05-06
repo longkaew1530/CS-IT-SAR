@@ -3,7 +3,7 @@
 @section('content')
 <div class="box box-warning ">
             <div class="box-header">
-            <a href="{{ URL::previous() }}" class="btn btn-primary fr"><i class='fa fa-arrow-left'></i> กลับ</a>
+            <a href="/assign_indicator" class="btn btn-primary fr"><i class='fa fa-arrow-left'></i> กลับ</a>
               <h2 class="box-title">มอบหมายตัวบ่งชี้ </h2>
             </div>
             <!-- /.box-header -->
@@ -121,7 +121,7 @@
           showConfirmButton: false,
           timer: 1500
         }).then(function() {
-          location.reload();
+          window.location = "/assign_indicator";
         });
           }
         },

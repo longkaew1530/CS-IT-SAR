@@ -9,7 +9,7 @@ class category4_effectiveness extends Model
     protected $table = 'category4-effectiveness';
     protected $primaryKey = 'id';
     protected $fillable=[
-        'learning_standards','comment','solution'
+        'learning_standards','comment','solution','branch_id'
     ];
     public $timestamps = false;
 }

@@ -28,6 +28,7 @@ class Category4Controller extends Controller
     public function coursesummary()
     {
         $ccr=category4_course_results::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $checkedit="asdasd";
@@ -36,6 +37,7 @@ class Category4Controller extends Controller
     public function notcoursesummary()
     {
         $ccr=category4_notcourse_results::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $checkedit="asdasd";
@@ -45,10 +47,12 @@ class Category4Controller extends Controller
     {
         $indi=in_index::all();
         $perfor=indicator5_4::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $inc= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.indicator_id',5.4)
         ->where('pdca.target','!=',null)
@@ -112,16 +116,19 @@ class Category4Controller extends Controller
     public function teachingquality()
     {
        $teachqua=category4_teaching_quality::where('course_id',session()->get('usercourse'))
+       ->where('branch_id',session()->get('branch_id'))
        ->where('year_id',session()->get('year_id'))
        ->get();
        $teachquagroup=category4_teaching_quality::groupBy('student_year')
        ->get();
+      
        $checkedit="asdasd";
         return view('category4/teaching_quality',compact('teachqua','teachquagroup','checkedit'));
     }
     public function effectiveness()
     {
         $effec=category4_effectiveness::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $checkedit="asd";
@@ -130,6 +137,7 @@ class Category4Controller extends Controller
     public function newteacher()
     {
         $th=category4_newteacher::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $checkpass=false;
@@ -144,6 +152,7 @@ class Category4Controller extends Controller
     public function activity()
     {
         $activity=category4_activity::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $checkedit="asd";
@@ -152,6 +161,7 @@ class Category4Controller extends Controller
     public function academic_performance()
     {
         $academic=category4_academic_performance::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $checkedit="adasd";
@@ -160,6 +170,7 @@ class Category4Controller extends Controller
     public function incomplete_content()
     {
         $academic=category4_incomplete_content::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $checkedit="asdsa";

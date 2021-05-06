@@ -4,7 +4,7 @@
 
 <div class="box box-warning marginl" id="exportContent">
 <div class="box-header" >
-              <h1 class="box-title">หมวดที่ 1 ข้อมูลทั่วไป</h1>
+                <h3 class="text-center">หมวดที่ 1 ข้อมูลทั่วไป</h3><br>
               @foreach($course as $key =>$value)
               <br><b>หลักสูตร{{$value['course_name']." สาขา" .$user_branch[0]['name']." หลักสูตรปรับปรุง พ.ศ. ".$value['update_course']}} ระดับปริญญาตรี</b><br>
               <b>รหัสหลักสูตร</b> {{$value['course_code']}}<br>
@@ -121,7 +121,7 @@
     var url = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(html);
     
     // Specify file name
-    filename = filename?filename+'.doc':'document.doc';
+    filename = filename?filename+'.docx':'document.docx';
     
     // Create download link element
     var downloadLink = document.createElement("a");

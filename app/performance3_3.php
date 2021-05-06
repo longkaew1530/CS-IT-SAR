@@ -9,7 +9,7 @@ class performance3_3 extends Model
     protected $table = 'indicator3_3';
     protected $primaryKey = 'id';
     protected $fillable=[
-        'retention_rate','category_retention_rate'
+        'retention_rate','category_retention_rate','branch_id'
     ];
     public function doc_performance3_3()
     {

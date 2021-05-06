@@ -9,7 +9,7 @@ class instructor extends Model
     protected $table = 'instructor';
     protected $primaryKey = 'user_id';
     protected $fillable=[
-        'user_id','year_id','course_id'
+        'user_id','year_id','course_id','branch_id'
     ];
     public $timestamps = false;
 }

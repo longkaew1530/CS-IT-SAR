@@ -15,6 +15,7 @@ use App\indicator4_3;
 use App\indicator5_4;
 use App\performance3_3;
 use App\category3_GD;
+use App\course_detail;
 use App\category3_infostudent;
 use App\category3_infostudent_qty;
 use App\year_acceptance_graduate;
@@ -1499,13 +1500,19 @@ class DashboardController extends Controller
         $year=Year::where('active',1)
         ->get();
         $getAllyear=Year::all();
-        foreach($year as $value){
-            $y_name=$value['year_name'];
-            $y_id=$value['year_id'];
+        if($getAllyear!="[]"){
+            foreach($year as $value){
+                $y_name=$value['year_name'];
+                $y_id=$value['year_id'];
+            }
+            session()->put('year',$y_name);
+            session()->put('year_id',$y_id);
         }
+        if($user_group!=2){
+            session()->put('branch_id',$user->user_branch);
+        }
+        
         session()->put('usercourse',$user_course);
-        session()->put('year',$y_name);
-        session()->put('year_id',$y_id);
         $groupmenu=Groupmenu::all();
         $rolepermiss=rolepermission::leftjoin('menu','role_permission.m_id','=','menu.m_id')
         ->where('user_group_id',$user_group)
@@ -1518,6 +1525,9 @@ class DashboardController extends Controller
         session()->put('roleper',$rolepermiss);
 
         $category=category::all();
+        $getfaculty=faculty::where('faculty_id',$user->user_faculty)->get();
+        
+        session()->put('getfaculty',$getfaculty);
         $roleindicator=user_permission::leftjoin('indicator','user_permission.indicator_id','=','indicator.id')
         ->where('user_permission.user_id',$user->id)
         ->where('user_permission.year_id',session()->get('year_id'))
@@ -2303,9 +2313,12 @@ class DashboardController extends Controller
         if($user_group==1){
             return view('dashboard/year',compact('year','getAllyear'));
         }
-       else if($user_group==2||$user_group==3){
+       else if($user_group==3){
             return view('dashboard/dashboard',compact('getwork'));
        }
+       else if($user_group==2){
+        return view('dashboard/dashboard3',compact('getwork'));
+   }
        else{
             return view('dashboard/dashboard2',compact('getwork','queryworkandindicator'));
        }
@@ -2366,7 +2379,8 @@ class DashboardController extends Controller
     {   $faculty=Faculty::all();
         $course=Course::leftjoin('faculty','course.faculty_id','=','faculty.faculty_id')
         ->get();
-        return view('dashboard/course',compact('course','faculty'));
+        $getcoursedetail=course_detail::all();
+        return view('dashboard/course',compact('course','faculty','getcoursedetail'));
     }
     public function index9()
     {
@@ -2479,6 +2493,8 @@ class DashboardController extends Controller
     public function index21()
     {
         $getusergroup=User::where('user_course',session()->get('usercourse'))
+        ->where('user_group_id','!=',1)
+        ->where('user_group_id','!=',2)
         ->get();
         $role=GroupMenu::all();
         $getper=rolepermission::leftjoin('menu','role_permission.m_id','=','menu.m_id')
@@ -2507,5 +2523,10 @@ class DashboardController extends Controller
          ->where('user_course',session()->get('usercourse'))
         ->get();
         return view('dashboard/crt',compact('tc_course','tc'));
+    }
+    public function index23()
+    {
+        $getyear=Year::where('active',0);
+        return view('dashboard/dashboard4',compact('getyear'));
     }
 }

@@ -21,9 +21,9 @@
                   <th width="10%" class="text-center">มี</th>
                   <th width="10%" class="text-center">ไม่มี</th>
                   </tr>
-                @foreach($teachqua as $key=>$value)
+                  <?php $data2=$teachqua->where('student_year',$row['student_year']); ?>
+                @foreach($data2 as $key=>$value)
                 <tr>
-                    @if($value['student_year']==$row['student_year'])
                     <td >{{$value['course_code']}} {{$value['course_name']}}</td>
                     <td class="text-center">{{$value['term_year']}}</td>
                     <td class="text-center">
@@ -37,7 +37,6 @@
                             @endif
                         </td>
                     <td>{{$value['description']}}</td>
-                    @endif
                 </tr>
                 @endforeach
               </tbody></table><br><br>

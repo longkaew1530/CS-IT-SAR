@@ -16,4 +16,12 @@ class Course extends Model
     {
         return $this->hasMany('App\course_detail','course_id','course_id');
     }
+    public function faculty()
+    {
+        return $this->belongsTo('App\Faculty','faculty_id');
+    }
+    public function branch()
+    {
+        return $this->hasMany('App\branch','course_id','course_id');
+    }
 }

@@ -29,7 +29,7 @@
                             @if($row['status']==1)
                             <i class="fa fa-check "></i>
                             @endif
-                            @endforeach
+                        @endforeach
                         </td>
                         
                         <td class="text-center">

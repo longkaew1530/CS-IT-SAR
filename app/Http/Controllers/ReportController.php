@@ -77,6 +77,7 @@ class ReportController extends Controller
     {
             $instructor= User::leftjoin('instructor','users.id','=','instructor.user_id')
             ->where('users.user_course',session()->get('usercourse'))
+            ->where('users.user_branch',session()->get('branch_id'))
             ->where('instructor.year_id',1)
             ->get();
             return view('report/instructor',compact('instructor'));
@@ -88,9 +89,11 @@ class ReportController extends Controller
         ->get();
         $pdca=indicator::leftjoin('pdca','indicator.Indicator_id','=','pdca.indicator_id')
         ->where('indicator.course_id',session()->get('usercourse'))
+        ->where('indicator.branch_id',session()->get('branch_id'))
         ->where('indicator.year_id',session()->get('year_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('target','!=',null)
         ->get();
 
@@ -99,7 +102,7 @@ class ReportController extends Controller
         {
             $per1=$value['performance1'];
         }
-            return view('report/performance_summary',compact('pdca','per1','getall','indicator'));
+            return view('report/newperformance_summary',compact('pdca','per1','getall','indicator'));
     }
     public function generateDocx()
     {
@@ -130,6 +133,7 @@ class ReportController extends Controller
         $query=assessment_results::leftjoin('category','assessment_results.category_id','=','category.category_id')
         ->where('assessment_results.year_id',session()->get('year_id'))
         ->where('assessment_results.course_id',session()->get('usercourse'))
+        ->where('assessment_results.branch_id',session()->get('branch_id'))
         ->where('assessment_results.active',1)
         ->get();
             return view('report/download',compact('query'));
@@ -142,8 +146,19 @@ class ReportController extends Controller
         $pdca=defaulindicator::leftjoin('pdca','defaulindicator.Indicator_id','=','pdca.indicator_id')
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('target','!=',null)
         ->get();
+        $data[0]['cindiall']=0;
+        foreach($getall as $key11=>$getallvalue){
+                    $data[$key11]['cindi']=0;
+            foreach($indicator as $getindi){
+                if($getallvalue['id']==$getindi['composition_id']&&$getindi['Indicator_id']!=1.1){
+                    $data[$key11]['cindi']++;
+                    $data[0]['cindiall']++;
+                }
+            }
+        }
         $per1="";
         $result1_1=0;
         $result2_1=0;
@@ -169,10 +184,10 @@ class ReportController extends Controller
                     }
             }
             else if($row['Indicator_id']==2.1){
-                $result2_1=$row['score'];
+                $result2_1=$row['performance3'];
             }
             else if($row['Indicator_id']==2.2){
-                $result2_2=$row['score'];
+                $result2_2=$row['performance3']/20;
             }
             else if($row['Indicator_id']==3.1){
                 $result3_1=$row['performance3'];
@@ -181,16 +196,16 @@ class ReportController extends Controller
                 $result3_2=$row['performance3'];
             }
             else if($row['Indicator_id']==3.3){
-                $result3_3=$row['score'];
+                $result3_3=$row['performance3'];
             }
             else if($row['Indicator_id']==4.1){
                 $result4_1=$row['performance3'];
             }
             else if($row['Indicator_id']==4.2){
-                $result4_2=$row['target'];
+                $result4_2=$row['performance3'];
             }
             else if($row['Indicator_id']==4.3){
-                $result4_3=$row['score'];
+                $result4_3=$row['performance3'];
             }
             else if($row['Indicator_id']==5.1){
                 $result5_1=$row['performance3'];
@@ -202,27 +217,52 @@ class ReportController extends Controller
                 $result5_3=$row['performance3'];
             }
             else if($row['Indicator_id']==5.4){
-                $result5_4=$row['score'];
+                $result5_4=$row['performance3'];
             }
             else if($row['Indicator_id']==6.1){
                 $result6_1=$row['performance3'];
             }
         }
         $data[0]['o']=$result1_1;
-        $data[1]['o']=sprintf('%.2f',($result2_1+$result2_2)/2);
-        $data[1]['avr']=sprintf('%.2f',($result2_1+$result2_2)/2);
-        $data[2]['p']=sprintf('%.2f',($result3_1+$result3_2)/2);     
-        $data[2]['o']=sprintf('%.2f',$result3_3);
-        $data[2]['avr']=sprintf('%.2f',($result3_1+$result3_2+$result3_3)/3);       
-        $data[3]['i']=sprintf('%.2f',$result4_2);
-        $data[3]['p']=sprintf('%.2f',$result4_1);
-        $data[3]['o']=sprintf('%.2f',$result4_3);
-        $data[3]['avr']=sprintf('%.2f',($result4_2+$result4_1+$result4_3)/3);
-        $data[4]['p']=sprintf('%.2f',($result5_1+$result5_2+$result5_3)/3);
-        $data[4]['o']=sprintf('%.2f',$result5_4);
-        $data[4]['avr']=sprintf('%.2f',($result5_1+$result5_2+$result5_3+$result5_4)/4);
+        $data[1]['o']=sprintf('%.2f',($result2_1+$result2_2)/$data[1]['cindi']);
+        $data[1]['counto']=2; 
+        $data[1]['avr']=sprintf('%.2f',($result2_1+$result2_2)/$data[1]['cindi']);
+        $data[2]['i']=sprintf('%.2f',($result3_1+$result3_2+$result3_3)/$data[2]['cindi']); 
+        $data[2]['counti']=3;      
+        $data[2]['avr']=sprintf('%.2f',($result3_1+$result3_2+$result3_3)/$data[2]['cindi']);       
+        $data[3]['i']=sprintf('%.2f',($result4_2+$result4_1+$result4_3)/$data[3]['cindi']);
+        $data[3]['counti']=3;
+        $data[3]['avr']=sprintf('%.2f',($result4_2+$result4_1+$result4_3)/$data[3]['cindi']);
+        $data[4]['i']=sprintf('%.2f',$result5_1);
+        $data[4]['counti']=1;
+        $data[4]['p']=sprintf('%.2f',($result5_4+$result5_2+$result5_3)/($data[4]['cindi']-1));
+        $data[4]['countp']=3; 
+        $data[4]['avr']=sprintf('%.2f',($result5_1+$result5_2+$result5_3+$result5_4)/$data[4]['cindi']);
         $data[5]['p']=sprintf('%.2f',$result6_1);
+        $data[5]['countp']=1;
         $data[5]['avr']=sprintf('%.2f',$result6_1);
+
+        $data[0]['resultipo1']=sprintf('%.2f',($result3_1+$result3_2+$result3_3+$result4_2+$result4_1+$result4_3+$result5_1)/7);
+        $data[0]['resultipo2']=sprintf('%.2f',($result5_4+$result5_2+$result5_3+$result6_1)/4);
+        $data[0]['resultipo3']=sprintf('%.2f',($result2_1+$result2_2)/2);
+        $data[0]['resultindicatori']=$data[2]['counti']+$data[3]['counti']+$data[4]['counti'];
+        $data[0]['resultindicatorp']=$data[4]['countp']+$data[5]['countp'];
+        $data[0]['resultindicatoro']=$data[1]['counto'];
+        $data[0]['avgall']=sprintf('%.2f',($data[1]['avr']+$data[2]['avr']+$data[3]['avr']+$data[4]['avr']+$data[5]['avr'])/5);
+        $data[0]['resultavg']="";
+        if($data[0]['avgall']>=0.01&&$data[0]['avgall']<=2.00){
+            $data[0]['resultavg']="น้อย";
+        }
+        else if($data[0]['avgall']>=2.01&&$data[0]['avgall']<=3.00){
+            $data[0]['resultavg']="ปานกลาง";
+        }
+        else if($data[0]['avgall']>=3.01&&$data[0]['avgall']<=4.00){
+            $data[0]['resultavg']="ดี";
+        }
+        else if($data[0]['avgall']>=4.01&&$data[0]['avgall']<=5.00){
+            $data[0]['resultavg']="ดีมาก";
+        }
+
         for($i = 1; $i <= 5; $i++){
             if($data[$i]['avr']>=0.01&&$data[$i]['avr']<=2.00){
                 $data[$i]['result']="น้อย";
@@ -241,7 +281,7 @@ class ReportController extends Controller
         {
             $per1=$value['performance1'];
         }
-            return view('report/course_overview',compact('pdca','per1','getall','indicator','data'));
+            return view('report/newcourse_overview',compact('pdca','per1','getall','indicator','data'));
     }
     public function showcategory($id)
     {
@@ -261,6 +301,7 @@ class ReportController extends Controller
         //ดึงค่าตารางอาจารย์ผู้รับผิดชอบหลักสูตร
         $trc = course_responsible_teacher::join('year','course_responsible_teacher.year_id','=','year.year_id')
         ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
+        ->where('course_responsible_teacher.branch_id',session()->get('branch_id'))
         ->where('year.year_id',session()->get('year_id'))
         ->get();
         ///นับอาจารย์ผู้รีบผิดชอบหลักสูตร
@@ -279,29 +320,34 @@ class ReportController extends Controller
         ///join table course_responsible_teacher และ users เพื่อให้ได้ชื่อ user ที่เป็นอาจารย์ผู้รับผิดชอบหลักสูตร
         $nameteacher = course_responsible_teacher::leftjoin('users','course_responsible_teacher.user_id','=','users.id')
         ->where('users.user_course',session()->get('usercourse'))
+        ->where('users.user_branch',session()->get('branch_id'))
         ->where('course_responsible_teacher.year_id',session()->get('year_id'))
         ->get();
 
         ////ดึงสาขาวิชาที่จบของอาจารย์ผู้รับผิดชอบหลักสูตร
         $educ_bg= User::leftjoin('course_responsible_teacher','users.id','=','course_responsible_teacher.user_id')
         ->where('users.user_course',session()->get('usercourse'))
+        ->where('users.user_branch',session()->get('branch_id'))
         ->where('course_responsible_teacher.year_id',session()->get('year_id'))
         ->get();
 
          ////ดึงสาขาวิชาที่จบของอาจารย์ประจำหลักสูตร
          $tc_course= User::leftjoin('course_teacher','users.id','=','course_teacher.user_id')
          ->where('users.user_course',session()->get('usercourse'))
+         ->where('users.user_branch',session()->get('branch_id'))
          ->where('course_teacher.year_id',session()->get('year_id'))
          ->get();
 
          ////ดึงสาขาวิชาที่จบของอาจารย์ผู้สอน
          $instructor= User::leftjoin('instructor','users.id','=','instructor.user_id')
          ->where('users.user_course',session()->get('usercourse'))
+         ->where('users.user_branch',session()->get('branch_id'))
          ->where('instructor.year_id',session()->get('year_id'))
          ->get();
          ////ดึงสาขาวิชาที่จบของอาจารย์ผู้สอนพิเศษ
          $specialinstructor= User::leftjoin('special_teacher','users.id','=','special_teacher.user_id')
          ->where('users.user_course',session()->get('usercourse'))
+         ->where('users.user_branch',session()->get('branch_id'))
          ->where('special_teacher.year_id',session()->get('year_id'))
          ->get();
         
@@ -326,6 +372,7 @@ class ReportController extends Controller
         }
 
         $getresult=indicator1_1::where('year_id',session()->get('year_id'))
+        ->where('branch_id',session()->get('branch_id'))
          ->where('course_id',session()->get('usercourse'))
          ->get();
          $get1=0;
@@ -418,6 +465,7 @@ class ReportController extends Controller
          }
          $inc= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.indicator_id',1.1)
         ->get();
@@ -435,6 +483,7 @@ class ReportController extends Controller
         $user_branch=branch::where('branch_id',$user->user_branch)->get();
         $getpermiss=indicator::where('active',1)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $check1_1=0;
@@ -453,11 +502,13 @@ class ReportController extends Controller
 
         $getcategorypdca=indicator::where('Indicator_id',4.1)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $pdca=PDCA::leftjoin('indicator','pdca.Indicator_id','=','indicator.indicator_id')
         ->where('pdca.Indicator_id',4.1)
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->get();
         $getcourse=Course::where('course_id',session()->get('usercourse'))
@@ -467,6 +518,7 @@ class ReportController extends Controller
         ////ดึงผลการประเมินตนเอง ตัวบ่งชี้ที่ 1.1
         $inc= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.indicator_id',4.1)
         ->where('pdca.target','!=',null)
@@ -511,12 +563,14 @@ class ReportController extends Controller
         ->leftjoin('category_research_results','research_results.research_results_category','=','category_research_results.id')
         ->where('course_responsible_teacher.year_id',session()->get('year_id'))
         ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
+        ->where('course_responsible_teacher.branch_id',session()->get('branch_id'))
         ->where('research_results.research_results_year',session()->get('year'))
         ->get();
     //    dd($category_re);
         //ดึงค่าตารางอาจารย์ผู้รับผิดชอบหลักสูตร
         $trc = course_responsible_teacher::join('year','course_responsible_teacher.year_id','=','year.year_id')
         ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
+        ->where('course_responsible_teacher.branch_id',session()->get('branch_id'))
         ->where('course_responsible_teacher.year_id',session()->get('year_id'))
         ->get();
         ///นับอาจารย์ผู้รีบผิดชอบหลักสูตร
@@ -524,6 +578,7 @@ class ReportController extends Controller
         
         $educ_bg= User::leftjoin('course_responsible_teacher','users.id','=','course_responsible_teacher.user_id')
         ->where('users.user_course',session()->get('usercourse'))
+        ->where('users.user_branch',session()->get('branch_id'))
         ->where('course_responsible_teacher.year_id',session()->get('year_id'))
         ->get();
          $counteb_name=0;
@@ -561,6 +616,7 @@ class ReportController extends Controller
 
         $inc4_2=PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.indicator_id',4.2)
         ->where('pdca.target','!=',null)
@@ -610,6 +666,7 @@ class ReportController extends Controller
         ->get();
         $inc3= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.indicator_id',4.3)
         ->where('pdca.target','!=',null)
@@ -628,6 +685,7 @@ class ReportController extends Controller
         ////4.3
         $getpermiss=indicator::where('active',1)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $check4_1=0;
@@ -644,7 +702,9 @@ class ReportController extends Controller
                 $check4_3=1;
             }
         }
-        return view('category3/category2',compact('check4_1','check4_2','check4_3','pdca','name','id','getcourse','getcategorypdca','inc','checkedit','category_re','count','counteb_name','countposition1','countposition2','countposition3'
+        $getbranch=branch::where('branch_id',session()->get('branch_id'))
+        ->get();
+        return view('category3/category2',compact('getbranch','check4_1','check4_2','check4_3','pdca','name','id','getcourse','getcategorypdca','inc','checkedit','category_re','count','counteb_name','countposition1','countposition2','countposition3'
                     ,'cate','qty1','B','qty2','C','qty3','E','inc4_2','id4_2','name4_2','in4_3','inc3','name4_3','id4_3','getcategorypdca4_3'));
         }
         else if($id==3){
@@ -653,6 +713,7 @@ class ReportController extends Controller
                     $getinfo="";
                     if($get!="[]"){
                         $getinfo=category3_infostudent::where('course_id',session()->get('usercourse'))
+                        ->where('branch_id',session()->get('branch_id'))
                         ->where('year_add', '>=',$get[0]['year_add'])
                         ->where('year_add', '<=',session()->get('year'))
                         ->where('reported_year', '>=',$get[0]['year_add'])
@@ -663,6 +724,7 @@ class ReportController extends Controller
                         $get="";
                     }
                 $getqty=category3_infostudent_qty::where('course_id',session()->get('usercourse'))
+                ->where('branch_id',session()->get('branch_id'))
                 ->where('year_id',session()->get('year_id'))
                 ->get();
                 $countnumber=0;
@@ -673,24 +735,28 @@ class ReportController extends Controller
 
 
         $get2=year_acceptance_graduate::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->get();
         $getinfo1="";
         $getinfo2="";
         $gropby="";
         if($get2!='[]'){
         $getinfo1=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_add', '>=',$get[0]['year_add'])
         ->where('year_add', '<=',session()->get('year'))
         ->where('reported_year', '>=',$get[0]['year_add'])
         ->where('reported_year', '<=',session()->get('year'))
         ->get();
         $getinfo2=category3_infostudent::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_add', '>=',$get[0]['year_add'])
         ->where('year_add', '<=',session()->get('year'))
         ->where('reported_year', '>=',$get[0]['year_add'])
         ->where('reported_year', '<=',session()->get('year'))
         ->get();
         $gropby=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_add', '>=',$get[0]['year_add'])
         ->where('year_add', '<=',session()->get('year'))
         ->where('reported_year', '>=',$get[0]['year_add'])
@@ -699,6 +765,7 @@ class ReportController extends Controller
         ->get();
              }
              $getyear=category3_graduate::where('course_id',session()->get('usercourse'))
+             ->where('branch_id',session()->get('branch_id'))
         ->where('year_add',session()->get('year'))
         ->get();
         if(count($get2)==0){
@@ -706,19 +773,23 @@ class ReportController extends Controller
         }
         $factor=category3_GD::where('category_factor','ปัจจัยที่มีผลกระทบต่อจำนวนนักศึกษา')
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
          ->where('year_id',session()->get('year_id'))
         ->get();
         $factor2=category3_GD::where('category_factor','ปัยจัยที่มีผลกระทบต่อการสำเร็จการศึกษา')
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
          ->where('year_id',session()->get('year_id'))
         ->get();
         
 
         $factor3=indicator2_1::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
          ->where('year_id',session()->get('year_id'))
          ->get();
          $pdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.Indicator_id',2.1)
         ->where('pdca.target','!=',null)
@@ -735,10 +806,12 @@ class ReportController extends Controller
         }
 
         $factor4=indicator2_2::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
          ->where('year_id',session()->get('year_id'))
          ->get();
          $pdca2= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.Indicator_id',2.2)
         ->where('pdca.target','!=',null)
@@ -746,11 +819,13 @@ class ReportController extends Controller
 
         $getcategorypdca3_1=indicator::where('Indicator_id',3.1)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $pdca3_1=PDCA::leftjoin('indicator','pdca.Indicator_id','=','indicator.indicator_id')
         ->where('pdca.Indicator_id',3.1)
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->get();
         $getcourse3_1=Course::where('course_id',session()->get('usercourse'))
@@ -760,6 +835,7 @@ class ReportController extends Controller
         ////ดึงผลการประเมินตนเอง ตัวบ่งชี้ที่ 1.1
         $inc3_1= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.indicator_id',3.1)
         ->where('pdca.target','!=',null)
@@ -775,11 +851,13 @@ class ReportController extends Controller
 
         $getcategorypdca3_2=indicator::where('Indicator_id',3.2)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $pdca3_2=PDCA::leftjoin('indicator','pdca.Indicator_id','=','indicator.indicator_id')
         ->where('pdca.Indicator_id',3.2)
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->get();
         $getcourse3_2=Course::where('course_id',session()->get('usercourse'))
@@ -789,6 +867,7 @@ class ReportController extends Controller
         ////ดึงผลการประเมินตนเอง ตัวบ่งชี้ที่ 1.1
         $inc3_2= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.indicator_id',3.2)
         ->where('pdca.target','!=',null)
@@ -804,12 +883,14 @@ class ReportController extends Controller
 
 
         $get5=year_acceptance_graduate::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->get();
         $getinfo5="";
         $getinfo6="";
         $gropby5="";
         if($get5!='[]'){
         $getinfo5=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_add', '>=',$get[0]['year_add'])
         ->where('year_add', '<=',session()->get('year'))
         ->where('reported_year', '>=',$get[0]['year_add'])
@@ -817,12 +898,14 @@ class ReportController extends Controller
         ->get();
         
         $getinfo6=category3_infostudent::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_add', '>=',$get[0]['year_add'])
         ->where('year_add', '<=',session()->get('year'))
         ->where('reported_year', '>=',$get[0]['year_add'])
         ->where('reported_year', '<=',session()->get('year'))
         ->get();
         $gropby5=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_add', '>=',$get[0]['year_add'])
         ->where('year_add', '<=',session()->get('year'))
         ->where('reported_year', '>=',$get[0]['year_add'])
@@ -831,17 +914,21 @@ class ReportController extends Controller
         ->get();
         }
         $getyear5=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_add',session()->get('year'))
         ->get();
         $re5=category3_resignation::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_present',session()->get('year'))
         ->get();
 
         $in3_3=performance3_3::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $inc3_3= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.indicator_id',3.3)
         ->where('pdca.target','!=',null)
@@ -857,6 +944,7 @@ class ReportController extends Controller
         }
         $getpermiss=indicator::where('active',1)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $check2_1=0;
@@ -912,19 +1000,23 @@ class ReportController extends Controller
         }
         else if($id==4){
             $ccr=category4_course_results::where('course_id',session()->get('usercourse'))
+            ->where('branch_id',session()->get('branch_id'))
             ->where('year_id',session()->get('year_id'))
             ->get();
             $checkedit="";
             $ccr2=category4_notcourse_results::where('course_id',session()->get('usercourse'))
+            ->where('branch_id',session()->get('branch_id'))
             ->where('year_id',session()->get('year_id'))
             ->get();
         $getcategorypdca5_1=indicator::where('Indicator_id',5.1)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $pdca5_1=PDCA::leftjoin('indicator','pdca.Indicator_id','=','indicator.indicator_id')
         ->where('pdca.Indicator_id',5.1)
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->get();
         $getcourse5_1=Course::where('course_id',session()->get('usercourse'))
@@ -934,6 +1026,7 @@ class ReportController extends Controller
         ////ดึงผลการประเมินตนเอง ตัวบ่งชี้ที่ 1.1
         $inc5_1= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.indicator_id',5.1)
         ->where('pdca.target','!=',null)
@@ -949,11 +1042,13 @@ class ReportController extends Controller
 
         $getcategorypdca5_2=indicator::where('Indicator_id',5.2)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $pdca5_2=PDCA::leftjoin('indicator','pdca.Indicator_id','=','indicator.indicator_id')
         ->where('pdca.Indicator_id',5.2)
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->get();
         $getcourse5_2=Course::where('course_id',session()->get('usercourse'))
@@ -963,6 +1058,7 @@ class ReportController extends Controller
         ////ดึงผลการประเมินตนเอง ตัวบ่งชี้ที่ 1.1
         $inc5_2= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.indicator_id',5.2)
         ->where('pdca.target','!=',null)
@@ -978,11 +1074,13 @@ class ReportController extends Controller
 
         $getcategorypdca5_3=indicator::where('Indicator_id',5.3)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $pdca5_3=PDCA::leftjoin('indicator','pdca.Indicator_id','=','indicator.indicator_id')
         ->where('pdca.Indicator_id',5.3)
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->get();
         $getcourse5_3=Course::where('course_id',session()->get('usercourse'))
@@ -992,6 +1090,7 @@ class ReportController extends Controller
         ////ดึงผลการประเมินตนเอง ตัวบ่งชี้ที่ 1.1
         $inc5_3= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.indicator_id',5.3)
         ->where('pdca.target','!=',null)
@@ -1008,10 +1107,12 @@ class ReportController extends Controller
 
         $indi=in_index::all();
         $perfor=indicator5_4::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $inc5_4= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.indicator_id',5.4)
         ->where('pdca.target','!=',null)
@@ -1072,22 +1173,27 @@ class ReportController extends Controller
         
 
         $academic=category4_academic_performance::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
 
         $academic2=category4_incomplete_content::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $teachqua=category4_teaching_quality::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
        ->where('year_id',session()->get('year_id'))
        ->get();
        $teachquagroup=category4_teaching_quality::groupBy('student_year')
        ->get();
 
        $effec=category4_effectiveness::where('course_id',session()->get('usercourse'))
+       ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $th=category4_newteacher::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $checkpass=false;
@@ -1098,11 +1204,13 @@ class ReportController extends Controller
         }
 
         $activity=category4_activity::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
 
         $getpermiss=indicator::where('active',1)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $check5_1=0;
@@ -1164,17 +1272,20 @@ class ReportController extends Controller
         }
         else if($id==5){
             $coursemanage=category5_course_manage::where('course_id',session()->get('usercourse'))
+            ->where('branch_id',session()->get('branch_id'))
             ->where('year_id',session()->get('year_id'))
             ->get();
             $checkedit="";
 
             $getcategorypdca=indicator::where('Indicator_id',6.1)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $pdca=PDCA::leftjoin('indicator','pdca.Indicator_id','=','indicator.indicator_id')
         ->where('pdca.Indicator_id',6.1)
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->get();
         $getcourse=Course::where('course_id',session()->get('usercourse'))
@@ -1184,6 +1295,7 @@ class ReportController extends Controller
         ////ดึงผลการประเมินตนเอง ตัวบ่งชี้ที่ 1.1
         $inc= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.indicator_id',6.1)
         ->where('pdca.target','!=',null)
@@ -1199,6 +1311,7 @@ class ReportController extends Controller
         $checkedit="";
         $getpermiss=indicator::where('active',1)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $check6_1=0;
@@ -1211,24 +1324,30 @@ class ReportController extends Controller
                 $check1=1;
             }
             }
-            return view('showcategory/category5',compact('coursemanage','checkedit','pdca','name','id'
+            $getbranch=branch::where('branch_id',session()->get('branch_id'))
+        ->get();
+            return view('showcategory/category5',compact('getbranch','coursemanage','checkedit','pdca','name','id'
             ,'getcourse','getcategorypdca','inc','check6_1','check1'));
         }
         else if($id==6){
             $coursemanage=category6_comment_course::where('course_id',session()->get('usercourse'))
+            ->where('branch_id',session()->get('branch_id'))
             ->where('year_id',session()->get('year_id'))
             ->get();
             $checkedit="";
             $assessmentsummary=category6_assessment_summary::where('course_id',session()->get('usercourse'))
+            ->where('branch_id',session()->get('branch_id'))
             ->where('category_assessor',"การประเมินจากผู้ที่สำเร็จการศึกษา")
             ->where('year_id',session()->get('year_id'))
             ->get();
             $assessmentsummary2=category6_assessment_summary::where('course_id',session()->get('usercourse'))
+            ->where('branch_id',session()->get('branch_id'))
             ->where('category_assessor',"การประเมินจากผู้ที่มีส่วนเกี่ยวข้อง")
             ->where('year_id',session()->get('year_id'))
             ->get();
             $getpermiss=indicator::where('active',1)
             ->where('course_id',session()->get('usercourse'))
+            ->where('branch_id',session()->get('branch_id'))
             ->where('year_id',session()->get('year_id'))
             ->get();
             $check1=0;
@@ -1246,19 +1365,23 @@ class ReportController extends Controller
         }
         else if($id==7){
             $querystrength=category7_strength::where('course_id',session()->get('usercourse'))
+            ->where('branch_id',session()->get('branch_id'))
           ->where('year_id',session()->get('year_id'))
          ->get();
          $checkedit="";
 
          $querydevelopment_proposal=category7_development_proposal_detail::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
          ->where('year_id',session()->get('year_id'))
          ->get();
          $year=session()->get('year');
          $querynewstrength=category7_newstrength::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $getpermiss=indicator::where('active',1)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $check1=0;
@@ -1284,9 +1407,11 @@ class ReportController extends Controller
             ->get();
             $pdca=indicator::leftjoin('pdca','indicator.Indicator_id','=','pdca.indicator_id')
             ->where('indicator.course_id',session()->get('usercourse'))
+            ->where('indicator.branch_id',session()->get('branch_id'))
             ->where('indicator.year_id',session()->get('year_id'))
             ->where('pdca.year_id',session()->get('year_id'))
             ->where('pdca.course_id',session()->get('usercourse'))
+            ->where('pdca.branch_id',session()->get('branch_id'))
             ->where('target','!=',null)
             ->get();
     
@@ -1302,9 +1427,11 @@ class ReportController extends Controller
         $pdca2=defaulindicator::leftjoin('pdca','defaulindicator.Indicator_id','=','pdca.indicator_id')
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('target','!=',null)
         ->get();
         $per1="";
+        $per2="";
         $result1_1=0;
         $result2_1=0;
         $result2_2=0;
@@ -1406,11 +1533,13 @@ class ReportController extends Controller
         $querynewstrength=composition::where('id','!=',1)
         ->get();
         $getnewstrength=category7_strengths_summary::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $checkedit="";
         $getpermiss=indicator::where('active',1)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $check1=0;

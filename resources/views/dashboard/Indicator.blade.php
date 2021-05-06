@@ -303,6 +303,12 @@ var url = "/getdefualindicator";
         });
         },
         error: function(data) {
+          swal({
+          title: "ไม่สามารถลบข้อมูลได้เนื่องจากข้อมูลสัมพันธ์กัน",
+          text: "",
+          icon: "error",
+          showConfirmButton: false,
+          });
           alert(data.responseJSON.errors.files1[0]);
           console.log(data.responseJSON.errors);
         }

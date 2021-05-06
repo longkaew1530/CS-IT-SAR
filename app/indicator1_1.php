@@ -9,7 +9,7 @@ class indicator1_1 extends Model
     protected $table = 'indicator1_1';
     protected $primaryKey = 'id';
     protected $fillable=[
-        'result1','result2','result3','result4','result5','course_id','year_id'
+        'result1','result2','result3','result4','result5','course_id','year_id','branch_id'
     ];
     public $timestamps = false;
 }

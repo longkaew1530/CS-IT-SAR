@@ -30,11 +30,7 @@
                   <td>{{$row['m_url']}}</td> 
                   <td>{{$row['g_name']}}</td>              
                   <td class="text-center"><button class="btn btn-warning" type="button"   data-toggle="modal" data-target="#modal-edit" data-id="{{$row['m_id']}}"><i class='fa fas fa-edit'></i></button></td>
-                  <td class="text-center">
-                                      <form id="delete-form" method="POST" action="/deletemenu/{{$row['m_id']}}">
-                                        {{ csrf_field() }}
-                                        {{ method_field('DELETE') }}
-                                      <button type="submit" class="btn btn-danger"><i class='fa fa-trash'></i></button></form>
+                  <td class="text-center"><button id="{{$row['m_id']}}" class="btn btn-danger delete" type="button" name="remove" ><i class="fa fa-trash"></i></button>
                   </td>
                 </tr>
 
@@ -177,6 +173,11 @@
 </script>
 <script>
 $(document).ready(function() {
+  $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
 $('#modal-edit').on('show.bs.modal', function (event) {
 var button = $(event.relatedTarget);
 var id= button.data('id');
@@ -192,6 +193,52 @@ var url = "/getmenu";
             $("#g_id1").val(data[0].g_id);
         }) 
 });
+$('.delete').click(function(e) {
+      var id = $(this).attr('id');
+      swal({
+      title: "ยืนยันการลบข้อมูล?",
+      icon: "warning",
+      buttons: true,
+      successMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        $.ajax({
+        type: 'delete',
+        url: "/deletemenu/"+id,
+        data: {id:id},
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        success: (data) => {
+          console.log(data);
+
+            swal({
+          title: "ลบข้อมูลเรียบร้อย",
+          text: "",
+          icon: "success",
+          button: "ตกลง",
+        }).then(function() {
+          location.reload();
+        });
+          
+        },
+        error: function(data) {
+          swal({
+          title: "ไม่สามารถลบข้อมูลได้เนื่องจากข้อมูลสัมพันธ์กัน",
+          text: "",
+          icon: "error",
+          showConfirmButton: false,
+          });
+          
+        }
+      });
+      } else {
+        
+      }
+    });
+    });
 });
 </script>
 @endsection

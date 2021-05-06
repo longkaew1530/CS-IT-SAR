@@ -13,6 +13,7 @@ class Category7Controller extends Controller
     public function strength()
     {
         $querystrength=category7_strength::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $checkedit="asdasd";
@@ -21,6 +22,7 @@ class Category7Controller extends Controller
     public function development_proposal()
     {
         $querydevelopment_proposal=category7_development_proposal_detail::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $checkedit="asdasd";
@@ -30,6 +32,7 @@ class Category7Controller extends Controller
     public function newstrength()
     {
         $querynewstrength=category7_newstrength::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $checkedit="asdsad";
@@ -40,6 +43,7 @@ class Category7Controller extends Controller
         $querynewstrength=composition::where('id','!=',1)
         ->get();
         $getnewstrength=category7_strengths_summary::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $checkedit="asdsad";

@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="box box-warning marginl">
+
                 @include('category/indi1-1show',['c','count','nameteacher'
                   ,'educ_bg','y','checkpass','checknotpass','tc_course','instructor','specialinstructor','inc','course'])
 </div>

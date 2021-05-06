@@ -11,10 +11,15 @@
           <!-- small box -->
                   <div class="small-box bg-green ">
                       <div class="inner">
+                            @if($year!="[]")
                             @foreach($year as $value)
                               <p></p>
                               <h3>{{$value['year_name']}}</h3>   
                             @endforeach
+                            @else
+                            <p></p>
+                              <h4>ยังไม่มีปีการศึกษา</h4>   
+                            @endif
                       </div>
                       <div class="icon">
                         <i class="fa fa-calendar"></i>
@@ -26,10 +31,15 @@
 </div>     
 <div class="box box-warning marginl wid90 fr">
             <div class="box-header">
+            @if($getAllyear!="[]")
             <button type="button" class="btn btn-success fr" id="next"><i class="fa fa-plus "></i>  เพิ่มปีการศึกษา</button>
               <h2 class="box-title">จัดการปีการศึกษา</h2>
             </div>
-           
+           @else
+           <button type="button" class="btn btn-success fr" id="next"  data-toggle="modal" data-target="#modal-info"><i class="fa fa-plus "></i>  เพิ่มปีการศึกษา</button>
+              <h2 class="box-title">จัดการปีการศึกษา</h2>
+            </div>
+           @endif
             <!-- /.box-header -->
             <div class="box-body">
             <table id="example3" class="table table-bordered table-striped ">
@@ -56,6 +66,40 @@
                 @endforeach
                 </tbody>
               </table>
+              <div class="modal  fade" id="modal-info">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">เพิ่มปีการศึกษา</h4>
+              </div>
+              <form id="adddata2" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data" >
+              @csrf
+              <div class="modal-body">
+            <div class="form-group">
+                  <label for="exampleInputEmail1">ปีการศึกษา</label>
+                  <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                  type = "number"
+                  maxlength = "4" class="form-control" id="year" name="year" placeholder="ปีการศึกษา">
+                </div>
+            </div>
+        
+           
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">ปิด</button>
+                <button type="submit" class="btn btn-info">บันทึกข้อมูล</button>
+              </div>
+              
+              <input type="hidden" class="form-control" name="id" id="emp_id" >
+              </form>
+            </div>
+            
+            <!-- /.modal-content -->
+          </div>
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
             </div>
 </div> 
 
@@ -168,6 +212,64 @@ input:checked + .slider:before {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     }); 
+    $('#adddata2').submit(function(e) {
+      e.preventDefault();
+      for (instance in CKEDITOR.instances) {
+                CKEDITOR.instances[instance].updateElement();
+        }
+      var formData = new FormData(this);
+      var course_name = document.getElementById("year").value;
+
+
+       if(course_name==""){
+        swal({
+          title: "กรุณาป้อนข้อมูลให้ครบ",
+          text: "",
+          icon: "warning",
+          showConfirmButton: false,
+        });
+      }
+      else{
+      swal({
+      title: "ยืนยันการบันทึก?",
+      icon: "warning",
+      buttons: true,
+      successMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        $.ajax({
+        type: 'POST',
+        url: "/backyear",
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        success: (data) => {
+          if(data){
+            swal({
+          title: "บันทึกข้อมูลเรียบร้อย",
+          text: "",
+          icon: "success",
+          button: "ตกลง",
+        }).then(function() {
+          window.location = "/";
+        });
+          }
+        },
+        error: function(data) {
+         
+          
+          console.log(data.responseJSON.errors);
+        }
+      });
+      } else {
+        
+      }
+    });
+  }
+    });
     $("#next").click(function(e){
       var token = $('meta[name="csrf-token"]').attr('content');
         e.preventDefault();
@@ -179,7 +281,7 @@ input:checked + .slider:before {
         },
            success:function(data){
             swal({
-              title: "เพิ่มข้อมูลเรียบร้อยแล้ว",
+              title: "บันทึกข้อมูลเรียบร้อย",
             text: "",
             icon: "success",
             button: "ตกลง",
@@ -198,14 +300,14 @@ input:checked + .slider:before {
         console.log(id);
         $.ajax({
            type:'PUT',
-           url:'/backyear',
+           url:'/backyear2',
            data: {
           _token : token,
           id:id 
         },
            success:function(data){
             swal({
-              title: "เปิดใช้งานปีการศึกษาเรียบร้อยแล้ว",
+              title: "บันทึกข้อมูลเรียบร้อย",
             text: "",
             icon: "success",
             button: "ตกลง",

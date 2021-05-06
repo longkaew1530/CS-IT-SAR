@@ -15,7 +15,7 @@
                   <th width="5%">ที่</th>
                   <th width="30%">หลักสูตร</th>
                   <th width="30%">คณะ</th>
-                  <th width="10%">รหัสหลักสูตร</th>
+                  <th width="20%">เพิ่มรายชื่ออาจารย์ตามตาราง มคอ.2</th>
                   <th width="5%" >แก้ไข</th>
                   <th width="5%">ลบ</th>
                 </tr>
@@ -26,20 +26,21 @@
                   <td>{{$key+1}}</td>
                   <td>{{$row['course_name']}}</td>  
                   <td>{{$row['faculty_name']}}</td>
-                  <td>{{$row['course_code']}}</td>       
+                  <?php $data2=$getcoursedetail->where('course_id',$row['course_id']); ?>
+                  <td> @if($data2=="[]")<button  class="btn btn-success ml-1" type="button"   data-toggle="modal" data-target="#modal-info2" data-id="{{$row['course_id']}}"><i class="fa fa-plus" ></i> เพิ่มรายชื่ออาจารย์ตามตารางมคอ.2</button>
+                  @else
+                  <button class="btn btn-warning" type="button"   data-toggle="modal" data-target="#modal-info3" data-id="{{$row['course_id']}}"><i class='fa fas fa-edit'></i> แก้ไขรายชื่ออาจารย์ตามตารางมคอ.2</button>
+                  @endif
+                  </td>       
                   <td class="text-center"><button class="btn btn-warning" type="button"   data-toggle="modal" data-target="#modal-edit" data-id="{{$row['course_id']}}"><i class='fa fas fa-edit'></i></button></td>
-                  <td class="text-center">
-                                      <form id="delete-form" method="POST" action="/deletecourse/{{$row['course_id']}}">
-                                        {{ csrf_field() }}
-                                        {{ method_field('DELETE') }}
-                                      <button type="submit" class="btn btn-danger"><i class='fa fa-trash'></i></button></form>
+                  <td class="text-center"><button id="{{$row['course_id']}}" class="btn btn-danger delete" type="button" name="remove" ><i class="fa fa-trash"></i></button>
                   </td>
                 </tr>
                 @endforeach
                 </tbody>
               </table>
                 <div class="modal  fade" id="modal-info">
-          <div class="modal-dialog modal-lg">
+          <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -49,8 +50,6 @@
               <form id="adddata" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data" >
               @csrf
               <div class="modal-body">
-          <div class="row">
-            <div class="col-md-6">
             <div class="form-group">
                   <label for="exampleInputEmail1">หลักสูตร</label>
                   <input type="text" class="form-control" id="course_name" name="course_name" placeholder="หลักสูตร">
@@ -68,7 +67,7 @@
                   <input type="text" class="form-control" id="course_code" name="course_code" placeholder="รหัสหลักสูตร">
                 </div>
                 <div class="form-group">
-                  <label for="exampleInputPassword1">หลักสูตรปรับปรุง</label>
+                  <label for="exampleInputPassword1">ปีที่ปรับปรุงหลักสูตร</label>
                   <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                   type = "number"
                   maxlength = "4" class="form-control" id="update_course" name="update_course" placeholder="หลักสูตรปรับปรุง">
@@ -82,20 +81,7 @@
                   <input type="text" class="form-control" id="initials" name="initials" placeholder="ชื่อย่อ">
                 </div>
             </div>
-            <div class="col-md-6 ">
-            <label>มคอ.2</label>
-            <div class="table-responsive">  
-                <table class="table table-bordered" id="dynamic_field">  
-                    <tr><td width="100%"><input type="text" id="name" name="name[]" placeholder="ชื่อ-สกุล" class="form-control name_list" /></td></tr>
-                    <tr>  
-                        <td><textarea type="text"   name="background[]" placeholder="วุฒิการศึกษา" class="form-control name_list"></textarea></td>    
-                        <td><button type="button" name="add" id="add" class="btn btn-success"><i class="fa fa-plus"></i></button></td>  
-                    </tr>  
-                </table>  
-            </div>
-                  
-            </div>
-          </div>
+        
            
               <div class="modal-footer">
                 <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">ปิด</button>
@@ -103,7 +89,7 @@
               </div>
               
               <input type="hidden" class="form-control" name="id" id="emp_id" >
-              
+              </form>
             </div>
             
             <!-- /.modal-content -->
@@ -111,7 +97,86 @@
           </div>
           <!-- /.modal-dialog -->
         </div>
-        </form>
+        <div class="modal  fade" id="modal-info2">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">เพิ่มข้อมูลหลักสูตร</h4>
+              </div>
+              <form id="adddata2" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data" >
+              @csrf
+              <div class="modal-body">
+            <label>เพิ่มรายชื่ออาจารย์ตามตาราง มคอ.2</label>
+            <input type="hidden" class="form-control" id="courseid2" name="course_id" >
+            <div class="table-responsive">  
+                <table class="table table-bordered" id="dynamic_field">  
+                    <tr><td width="100%"><input type="text" id="name" name="name[]" placeholder="ชื่อ-สกุล" class="form-control name_list" /></td></tr>
+                    <tr>  
+                        <td><textarea type="text" id="background"   name="background[]" placeholder="วุฒิการศึกษา" class="form-control name_list"></textarea></td>    
+                        <td><button type="button" name="add" id="add" class="btn btn-success"><i class="fa fa-plus"></i></button></td>  
+                    </tr>  
+                </table>  
+            </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">ปิด</button>
+                <button type="submit" class="btn btn-info">บันทึกข้อมูล</button>
+              </div>
+              
+              <input type="hidden" class="form-control" name="id" id="emp_id" >
+              </form>
+            </div>
+            
+            <!-- /.modal-content -->
+          </div>
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+        <div class="modal  fade" id="modal-info3">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">แก้ไขรายชื่ออาจารย์ตามตาราง มคอ.2</h4>
+              </div>
+              <form id="update" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data" >
+              @csrf
+              <div class="modal-body">
+              <label>แก้ไขรายชื่ออาจารย์ตามตาราง มคอ.2</label>
+              <div class="table-responsive">  
+                <table class="table table-bordered" id="dynamic_field2">
+                        <div id="get"></div>
+                </table>
+            </div>
+            <label>เพิ่มรายชื่ออาจารย์ตามตาราง มคอ.2</label>
+            <input type="hidden" class="form-control" id="courseid3" name="course_id">
+            <div class="table-responsive">  
+                <table class="table table-bordered" id="dynamic_field3">  
+                    <tr><td width="100%"><input type="text" id="name" name="name[]" placeholder="ชื่อ-สกุล" class="form-control name_list" /></td></tr>
+                    <tr>  
+                        <td><textarea type="text" id="background"   name="background[]" placeholder="วุฒิการศึกษา" class="form-control name_list"></textarea></td>    
+                        <td><button type="button" name="add2" id="add2" class="btn btn-success"><i class="fa fa-plus"></i></button></td>  
+                    </tr>  
+                </table>  
+            </div>
+            
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">ปิด</button>
+                <button type="submit" class="btn btn-info">บันทึกข้อมูล</button>
+              </div>
+              
+              <input type="hidden" class="form-control" name="id" id="emp_id" >
+              </form>
+            </div>
+            
+            <!-- /.modal-content -->
+          </div>
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
         <div class="modal  fade" id="modal-edit">
           <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -144,7 +209,7 @@
                   <input type="text" class="form-control" id="coursecode" name="course_code" placeholder="รหัสหลักสูตร">
                 </div>
                 <div class="form-group">
-                  <label for="exampleInputPassword1">หลักสูตรปรับปรุง</label>
+                  <label for="exampleInputPassword1">ปีที่ปรับปรุงหลักสูตร</label>
                   <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                   type = "number"
                   maxlength = "4" class="form-control" id="updatecourse" name="update_course" placeholder="หลักสูตรปรับปรุง">
@@ -165,15 +230,7 @@
                         <div id="get"></div>
                 </table>
             </div>
-            <div class="table-responsive"> 
-            <table class="table table-bordered" id="dynamic_field3"> 
-                <tr><td width="100%"><input type="text" id="name" name="name[]" placeholder="ชื่อ-สกุล" class="form-control name_list" /></td></tr>
-                    <tr>  
-                        <td><textarea type="text"    name="background[]" placeholder="วุฒิการศึกษา" class="form-control name_list"></textarea></td>    
-                        <td><button type="button" name="add2" id="add2" class="btn btn-success"><i class="fa fa-plus"></i></button></td>  
-                    </tr>
-                </table>
-              </div>
+           
             </div>
           </div>
              </div>
@@ -189,7 +246,7 @@
                 <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">ปิด</button>
                 <button type="submit" class="btn btn-info">บันทึกข้อมูล</button>
               </div>
-              </form>
+              
               <input type="hidden" class="form-control" name="id" id="emp_id" >
               
             </div>
@@ -199,7 +256,7 @@
           <!-- /.modal-dialog -->
         </div>
             </div>
-
+            </form>
                
                 
             </div>
@@ -293,10 +350,44 @@ var url2 = "/getcoursedetail";
         }) 
         $.get(url2 + '/' + id, function (data2) {
             //success data
+            
             jQuery('#dynamic_field2').show();
             jQuery('#dynamic_field2').html(data2.success);
-            console.log(data2);
+            console.log(data2[0].id);
         })
+});
+$('#modal-info3').on('show.bs.modal', function (event) {
+var button = $(event.relatedTarget);
+var id= button.data('id');
+var modal = $(this);
+modal.find('#emp_id').val(id);
+var url = "/getcourse";
+var url2 = "/getcoursedetail"; 
+$.get(url + '/' + id, function (data) {
+            //success data
+            $("#courseid3").val(data[0].course_id);
+            console.log(data[0].course_id);
+        }) 
+        $.get(url2 + '/' + id, function (data2) {
+            //success data
+            jQuery('#dynamic_field2').show();
+            jQuery('#dynamic_field2').html(data2.success);
+           
+        })
+});
+$('#modal-info2').on('show.bs.modal', function (event) {
+var button = $(event.relatedTarget);
+var id= button.data('id');
+var modal = $(this);
+modal.find('#emp_id').val(id);
+var url = "/getcourse";
+var url2 = "/getcoursedetail";
+        $.get(url + '/' + id, function (data) {
+            //success data
+      
+            $("#courseid2").val(data[0].course_id);
+
+        }) 
 });
 });
 </script>
@@ -318,7 +409,7 @@ var url2 = "/getcoursedetail";
       });  
       $('#add2').click(function(){  
            x++;  
-           $('#dynamic_field3').append('<tr id="row'+x+'"><td width="100%"><input type="text" id="name" name="name[]" placeholder="ชื่อ-สกุล" class="form-control name_list" /></td></tr><tr id="row'+x+'" class="dynamic-added"><td><textarea type="text"  id="editor" name="background[]" placeholder="วุฒิการศึกษา" class="form-control name_list"></textarea></td><td><button type="button" name="remove" id="'+x+'" class="btn btn-danger btn_remove">X</button></td></tr>');  
+           $('#dynamic_field3').append('<tr id="row2'+x+'"><td width="100%"><input type="text" id="name" name="name[]" placeholder="ชื่อ-สกุล" class="form-control name_list" /></td></tr><tr id="row'+x+'" class="dynamic-added"><td><textarea type="text"  id="editor" name="background[]" placeholder="วุฒิการศึกษา" class="form-control name_list"></textarea></td><td><button type="button" name="remove" id="'+x+'" class="btn btn-danger btn_remove">X</button></td></tr>');  
       });
 
       $(document).on('click', '.btn_remove', function(){  
@@ -415,36 +506,30 @@ var url2 = "/getcoursedetail";
     });
   }
     });
-    $('#updatedata').submit(function(e) {
+    $('#adddata2').submit(function(e) {
       e.preventDefault();
+      for (instance in CKEDITOR.instances) {
+                CKEDITOR.instances[instance].updateElement();
+        }
       var formData = new FormData(this);
-      var owner = document.getElementById("owner1").value;
-      var research_results_year = document.getElementById("research_results_year1").value;
-      var research_results_name = document.getElementById("research_results_name1").value;
-      var research_results_description = document.getElementById("research_results_description1").value;
-      var research_results_salary = document.getElementById("research_results_salary1").value;
-      var teacher_name = $('#select').val();
-      var checkdup="aaaaa";
-            for (index = 0; index < teacher_name.length; ++index) {
-              if(teacher_name[index]==owner){
-                checkdup="";
-              }
-            }
+
+      var teacher_name = $('#name').val();
+      var teacher_name2 = $('#background').val();
+      console.log(teacher_name2);
       var gettname="";
             for (index = 0; index < teacher_name.length; ++index) {
               if(teacher_name[index]!=""){
                 gettname="aaaa";
              }
             }
-      if(checkdup==""){
-         swal({
-          title: "ชื่อผู้วิจัยไม่สามารถซ้ำกับชื่อผู้ร่วมวิจัยได้",
-          text: "",
-          icon: "warning",
-          showConfirmButton: false,
-        });
-      }
-      else if(gettname==""||owner==""||research_results_year==""||research_results_name==""||research_results_description==""||research_results_salary==""){
+      var gettname2="";
+            for (index = 0; index < teacher_name2.length; ++index) {
+              if(teacher_name2[index]!=""){
+                gettname2="aaaa";
+             }
+            }      
+
+       if(gettname==""||gettname2==""){
         swal({
           title: "กรุณาป้อนข้อมูลให้ครบ",
           text: "",
@@ -463,7 +548,7 @@ var url2 = "/getcoursedetail";
       if (willDelete) {
         $.ajax({
         type: 'POST',
-        url: "/updateresearch_results",
+        url: "/addcoursetname",
         data: formData,
         cache: false,
         contentType: false,
@@ -472,12 +557,12 @@ var url2 = "/getcoursedetail";
         success: (data) => {
           if(data){
             swal({
-          title: "แก้ไขข้อมูลเรียบร้อย",
+          title: "บันทึกข้อมูลเรียบร้อย",
           text: "",
           icon: "success",
           button: "ตกลง",
         }).then(function() {
-          window.location = "/research_results";
+          window.location = "/course";
         });
           }
         },
@@ -492,6 +577,102 @@ var url2 = "/getcoursedetail";
       }
     });
   }
+    });
+    $('#update').submit(function(e) {
+      e.preventDefault();
+      for (instance in CKEDITOR.instances) {
+                CKEDITOR.instances[instance].updateElement();
+        }
+      var formData = new FormData(this);
+
+   
+
+ 
+      swal({
+      title: "ยืนยันการบันทึก?",
+      icon: "warning",
+      buttons: true,
+      successMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        $.ajax({
+        type: 'POST',
+        url: "/updatecoursetname",
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        success: (data) => {
+          if(data){
+            swal({
+          title: "บันทึกข้อมูลเรียบร้อย",
+          text: "",
+          icon: "success",
+          button: "ตกลง",
+        }).then(function() {
+          window.location = "/course";
+        });
+          }
+        },
+        error: function(data) {
+         
+          
+          console.log(data.responseJSON.errors);
+        }
+      });
+      } else {
+        
+      }
+    });
+
+    });
+    $('.delete').click(function(e) {
+      var id = $(this).attr('id');
+      swal({
+      title: "ยืนยันการลบข้อมูล?",
+      icon: "warning",
+      buttons: true,
+      successMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        $.ajax({
+        type: 'delete',
+        url: "/deletecourse/"+id,
+        data: {id:id},
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        success: (data) => {
+          console.log(data);
+
+            swal({
+          title: "ลบข้อมูลเรียบร้อย",
+          text: "",
+          icon: "success",
+          button: "ตกลง",
+        }).then(function() {
+          location.reload();
+        });
+          
+        },
+        error: function(data) {
+          swal({
+          title: "ไม่สามารถลบข้อมูลได้เนื่องจากข้อมูลสัมพันธ์กัน",
+          text: "",
+          icon: "error",
+          showConfirmButton: false,
+          });
+          
+        }
+      });
+      } else {
+        
+      }
+    });
     });
 
     $('#modal-edit').on('show.bs.modal', function(event) {

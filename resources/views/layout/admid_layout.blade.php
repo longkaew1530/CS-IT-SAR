@@ -183,6 +183,8 @@
 <!-- FLOT CATEGORIES PLUGIN - Used to draw bar charts -->
 <script src="{{url('/')}}/bower_components/Flot/jquery.flot.categories.js"></script>
 <script>
+    
+
   $(function () {
     CKEDITOR.replace('editor1')
     $('.textarea').wysihtml5()

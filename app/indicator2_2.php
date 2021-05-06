@@ -10,7 +10,7 @@ class indicator2_2 extends Model
     protected $primaryKey = 'id';
     protected $fillable=[
         'total','answer','job','straight_line','not_straight_line','freelance','before'
-        ,'continue_study','ordain','soldier','unemployed'
+        ,'continue_study','ordain','soldier','unemployed','branch_id'
     ];
     public $timestamps = false;
 }

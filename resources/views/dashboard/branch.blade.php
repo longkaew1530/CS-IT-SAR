@@ -26,51 +26,10 @@
                   <td>{{$row['name']}}</td>
                   <td>{{$row['course_name']}}</td>           
                   <td class="text-center"><button class="btn btn-warning" type="button"   data-toggle="modal" data-target="#modal-edit" data-id="{{$row['branch_id']}}"><i class='fa fas fa-edit'></i></button></td>
-                  <td class="text-center">
-                                      <form id="delete-form" method="POST" action="/deletebranch/{{$row['branch_id']}}">
-                                        {{ csrf_field() }}
-                                        {{ method_field('DELETE') }}
-                                      <button type="submit" class="btn btn-danger"><i class='fa fa-trash'></i></button></form>
+                  <td class="text-center"><button id="{{$row['branch_id']}}" class="btn btn-danger delete" type="button" name="remove" ><i class="fa fa-trash"></i></button>
                   </td>
                 </tr>
-                <div class="modal  fade" id="modal-info">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">เพิ่มข้อมูลสาขา</h4>
-              </div>
-              <form  method="POST" action="/addbranch">
-              @csrf
-              <div class="box-body">
-                <div class="form-group">
-                  <label for="exampleInputPassword1">สาขา</label>
-                  <input type="text" class="form-control" id="name" name="name" placeholder="สาขา">
-                </div>
-                <div class="form-group">
-                <label for="exampleInputPassword1">หลักสูตร</label>
-                                  <select class="form-control"  id="course_id"  class="form-control @error('role') is-invalid @enderror" name="course_id">
-                                    @foreach($course as $value)
-                                    <option value="{{$value['course_id']}}">{{$value['course_name']}}</option>
-                                    @endforeach
-                                  </select>
-                                  </div>
-              </div>
-            
-              <div class="modal-footer">
-                <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-info">บันทึกข้อมูล</button>
-              </div>
-              </form>
-              <input type="hidden" class="form-control" name="id" id="emp_id" >
-              
-            </div>
-            
-            <!-- /.modal-content -->
-          </div>
-          <!-- /.modal-dialog -->
-        </div>
+                
 
         <div class="modal  fade" id="modal-edit">
           <div class="modal-dialog">
@@ -117,7 +76,44 @@
                 @endforeach
                 </tbody>
               </table>
-                
+              <div class="modal  fade" id="modal-info">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">เพิ่มข้อมูลสาขา</h4>
+              </div>
+              <form  method="POST" action="/addbranch">
+              @csrf
+              <div class="box-body">
+                <div class="form-group">
+                  <label for="exampleInputPassword1">สาขา</label>
+                  <input type="text" class="form-control" id="name" name="name" placeholder="สาขา">
+                </div>
+                <div class="form-group">
+                <label for="exampleInputPassword1">หลักสูตร</label>
+                                  <select class="form-control"  id="course_id"  class="form-control @error('role') is-invalid @enderror" name="course_id">
+                                    @foreach($course as $value)
+                                    <option value="{{$value['course_id']}}">{{$value['course_name']}}</option>
+                                    @endforeach
+                                  </select>
+                                  </div>
+              </div>
+            
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-info">บันทึกข้อมูล</button>
+              </div>
+              </form>
+              <input type="hidden" class="form-control" name="id" id="emp_id" >
+              
+            </div>
+            
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
             </div>
 
             
@@ -169,6 +165,11 @@
 
 <script>
 $(document).ready(function() {
+  $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
 $('#modal-edit').on('show.bs.modal', function (event) {
 var button = $(event.relatedTarget);
 var id= button.data('id');
@@ -183,6 +184,52 @@ var url = "/getbranch";
             $("#courseid").val(data[0].course_id);
         }) 
 });
+$('.delete').click(function(e) {
+      var id = $(this).attr('id');
+      swal({
+      title: "ยืนยันการลบข้อมูล?",
+      icon: "warning",
+      buttons: true,
+      successMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        $.ajax({
+        type: 'delete',
+        url: "/deletebranch/"+id,
+        data: {id:id},
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        success: (data) => {
+          console.log(data);
+
+            swal({
+          title: "ลบข้อมูลเรียบร้อย",
+          text: "",
+          icon: "success",
+          button: "ตกลง",
+        }).then(function() {
+          location.reload();
+        });
+          
+        },
+        error: function(data) {
+          swal({
+          title: "ไม่สามารถลบข้อมูลได้เนื่องจากข้อมูลสัมพันธ์กัน",
+          text: "",
+          icon: "error",
+          showConfirmButton: false,
+          });
+          
+        }
+      });
+      } else {
+        
+      }
+    });
+    });
 });
 </script>
 @endsection

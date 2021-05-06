@@ -9,7 +9,7 @@ class indicator2_1 extends Model
     protected $table = 'indicator2_1';
     protected $primaryKey = 'id';
     protected $fillable=[
-        'qtyall','qtyrate','persen','sumscore','resultscore'
+        'qtyall','qtyrate','persen','sumscore','resultscore','branch_id'
     ];
     public $timestamps = false;
 }

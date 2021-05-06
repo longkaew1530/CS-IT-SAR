@@ -12,4 +12,8 @@ class branch extends Model
         'name','course_id'
     ];
     public $timestamps = false;
+    public function course()
+    {
+        return $this->belongsTo('App\Course','course_id');
+    }
 }

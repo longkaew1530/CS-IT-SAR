@@ -8,8 +8,11 @@ use App\ModelAJ\Research_results;
 use App\ModelAJ\categoty_researh;
 use App\User;
 use App\Menu;
+use App\Year;
 use App\category3_resignation;
+use App\course_responsible_teacher;
 use App\indicator4_3;
+use App\indicator1_1;
 use App\category4_teaching_quality;
 use App\category4_course_results;
 use App\defaulindicator;
@@ -88,6 +91,7 @@ class AJController extends Controller
         $pdca=PDCA::leftjoin('indicator','pdca.Indicator_id','=','indicator.indicator_id')
         ->where('pdca.Indicator_id',$menuname[0]['Indicator_id'])
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',1)
         ->get();
         $name="";
@@ -98,6 +102,7 @@ class AJController extends Controller
             $id=$value['Indicator_id'];
         }
         $getpdca = PDCA::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('category_pdca',$menuname[0]['m_name'])
         ->where('year_id',session()->get('year_id'))
         ->get();
@@ -125,10 +130,12 @@ class AJController extends Controller
             $per1="asdsadsad";
         }
         $in4_3 = indicator4_3::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $inc= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.indicator_id',4.3)
         ->get();
@@ -156,6 +163,7 @@ class AJController extends Controller
             $getinfo="";
             if($get!='[]'){
                 $getinfo=category3_infostudent::where('course_id',session()->get('usercourse'))
+                ->where('branch_id',session()->get('branch_id'))
                 ->where('year_add', '>=',$get[0]['year_add'])
                 ->where('year_add', '<=',session()->get('year'))
                 ->where('reported_year', '>=',$get[0]['year_add'])
@@ -164,9 +172,11 @@ class AJController extends Controller
             }
             
             $getyear=category3_infostudent::where('course_id',session()->get('usercourse'))
+            ->where('branch_id',session()->get('branch_id'))
             ->where('year_add',session()->get('year'))
             ->get();
             $getqty=category3_infostudent_qty::where('course_id',session()->get('usercourse'))
+            ->where('branch_id',session()->get('branch_id'))
             ->where('year_id',session()->get('year_id'))
             ->get();
             if(count($get)==0){
@@ -177,10 +187,12 @@ class AJController extends Controller
             }
             else{
                 $get=year_acceptance::where('course_id',session()->get('usercourse'))
+                     ->where('branch_id',session()->get('branch_id'))
                     ->get();
                     $getinfo="";
                     if($get!=""){
                         $getinfo=category3_infostudent::where('course_id',session()->get('usercourse'))
+                        ->where('branch_id',session()->get('branch_id'))
                         ->where('year_add', '>=',$get[0]['year_add'])
                         ->where('year_add', '<=',session()->get('year'))
                         ->where('reported_year', '>=',$get[0]['year_add'])
@@ -193,6 +205,7 @@ class AJController extends Controller
                         $get="";
                     }
                 $getqty=category3_infostudent_qty::where('course_id',session()->get('usercourse'))
+                ->where('branch_id',session()->get('branch_id'))
                 ->where('year_id',session()->get('year_id'))
                 ->get();
                 $countnumber=count($getyear);
@@ -208,6 +221,7 @@ class AJController extends Controller
 
         $factor=category3_GD::where('category_factor',$menuname[0]['Indicator_name'])
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $checkedit="asdas";
@@ -229,6 +243,7 @@ class AJController extends Controller
         ->get();
         $per1="asdsadsad";
         $factor=indicator2_1::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
          ->where('year_id',session()->get('year_id'))
          ->get();
         if(count($factor)===0){
@@ -237,6 +252,7 @@ class AJController extends Controller
         else{
             $pdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.Indicator_id',2.1)
         ->where('pdca.target','!=',null)
@@ -261,6 +277,7 @@ class AJController extends Controller
         ->get();
         $per1="asdsadsad";
         $factor=indicator2_2::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
          ->where('year_id',session()->get('year_id'))
          ->get();
         if(count($factor)===0){
@@ -269,6 +286,7 @@ class AJController extends Controller
         else{
             $pdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.Indicator_id',2.2)
         ->where('pdca.target','!=',null)
@@ -292,10 +310,12 @@ class AJController extends Controller
         ->get();
         $per1="";
         $in3_3=performance3_3::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $inc= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.indicator_id',3.3)
         ->where('pdca.target','!=',null)
@@ -321,6 +341,7 @@ class AJController extends Controller
     public function addcourse_results()
     {
         $ccr=category4_course_results::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         if(count($ccr)===0){
@@ -390,6 +411,7 @@ class AJController extends Controller
     public function addacademic_performance()
     {
         $academic=category4_academic_performance::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $checkedit="asdasd";
@@ -404,6 +426,7 @@ class AJController extends Controller
     public function addnot_offered()
     {
         $ccr=category4_notcourse_results::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         if(count($ccr)===0){
@@ -417,6 +440,7 @@ class AJController extends Controller
     public function addincomplete_content()
     {
         $ccr=category4_incomplete_content::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         if(count($ccr)===0){
@@ -434,6 +458,7 @@ class AJController extends Controller
     public function addteacher_orientation()
     {
         $th=category4_newteacher::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $checkpass=false;
@@ -535,24 +560,28 @@ class AJController extends Controller
     public function addgraduate()
     {
         $get=year_acceptance_graduate::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->get();
         $getinfo="";
         $getinfo2="";
         $gropby="";
         if($get!='[]'){
         $getinfo=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_add', '>=',$get[0]['year_add'])
         ->where('year_add', '<=',session()->get('year'))
         ->where('reported_year', '>=',$get[0]['year_add'])
         ->where('reported_year', '<=',session()->get('year'))
         ->get();
         $getinfo2=category3_infostudent::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_add', '>=',$get[0]['year_add'])
         ->where('year_add', '<=',session()->get('year'))
         ->where('reported_year', '>=',$get[0]['year_add'])
         ->where('reported_year', '<=',session()->get('year'))
         ->get();
         $gropby=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_add', '>=',$get[0]['year_add'])
         ->where('year_add', '<=',session()->get('year'))
         ->where('reported_year', '>=',$get[0]['year_add'])
@@ -561,6 +590,7 @@ class AJController extends Controller
         ->get();
              }
         $getyear=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_add',session()->get('year'))
         ->get();
         if(count($get)==0){
@@ -579,6 +609,7 @@ class AJController extends Controller
     public function addteaching_quality()
     {
         $data=category4_course_results::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('course_name','!=','รหัสชื่อวิชา')
         ->get();
@@ -601,12 +632,14 @@ class AJController extends Controller
     public function addresignation()
     {
         $get=year_acceptance_graduate::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->get();
         $getinfo="";
         $getinfo2="";
         $gropby="";
         if($get!='[]'){
         $getinfo=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_add', '>=',$get[0]['year_add'])
         ->where('year_add', '<=',session()->get('year'))
         ->where('reported_year', '>=',$get[0]['year_add'])
@@ -614,12 +647,14 @@ class AJController extends Controller
         ->get();
         
         $getinfo2=category3_infostudent::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_add', '>=',$get[0]['year_add'])
         ->where('year_add', '<=',session()->get('year'))
         ->where('reported_year', '>=',$get[0]['year_add'])
         ->where('reported_year', '<=',session()->get('year'))
         ->get();
         $gropby=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_add', '>=',$get[0]['year_add'])
         ->where('year_add', '<=',session()->get('year'))
         ->where('reported_year', '>=',$get[0]['year_add'])
@@ -628,9 +663,11 @@ class AJController extends Controller
         ->get();
         }
         $getyear=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_add',session()->get('year'))
         ->get();
         $re=category3_resignation::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_present',session()->get('year'))
         ->get();
         $i=0;
@@ -642,5 +679,208 @@ class AJController extends Controller
             $checkedit="asdasd";
             return view('category3/resignation',compact('get','getinfo','getyear','getinfo2','gropby','re','checkedit'));
         }      
+    }
+
+    public function addindicator1_1()
+    {
+        $data=indicator1_1::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+         //ดึงค่าปี
+         $year=Year::where('active',1)
+         ->get();
+         foreach($year as $value){
+             $y=$value['year_name'];
+          }
+         //ดึงค่าตารางหลักสูตร
+         $course = Course::where('course_id',session()->get('usercourse'))->get();
+ 
+         //ดึงค่าตารางอาจารย์ผู้รับผิดชอบหลักสูตร
+         $trc = course_responsible_teacher::join('year','course_responsible_teacher.year_id','=','year.year_id')
+         ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
+         ->where('year.year_id',session()->get('year_id'))
+         ->get();
+         ///นับอาจารย์ผู้รีบผิดชอบหลักสูตร
+         $count=count($trc);
+ 
+         foreach($course as $value)
+         {
+             $c=$value['course_name'];
+         }
+         
+         ///SELECT user_fullname
+         // FROM course_responsible_teacher
+         // left JOIN users on course_responsible_teacher.user_id=users.id
+         // LEFT JOIN year on course_responsible_teacher.year_id=year.year_id
+         // WHERE users.user_course=1 AND year.year_id=1
+         ///join table course_responsible_teacher และ users เพื่อให้ได้ชื่อ user ที่เป็นอาจารย์ผู้รับผิดชอบหลักสูตร
+         $nameteacher = course_responsible_teacher::leftjoin('users','course_responsible_teacher.user_id','=','users.id')
+         ->where('users.user_branch',session()->get('branch_id'))
+         ->where('users.user_course',session()->get('usercourse'))
+         ->where('course_responsible_teacher.year_id',session()->get('year_id'))
+         ->get();
+ 
+         ////ดึงสาขาวิชาที่จบของอาจารย์ผู้รับผิดชอบหลักสูตร
+         $educ_bg= User::leftjoin('course_responsible_teacher','users.id','=','course_responsible_teacher.user_id')
+         ->where('users.user_branch',session()->get('branch_id'))
+         ->where('users.user_course',session()->get('usercourse'))
+         ->where('course_responsible_teacher.year_id',session()->get('year_id'))
+         ->get();
+          ////ดึงสาขาวิชาที่จบของอาจารย์ประจำหลักสูตร
+          $tc_course= User::leftjoin('course_teacher','users.id','=','course_teacher.user_id')
+          ->where('users.user_branch',session()->get('branch_id'))
+          ->where('users.user_course',session()->get('usercourse'))
+          ->where('course_teacher.year_id',session()->get('year_id'))
+          ->get();
+ 
+          ////ดึงสาขาวิชาที่จบของอาจารย์ผู้สอน
+          $instructor= User::leftjoin('instructor','users.id','=','instructor.user_id')
+          ->where('users.user_branch',session()->get('branch_id'))
+          ->where('users.user_course',session()->get('usercourse'))
+          ->where('instructor.year_id',session()->get('year_id'))
+          ->get();
+          ////ดึงสาขาวิชาที่จบของอาจารย์ผู้สอนพิเศษ
+          $specialinstructor= User::leftjoin('special_teacher','users.id','=','special_teacher.user_id')
+          ->where('users.user_branch',session()->get('branch_id'))
+          ->where('users.user_course',session()->get('usercourse'))
+          ->where('special_teacher.year_id',session()->get('year_id'))
+          ->get();
+ 
+          $getresult=indicator1_1::where('year_id',session()->get('year_id'))
+          ->where('course_id',session()->get('usercourse'))
+          ->where('branch_id',session()->get('branch_id'))
+          ->get();
+          $get1=0;
+          $get2=0;
+          $get3=0;
+          $get4=0;
+          $get5=0;
+          $result1=0;
+          $result2=0;
+          $result3=0;
+          $result4=0;
+          $result5=0;
+          $result6=0;
+          $result7=0;
+          $result8=0;
+          $result9=0;
+          $result10=0;
+          if($getresult!="[]"){
+             foreach($getresult as $value){
+                 $get1=$value['result1'];
+                 $get2=$value['result2'];
+                 $get3=$value['result3'];
+                 $get4=$value['result4'];
+                 $get5=$value['result5'];
+             }
+             if($get1==2){
+                $result1=1;
+                $result2=0;
+             }
+             else if($get1==1){
+                $result1=0;
+                $result2=1;
+             }
+             else{
+                 $result1=0;
+                 $result2=0;
+             }
+            // ----------
+             if($get2==2){
+                $result3=1;
+                $result4=0;
+             }
+             else if($get2==1){
+                 $result3=0;
+                 $result4=1;
+              }
+              else{
+                  $result3=0;
+                  $result4=0;
+              }
+            // ----------
+             if($get3==2){
+                $result5=1;
+                $result6=0;
+             }
+             else if($get3==1){
+                 $result5=0;
+                 $result6=1;
+              }
+              else{
+                  $result5=0;
+                  $result6=0;
+              }
+              // ----------
+             if($get4==2){
+                $result7=1;
+                $result8=0;
+             }
+             else if($get4==1){
+                 $result7=0;
+                 $result8=1;
+              }
+              else{
+                  $result7=0;
+                  $result8=0;
+              }
+ 
+             if($get5==2){
+                 $result9=1;
+                 $result10=0;
+              }
+              else if($get5==1){
+                 $result9=0;
+                 $result10=1;
+              }
+              else{
+                  $result9=0;
+                  $result10=0;
+              }
+          }
+          $getcategorypdca=defaulindicator::where('id',1)
+         ->get();
+         $name="";
+         $id="";
+         foreach($getcategorypdca as $value)
+         {
+             $name=$value['Indicator_name'];
+             $id=$value['Indicator_id'];
+         }
+         
+          ////ดึงผลการประเมินตนเอง ตัวบ่งชี้ที่ 1.1
+         $inc= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+         ->where('pdca.course_id',session()->get('usercourse'))
+         ->where('pdca.branch_id',session()->get('branch_id'))
+         ->where('pdca.year_id',session()->get('year_id'))
+         ->where('pdca.indicator_id',1.1)
+         ->get();
+          foreach ($educ_bg as $key => $value){
+             $value->educational_background->first(); 
+          }
+         //ตรวจสอบ 1.จำนวนอาจารย์ผู้รับผิดชอบหลักสูตร
+         if($count>=5)
+         {
+             $checkpass=true;
+             $checknotpass=false;
+         }
+         else
+         {
+             $checknotpass=true;
+             $checkpass=false;
+         }
+        if(count($data)==0){
+            $checkedit="aa";
+            return view('category/addindicator1-1',compact('c','count','nameteacher'
+            ,'educ_bg','y','checkpass','checknotpass','checkedit','id','name','tc_course','instructor','specialinstructor','inc','result1','result2','result3','result4','result5','result6','result7','result8','result9','result10'));
+        }
+        else{
+            $checkedit="aa";
+            return view('category/indicator1-1',compact('c','count','nameteacher'
+            ,'educ_bg','y','checkpass','checknotpass','checkedit','id','name','tc_course','instructor','specialinstructor','inc','result1','result2','result3','result4','result5','result6','result7','result8','result9','result10'));
+        }
+            
+             
     }
 }

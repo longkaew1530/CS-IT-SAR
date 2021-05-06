@@ -122,7 +122,15 @@ $(document).ready(function() {
     ajax: {url:"/getoverview",dataSrc:""},
     columns: [
         { data: "category_id" },
-        { data: "category_name" },
+        {"data" : function(data) {
+          if(typeof data.code === 'undefined'){
+            return data.category_name
+            
+          }else{
+            return data.category_name+'<br>'+data.code
+          }
+          
+       }},
         {"data" : function(data) {
           return '<div class="progress progress-xs"><div class="progress-bar progress-bar-'+data.color+'" style="width: '+data.score+'%"></div></div>'
        }},
@@ -152,22 +160,20 @@ function format ( d ) {
      for (const [key, value] of Object.entries(d)) {
       if(value.Indicator_id!=null){
         text=text+'<tr>'+
-                '<td width="5%"></td>'+
+                '<td width="10%"></td>'+
                 '<td width="50%">'+"ตัวบ่งชี้"+`${value.Indicator_id} ${value.Indicator_name}`+'</td>'+
                 '<td width="25%">'+'<div class="progress progress-xs"><div class="progress-bar progress-bar-'+`${value.color}`+'" style="width:'+`${value.score}`+'%"></div></div>'+'</td>'+
                 '<td width="5%">'+'<span class="badge bg-'+`${value.color2}`+'">'+`${value.score}`+'%</span>'+'</td>'+
                 '<td ><a href="/showindicator/'+`${value.Indicator_id}`+'">ดูรายละเอียด</a></td>'+
-                '<td ></td>'+
             '</tr>';
       }
       else{
         text=text+'<tr>'+
-                '<td width="5%"></td>'+
+                '<td width="10%"></td>'+
                 '<td width="50%">'+`${value.Indicator_name}`+'</td>'+
                 '<td width="25%">'+'<div class="progress progress-xs"><div class="progress-bar progress-bar-'+`${value.color}`+'" style="width:'+`${value.score}`+'%"></div></div>'+'</td>'+
                 '<td width="5%">'+'<span class="badge bg-'+`${value.color2}`+'">'+`${value.score}`+'%</span>'+'</td>'+
                 '<td ><a href="/showindicator/'+`${value.Indicator_name}`+'">ดูรายละเอียด</a></td>'+
-                '<td ></td>'+
             '</tr>';
       }
     }

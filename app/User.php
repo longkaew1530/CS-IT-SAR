@@ -33,6 +33,7 @@ class User extends Authenticatable
         return $this->hasMany('App\user_permission','user_id','id')
         ->leftjoin('indicator','user_permission.Indicator_id','=','indicator.id');
     }
+    
     /**
      * The attributes that should be hidden for arrays.
      *

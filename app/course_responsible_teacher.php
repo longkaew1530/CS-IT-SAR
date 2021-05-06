@@ -8,6 +8,6 @@ class course_responsible_teacher extends Model
 {
     protected $table = 'course_responsible_teacher';
     protected $fillable=[
-        'user_id','year_id','course_id'
+        'user_id','year_id','course_id','branch_id'
     ];
 }

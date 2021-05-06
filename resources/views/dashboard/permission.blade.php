@@ -11,7 +11,7 @@
             <table id="example7" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                  <th width="5%">ID</th>
+                  <th width="5%">ที่</th>
                   <th >กลุ่มผู้ใช้งาน</th>
                   <th width="10%">กำหนดสิทธิ์</th>
                 </tr>

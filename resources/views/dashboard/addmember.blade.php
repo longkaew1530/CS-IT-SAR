@@ -35,8 +35,8 @@
                   <td>{{$row['user_group_name']}}</td>                 
                   <td class="text-center"><button class="btn btn-warning" type="button" data-id="{{$row['id']}}"  data-toggle="modal" data-target="#modal-edit" ><i class='fa fas fa-edit'></i></button></td>
                   <td class="text-center">
-                  <meta name="csrf-token" content="{{ csrf_token() }}">
-                  <button  type="button" class="btn btn-danger deletedata" data-id="{{$row['id']}}"><i class='fa fa-trash'></i></button>
+                  <button id="{{$row['id']}}" class="btn btn-danger delete" type="button" name="remove" ><i class="fa fa-trash"></i></button>
+
                   </td>
                 </tr>
                
@@ -63,7 +63,7 @@
                 <label for="exampleInputEmail1">รูปภาพ</label><br>
                 <img id="image_preview_container" src="/images1/profile.png"
                         alt="preview image" class="imgavt" style="max-height: 160px;">
-                  <input class="inp"  type="file" id="image" name="image" required>
+                  <input class="inp"  type="file" id="image" name="image">
                 </div>
                 <div class="form-group">
                   <label for="exampleInputPassword1">ชื่อ-สกุล</label>
@@ -305,6 +305,24 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js"></script>
 
 <script >
+$(document).ready(function(){   
+  $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });   
+  var token = $('meta[name="csrf-token"]').attr('content');
+  var e = document.getElementById("user_course");
+  var strUser = e.options[e.selectedIndex].value;
+    $.ajax({  //create an ajax request to display.php
+          type: "GET",
+          url: "/getcourse_username2",       
+      success: function (data) {
+        console.log(data);
+        document.getElementById("username").value =data;
+          }
+          });
+ }); 
 $(document).ready(function() {
 $('#modal-edit').on('show.bs.modal', function (event) {
 var button = $(event.relatedTarget);
@@ -382,6 +400,52 @@ var url = "/getuser";
     });
    
 });
+$('.delete').click(function(e) {
+      var id = $(this).attr('id');
+      swal({
+      title: "ยืนยันการลบข้อมูล?",
+      icon: "warning",
+      buttons: true,
+      successMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        $.ajax({
+        type: 'delete',
+        url: "/deleteuser/"+id,
+        data: {id:id},
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        success: (data) => {
+          console.log(data);
+
+            swal({
+          title: "ลบข้อมูลเรียบร้อย",
+          text: "",
+          icon: "success",
+          button: "ตกลง",
+        }).then(function() {
+          location.reload();
+        });
+          
+        },
+        error: function(data) {
+          swal({
+          title: "ไม่สามารถลบข้อมูลได้เนื่องจากข้อมูลสัมพันธ์กัน",
+          text: "",
+          icon: "error",
+          showConfirmButton: false,
+          });
+          
+        }
+      });
+      } else {
+        
+      }
+    });
+    });
 $('#image').change(function(){
           let reader = new FileReader();
           reader.onload = (e) => { 

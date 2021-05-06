@@ -70,6 +70,7 @@ class DownloadController extends Controller
         //ดึงค่าตารางอาจารย์ผู้รับผิดชอบหลักสูตร
         $trc = course_responsible_teacher::join('year','course_responsible_teacher.year_id','=','year.year_id')
         ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
+        ->where('course_responsible_teacher.branch_id',session()->get('branch_id'))
         ->where('year.year_id',session()->get('year_id'))
         ->get();
         ///นับอาจารย์ผู้รีบผิดชอบหลักสูตร
@@ -88,29 +89,34 @@ class DownloadController extends Controller
         ///join table course_responsible_teacher และ users เพื่อให้ได้ชื่อ user ที่เป็นอาจารย์ผู้รับผิดชอบหลักสูตร
         $nameteacher = course_responsible_teacher::leftjoin('users','course_responsible_teacher.user_id','=','users.id')
         ->where('users.user_course',session()->get('usercourse'))
+        ->where('users.user_branch',session()->get('branch_id'))
         ->where('course_responsible_teacher.year_id',session()->get('year_id'))
         ->get();
 
         ////ดึงสาขาวิชาที่จบของอาจารย์ผู้รับผิดชอบหลักสูตร
         $educ_bg= User::leftjoin('course_responsible_teacher','users.id','=','course_responsible_teacher.user_id')
         ->where('users.user_course',session()->get('usercourse'))
+        ->where('users.user_branch',session()->get('branch_id'))
         ->where('course_responsible_teacher.year_id',session()->get('year_id'))
         ->get();
 
          ////ดึงสาขาวิชาที่จบของอาจารย์ประจำหลักสูตร
          $tc_course= User::leftjoin('course_teacher','users.id','=','course_teacher.user_id')
          ->where('users.user_course',session()->get('usercourse'))
+         ->where('users.user_branch',session()->get('branch_id'))
          ->where('course_teacher.year_id',session()->get('year_id'))
          ->get();
 
          ////ดึงสาขาวิชาที่จบของอาจารย์ผู้สอน
          $instructor= User::leftjoin('instructor','users.id','=','instructor.user_id')
          ->where('users.user_course',session()->get('usercourse'))
+         ->where('users.user_branch',session()->get('branch_id'))
          ->where('instructor.year_id',session()->get('year_id'))
          ->get();
          ////ดึงสาขาวิชาที่จบของอาจารย์ผู้สอนพิเศษ
          $specialinstructor= User::leftjoin('special_teacher','users.id','=','special_teacher.user_id')
          ->where('users.user_course',session()->get('usercourse'))
+         ->where('users.user_branch',session()->get('branch_id'))
          ->where('special_teacher.year_id',session()->get('year_id'))
          ->get();
         
@@ -135,6 +141,7 @@ class DownloadController extends Controller
         }
 
         $getresult=indicator1_1::where('year_id',session()->get('year_id'))
+        ->where('branch_id',session()->get('branch_id'))
          ->where('course_id',session()->get('usercourse'))
          ->get();
          $get1=0;
@@ -227,6 +234,7 @@ class DownloadController extends Controller
          }
          $inc= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.indicator_id',1.1)
         ->get();
@@ -244,6 +252,7 @@ class DownloadController extends Controller
         $user_branch=branch::where('branch_id',$user->user_branch)->get();
         $getpermiss=indicator::where('active',1)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $check1_1=0;
@@ -262,11 +271,13 @@ class DownloadController extends Controller
 
         $getcategorypdca=indicator::where('Indicator_id',4.1)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $pdca=PDCA::leftjoin('indicator','pdca.Indicator_id','=','indicator.indicator_id')
         ->where('pdca.Indicator_id',4.1)
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->get();
         $getcourse=Course::where('course_id',session()->get('usercourse'))
@@ -276,6 +287,7 @@ class DownloadController extends Controller
         ////ดึงผลการประเมินตนเอง ตัวบ่งชี้ที่ 1.1
         $inc= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.indicator_id',4.1)
         ->where('pdca.target','!=',null)
@@ -320,12 +332,14 @@ class DownloadController extends Controller
         ->leftjoin('category_research_results','research_results.research_results_category','=','category_research_results.id')
         ->where('course_responsible_teacher.year_id',session()->get('year_id'))
         ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
+        ->where('course_responsible_teacher.branch_id',session()->get('branch_id'))
         ->where('research_results.research_results_year',session()->get('year'))
         ->get();
     //    dd($category_re);
         //ดึงค่าตารางอาจารย์ผู้รับผิดชอบหลักสูตร
         $trc = course_responsible_teacher::join('year','course_responsible_teacher.year_id','=','year.year_id')
         ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
+        ->where('course_responsible_teacher.branch_id',session()->get('branch_id'))
         ->where('course_responsible_teacher.year_id',session()->get('year_id'))
         ->get();
         ///นับอาจารย์ผู้รีบผิดชอบหลักสูตร
@@ -333,6 +347,7 @@ class DownloadController extends Controller
         
         $educ_bg= User::leftjoin('course_responsible_teacher','users.id','=','course_responsible_teacher.user_id')
         ->where('users.user_course',session()->get('usercourse'))
+        ->where('users.user_branch',session()->get('branch_id'))
         ->where('course_responsible_teacher.year_id',session()->get('year_id'))
         ->get();
          $counteb_name=0;
@@ -370,6 +385,7 @@ class DownloadController extends Controller
 
         $inc4_2=PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.indicator_id',4.2)
         ->where('pdca.target','!=',null)
@@ -419,6 +435,7 @@ class DownloadController extends Controller
         ->get();
         $inc3= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.indicator_id',4.3)
         ->where('pdca.target','!=',null)
@@ -437,6 +454,7 @@ class DownloadController extends Controller
         ////4.3
         $getpermiss=indicator::where('active',1)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $check4_1=0;
@@ -462,6 +480,7 @@ class DownloadController extends Controller
                     $getinfo="";
                     if($get!="[]"){
                         $getinfo=category3_infostudent::where('course_id',session()->get('usercourse'))
+                        ->where('branch_id',session()->get('branch_id'))
                         ->where('year_add', '>=',$get[0]['year_add'])
                         ->where('year_add', '<=',session()->get('year'))
                         ->where('reported_year', '>=',$get[0]['year_add'])
@@ -472,6 +491,7 @@ class DownloadController extends Controller
                         $get="";
                     }
                 $getqty=category3_infostudent_qty::where('course_id',session()->get('usercourse'))
+                ->where('branch_id',session()->get('branch_id'))
                 ->where('year_id',session()->get('year_id'))
                 ->get();
                 $countnumber=0;
@@ -482,24 +502,28 @@ class DownloadController extends Controller
 
 
         $get2=year_acceptance_graduate::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->get();
         $getinfo1="";
         $getinfo2="";
         $gropby="";
         if($get2!='[]'){
         $getinfo1=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_add', '>=',$get[0]['year_add'])
         ->where('year_add', '<=',session()->get('year'))
         ->where('reported_year', '>=',$get[0]['year_add'])
         ->where('reported_year', '<=',session()->get('year'))
         ->get();
         $getinfo2=category3_infostudent::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_add', '>=',$get[0]['year_add'])
         ->where('year_add', '<=',session()->get('year'))
         ->where('reported_year', '>=',$get[0]['year_add'])
         ->where('reported_year', '<=',session()->get('year'))
         ->get();
         $gropby=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_add', '>=',$get[0]['year_add'])
         ->where('year_add', '<=',session()->get('year'))
         ->where('reported_year', '>=',$get[0]['year_add'])
@@ -508,6 +532,7 @@ class DownloadController extends Controller
         ->get();
              }
              $getyear=category3_graduate::where('course_id',session()->get('usercourse'))
+             ->where('branch_id',session()->get('branch_id'))
         ->where('year_add',session()->get('year'))
         ->get();
         if(count($get2)==0){
@@ -515,19 +540,23 @@ class DownloadController extends Controller
         }
         $factor=category3_GD::where('category_factor','ปัจจัยที่มีผลกระทบต่อจำนวนนักศึกษา')
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
          ->where('year_id',session()->get('year_id'))
         ->get();
         $factor2=category3_GD::where('category_factor','ปัยจัยที่มีผลกระทบต่อการสำเร็จการศึกษา')
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
          ->where('year_id',session()->get('year_id'))
         ->get();
         
 
         $factor3=indicator2_1::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
          ->where('year_id',session()->get('year_id'))
          ->get();
          $pdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.Indicator_id',2.1)
         ->where('pdca.target','!=',null)
@@ -544,10 +573,12 @@ class DownloadController extends Controller
         }
 
         $factor4=indicator2_2::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
          ->where('year_id',session()->get('year_id'))
          ->get();
          $pdca2= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.Indicator_id',2.2)
         ->where('pdca.target','!=',null)
@@ -555,11 +586,13 @@ class DownloadController extends Controller
 
         $getcategorypdca3_1=indicator::where('Indicator_id',3.1)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $pdca3_1=PDCA::leftjoin('indicator','pdca.Indicator_id','=','indicator.indicator_id')
         ->where('pdca.Indicator_id',3.1)
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->get();
         $getcourse3_1=Course::where('course_id',session()->get('usercourse'))
@@ -569,6 +602,7 @@ class DownloadController extends Controller
         ////ดึงผลการประเมินตนเอง ตัวบ่งชี้ที่ 1.1
         $inc3_1= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.indicator_id',3.1)
         ->where('pdca.target','!=',null)
@@ -584,11 +618,13 @@ class DownloadController extends Controller
 
         $getcategorypdca3_2=indicator::where('Indicator_id',3.2)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $pdca3_2=PDCA::leftjoin('indicator','pdca.Indicator_id','=','indicator.indicator_id')
         ->where('pdca.Indicator_id',3.2)
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->get();
         $getcourse3_2=Course::where('course_id',session()->get('usercourse'))
@@ -598,6 +634,7 @@ class DownloadController extends Controller
         ////ดึงผลการประเมินตนเอง ตัวบ่งชี้ที่ 1.1
         $inc3_2= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.indicator_id',3.2)
         ->where('pdca.target','!=',null)
@@ -613,12 +650,14 @@ class DownloadController extends Controller
 
 
         $get5=year_acceptance_graduate::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->get();
         $getinfo5="";
         $getinfo6="";
         $gropby5="";
         if($get5!='[]'){
         $getinfo5=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_add', '>=',$get[0]['year_add'])
         ->where('year_add', '<=',session()->get('year'))
         ->where('reported_year', '>=',$get[0]['year_add'])
@@ -626,12 +665,14 @@ class DownloadController extends Controller
         ->get();
         
         $getinfo6=category3_infostudent::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_add', '>=',$get[0]['year_add'])
         ->where('year_add', '<=',session()->get('year'))
         ->where('reported_year', '>=',$get[0]['year_add'])
         ->where('reported_year', '<=',session()->get('year'))
         ->get();
         $gropby5=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_add', '>=',$get[0]['year_add'])
         ->where('year_add', '<=',session()->get('year'))
         ->where('reported_year', '>=',$get[0]['year_add'])
@@ -640,17 +681,21 @@ class DownloadController extends Controller
         ->get();
         }
         $getyear5=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_add',session()->get('year'))
         ->get();
         $re5=category3_resignation::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_present',session()->get('year'))
         ->get();
 
         $in3_3=performance3_3::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $inc3_3= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.indicator_id',3.3)
         ->where('pdca.target','!=',null)
@@ -666,6 +711,7 @@ class DownloadController extends Controller
         }
         $getpermiss=indicator::where('active',1)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $check2_1=0;
@@ -721,19 +767,23 @@ class DownloadController extends Controller
         }
         else if($id==4){
             $ccr=category4_course_results::where('course_id',session()->get('usercourse'))
+            ->where('branch_id',session()->get('branch_id'))
             ->where('year_id',session()->get('year_id'))
             ->get();
             $checkedit="";
             $ccr2=category4_notcourse_results::where('course_id',session()->get('usercourse'))
+            ->where('branch_id',session()->get('branch_id'))
             ->where('year_id',session()->get('year_id'))
             ->get();
         $getcategorypdca5_1=indicator::where('Indicator_id',5.1)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $pdca5_1=PDCA::leftjoin('indicator','pdca.Indicator_id','=','indicator.indicator_id')
         ->where('pdca.Indicator_id',5.1)
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->get();
         $getcourse5_1=Course::where('course_id',session()->get('usercourse'))
@@ -743,6 +793,7 @@ class DownloadController extends Controller
         ////ดึงผลการประเมินตนเอง ตัวบ่งชี้ที่ 1.1
         $inc5_1= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.indicator_id',5.1)
         ->where('pdca.target','!=',null)
@@ -758,11 +809,13 @@ class DownloadController extends Controller
 
         $getcategorypdca5_2=indicator::where('Indicator_id',5.2)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $pdca5_2=PDCA::leftjoin('indicator','pdca.Indicator_id','=','indicator.indicator_id')
         ->where('pdca.Indicator_id',5.2)
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->get();
         $getcourse5_2=Course::where('course_id',session()->get('usercourse'))
@@ -772,6 +825,7 @@ class DownloadController extends Controller
         ////ดึงผลการประเมินตนเอง ตัวบ่งชี้ที่ 1.1
         $inc5_2= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.indicator_id',5.2)
         ->where('pdca.target','!=',null)
@@ -787,11 +841,13 @@ class DownloadController extends Controller
 
         $getcategorypdca5_3=indicator::where('Indicator_id',5.3)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $pdca5_3=PDCA::leftjoin('indicator','pdca.Indicator_id','=','indicator.indicator_id')
         ->where('pdca.Indicator_id',5.3)
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->get();
         $getcourse5_3=Course::where('course_id',session()->get('usercourse'))
@@ -801,6 +857,7 @@ class DownloadController extends Controller
         ////ดึงผลการประเมินตนเอง ตัวบ่งชี้ที่ 1.1
         $inc5_3= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.indicator_id',5.3)
         ->where('pdca.target','!=',null)
@@ -817,10 +874,12 @@ class DownloadController extends Controller
 
         $indi=in_index::all();
         $perfor=indicator5_4::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $inc5_4= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.indicator_id',5.4)
         ->where('pdca.target','!=',null)
@@ -881,22 +940,27 @@ class DownloadController extends Controller
         
 
         $academic=category4_academic_performance::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
 
         $academic2=category4_incomplete_content::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $teachqua=category4_teaching_quality::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
        ->where('year_id',session()->get('year_id'))
        ->get();
        $teachquagroup=category4_teaching_quality::groupBy('student_year')
        ->get();
 
        $effec=category4_effectiveness::where('course_id',session()->get('usercourse'))
+       ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $th=category4_newteacher::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $checkpass=false;
@@ -907,11 +971,13 @@ class DownloadController extends Controller
         }
 
         $activity=category4_activity::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
 
         $getpermiss=indicator::where('active',1)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $check5_1=0;
@@ -973,17 +1039,20 @@ class DownloadController extends Controller
         }
         else if($id==5){
             $coursemanage=category5_course_manage::where('course_id',session()->get('usercourse'))
+            ->where('branch_id',session()->get('branch_id'))
             ->where('year_id',session()->get('year_id'))
             ->get();
             $checkedit="";
 
             $getcategorypdca=indicator::where('Indicator_id',6.1)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $pdca=PDCA::leftjoin('indicator','pdca.Indicator_id','=','indicator.indicator_id')
         ->where('pdca.Indicator_id',6.1)
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->get();
         $getcourse=Course::where('course_id',session()->get('usercourse'))
@@ -993,6 +1062,7 @@ class DownloadController extends Controller
         ////ดึงผลการประเมินตนเอง ตัวบ่งชี้ที่ 1.1
         $inc= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.indicator_id',6.1)
         ->where('pdca.target','!=',null)
@@ -1008,6 +1078,7 @@ class DownloadController extends Controller
         $checkedit="";
         $getpermiss=indicator::where('active',1)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $check6_1=0;
@@ -1025,19 +1096,23 @@ class DownloadController extends Controller
         }
         else if($id==6){
             $coursemanage=category6_comment_course::where('course_id',session()->get('usercourse'))
+            ->where('branch_id',session()->get('branch_id'))
             ->where('year_id',session()->get('year_id'))
             ->get();
             $checkedit="";
             $assessmentsummary=category6_assessment_summary::where('course_id',session()->get('usercourse'))
+            ->where('branch_id',session()->get('branch_id'))
             ->where('category_assessor',"การประเมินจากผู้ที่สำเร็จการศึกษา")
             ->where('year_id',session()->get('year_id'))
             ->get();
             $assessmentsummary2=category6_assessment_summary::where('course_id',session()->get('usercourse'))
+            ->where('branch_id',session()->get('branch_id'))
             ->where('category_assessor',"การประเมินจากผู้ที่มีส่วนเกี่ยวข้อง")
             ->where('year_id',session()->get('year_id'))
             ->get();
             $getpermiss=indicator::where('active',1)
             ->where('course_id',session()->get('usercourse'))
+            ->where('branch_id',session()->get('branch_id'))
             ->where('year_id',session()->get('year_id'))
             ->get();
             $check1=0;
@@ -1055,19 +1130,23 @@ class DownloadController extends Controller
         }
         else if($id==7){
             $querystrength=category7_strength::where('course_id',session()->get('usercourse'))
+            ->where('branch_id',session()->get('branch_id'))
           ->where('year_id',session()->get('year_id'))
          ->get();
          $checkedit="";
 
          $querydevelopment_proposal=category7_development_proposal_detail::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
          ->where('year_id',session()->get('year_id'))
          ->get();
          $year=session()->get('year');
          $querynewstrength=category7_newstrength::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $getpermiss=indicator::where('active',1)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $check1=0;
@@ -1093,9 +1172,11 @@ class DownloadController extends Controller
             ->get();
             $pdca=indicator::leftjoin('pdca','indicator.Indicator_id','=','pdca.indicator_id')
             ->where('indicator.course_id',session()->get('usercourse'))
+            ->where('indicator.branch_id',session()->get('branch_id'))
             ->where('indicator.year_id',session()->get('year_id'))
             ->where('pdca.year_id',session()->get('year_id'))
             ->where('pdca.course_id',session()->get('usercourse'))
+            ->where('pdca.branch_id',session()->get('branch_id'))
             ->where('target','!=',null)
             ->get();
     
@@ -1111,9 +1192,11 @@ class DownloadController extends Controller
         $pdca2=defaulindicator::leftjoin('pdca','defaulindicator.Indicator_id','=','pdca.indicator_id')
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('target','!=',null)
         ->get();
         $per1="";
+        $per2="";
         $result1_1=0;
         $result2_1=0;
         $result2_2=0;
@@ -1215,11 +1298,13 @@ class DownloadController extends Controller
         $querynewstrength=composition::where('id','!=',1)
         ->get();
         $getnewstrength=category7_strengths_summary::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $checkedit="";
         $getpermiss=indicator::where('active',1)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $check1=0;
@@ -1231,7 +1316,6 @@ class DownloadController extends Controller
             return view('downloadcategory/category8',compact('querynewstrength','getnewstrength','checkedit','pdca'
             ,'per1','getall','indicator','pdca2','per2','getall2','indicator2','data','check1'));
         }
-       
-            
+         
     }
 }

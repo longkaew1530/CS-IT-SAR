@@ -132,8 +132,8 @@
           </ul>
         </li> -->
         <!-- <li ><a href="/"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li> -->
-        
-        @foreach(session()->get('groupmenu')  as $value)
+        <?php $data2=session()->get('groupmenu')->where('g_id','!=',30); ?>
+        @foreach($data2  as $value)
         @foreach(session()->get('roleper')  as $value1)
         @if($value1['g_id']==$value['g_id'])
         <li class="active treeview ">
@@ -193,33 +193,42 @@
           
         @endforeach
         @endif
-        <!-- <li class="active treeview menu-open">
-          <a href="#">
-            <i class=""></i><span>หมวดที่2</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li class="active"><a  href="/addindicator4-3"><i class="fa fa-circle-o text-red"></i>ตัวบ่งชี้ที่4.3</a></li>
-          </ul>
-        </li>
-        <li class="active treeview menu-open">
+
+        <?php $data3=session()->get('groupmenu')->where('g_id',30); ?>
+        @foreach($data3  as $value)
+        @foreach(session()->get('roleper')  as $value1)
+        @if($value1['g_id']==$value['g_id'])
+        <li class="active treeview ">
           <a href="">
-            <i class=""></i><span>หมวดที่3</span>
+            <i class="{{$value['g_icon']}}"></i><span>{{$value['g_name']}}</span>
+            
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
-          <ul class="treeview-menu">
-            <li class="active"><a href="/addinfostudent"><i class="fa fa-circle-o text-red"></i>ข้อมูลนักศึกษา</a></li>
-            <li class="active"><a href="/addindicator2-1"><i class="fa fa-circle-o text-red"></i>คุณภาพบัณฑิต</a></li>
-            <li class="active"><a href="/addindicator2-2"><i class="fa fa-circle-o text-red"></i>ตัวบ่งชี้ที่ 2.2</a></li>
-            <li class="active"><a href="/addindicator3-3"><i class="fa fa-circle-o text-red"></i>ตัวบ่งชี้ที่ 3.3</a></li>
+          @break
+         @endif
+         @endforeach
+          <ul class="treeview-menu" id="item_id">
+            @foreach($value->menu as $row)
+              @foreach(session()->get('roleper')  as $value)
+              @if($value['m_id']==$row['m_id'])
+                @if($row['m_url']=="/category3/pdca"||$row['m_url']=="/addimpactfactor"||$row['m_url']=="/addassessment_summary"||$row['m_url']=="/category/indicator4-2")
+                <li  class="{{ (request()->segment(2)==$row['m_id']) ? 'active' : '' }}"><a   href="{{$row['m_url']}}/{{$row['m_id']}}" ><i class="fa fa-circle-o text-red"></i>{!!$row['m_name']!!}</a></li>
+                @else
+               <li  class="{{ ('/'.request()->segment(1)==$row['m_url']) ? 'active' : ''}}"><a  href="{{$row['m_url']}}" ><i class="fa fa-circle-o text-red"></i>{!!$row['m_name']!!}</a></li>
+                @endif
+              @endif
+              @endforeach
+            @endforeach
           </ul>
-        </li>
+     
+        @endforeach
+
+
+       
           
-        <li class="active treeview menu-open">
+       <!-- <li class="active treeview menu-open">
           <a href="">
             <i class=""></i><span>หมวดที่4</span>
             <span class="pull-right-container">

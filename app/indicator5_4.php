@@ -9,7 +9,7 @@ class indicator5_4 extends Model
     protected $table = 'indicator5_4';
     protected $primaryKey = 'id';
     protected $fillable=[
-        'performance','status','in_index_id'
+        'performance','status','in_index_id','branch_id'
     ];
     public function doc_indicator5_4()
     {

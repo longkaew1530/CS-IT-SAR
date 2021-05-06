@@ -15,6 +15,8 @@ class in_index extends Model
     {
         return $this->hasMany('App\indicator5_4','in_index_id','id')
         ->where('year_id',session()->get('year_id'))
-        ->where('course_id',session()->get('usercourse'));
+        ->where('course_id',session()->get('usercourse'))
+        ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'));
     }
 }

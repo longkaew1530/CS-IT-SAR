@@ -68,7 +68,7 @@
                   @else
                   <td rowspan="2"><input type="number" id="performance3" class="form-control text-center" max="5" min="0" name="performance3" ></td>
                   @endif  
-                  <td rowspan="2"><input type="number" id="score" class="form-control text-center" max="5" min="0" name="score"></td>
+                  <td rowspan="2"><input type="number" id="score" class="form-control text-center" max="5" min="0" name="score" value="{{session()->get('resultavg')}}" readonly></td>
                 </tr>
                 <tr>
                 @if($per1!=null)

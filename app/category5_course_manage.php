@@ -9,7 +9,7 @@ class category5_course_manage extends Model
     protected $table = 'category5-course_manage';
     protected $primaryKey = 'id';
     protected $fillable=[
-        'problem','effect','solution'
+        'problem','effect','solution','branch_id'
     ];
     public $timestamps = false;
 }

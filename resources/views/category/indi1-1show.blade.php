@@ -1,27 +1,16 @@
             
+            
             <div class="box-header">
+            <div class="data">
+        <div class="col-md-12">
+        @if($checkedit!="")<a href="/getindicator1_1" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไข</a>@endif
               <h1 class="box-title">การกำกับให้เป็นไปตามมาตรฐาน (เกณฑ์มาตรฐานหลักสูตร พ.ศ.2558)</h1>
               <br>
               <br><li><h4 class="box-title">การบริหารจัดการหลักสูตรตามเกณฑ์มาตรฐานหลักสูตรที่กำหนดโดย สกอ. (ตัวบ่งชี้ที่ 1.1)</h4><br></li>
               <ins>เกณฑ์การประเมิน</ins>การบริหารจัดการหลักสูตรระดับปริญญาตรีเป็นไปตามตามเกณฑ์มาตรฐานหลักสูตรที่กำหนด โดย สกอ.
               <br><br><li><h4 class="box-title">การบริหารจัดการหลักสูตรตามเกณฑ์มาตรฐานหลักสูตรที่กำหนดโดย สกอ. (ตัวบ่งชี้ที่ 1.1)</h4><br></li>
               <br><h4 class="box-title">1.จำนวนอาจารย์ผู้รับผิดชอบหลักสูตร</h4><br>
-              @if($checkedit!="")
-              <div class="form-group">
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="result1" id="result1" onclick="calc2('result1')" value="0" @if($result2) checked @endif>
-                      ไม่เป็นไปตามเกณฑ์
-                    </label>
-                  </div>
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="result1" id="result2" onclick="calc2('result2')" value="1" @if($result1) checked @endif>
-                            เป็นไปตามเกณฑ์ ดังนี้
-                    </label>
-                  </div>
-                </div>
-                @else
+
               <div class="form-group">
                   <div class="checkbox">
                     <label>
@@ -36,7 +25,7 @@
                     </label>
                   </div>
                 </div>
-              @endif 
+       
               หลักสูตร{{$c}} มีอาจารย์ประจำหลักสูตรจำนวน {{$count}} คน 
               เป็นอาจารย์ผู้รับผิดชอบหลักสูตรเพียง 1 หลักสูตรเท่านั้น และอยู่ประจำหลักสูตรตลอดระยะเวลาที่จัดการศึกษาตามหลักสูตรดังนี้<br>
               @foreach($nameteacher as $key =>$value)
@@ -48,22 +37,7 @@
               <br><h4 class="box-title">2.คุณสมบัติของอาจารย์ผู้รับผิดชอบหลักสูตร</h4><br>
               1. คุณวฒิระดับปริญญาโทหรือเทียบเท่า หรือดำรงตำแหน่งทางวิชาการไม่ต่ำกว่าผู้ช่วยศาสตราจารย์ในสาขาที่ตรงหรือสัมพันธ์กับสาขาที่เปิดสอน<br>
               2. มีผลงานทางวิชาการอย่างน้อย 1 รายการในรอบ 5 ปีย้อนหลัง <br>
-              @if($checkedit!="")
-              <div class="form-group">
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="result2" id="result3" value="0" onclick="calc2('result3')"  @if($result4) checked @endif>
-                      ไม่เป็นไปตามเกณฑ์
-                    </label>
-                  </div>
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="result2" id="result4" value="1" onclick="calc2('result4')" @if($result3) checked @endif>
-                            เป็นไปตามเกณฑ์ ดังนี้
-                    </label>
-                  </div>
-                </div> 
-                @else
+
               <div class="form-group">
                   <div class="checkbox">
                     <label>
@@ -78,7 +52,7 @@
                     </label>
                   </div>
                 </div>
-              @endif 
+             
             <ins>ผลการดำเนินงาน</ins>
             <div class="box-body">
               <table class="table table-bordered">
@@ -118,22 +92,7 @@
               1. คุณวฒิระดับปริญญาโทหรือเทียบเท่า หรือดำรงตำแหน่งทางวิชาการไม่ต่ำกว่าผู้ช่วยศาสตราจารย์ในสาขาที่ตรงหรือสัมพันธ์กับสาขาที่เปิดสอน<br>
               2. มีผลงานทางวิชาการอย่างน้อย 1 รายการในรอบ 5 ปีย้อนหลัง <br>
               3. ไม่จำกัดจำนวนและประจำได้มากกว่าหนึ่งหลักสูตร <br>
-              @if($checkedit!="")
-              <div class="form-group">
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="result3" id="result5" value="0" onclick="calc2('result5')" @if($result6) checked @endif>
-                      ไม่เป็นไปตามเกณฑ์
-                    </label>
-                  </div>
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="result3" id="result6" value="1" onclick="calc2('result6')" @if($result5) checked @endif>
-                            เป็นไปตามเกณฑ์ ดังนี้
-                    </label>
-                  </div>
-                </div>
-                @else
+
               <div class="form-group">
                   <div class="checkbox">
                     <label>
@@ -148,7 +107,7 @@
                     </label>
                   </div>
                 </div>
-              @endif  
+              
             <ins>ผลการดำเนินงาน</ins>
             <div class="box-body">
               <table class="table table-bordered">
@@ -191,22 +150,7 @@
               4.1คุณสมบัติของอาจารย์ผู้สอนที่เป็นอาจารย์ประจำ<br>
               1. คุณวฒิระดับปริญญาโทหรือเทียบเท่า หรือดำรงตำแหน่งทางวิชาการไม่ต่ำกว่าผู้ช่วยศาสตราจารย์ในสาขาที่ตรงหรือสัมพันธ์กับสาขาที่เปิดสอน<br>
               3. หากเป็นอาจารย์ผู้สอนก่อนเกณฑ์นี้ประกาศใช้ อนุโลมคุณวุฒิระดับปริญญาตรีได้<br>
-              @if($checkedit!="")
-              <div class="form-group">
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="result4" id="result7" value="0" onclick="calc2('result7')" @if($result8) checked @endif >
-                      ไม่เป็นไปตามเกณฑ์
-                    </label>
-                  </div>
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="result4" id="result8" value="1" onclick="calc2('result8')" @if($result7) checked @endif>
-                            เป็นไปตามเกณฑ์ ดังนี้
-                    </label>
-                  </div>
-                </div> 
-                @else
+
               <div class="form-group">
                   <div class="checkbox">
                     <label>
@@ -221,7 +165,7 @@
                     </label>
                   </div>
                 </div>
-              @endif  
+            
             <ins>ผลการดำเนินงาน</ins>
             <div class="box-body">
               <table class="table table-bordered">
@@ -280,23 +224,9 @@
           <br><b>ไม่มีอาจารย์พิเศษ</b><br><br>
           </div>
           @endif
+          <div class="box-body">
           <br><h4 class="box-title">10.การปรับปรุงหลักสูตรตามรอบระยะเวลาที่กำหนด</h4>
-          @if($checkedit!="")
-              <div class="form-group">
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="result5" id="result9" onclick="calc2('result9')" value="0" @if($result10) checked @endif>
-                      ไม่เป็นไปตามเกณฑ์
-                    </label>
-                  </div>
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="result5" id="result10" onclick="calc2('result10')" value="1" @if($result9) checked @endif>
-                            เป็นไปตามเกณฑ์ ดังนี้
-                    </label>
-                  </div>
-                </div>
-                @else
+ 
               <div class="form-group">
                   <div class="checkbox">
                     <label>
@@ -311,7 +241,8 @@
                     </label>
                   </div>
                 </div>
-              @endif  
+           
+              </div>
             <div class="box-body">
             <ins>ผลการประเมินตนเอง</ins>
             <div class="box-body">
@@ -330,7 +261,6 @@
                   
                   <td rowspan="2">{{$row['performance3']}}</td>
                   <td rowspan="2">
-                 @if($checkedit!="") <a href="/getself_assessment_results2/1.1" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>@endif
                   {{$row['score']}}</td>
                 </tr>
 
@@ -347,7 +277,8 @@
                 @endif
               </tbody></table>
             </div>
-            
+            </div>
+            </div>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script type="text/javascript">
     $.ajaxSetup({

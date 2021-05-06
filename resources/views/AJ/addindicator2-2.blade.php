@@ -25,58 +25,58 @@
                 </tr>
                 <tr>
                 <td>จำนวนบัณทิตทั้งหมด</td>
-                <td><input type="text" class="form-control" id="total" name="total"  value="0"/></td>
-                <td><input type="text" class="form-control" id="totalpersen" name="totalpersen" value="0"/></td>
+                <td><input type="number" class="form-control text-center" id="total" name="total"  /></td>
+                <td><input type="number" class="form-control text-center" id="totalpersen" name="totalpersen" /></td>
                 </tr>
                 <tr>
                 <td>จำนวนบัณฑิตที่ตอบแบบสำรวจ</td>
-                <td><input type="text" class="form-control" id="answer" name="answer" onchange="myScript1()" value="0"/></td>
-                <td><input type="text" class="form-control" id="answerpersen" name="answerpersen"  value="0"/></td>
+                <td><input type="number" class="form-control text-center" id="answer" name="answer" onchange="myScript1()" /></td>
+                <td><input type="number" class="form-control text-center" id="answerpersen" name="answerpersen"  /></td>
                 </tr>
                 <tr>
                 <td>จำนวนบัณฑิตที่ได้งานทำหลังสำเร็จการศึกษา</td>
-                <td><input type="text" class="form-control" id="job" name="job" onchange="myScript()" value="0"/></td>
-                <td><input type="text" class="form-control" id="jobpersen" name="jobpersen" value="0"/></td>
+                <td><input type="number" class="form-control text-center" id="job" name="job" onchange="myScript()" /></td>
+                <td><input type="number" class="form-control text-center" id="jobpersen" name="jobpersen" /></td>
                 </tr>
                 <tr>
                 <td>ตรงสาขาที่เรียน</td>
-                <td><input type="text" class="form-control" id="straight_line" name="straight_line" value="0"/></td>
-                <td><input type="text" class="form-control" id="straight_linepersen" name="straight_linepersen" value="0"/></td>
+                <td><input type="number" class="form-control text-center" id="straight_line" name="straight_line" /></td>
+                <td><input type="number" class="form-control text-center" id="straight_linepersen" name="straight_linepersen" /></td>
                 </tr>
                 <tr>
                 <td>ไม่ตรงสาขาที่เรียน</td>
-                <td><input type="text" class="form-control" id="not_straight_line" name="not_straight_line" value="0"/></td>
-                <td><input type="text" class="form-control" id="not_straight_linepersen" name="not_straight_linepersen" value="0"/></td>
+                <td><input type="number" class="form-control text-center" id="not_straight_line" name="not_straight_line" /></td>
+                <td><input type="number" class="form-control text-center" id="not_straight_linepersen" name="not_straight_linepersen" /></td>
                 </tr>
                 <tr>
                 <td>จำนวนบัณฑิตที่ประกอบอาชีพอิสระ</td>
-                <td><input type="text" class="form-control" id="freelance" name="freelance" onchange="myScript()" value="0"/></td>
-                <td><input type="text" class="form-control" id="freelancepersen" name="freelancepersen" value="0"/></td>
+                <td><input type="number" class="form-control text-center" id="freelance" name="freelance" onchange="myScript()" /></td>
+                <td><input type="number" class="form-control text-center" id="freelancepersen" name="freelancepersen" /></td>
                 </tr>
                 <tr>
                 <td>จำนวนผู้สำเร็จการศึกษาที่มีงานทำก่อนเข้าศึกษา</td>
-                <td><input type="text" class="form-control" id="before" name="before" value="0"/></td>
-                <td><input type="text" class="form-control" id="beforepersen" name="beforepersen" value="0"/></td>
+                <td><input type="number" class="form-control text-center" id="before" name="before" /></td>
+                <td><input type="number" class="form-control text-center" id="beforepersen" name="beforepersen" /></td>
                 </tr>
                 <tr>
                 <td>จำนวนบัณฑิตที่ศึกษาต่อ</td>
-                <td><input type="text" class="form-control" id="continue_study" name="continue_study" value="0"/></td>
-                <td><input type="text" class="form-control" id="continue_studypersen" name="continue_studypersen" value="0"/></td>
+                <td><input type="number" class="form-control text-center" id="continue_study" name="continue_study" /></td>
+                <td><input type="number" class="form-control text-center" id="continue_studypersen" name="continue_studypersen" /></td>
                 </tr>
                 <tr>
                 <td>จำนวนบัณฑิตที่อุปสมบท</td>
-                <td><input type="text" class="form-control" id="ordain" name="ordain" value="0"/></td>
-                <td><input type="text" class="form-control" id="ordainpersen" name="ordainpersen" value="0"/></td>
+                <td><input type="number" class="form-control text-center" id="ordain" name="ordain" /></td>
+                <td><input type="number" class="form-control text-center" id="ordainpersen" name="ordainpersen" /></td>
                 </tr>
                 <tr>
                 <td>จำนวนบัณฑิตที่เกณฑ์ทหาร</td>
-                <td><input type="text" class="form-control" id="soldier" name="soldier" value="0"/></td>
-                <td><input type="text" class="form-control" id="soldierpersen" name="soldierpersen" value="0"/></td>
+                <td><input type="number" class="form-control text-center" id="soldier" name="soldier" /></td>
+                <td><input type="number" class="form-control text-center" id="soldierpersen" name="soldierpersen" /></td>
                 </tr>
                 <tr>
                 <td>จำนวนบัณฑิตที่ไม่มีงานทำ</td>
-                <td><input type="text" class="form-control" id="unemployed" name="unemployed" value="0"/></td>
-                <td><input type="text" class="form-control" id="unemployedpersen" name="unemployedpersen" value="0"/></td>
+                <td><input type="number" class="form-control text-center" id="unemployed" name="unemployed" /></td>
+                <td><input type="number" class="form-control text-center" id="unemployedpersen" name="unemployedpersen" /></td>
                 </tr>
               </tbody></table>
             </div>
@@ -245,24 +245,20 @@
       avg =((result+result2)*100)/result3;
     }
 
+    document.getElementById("performance3").value =avg;
     if(avg>=1&&avg<=20){
-    document.getElementById("performance3").value =1;
     document.getElementById("score").value =1;
    }
    else if(avg>=21&&avg<=40){
-    document.getElementById("performance3").value =2;
     document.getElementById("score").value =2;
    }
    else if(avg>=41&&avg<=60){
-    document.getElementById("performance3").value =3;
     document.getElementById("score").value =3;
   }
   else if(avg>=61&&avg<=80){
-    document.getElementById("performance3").value =4;
     document.getElementById("score").value =4;
   }
   else if(avg>=81&&avg<=100){
-    document.getElementById("performance3").value =5;
     document.getElementById("score").value =5;
   }
 }

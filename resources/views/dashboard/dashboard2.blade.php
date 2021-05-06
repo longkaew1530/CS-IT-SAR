@@ -25,7 +25,7 @@
             
             
             <div class="info-box-content">
-              <span class="info-box-text"><font size="3">อยู่ระหว่างดำเนินการ</font></span>
+              <span class="info-box-text"><font size="3">ตัวบ่งชี้ที่อยู่ระหว่างดำเนินการ</font></span>
               <span class="info-box-number"><font size="5" id="not"></font></span>
             </div>
             <!-- /.info-box-content -->
@@ -42,7 +42,7 @@
             <span class="info-box-icon bg-green"><i class="fa fa-check"></i></span>
             
             <div class="info-box-content">
-              <span class="info-box-text"><font size="3">เสร็จสิ้น</font></span>
+              <span class="info-box-text"><font size="3">ตัวบ่งชี้ที่เสร็จสิ้น</font></span>
               <span class="info-box-number"><font size="5" id="success"></font></span>
             </div>
             <!-- /.info-box-content -->
@@ -157,7 +157,12 @@ $(document).ready(function(){
     columns: [
         { data: "getid" },
         {"data" : function(data) {
-          return 'ตัวบ่งชี้ '+data.Indicator_id+' '+data.Indicator_name
+          if(data.Indicator_id!=null){
+            return 'ตัวบ่งชี้ '+data.Indicator_id+' '+data.Indicator_name
+          }
+          else{
+            return data.Indicator_name
+          }
         }},
         {"data" : function(data) {
           return '<div class="progress progress-xs"><div class="progress-bar progress-bar-'+data.color+'" style="width: '+data.score+'%"></div></div>'
@@ -166,7 +171,12 @@ $(document).ready(function(){
           return '<span class="badge bg-'+data.color2+'">'+data.score+'%</span>'
        }},
        {"data" : function(data) {
+        if(data.Indicator_id!=null){
           return '<a href="/showindicator/'+data.Indicator_id+'">ดูรายละเอียด</a>'
+        }
+        else{
+          return '<a href="/showindicator/'+data.Indicator_name+'">ดูรายละเอียด</a>'
+        }
        }}
     ],
 } );

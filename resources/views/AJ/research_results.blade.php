@@ -19,16 +19,12 @@
                 <div class="box-body">
                 <div class="form-group">
                     <label for="exampleInputPassword1">ชื่อผู้วิจัย</label>
-                    <select class="form-control" id="owner" class="form-control @error('role') is-invalid @enderror" name="owner">
-                      @foreach($userall as $value)
-                      <option  value="{{$value['id']}}">{{$value['user_fullname']}}</option>
-                      @endforeach
-                    </select>
+                    <input type="hidden" id="owner" name="owner"  value="{{ Auth::user()->id }}" >
+                    <input type="text" class="form-control"  value="{{ Auth::user()->user_fullname }}" disabled>
                   </div>
-                  
                   <div class="form-group">
                 <label>ชื่อผู้ร่วมวิจัย</label>
-                <select class="form-control select2" id="teacher_name" name="teacher_name[]" multiple="multiple" data-placeholder="ชื่อผู้ร่วมวิจัย"
+                <select class="form-control" id="teacher_name" name="teacher_name[]" multiple="multiple" 
                         style="width: 100%;">
                         @foreach($userall as $value)
                       <option value="{{$value['id']}}">{{$value['user_fullname']}}</option>
@@ -118,16 +114,13 @@
                     <input type="hidden" class="form-control" id="id" name="id">
                   <div class="form-group">
                     <label for="exampleInputPassword1">ชื่อผู้วิจัย</label>
-                    <select class="form-control" id="owner1" class="form-control @error('role') is-invalid @enderror" name="owner" >
-                      @foreach($userall as $value)
-                      <option value="{{$value['id']}}">{{$value['user_fullname']}}</option>
-                      @endforeach
-                    </select>
+                    <input type="hidden" id="owner1" name="owner"   >
+                    <input type="text" id="ownername"  class="form-control"   disabled>
                   </div>
                   
                   <div class="form-group">
                 <label>ชื่อผู้ร่วมวิจัย</label>
-                <select class="form-control select3" id="select" name="teacher_name[]" multiple="multiple" data-placeholder="ชื่อผู้ร่วมวิจัย"
+                <select class="form-control select2" id="select" name="teacher_name[]" multiple="multiple" data-placeholder="เลือกผู้ร่วมวิจัย"
                         style="width: 100%;">
                         @foreach($userall as $value)
                       <option value="{{$value['id']}}">{{$value['user_fullname']}}</option>
@@ -236,12 +229,7 @@
     $('#example3').DataTable({
       lengthMenu: [8, 20, 50, 100]
     })
-  })
-  $(function () {
-    //Initialize Select2 Elements
-    $('.select2').select2()
-   
-  })
+  });
 </script>
 
 <script type="text/javascript">
@@ -282,6 +270,10 @@
 </script>
 <script>
   $(document).ready(function() {
+    $selectElement = $('#teacher_name').select2({
+   
+  });
+      
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -455,6 +447,7 @@
         //success data
         $("#id").val(data[0].research_results_id);
         $("#owner1").val(data[0].owner);
+        $("#ownername").val(data[0].user_fullname);
         var get=[];
         for (index = 0; index < data.length; ++index) {
                 if(data[index].user_id!=data[0].owner){
@@ -470,34 +463,19 @@
         $("#research_results_salary1").val(data[0].research_results_salary);
         
 
-        
-
         $('#select').select2({
-        // ...
-        templateSelection: function (data, container) {
-          // Add custom attributes to the <option> tag for the selected option
-          $(data.id).attr('data-custom-attribute', data.customValue);
-          return data.text;
-        }
-      });
+        
+      })
+      
 
-      // Retrieve custom attribute value of the first selected element
-      // $('#mySelect2').find(':selected').data('custom-attribute');
-      //   for (const [key, value] of Object.entries(data)) {
-      //       var option = new Option(value.user_fullname, value.id,true, true);
-      //   studentSelect.append(option).trigger('change');
-      //   studentSelect.trigger({
-      //       type: 'select2:select',
-      //       params: {
-      //           data: data
-      //       }
-      //   });
-      //   }
+
         
         
       })
     });
   });
+
+  
 </script>
 <script type="text/javascript">
   $(".deletedata").click(function() {

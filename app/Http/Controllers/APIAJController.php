@@ -11,6 +11,8 @@ use App\ModelAJ\categoty_researh;
 use App\User;
 use App\PDCA;
 use App\category4_teaching_quality;
+use App\Year;
+use App\Course;
 use App\user_permission;
 use App\docpdca;
 use App\category3_resignation;
@@ -230,6 +232,7 @@ class APIAJController extends Controller
             ]);
         $data=new PDCA;
         $data->course_id=session()->get('usercourse');
+        $data->branch_id=session()->get('branch_id');
         $data->year_id=session()->get('year_id');
         $data->category_pdca=$request->category_pdca;
         $data->Indicator_id=$request->Indicator_id;
@@ -316,6 +319,7 @@ class APIAJController extends Controller
 
         $pdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.indicator_id',$id)
         ->get();
@@ -336,6 +340,7 @@ class APIAJController extends Controller
             ]);
         $data=new indicator4_3;
         $data->course_id=session()->get('usercourse');
+        $data->branch_id=session()->get('branch_id');
         $data->year_id=session()->get('year_id');
         $data->retention_rate=$request->retention_rate1;
         $data->category_retention_rate="อัตราการคงอยู่ของอาจารย์";
@@ -363,6 +368,7 @@ class APIAJController extends Controller
 
         $data1=new indicator4_3;
         $data1->course_id=session()->get('usercourse');
+        $data->branch_id=session()->get('branch_id');
         $data1->year_id=session()->get('year_id');
         $data1->retention_rate=$request->retention_rate2;
         $data1->category_retention_rate="ความพึงพอใจของอาจารย์ต่อการบริหารหลักสูตร";
@@ -393,6 +399,7 @@ class APIAJController extends Controller
             $data2->performance3=$request->performance3;
             $data2->score=$request->score;
             $data2->course_id=session()->get('usercourse');
+            $data->branch_id=session()->get('branch_id');
             $data2->year_id=session()->get('year_id');
             $data2->save();
         return $data2;
@@ -485,6 +492,7 @@ class APIAJController extends Controller
     {
         $editdata = category3_GD::where('id',$id)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         return view('AJ/editfactor',compact('editdata'));
@@ -493,6 +501,7 @@ class APIAJController extends Controller
     {
         $data=new category3_GD;
         $data->course_id=session()->get('usercourse');
+        $data->branch_id=session()->get('branch_id');
         $data->year_id=session()->get('year_id');
         $data->factor=$request->factor;
         $data->category_factor=$request->category_factor;
@@ -512,10 +521,12 @@ class APIAJController extends Controller
     public function getindicator2_1($id)
     {
         $editdata = indicator2_1::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $pdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.indicator_id',$id)
         ->where('pdca.target','!=',null)
@@ -527,6 +538,7 @@ class APIAJController extends Controller
     {
         $data=new indicator2_1;
         $data->course_id=session()->get('usercourse');
+        $data->branch_id=session()->get('branch_id');
         $data->year_id=session()->get('year_id');
         $data->qtyall=$request->qtyall;
         $data->qtyrate=$request->qtyrate;
@@ -542,6 +554,7 @@ class APIAJController extends Controller
         $data2->performance3=$request->performance3;
         $data2->score=$request->score;
         $data2->course_id=session()->get('usercourse');
+        $data2->branch_id=session()->get('branch_id');
         $data2->year_id=session()->get('year_id');
         $data2->save(); 
         return $data;
@@ -571,10 +584,12 @@ class APIAJController extends Controller
      {
          $editdata = indicator2_2::where('id',$id)
          ->where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
          ->where('year_id',session()->get('year_id'))
          ->get();
          $pdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.indicator_id',2.2)
         ->where('pdca.target','!=',null)
@@ -586,30 +601,160 @@ class APIAJController extends Controller
      {
          $data=new indicator2_2;
          $data->course_id=session()->get('usercourse');
+         $data->branch_id=session()->get('branch_id');
          $data->year_id=session()->get('year_id');
-         $data->total=$request->total;
-         $data->totalpersen=$request->totalpersen;
-         $data->answer=$request->answer;
-         $data->answerpersen=$request->answerpersen;
-         $data->job=$request->job;
-         $data->jobpersen=$request->jobpersen;
-         $data->straight_line=$request->straight_line;
-         $data->straight_linepersen=$request->straight_linepersen;
-         $data->not_straight_line=$request->not_straight_line;
-         $data->not_straight_linepersen=$request->not_straight_linepersen;
-         $data->freelance=$request->freelance;
-         $data->freelancepersen=$request->freelancepersen;
-         $data->before=$request->before;
-         $data->beforepersen=$request->beforepersen;
-         $data->continue_study=$request->continue_study;
-         $data->continue_studypersen=$request->continue_studypersen;
-         $data->ordain=$request->ordain;
-         $data->ordainpersen=$request->ordainpersen;
-         $data->soldier=$request->soldier;
-         $data->soldierpersen=$request->soldierpersen;
-         $data->unemployed=$request->unemployed;
-         $data->unemployedpersen=$request->unemployedpersen;
-         $data->result=$request->result;
+         if($request->total==""){
+            $data->total=0;
+         }
+         else{
+            $data->total=$request->total;
+         }
+         
+         if($request->totalpersen==""){
+            $data->totalpersen=0;
+         }
+         else{
+            $data->totalpersen=$request->totalpersen;
+         }
+
+         if($request->answer==""){
+            $data->answer=0;
+         }
+         else{
+            $data->answer=$request->answer;
+         }
+
+         if($request->answerpersen==""){
+            $data->answerpersen=0;
+         }
+         else{
+            $data->answerpersen=$request->answerpersen;
+         }
+
+         if($request->job==""){
+            $data->job=0;
+         }
+         else{
+            $data->job=$request->job;
+         }
+
+         if($request->jobpersen==""){
+            $data->jobpersen=0;
+         }
+         else{
+            $data->jobpersen=$request->jobpersen;
+         }
+
+         if($request->straight_line==""){
+            $data->straight_line=0;
+         }
+         else{
+            $data->straight_line=$request->straight_line;
+         }
+
+         if($request->straight_linepersen==""){
+            $data->straight_linepersen=0;
+         }
+         else{
+            $data->straight_linepersen=$request->straight_linepersen;
+         }
+
+         if($request->not_straight_line==""){
+            $data->not_straight_line=0;
+         }
+         else{
+            $data->not_straight_line=$request->not_straight_line;
+         }
+
+         if($request->not_straight_linepersen==""){
+            $data->not_straight_linepersen=0;
+         }
+         else{
+            $data->not_straight_linepersen=$request->not_straight_linepersen;
+         }
+
+         if($request->freelance==""){
+            $data->freelance=0;
+         }
+         else{
+            $data->freelance=$request->freelance;
+         }
+
+         if($request->freelancepersen==""){
+            $data->freelancepersen=0;
+         }
+         else{
+            $data->freelancepersen=$request->freelancepersen;
+         }
+         
+         if($request->before==""){
+            $data->before=0;
+         }
+         else{
+            $data->before=$request->before;
+         }
+         if($request->beforepersen==""){
+            $data->beforepersen=0;
+         }
+         else{
+            $data->beforepersen=$request->beforepersen;
+         }
+         if($request->continue_study==""){
+            $data->continue_study=0;
+         }
+         else{
+            $data->continue_study=$request->continue_study;
+         }
+         if($request->continue_studypersen==""){
+            $data->continue_studypersen=0;
+         }
+         else{
+            $data->continue_studypersen=$request->continue_studypersen;
+         }
+         if($request->ordain==""){
+            $data->ordain=0;
+         }
+         else{
+            $data->ordain=$request->ordain;
+         }
+         if($request->ordainpersen==""){
+            $data->ordainpersen=0;
+         }
+         else{
+            $data->ordainpersen=$request->ordainpersen;
+         }
+         if($request->soldier==""){
+            $data->soldier=0;
+         }
+         else{
+            $data->soldier=$request->soldier;
+         }
+         if($request->soldierpersen==""){
+            $data->soldierpersen=0;
+         }
+         else{
+            $data->soldierpersen=$request->soldierpersen;
+         }
+         if($request->unemployed==""){
+            $data->unemployed=0;
+         }
+         else{
+            $data->unemployed=$request->unemployed;
+         }
+         if($request->unemployedpersen==""){
+            $data->unemployedpersen=0;
+         }
+         else{
+            $data->unemployedpersen=$request->unemployedpersen;
+         }
+         if($request->result==""){
+            $data->result=0;
+         }
+         else{
+            $data->result=$request->result;
+         }
+
+         
          $data->save();     
          $data2=new PDCA;
         $data2->Indicator_id=$request->Indicator_id;
@@ -619,6 +764,7 @@ class APIAJController extends Controller
         $data2->performance3=$request->performance3;
         $data2->score=$request->score;
         $data2->course_id=session()->get('usercourse');
+        $data2->branch_id=session()->get('branch_id');
         $data2->year_id=session()->get('year_id');
         $data2->save(); 
          return $data2;
@@ -669,6 +815,7 @@ class APIAJController extends Controller
         ->get();
         $pdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.indicator_id',$id)
         ->where('pdca.target','!=',null)
@@ -688,6 +835,7 @@ class APIAJController extends Controller
             ]);
         $data=new performance3_3;
         $data->course_id=session()->get('usercourse');
+        $data->branch_id=session()->get('branch_id');
         $data->year_id=session()->get('year_id');
         $data->retention_rate=$request->retention_rate1;
         $data->category_retention_rate="อัตราการคงอยู่ของนักศึกษา";
@@ -714,6 +862,7 @@ class APIAJController extends Controller
 
         $data1=new performance3_3;
         $data1->course_id=session()->get('usercourse');
+        $data1->branch_id=session()->get('branch_id');
         $data1->year_id=session()->get('year_id');
         $data1->retention_rate=$request->retention_rate2;
         $data1->category_retention_rate="การสำเร็จการศึกษา";
@@ -740,6 +889,7 @@ class APIAJController extends Controller
 
         $data2=new performance3_3;
         $data2->course_id=session()->get('usercourse');
+        $data2->branch_id=session()->get('branch_id');
         $data2->year_id=session()->get('year_id');
         $data2->retention_rate=$request->retention_rate3;
         $data2->category_retention_rate="ความพึงพอใจและผลการจัดการข้อร้องเรียนของนักศึกษา";
@@ -769,6 +919,7 @@ class APIAJController extends Controller
             $data3->performance3=$request->performance3;
             $data3->score=$request->score;
             $data3->course_id=session()->get('usercourse');
+            $data3->branch_id=session()->get('branch_id');
             $data3->year_id=session()->get('year_id');
             $data3->save(); 
         return $data3;
@@ -881,6 +1032,7 @@ class APIAJController extends Controller
     public function updatecourse_results(Request $request)
     {
         $getdata=category4_course_results::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'));
         $getdata->delete();
         
@@ -901,6 +1053,7 @@ class APIAJController extends Controller
     {
         $query=indicator5_4::where('id',$id)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         if($query[0]['status']==1){
@@ -922,6 +1075,7 @@ class APIAJController extends Controller
             ]);
         $data=new indicator5_4;
         $data->course_id=session()->get('usercourse');
+        $data->branch_id=session()->get('branch_id');
         $data->year_id=session()->get('year_id');
         $data->performance=$request->performance;
         $data->status=$request->status;
@@ -985,6 +1139,7 @@ class APIAJController extends Controller
     public function getacademic_performance()
     {
         $editdata=category4_academic_performance::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         return view('AJ/editacademic_performance',compact('editdata'));
@@ -999,6 +1154,7 @@ class APIAJController extends Controller
         $data->reason=$request->reason;
         $data->plan_update=$request->plan_update;
         $data->course_id=session()->get('usercourse');
+        $data->branch_id=session()->get('branch_id');
         $data->year_id=session()->get('year_id');
         $data->save();
 
@@ -1023,6 +1179,7 @@ class APIAJController extends Controller
     public function getnot_offered()
     {
         $editdata=category4_notcourse_results::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         return view('AJ/editnot_offered',compact('editdata'));
@@ -1035,6 +1192,7 @@ class APIAJController extends Controller
         $data->description=$request->description;
         $data->measure=$request->measure;
         $data->course_id=session()->get('usercourse');
+        $data->branch_id=session()->get('branch_id');
         $data->year_id=session()->get('year_id');
         $data->save();
 
@@ -1057,6 +1215,7 @@ class APIAJController extends Controller
     public function getincomplete_content()
     {
         $editdata=category4_incomplete_content::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         return view('AJ/editincomplete_content',compact('editdata'));
@@ -1070,6 +1229,7 @@ class APIAJController extends Controller
         $data->untraceable=$request->untraceable;
         $data->plan_update=$request->plan_update;
         $data->course_id=session()->get('usercourse');
+        $data->branch_id=session()->get('branch_id');
         $data->year_id=session()->get('year_id');
         $data->save();
 
@@ -1103,6 +1263,7 @@ class APIAJController extends Controller
         $data->comment=$request->comment;
         $data->solution=$request->solution;
         $data->course_id=session()->get('usercourse');
+        $data->branch_id=session()->get('branch_id');
         $data->year_id=session()->get('year_id');
         $data->save();
 
@@ -1135,6 +1296,7 @@ class APIAJController extends Controller
         $data->new_teacher_qty=$request->new_teacher_qty;
         $data->teacher_point_out_qty=$request->teacher_point_out_qty;
         $data->course_id=session()->get('usercourse');
+        $data->branch_id=session()->get('branch_id');
         $data->year_id=session()->get('year_id');
         $data->save();
 
@@ -1177,6 +1339,7 @@ class APIAJController extends Controller
         $data->status=$request->status;
         $data->comment=$request->comment;
         $data->course_id=session()->get('usercourse');
+        $data->branch_id=session()->get('branch_id');
         $data->year_id=session()->get('year_id');
         $data->save();
 
@@ -1208,6 +1371,7 @@ class APIAJController extends Controller
         $data->effect=$request->effect;
         $data->solution=$request->solution;
         $data->course_id=session()->get('usercourse');
+        $data->branch_id=session()->get('branch_id');
         $data->year_id=session()->get('year_id');
         $data->save();
 
@@ -1239,6 +1403,7 @@ class APIAJController extends Controller
         $data->comment_course_responsible_person=$request->comment_course_responsible_person;
         $data->update_course=$request->update_course;
         $data->course_id=session()->get('usercourse');
+        $data->branch_id=session()->get('branch_id');
         $data->year_id=session()->get('year_id');
         $data->save();
 
@@ -1262,6 +1427,7 @@ class APIAJController extends Controller
     {
         $editdata=category6_assessment_summary::where('category_assessor',$id)
         ->where('year_id',session()->get('year_id'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('course_id',session()->get('usercourse'))
         ->get();
         return view('AJ/editassessment_summary',compact('editdata'));
@@ -1274,6 +1440,7 @@ class APIAJController extends Controller
         $data->comment_faculty=$request->comment_faculty;
         $data->change_proposal=$request->change_proposal;
         $data->course_id=session()->get('usercourse');
+        $data->branch_id=session()->get('branch_id');
         $data->year_id=session()->get('year_id');
         $data->save();
 
@@ -1306,6 +1473,7 @@ class APIAJController extends Controller
         $data->should_develop=$request->should_develop;
         $data->development_approach=$request->development_approach;
         $data->course_id=session()->get('usercourse');
+        $data->branch_id=session()->get('branch_id');
         $data->year_id=session()->get('year_id');
         $data->save();
      return true;
@@ -1336,6 +1504,7 @@ class APIAJController extends Controller
             $row->detail=$request->editor1;
             $row->topic=$request->topic;
             $row->course_id=session()->get('usercourse');
+            $row->branch_id=session()->get('branch_id');
             $row->year_id=session()->get('year_id');
             $row->save();
      return $row;
@@ -1364,6 +1533,7 @@ class APIAJController extends Controller
         $data->strength=$request->strength;
         $data->should_develop=$request->should_develop;
         $data->course_id=session()->get('usercourse');
+        $data->branch_id=session()->get('branch_id');
         $data->year_id=session()->get('year_id');
         $data->save();
      return true;
@@ -1405,12 +1575,14 @@ class APIAJController extends Controller
             $get= PDCA::where('Indicator_id',$request->Indicator_id)
             ->where('category_pdca',$request->category_id)
             ->where('course_id',session()->get('usercourse'))
+            ->where('branch_id',session()->get('branch_id'))
             ->where('year_id',session()->get('year_id'))
             ->get();
         if(count($get)!=0){
             $data= PDCA::where('Indicator_id',$request->Indicator_id)
             ->where('year_id',session()->get('year_id'))
             ->where('course_id',session()->get('usercourse'))
+            ->where('branch_id',session()->get('branch_id'))
             ->where('category_pdca',$request->category_id)
             ->first();
             $data->p=$request->editor1;
@@ -1419,6 +1591,7 @@ class APIAJController extends Controller
         else{
             $data=new PDCA;
             $data->course_id=session()->get('usercourse');
+            $data->branch_id=session()->get('branch_id');
             $data->year_id=session()->get('year_id');
             $data->category_pdca=$request->category_id;
             $data->Indicator_id=$request->Indicator_id;
@@ -1514,12 +1687,14 @@ class APIAJController extends Controller
             $get= PDCA::where('Indicator_id',$request->Indicator_id)
             ->where('year_id',session()->get('year_id'))
             ->where('course_id',session()->get('usercourse'))
+            ->where('branch_id',session()->get('branch_id'))
             ->where('category_pdca',$request->category_id)
             ->get();
         if(count($get)!=0){
             $data= PDCA::where('Indicator_id',$request->Indicator_id)
             ->where('year_id',session()->get('year_id'))
             ->where('course_id',session()->get('usercourse'))
+            ->where('branch_id',session()->get('branch_id'))
             ->where('category_pdca',$request->category_id)
             ->first();
             $data->d=$request->editor1;
@@ -1528,6 +1703,7 @@ class APIAJController extends Controller
         else{
             $data=new PDCA;
             $data->course_id=session()->get('usercourse');
+            $data->branch_id=session()->get('branch_id');
             $data->year_id=session()->get('year_id');
             $data->category_pdca=$request->category_id;
             $data->Indicator_id=$request->Indicator_id;
@@ -1621,12 +1797,14 @@ class APIAJController extends Controller
               $get= PDCA::where('Indicator_id',$request->Indicator_id)
               ->where('year_id',session()->get('year_id'))
             ->where('course_id',session()->get('usercourse'))
+            ->where('branch_id',session()->get('branch_id'))
               ->where('category_pdca',$request->category_id)
               ->get();
           if(count($get)!=0){
               $data= PDCA::where('Indicator_id',$request->Indicator_id)
               ->where('year_id',session()->get('year_id'))
             ->where('course_id',session()->get('usercourse'))
+            ->where('branch_id',session()->get('branch_id'))
               ->where('category_pdca',$request->category_id)
               ->first();
               $data->c=$request->editor1;
@@ -1728,12 +1906,14 @@ class APIAJController extends Controller
               $get= PDCA::where('Indicator_id',$request->Indicator_id)
               ->where('year_id',session()->get('year_id'))
             ->where('course_id',session()->get('usercourse'))
+            ->where('branch_id',session()->get('branch_id'))
               ->where('category_pdca',$request->category_id)
               ->get();
           if(count($get)!=0){
               $data= PDCA::where('Indicator_id',$request->Indicator_id)
               ->where('year_id',session()->get('year_id'))
             ->where('course_id',session()->get('usercourse'))
+            ->where('branch_id',session()->get('branch_id'))
               ->where('category_pdca',$request->category_id)
               ->first();
               $data->a=$request->editor1;
@@ -1742,6 +1922,7 @@ class APIAJController extends Controller
           else{
               $data=new PDCA;
               $data->course_id=session()->get('usercourse');
+              $data->branch_id=session()->get('branch_id');
               $data->year_id=session()->get('year_id');
               $data->category_pdca=$request->category_id;
               $data->Indicator_id=$request->Indicator_id;
@@ -1842,6 +2023,7 @@ class APIAJController extends Controller
     {
         $query=category7_strengths_summary::where('id',$id)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         return view('AJ/editstrengths_summary',compact('query'));
@@ -1854,6 +2036,7 @@ class APIAJController extends Controller
         $data->development_approach=$request->development_approach;
         $data->composition_id=$request->composition_id;
         $data->course_id=session()->get('usercourse');
+        $data->branch_id=session()->get('branch_id');
         $data->year_id=session()->get('year_id');
         $data->save();
 
@@ -1878,16 +2061,19 @@ class APIAJController extends Controller
         $get=year_acceptance::where('course_id',session()->get('usercourse'))
         ->get();
         $getinfo=category3_infostudent::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_add', '>=',$get[0]['year_add'])
         ->where('year_add', '<=',session()->get('year'))
         ->get();
         $getyear=category3_infostudent::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_add',session()->get('year'))
         ->get();
         if(count($get)==0){
             $get="";
         }
        $getqty=category3_infostudent_qty::where('course_id',session()->get('usercourse'))
+       ->where('branch_id',session()->get('branch_id'))
        ->where('year_id',session()->get('year_id'))
        ->get();
         return view('AJ/editinfostd',compact('get','getinfo','getqty'));
@@ -1896,9 +2082,11 @@ class APIAJController extends Controller
      function addyear_acceptance(Request $request)
     {
         $get=year_acceptance::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->get();
         if(count($get)!=0){
         $get=year_acceptance::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->delete();
         }
         $data=new year_acceptance;
@@ -1912,6 +2100,7 @@ class APIAJController extends Controller
     function addinfostudent(Request $request)
     {
         $get=year_acceptance::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
             ->get();
         $getall=$request->all();
         
@@ -1921,6 +2110,7 @@ class APIAJController extends Controller
             $getcount=$get[0]['year_add'];
             foreach($getall['y'.$i] as $key=>$value){
                 $checkdata=category3_infostudent::where('course_id',session()->get('usercourse'))
+                ->where('branch_id',session()->get('branch_id'))
                 ->where('year_add',$i)
                 ->where('reported_year',$getcount)
                 ->get();
@@ -1950,6 +2140,7 @@ class APIAJController extends Controller
             
         }
         $checkqty=category3_infostudent_qty::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         if(count($checkqty)!=0){
@@ -1961,6 +2152,7 @@ class APIAJController extends Controller
             $data2=new category3_infostudent_qty;
             $data2->qty=$request->qty;
             $data2->course_id=session()->get('usercourse');
+            $data2->branch_id=session()->get('branch_id');
             $data2->year_id=session()->get('year_id');
             $data2->save();
         }
@@ -1970,10 +2162,13 @@ class APIAJController extends Controller
     public function updateinfostudent(Request $request)
     {
         $get=year_acceptance::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
             ->where('year_id',session()->get('year_id'))
             ->get();
         $getall=$request->all();
-        $checkdata=category3_infostudent::where('course_id',session()->get('usercourse'));
+        $checkdata=category3_infostudent::where('course_id',session()
+        ->where('branch_id',session()->get('branch_id'))
+        ->get('usercourse'));
         if(isset($checkdata)){
             $checkdata->delete();
         }
@@ -1990,6 +2185,7 @@ class APIAJController extends Controller
                 $data[$key]['year_add']=$i;
                 $data[$key]['reported_year']=$getcount;
                 $data[$key]['course_id']=session()->get('usercourse');
+                $data2[$key]['branch_id']=session()->get('branch_id');
                 $data[$key]['year_id']=session()->get('year_id');
                 $getcount++;
             }
@@ -1998,6 +2194,7 @@ class APIAJController extends Controller
         $data2=category3_infostudent_qty::find($request->getid);
         $data2->qty=$request->qty;
         $data2->course_id=session()->get('usercourse');
+        $data2->branch_id=session()->get('branch_id');
         $data2->year_id=session()->get('year_id');
         $data2->save();
      return $data2;
@@ -2011,6 +2208,7 @@ class APIAJController extends Controller
         $Assessment_results=assessment_results::leftjoin('category','assessment_results.category_id','=','category.category_id')
         ->where('assessment_results.year_id',session()->get('year_id'))
         ->where('assessment_results.course_id',session()->get('usercourse'))
+        ->where('assessment_results.branch_id',session()->get('branch_id'))
         ->get();
         // foreach($Assessment_results as $key=>$value){
         //     $row[$key] = array(
@@ -2026,6 +2224,7 @@ class APIAJController extends Controller
         $clind=indicator::where('category_id',$id)
         ->where('year_id',session()->get('year_id'))
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->get();
         // foreach($Assessment_results as $key=>$value){
         //     $row[$key] = array(
@@ -2045,6 +2244,7 @@ class APIAJController extends Controller
         $cate=assessment_results::where('id',$id)->get();
         $getdata=indicator::where('category_id',$cate[0]['category_id'])
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
 
@@ -2069,18 +2269,22 @@ class APIAJController extends Controller
     public function getgraduate()
     {
         $get=year_acceptance_graduate::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->get();
         
         $getinfo=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_add', '>=',$get[0]['year_add'])
         ->where('year_add', '<=',session()->get('year'))
         ->where('reported_year', '>=',$get[0]['year_add'])
         ->where('reported_year', '<=',session()->get('year'))
         ->get();
         $getyear=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_add',session()->get('year'))
         ->get();
         $getinfo2=category3_infostudent::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_add', '>=',$get[0]['year_add'])
         ->where('year_add', '<=',session()->get('year'))
         ->where('reported_year', '>=',$get[0]['year_add'])
@@ -2092,15 +2296,18 @@ class APIAJController extends Controller
     function addyear_graduate(Request $request)
    {
        $get=year_acceptance_graduate::where('course_id',session()->get('usercourse'))
+       ->where('branch_id',session()->get('branch_id'))
        ->get();
        if(count($get)!=0){
         $get=year_acceptance_graduate::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
        ->delete();
        }
        $data=new year_acceptance_graduate;
        $data->year_add=$request->year_add;
        $data->reported_year=2556;
        $data->course_id=session()->get('usercourse');
+       $data->branch_id=session()->get('branch_id');
        $data->year_id=session()->get('year_id');
        $data->save();
     return true;
@@ -2108,6 +2315,7 @@ class APIAJController extends Controller
    function addgraduate(Request $request)
    {
        $get=year_acceptance_graduate::where('course_id',session()->get('usercourse'))
+       ->where('branch_id',session()->get('branch_id'))
        ->get();
        $getall=$request->all();
        $yearname=session()->get('year');
@@ -2115,6 +2323,7 @@ class APIAJController extends Controller
            $getcount=$get[0]['year_add'];
            foreach($getall['y'.$i] as $key=>$value){
             $checkdata=category3_graduate::where('course_id',session()->get('usercourse'))
+            ->where('branch_id',session()->get('branch_id'))
             ->where('year_add',$i)
             ->where('reported_year',$getcount)
             ->get();
@@ -2133,6 +2342,7 @@ class APIAJController extends Controller
                 $data[$key]['year_add']=$i;
                 $data[$key]['reported_year']=$getcount;
                 $data[$key]['course_id']=session()->get('usercourse');
+                $data[$key]['branch_id']=session()->get('branch_id');
                 
             }
             $getcount++;
@@ -2151,10 +2361,12 @@ class APIAJController extends Controller
    public function updategraduate(Request $request)
    {
             $get=year_acceptance_graduate::where('course_id',session()->get('usercourse'))
+            ->where('branch_id',session()->get('branch_id'))
             ->where('year_id',session()->get('year_id'))
             ->get();
         $getall=$request->all();
-        $checkdata=category3_graduate::where('course_id',session()->get('usercourse'));
+        $checkdata=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'));
         if(isset($checkdata)){
             $checkdata->delete();
         }
@@ -2171,6 +2383,7 @@ class APIAJController extends Controller
                 $data[$key]['year_add']=$i;
                 $data[$key]['reported_year']=$getcount;
                 $data[$key]['course_id']=session()->get('usercourse');
+                $data[$key]['branch_id']=session()->get('branch_id');
                 $getcount++;
             }
             category3_graduate::insert($data);
@@ -2182,38 +2395,44 @@ class APIAJController extends Controller
       public function getoverview()
     {
         $role=category::leftjoin('assessment_results','category.category_id','=','assessment_results.category_id')
+        ->where('branch_id',session()->get('branch_id'))
         ->where('course_id',session()->get('usercourse'))
         ->where('year_id',session()->get('year_id'))
         ->where('active',1)
         ->orderBy('assessment_results.category_id','asc')
         ->get();
+
         $crt=course_responsible_teacher::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $ct=course_teacher::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
-        ////ตัวบ่งชี้ 2.1
-        $getscore2_1=0;
-        $getscore2_1result=0;
-        $score2_1=0;
-        $queryindicator2_1=indicator2_1::where('year_id',session()->get('year_id'))
-        ->where('course_id',session()->get('usercourse'))
-        ->get();
-        $queryindicator2_1result= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
-        ->where('pdca.course_id',session()->get('usercourse'))
-        ->where('pdca.year_id',session()->get('year_id'))
-        ->where('pdca.Indicator_id',2.1)
-        ->where('pdca.target','!=',null)
-        ->get();
-        if(count($queryindicator2_1)!=0){
-            $getscore2_1++;
-        }
-        if(count($queryindicator2_1result)!=0){
-            $getscore2_1++;
-        }
-        $score2_1=($getscore2_1*100)/2;
-        ////ตัวบ่งชี้ 2.1
+        // ////ตัวบ่งชี้ 2.1
+        // $getscore2_1=0;
+        // $getscore2_1result=0;
+        // $score2_1=0;
+        // $queryindicator2_1=indicator2_1::where('year_id',session()->get('year_id'))
+        // ->where('course_id',session()->get('usercourse'))
+        // ->where('branch_id',session()->get('branch_id'))
+        // ->get();
+        // $queryindicator2_1result= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+        // ->where('pdca.course_id',session()->get('usercourse'))
+        // ->where('pdca.branch_id',session()->get('branch_id'))
+        // ->where('pdca.year_id',session()->get('year_id'))
+        // ->where('pdca.Indicator_id',2.1)
+        // ->where('pdca.target','!=',null)
+        // ->get();
+        // if(count($queryindicator2_1)!=0){
+        //     $getscore2_1++;
+        // }
+        // if(count($queryindicator2_1result)!=0){
+        //     $getscore2_1++;
+        // }
+        // $score2_1=($getscore2_1*100)/2;
+        // ////ตัวบ่งชี้ 2.1
 
         ////หมวดที่ 1 
          ////ตัวบ่งชี้ 1.1
@@ -2222,10 +2441,12 @@ class APIAJController extends Controller
          $score1_1=0;
          $queryindicator1_1=indicator1_1::where('year_id',session()->get('year_id'))
          ->where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
          ->get();
          
          $queryindicator1_1result= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
          ->where('pdca.course_id',session()->get('usercourse'))
+         ->where('pdca.branch_id',session()->get('branch_id'))
          ->where('pdca.year_id',session()->get('year_id'))
          ->where('pdca.Indicator_id',1.1)
          ->where('pdca.target','!=',null)
@@ -2234,17 +2455,20 @@ class APIAJController extends Controller
          //ดึงค่าตารางอาจารย์ผู้รับผิดชอบหลักสูตร
          $trc = course_responsible_teacher::join('year','course_responsible_teacher.year_id','=','year.year_id')
          ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
+         ->where('course_responsible_teacher.branch_id',session()->get('branch_id'))
          ->where('year.year_id',session()->get('year_id'))
          ->get();
           ////ดึงสาขาวิชาที่จบของอาจารย์ประจำหลักสูตร
           $tc_course= User::leftjoin('course_teacher','users.id','=','course_teacher.user_id')
           ->where('users.user_course',session()->get('usercourse'))
+          ->where('users.user_branch',session()->get('branch_id'))
           ->where('course_teacher.year_id',session()->get('year_id'))
           ->get();
  
           ////ดึงสาขาวิชาที่จบของอาจารย์ผู้สอน
           $instructor= User::leftjoin('instructor','users.id','=','instructor.user_id')
           ->where('users.user_course',session()->get('usercourse'))
+          ->where('users.user_branch',session()->get('branch_id'))
           ->where('instructor.year_id',session()->get('year_id'))
           ->get();
           if(count($trc)!=0){
@@ -2292,6 +2516,7 @@ class APIAJController extends Controller
         $score4_1resultpdca=0;
         $queryindicator4_1result1= PDCA::where('category_pdca',1)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('Indicator_id',4.1)
         ->get();
@@ -2324,6 +2549,7 @@ class APIAJController extends Controller
         
         $queryindicator4_1result2= PDCA::where('category_pdca',2)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('Indicator_id',4.1)
         ->get();
@@ -2355,6 +2581,7 @@ class APIAJController extends Controller
         }
         $queryindicator4_1result3= PDCA::where('category_pdca',3)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('Indicator_id',4.1)
         ->get();
@@ -2386,6 +2613,7 @@ class APIAJController extends Controller
         }
         $queryindicator2_1result= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.Indicator_id',2.1)
         ->where('pdca.target','!=',null)
@@ -2436,6 +2664,7 @@ class APIAJController extends Controller
        }
        $queryindicator4_1resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.Indicator_id',4.1)
         ->where('pdca.target','!=',null)
@@ -2453,10 +2682,12 @@ class APIAJController extends Controller
         //ดึงค่าตารางอาจารย์ผู้รับผิดชอบหลักสูตร
           $trc = course_responsible_teacher::join('year','course_responsible_teacher.year_id','=','year.year_id')
           ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
+          ->where('course_responsible_teacher.branch_id',session()->get('branch_id'))
           ->where('year.year_id',session()->get('year_id'))
           ->get();
           $educ_bg= User::leftjoin('course_responsible_teacher','users.id','=','course_responsible_teacher.user_id')
           ->where('users.user_course',session()->get('usercourse'))
+          ->where('users.user_branch',session()->get('branch_id'))
           ->where('course_responsible_teacher.year_id',session()->get('year_id'))
           ->get();
           foreach($educ_bg as $key=>$t){
@@ -2467,6 +2698,7 @@ class APIAJController extends Controller
          
           $queryindicator4_2resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
           ->where('pdca.course_id',session()->get('usercourse'))
+          ->where('pdca.branch_id',session()->get('branch_id'))
           ->where('pdca.year_id',session()->get('year_id'))
           ->where('pdca.Indicator_id',4.2)
           ->where('pdca.target','!=',null)
@@ -2490,6 +2722,7 @@ class APIAJController extends Controller
 
         $score4_3resultpdca=0;
         $queryindicator4_3result=indicator4_3::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         if($queryindicator4_3result!="[]"){
@@ -2505,6 +2738,7 @@ class APIAJController extends Controller
         }
         $queryindicator4_3resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.Indicator_id',4.3)
         ->where('pdca.target','!=',null)
@@ -2521,9 +2755,11 @@ class APIAJController extends Controller
          $score2_1=0;
          $queryindicator2_1=indicator2_1::where('year_id',session()->get('year_id'))
          ->where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
          ->get();
          $queryindicator2_1result= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
          ->where('pdca.course_id',session()->get('usercourse'))
+         ->where('pdca.branch_id',session()->get('branch_id'))
          ->where('pdca.year_id',session()->get('year_id'))
          ->where('pdca.Indicator_id',2.1)
          ->where('pdca.target','!=',null)
@@ -2542,9 +2778,11 @@ class APIAJController extends Controller
          $getscore2_2result=0;
          $queryindicator2_2=indicator2_2::where('year_id',session()->get('year_id'))
          ->where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
          ->get();
          $queryindicator2_2result= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
          ->where('pdca.course_id',session()->get('usercourse'))
+         ->where('pdca.branch_id',session()->get('branch_id'))
          ->where('pdca.year_id',session()->get('year_id'))
          ->where('pdca.Indicator_id',2.2)
          ->where('pdca.target','!=',null)
@@ -2566,6 +2804,7 @@ class APIAJController extends Controller
         $score3_1resultpdca=0;
         $queryindicator3_1result1= PDCA::where('category_pdca',4)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('Indicator_id',3.1)
         ->get();
@@ -2598,6 +2837,7 @@ class APIAJController extends Controller
         
         $queryindicator3_1result2= PDCA::where('category_pdca',5)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('Indicator_id',3.1)
         ->get();
@@ -2661,6 +2901,7 @@ class APIAJController extends Controller
 
        $queryindicator3_1resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.Indicator_id',3.1)
         ->where('pdca.target','!=',null)
@@ -2679,6 +2920,7 @@ class APIAJController extends Controller
         $score3_2resultpdca=0;
         $queryindicator3_2result1= PDCA::where('category_pdca',6)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('Indicator_id',3.2)
         ->get();
@@ -2711,6 +2953,7 @@ class APIAJController extends Controller
         
         $queryindicator3_2result2= PDCA::where('category_pdca',7)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('Indicator_id',3.2)
         ->get();
@@ -2774,6 +3017,7 @@ class APIAJController extends Controller
 
        $queryindicator3_2resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.Indicator_id',3.2)
         ->where('pdca.target','!=',null)
@@ -2791,6 +3035,7 @@ class APIAJController extends Controller
          $score3_3result3=0;
          $score3_3resultpdca=0;
          $queryindicator3_3result=performance3_3::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
          ->where('year_id',session()->get('year_id'))
          ->get();
          if($queryindicator3_3result!="[]"){
@@ -2807,6 +3052,7 @@ class APIAJController extends Controller
          }
          $queryindicator3_3resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
          ->where('pdca.course_id',session()->get('usercourse'))
+         ->where('pdca.branch_id',session()->get('branch_id'))
          ->where('pdca.year_id',session()->get('year_id'))
          ->where('pdca.Indicator_id',3.3)
          ->where('pdca.target','!=',null)
@@ -2820,6 +3066,7 @@ class APIAJController extends Controller
           $scorfactor=0;
           $factor=category3_GD::where('category_factor','ปัจจัยที่มีผลกระทบต่อจำนวนนักศึกษา')
          ->where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
           ->where('year_id',session()->get('year_id'))
          ->get();
          if($factor!="[]"){
@@ -2831,6 +3078,7 @@ class APIAJController extends Controller
            $scorfactor2=0;
            $factor2=category3_GD::where('category_factor','ปัยจัยที่มีผลกระทบต่อการสำเร็จการศึกษา')
           ->where('course_id',session()->get('usercourse'))
+          ->where('branch_id',session()->get('branch_id'))
            ->where('year_id',session()->get('year_id'))
           ->get();
           if($factor2!="[]"){
@@ -2842,9 +3090,11 @@ class APIAJController extends Controller
           $scoreinfo=0;
           $scoreinfoqty=0;
           $getyear=category3_infostudent::where('course_id',session()->get('usercourse'))
+          ->where('branch_id',session()->get('branch_id'))
              ->where('year_add',session()->get('year'))
              ->get();
          $getqty=category3_infostudent_qty::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
              ->where('year_id',session()->get('year_id'))
              ->get();
          if($getyear!="[]"){
@@ -2857,10 +3107,12 @@ class APIAJController extends Controller
  
          ////จำนวนผู้สำเร็จการศึกษา
          $get=year_acceptance_graduate::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
          ->get();
          $scoregraduate=0;
          if($get!="[]"){
             $getinfo=category3_graduate::where('course_id',session()->get('usercourse'))
+            ->where('branch_id',session()->get('branch_id'))
             ->where('year_add',session()->get('year'))
             ->get();
              if($getinfo!="[]"){
@@ -2874,6 +3126,7 @@ class APIAJController extends Controller
         ////จำนวนที่ลาออกและคัดชื่อออกสะสมจนถึงสิ้นปีการศึกษา
         $scorere=0;
          $re=category3_resignation::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
          ->where('year_present',session()->get('year'))
          ->get();
        if($re!="[]"){
@@ -2893,6 +3146,7 @@ class APIAJController extends Controller
         $score5_1resultpdca=0;
         $queryindicator5_1result1= PDCA::where('category_pdca',12)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('Indicator_id',5.1)
         ->get();
@@ -2925,6 +3179,7 @@ class APIAJController extends Controller
         
         $queryindicator5_1result2= PDCA::where('category_pdca',13)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('Indicator_id',5.1)
         ->get();
@@ -2956,6 +3211,7 @@ class APIAJController extends Controller
         }
         $queryindicator5_1result3= PDCA::where('category_pdca',14)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('Indicator_id',5.1)
         ->get();
@@ -3032,6 +3288,7 @@ class APIAJController extends Controller
        }
        $queryindicator5_1resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.Indicator_id',5.1)
         ->where('pdca.target','!=',null)
@@ -3051,6 +3308,7 @@ class APIAJController extends Controller
         $score5_2resultpdca=0;
         $queryindicator5_2result1= PDCA::where('category_pdca',8)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('Indicator_id',5.2)
         ->get();
@@ -3083,6 +3341,7 @@ class APIAJController extends Controller
         
         $queryindicator5_2result2= PDCA::where('category_pdca',9)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('Indicator_id',5.2)
         ->get();
@@ -3114,6 +3373,7 @@ class APIAJController extends Controller
         }
         $queryindicator5_2result3= PDCA::where('category_pdca',10)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('Indicator_id',5.2)
         ->get();
@@ -3190,6 +3450,7 @@ class APIAJController extends Controller
        }
        $queryindicator5_2resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.Indicator_id',5.2)
         ->where('pdca.target','!=',null)
@@ -3207,6 +3468,7 @@ class APIAJController extends Controller
        $score5_3resultpdca=0;
        $queryindicator5_3result1= PDCA::where('category_pdca',15)
        ->where('course_id',session()->get('usercourse'))
+       ->where('branch_id',session()->get('branch_id'))
        ->where('year_id',session()->get('year_id'))
        ->where('Indicator_id',5.3)
        ->get();
@@ -3239,6 +3501,7 @@ class APIAJController extends Controller
        
        $queryindicator5_3result2= PDCA::where('category_pdca',16)
        ->where('course_id',session()->get('usercourse'))
+       ->where('branch_id',session()->get('branch_id'))
        ->where('year_id',session()->get('year_id'))
        ->where('Indicator_id',5.3)
        ->get();
@@ -3302,6 +3565,7 @@ class APIAJController extends Controller
 
       $queryindicator5_3resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
        ->where('pdca.course_id',session()->get('usercourse'))
+       ->where('pdca.branch_id',session()->get('branch_id'))
        ->where('pdca.year_id',session()->get('year_id'))
        ->where('pdca.Indicator_id',5.3)
        ->where('pdca.target','!=',null)
@@ -3315,10 +3579,12 @@ class APIAJController extends Controller
        $score5_4result1=0;
        $score5_4resultpdca=0;
        $perfor=indicator5_4::where('course_id',session()->get('usercourse'))
+       ->where('branch_id',session()->get('branch_id'))
        ->where('year_id',session()->get('year_id'))
        ->get();
        $inc= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
        ->where('pdca.course_id',session()->get('usercourse'))
+       ->where('pdca.branch_id',session()->get('branch_id'))
        ->where('pdca.year_id',session()->get('year_id'))
        ->where('pdca.indicator_id',5.4)
        ->where('pdca.target','!=',null)
@@ -3334,6 +3600,7 @@ class APIAJController extends Controller
         //// คุณภาพการสอน
         $scoreteachqua=0;
         $teachqua=category4_teaching_quality::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
        ->where('year_id',session()->get('year_id'))
        ->get();
         if($teachqua!="[]"){
@@ -3344,6 +3611,7 @@ class APIAJController extends Controller
         //// สรุปผลรายวิชาที่เปิดสอนในภาค/ปีการศึกษา
         $scoreccr=0;
         $ccr=category4_course_results::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
        ->where('year_id',session()->get('year_id'))
        ->get();
         if($ccr!="[]"){
@@ -3354,6 +3622,7 @@ class APIAJController extends Controller
         //// การวิเคราะห์รายวิชาที่มีผลการเรียนที่ไม่ปกติ
         $scoreacademic=0;
         $academic=category4_academic_performance::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
        ->where('year_id',session()->get('year_id'))
        ->get();
         if($academic!="[]"){
@@ -3364,6 +3633,7 @@ class APIAJController extends Controller
         //// รายวิชาที่ไม่ได้เปิดสอนในปีการศึกษา
         $scorenot_offered=0;
         $not_offered=category4_notcourse_results::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
        ->where('year_id',session()->get('year_id'))
        ->get();
         if($not_offered!="[]"){
@@ -3374,6 +3644,7 @@ class APIAJController extends Controller
         //// รายวิชาที่สอนเนื้อหาไม่ครบในปีการศึกษา
         $scoreincomplete_content=0;
         $queryincomplete_content=category4_incomplete_content::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
        ->where('year_id',session()->get('year_id'))
        ->get();
         if($queryincomplete_content!="[]"){
@@ -3384,6 +3655,7 @@ class APIAJController extends Controller
         //// ประสิทธิผลของกลยุทธ์การสอน
         $scoreeffec=0;
         $effec=category4_effectiveness::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         if($effec!="[]"){
@@ -3394,6 +3666,7 @@ class APIAJController extends Controller
         //// การปฐมนิเทศอาจารย์ใหม่
         $scorenewteacher=0;
         $th=category4_newteacher::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
        ->where('year_id',session()->get('year_id'))
        ->get();
         if($th!="[]"){
@@ -3404,6 +3677,7 @@ class APIAJController extends Controller
         //// กิจกรรมการพัฒนาวิชาชีพของอาจารย์
         $scoreactivity=0;
         $activity=category4_activity::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         if($activity!="[]"){
@@ -3419,6 +3693,7 @@ class APIAJController extends Controller
         $score6_1resultpdca=0;
         $queryindicator6_1result1= PDCA::where('category_pdca',11)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('Indicator_id',6.1)
         ->get();
@@ -3466,6 +3741,7 @@ class APIAJController extends Controller
         }
        $queryindicator6_1resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.Indicator_id',6.1)
         ->where('pdca.target','!=',null)
@@ -3478,6 +3754,7 @@ class APIAJController extends Controller
         //// การบริหารหลักสูตร
         $scorecoursemanage=0;
         $coursemanage=category5_course_manage::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         if($coursemanage!="[]"){
@@ -3493,6 +3770,7 @@ class APIAJController extends Controller
          $scoreassessmentsummary=0;
          $scoreassessmentsummary2=0;
          $queryassessmentsummary=category6_assessment_summary::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
          ->where('category_assessor','=','การประเมินจากผู้ที่สำเร็จการศึกษา')
          ->where('year_id',session()->get('year_id'))
          ->get();
@@ -3500,6 +3778,7 @@ class APIAJController extends Controller
              $scoreassessmentsummary++;
          }        
          $queryassessmentsummary2=category6_assessment_summary::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
          ->where('category_assessor','=','การประเมินจากผู้ที่มีส่วนเกี่ยวข้อง')
          ->where('year_id',session()->get('year_id'))
          ->get();
@@ -3511,6 +3790,7 @@ class APIAJController extends Controller
          //// ข้อคิดเห็น และข้อเสนอแนะเกี่ยวกับคุณภาพหลักสูตรจากผู้ประเมิน
          $scorecomment_course=0;
          $querycomment_course=category6_comment_course::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
          ->where('year_id',session()->get('year_id'))
          ->get();
          if($querycomment_course!="[]"){
@@ -3523,6 +3803,7 @@ class APIAJController extends Controller
          //// ความก้าวหน้าของการดำเนินงานตามแผนที่เสนอในรายงานของปีที่ผ่านมา
         $scorestrength=0;
         $querystrength=category7_strength::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         if($querystrength!="[]"){
@@ -3534,6 +3815,7 @@ class APIAJController extends Controller
         //// ข้อเสนอในการพัฒนาหลักสูตร
         $scoredevelopment_proposal=0;
         $querydevelopment_proposal=category7_development_proposal_detail::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         if($querydevelopment_proposal!="[]"){
@@ -3544,6 +3826,7 @@ class APIAJController extends Controller
          //// แผนปฏิบัติการใหม่
          $scorenewstrength=0;
          $querynewstrength=category7_newstrength::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
          ->where('year_id',session()->get('year_id'))
          ->get();
          if($querynewstrength!="[]"){
@@ -3556,22 +3839,27 @@ class APIAJController extends Controller
         //// สรุปจุดแข็ง จุดที่ควรพัฒนา และแนวทางการพัฒนา
         $scorestrengths_summary=0;
         $querynewstrength2=category7_strengths_summary::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('composition_id',2)
         ->get();
         $querynewstrength3=category7_strengths_summary::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('composition_id',3)
         ->get();
         $querynewstrength4=category7_strengths_summary::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('composition_id',4)
         ->get();
         $querynewstrength5=category7_strengths_summary::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('composition_id',5)
         ->get();
         $querynewstrength6=category7_strengths_summary::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('composition_id',6)
         ->get();
@@ -3595,6 +3883,7 @@ class APIAJController extends Controller
         ////ปิด  สรุปผลการดำเนินงาน
         $getpermiss=indicator::where('active',1)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $check1=0;
@@ -4242,6 +4531,49 @@ class APIAJController extends Controller
             }
         }
     }
+            $userpermis=user_permission::leftjoin('users','user_permission.user_id','=','users.id')
+            ->where('user_permission.year_id',session()->get('year_id'))
+            ->where('users.user_course',session()->get('usercourse'))
+            ->where('users.user_branch',session()->get('branch_id'))
+            ->groupBy('user_permission.category_id')
+            ->groupBy('user_permission.user_id')
+            ->get();
+            $x=0;
+            foreach($userpermis as $per){
+                if($per['category_id']==1){
+                    $role[$x]['code']=$role[$x]['code'].'<span class="badge bg-green">'.$per['user_fullname'].'</span>';
+                    $x++;
+                }
+                if($per['category_id']==2){
+                    $role[$x]['code']=$role[$x]['code'].'<span class="badge bg-green">'.$per['user_fullname'].'</span>';
+                    $x++;
+                }
+                if($per['category_id']==3){
+                    $role[$x]['code']=$role[$x]['code'].'<span class="badge bg-green">'.$per['user_fullname'].'</span>';
+                    $x++;
+                }
+                if($per['category_id']==4){
+                    $role[$x]['code']=$role[$x]['code'].'<span class="badge bg-green">'.$per['user_fullname'].'</span>';
+                    $x++;
+                }
+                if($per['category_id']==5){
+                    $role[$x]['code']=$role[$x]['code'].'<span class="badge bg-green">'.$per['user_fullname'].'</span>';
+                    $x++;
+                }
+                if($per['category_id']==6){
+                    $role[$x]['code']=$role[$x]['code'].'<span class="badge bg-green">'.$per['user_fullname'].'</span>';
+                    $x++;
+                }
+                if($per['category_id']==7){
+                    $role[$x]['code']=$role[$x]['code'].'<span class="badge bg-green">'.$per['user_fullname'].'</span>';
+                    $x++;
+                }
+                if($per['category_id']==8){
+                    $role[$x]['code']=$role[$x]['code'].'<span class="badge bg-green">'.$per['user_fullname'].'</span>';
+                    $x++;
+                }
+            }
+            
          ////สรุปคะแนน
        return $role;
        
@@ -4251,6 +4583,7 @@ class APIAJController extends Controller
         $clind=indicator::where('category_id',$id)
         ->where('year_id',session()->get('year_id'))
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('active',1)
         ->get();
 
@@ -4260,10 +4593,12 @@ class APIAJController extends Controller
         $score1_1=0;
         $queryindicator1_1=indicator1_1::where('year_id',session()->get('year_id'))
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->get();
         
         $queryindicator1_1result= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.Indicator_id',1.1)
         ->where('pdca.target','!=',null)
@@ -4272,17 +4607,20 @@ class APIAJController extends Controller
         //ดึงค่าตารางอาจารย์ผู้รับผิดชอบหลักสูตร
         $trc = course_responsible_teacher::join('year','course_responsible_teacher.year_id','=','year.year_id')
         ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
+        ->where('course_responsible_teacher.branch_id',session()->get('branch_id'))
         ->where('year.year_id',session()->get('year_id'))
         ->get();
          ////ดึงสาขาวิชาที่จบของอาจารย์ประจำหลักสูตร
          $tc_course= User::leftjoin('course_teacher','users.id','=','course_teacher.user_id')
          ->where('users.user_course',session()->get('usercourse'))
+         ->where('users.user_branch',session()->get('branch_id'))
          ->where('course_teacher.year_id',session()->get('year_id'))
          ->get();
 
          ////ดึงสาขาวิชาที่จบของอาจารย์ผู้สอน
          $instructor= User::leftjoin('instructor','users.id','=','instructor.user_id')
          ->where('users.user_course',session()->get('usercourse'))
+         ->where('users.user_branch',session()->get('branch_id'))
          ->where('instructor.year_id',session()->get('year_id'))
          ->get();
          if(count($trc)!=0){
@@ -4325,9 +4663,11 @@ class APIAJController extends Controller
         $score2_1=0;
         $queryindicator2_1=indicator2_1::where('year_id',session()->get('year_id'))
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->get();
         $queryindicator2_1result= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.Indicator_id',2.1)
         ->where('pdca.target','!=',null)
@@ -4346,9 +4686,11 @@ class APIAJController extends Controller
         $getscore2_2result=0;
         $queryindicator2_2=indicator2_2::where('year_id',session()->get('year_id'))
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->get();
         $queryindicator2_2result= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.Indicator_id',2.2)
         ->where('pdca.target','!=',null)
@@ -4370,6 +4712,7 @@ class APIAJController extends Controller
         $score3_1resultpdca=0;
         $queryindicator3_1result1= PDCA::where('category_pdca',4)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('Indicator_id',3.1)
         ->get();
@@ -4402,6 +4745,7 @@ class APIAJController extends Controller
         
         $queryindicator3_1result2= PDCA::where('category_pdca',5)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('Indicator_id',3.1)
         ->get();
@@ -4465,6 +4809,7 @@ class APIAJController extends Controller
 
        $queryindicator3_1resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.Indicator_id',3.1)
         ->where('pdca.target','!=',null)
@@ -4483,6 +4828,7 @@ class APIAJController extends Controller
         $score3_2resultpdca=0;
         $queryindicator3_2result1= PDCA::where('category_pdca',6)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('Indicator_id',3.2)
         ->get();
@@ -4515,6 +4861,7 @@ class APIAJController extends Controller
         
         $queryindicator3_2result2= PDCA::where('category_pdca',7)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('Indicator_id',3.2)
         ->get();
@@ -4578,6 +4925,7 @@ class APIAJController extends Controller
 
        $queryindicator3_2resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.Indicator_id',3.2)
         ->where('pdca.target','!=',null)
@@ -4595,6 +4943,7 @@ class APIAJController extends Controller
          $score3_3result3=0;
          $score3_3resultpdca=0;
          $queryindicator3_3result=performance3_3::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
          ->where('year_id',session()->get('year_id'))
          ->get();
          if($queryindicator3_3result!="[]"){
@@ -4611,6 +4960,7 @@ class APIAJController extends Controller
          }
          $queryindicator3_3resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
          ->where('pdca.course_id',session()->get('usercourse'))
+         ->where('pdca.branch_id',session()->get('branch_id'))
          ->where('pdca.year_id',session()->get('year_id'))
          ->where('pdca.Indicator_id',3.3)
          ->where('pdca.target','!=',null)
@@ -4624,6 +4974,7 @@ class APIAJController extends Controller
          $scorfactor=0;
          $factor=category3_GD::where('category_factor','ปัจจัยที่มีผลกระทบต่อจำนวนนักศึกษา')
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
          ->where('year_id',session()->get('year_id'))
         ->get();
         if($factor!="[]"){
@@ -4635,6 +4986,7 @@ class APIAJController extends Controller
           $scorfactor2=0;
           $factor2=category3_GD::where('category_factor','ปัยจัยที่มีผลกระทบต่อการสำเร็จการศึกษา')
          ->where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
           ->where('year_id',session()->get('year_id'))
          ->get();
          if($factor2!="[]"){
@@ -4646,9 +4998,11 @@ class APIAJController extends Controller
          $scoreinfo=0;
          $scoreinfoqty=0;
          $getyear=category3_infostudent::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
             ->where('year_add',session()->get('year'))
             ->get();
         $getqty=category3_infostudent_qty::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
             ->where('year_id',session()->get('year_id'))
             ->get();
         if($getyear!="[]"){
@@ -4661,10 +5015,12 @@ class APIAJController extends Controller
 
         ////จำนวนผู้สำเร็จการศึกษา
         $get=year_acceptance_graduate::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->get();
         $scoregraduate=0;
         if($get!="[]"){
             $getinfo=category3_graduate::where('course_id',session()->get('usercourse'))
+            ->where('branch_id',session()->get('branch_id'))
             ->where('year_add', '>=',$get[0]['year_add'])
             ->where('year_add', '<=',session()->get('year'))
             ->where('reported_year', '>=',$get[0]['year_add'])
@@ -4681,6 +5037,7 @@ class APIAJController extends Controller
        ////จำนวนที่ลาออกและคัดชื่อออกสะสมจนถึงสิ้นปีการศึกษา
        $scorere=0;
         $re=category3_resignation::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_present',session()->get('year'))
         ->get();
       if($re!="[]"){
@@ -4698,6 +5055,7 @@ class APIAJController extends Controller
           $score4_1resultpdca=0;
           $queryindicator4_1result1= PDCA::where('category_pdca',1)
           ->where('course_id',session()->get('usercourse'))
+          ->where('branch_id',session()->get('branch_id'))
           ->where('year_id',session()->get('year_id'))
           ->where('Indicator_id',4.1)
           ->get();
@@ -4730,6 +5088,7 @@ class APIAJController extends Controller
           
           $queryindicator4_1result2= PDCA::where('category_pdca',2)
           ->where('course_id',session()->get('usercourse'))
+          ->where('branch_id',session()->get('branch_id'))
           ->where('year_id',session()->get('year_id'))
           ->where('Indicator_id',4.1)
           ->get();
@@ -4761,6 +5120,7 @@ class APIAJController extends Controller
           }
           $queryindicator4_1result3= PDCA::where('category_pdca',3)
           ->where('course_id',session()->get('usercourse'))
+          ->where('branch_id',session()->get('branch_id'))
           ->where('year_id',session()->get('year_id'))
           ->where('Indicator_id',4.1)
           ->get();
@@ -4792,6 +5152,7 @@ class APIAJController extends Controller
           }
           $queryindicator2_1result= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
           ->where('pdca.course_id',session()->get('usercourse'))
+          ->where('pdca.branch_id',session()->get('branch_id'))
           ->where('pdca.year_id',session()->get('year_id'))
           ->where('pdca.Indicator_id',2.1)
           ->where('pdca.target','!=',null)
@@ -4842,6 +5203,7 @@ class APIAJController extends Controller
          }
          $queryindicator4_1resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
           ->where('pdca.course_id',session()->get('usercourse'))
+          ->where('pdca.branch_id',session()->get('branch_id'))
           ->where('pdca.year_id',session()->get('year_id'))
           ->where('pdca.Indicator_id',4.1)
           ->where('pdca.target','!=',null)
@@ -4859,10 +5221,12 @@ class APIAJController extends Controller
           //ดึงค่าตารางอาจารย์ผู้รับผิดชอบหลักสูตร
             $trc = course_responsible_teacher::join('year','course_responsible_teacher.year_id','=','year.year_id')
             ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
+            ->where('course_responsible_teacher.branch_id',session()->get('branch_id'))
             ->where('year.year_id',session()->get('year_id'))
             ->get();
             $educ_bg= User::leftjoin('course_responsible_teacher','users.id','=','course_responsible_teacher.user_id')
             ->where('users.user_course',session()->get('usercourse'))
+            ->where('users.user_branch',session()->get('branch_id'))
             ->where('course_responsible_teacher.year_id',session()->get('year_id'))
             ->get();
             foreach($educ_bg as $key=>$t){
@@ -4873,6 +5237,7 @@ class APIAJController extends Controller
            
             $queryindicator4_2resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
             ->where('pdca.course_id',session()->get('usercourse'))
+            ->where('pdca.branch_id',session()->get('branch_id'))
             ->where('pdca.year_id',session()->get('year_id'))
             ->where('pdca.Indicator_id',4.2)
             ->where('pdca.target','!=',null)
@@ -4895,6 +5260,7 @@ class APIAJController extends Controller
 
         $score4_3resultpdca=0;
         $queryindicator4_3result=indicator4_3::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         if($queryindicator4_3result!="[]"){
@@ -4910,6 +5276,7 @@ class APIAJController extends Controller
         }
         $queryindicator4_3resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.Indicator_id',4.3)
         ->where('pdca.target','!=',null)
@@ -4929,6 +5296,7 @@ class APIAJController extends Controller
          $score5_1resultpdca=0;
          $queryindicator5_1result1= PDCA::where('category_pdca',12)
          ->where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
          ->where('year_id',session()->get('year_id'))
          ->where('Indicator_id',5.1)
          ->get();
@@ -4961,6 +5329,7 @@ class APIAJController extends Controller
          
          $queryindicator5_1result2= PDCA::where('category_pdca',13)
          ->where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
          ->where('year_id',session()->get('year_id'))
          ->where('Indicator_id',5.1)
          ->get();
@@ -4992,6 +5361,7 @@ class APIAJController extends Controller
          }
          $queryindicator5_1result3= PDCA::where('category_pdca',14)
          ->where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
          ->where('year_id',session()->get('year_id'))
          ->where('Indicator_id',5.1)
          ->get();
@@ -5068,6 +5438,7 @@ class APIAJController extends Controller
         }
         $queryindicator5_1resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
          ->where('pdca.course_id',session()->get('usercourse'))
+         ->where('pdca.branch_id',session()->get('branch_id'))
          ->where('pdca.year_id',session()->get('year_id'))
          ->where('pdca.Indicator_id',5.1)
          ->where('pdca.target','!=',null)
@@ -5087,6 +5458,7 @@ class APIAJController extends Controller
          $score5_2resultpdca=0;
          $queryindicator5_2result1= PDCA::where('category_pdca',8)
          ->where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
          ->where('year_id',session()->get('year_id'))
          ->where('Indicator_id',5.2)
          ->get();
@@ -5119,6 +5491,7 @@ class APIAJController extends Controller
          
          $queryindicator5_2result2= PDCA::where('category_pdca',9)
          ->where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
          ->where('year_id',session()->get('year_id'))
          ->where('Indicator_id',5.2)
          ->get();
@@ -5150,6 +5523,7 @@ class APIAJController extends Controller
          }
          $queryindicator5_2result3= PDCA::where('category_pdca',10)
          ->where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
          ->where('year_id',session()->get('year_id'))
          ->where('Indicator_id',5.2)
          ->get();
@@ -5226,6 +5600,7 @@ class APIAJController extends Controller
         }
         $queryindicator5_2resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
          ->where('pdca.course_id',session()->get('usercourse'))
+         ->where('pdca.branch_id',session()->get('branch_id'))
          ->where('pdca.year_id',session()->get('year_id'))
          ->where('pdca.Indicator_id',5.2)
          ->where('pdca.target','!=',null)
@@ -5243,6 +5618,7 @@ class APIAJController extends Controller
         $score5_3resultpdca=0;
         $queryindicator5_3result1= PDCA::where('category_pdca',15)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('Indicator_id',5.3)
         ->get();
@@ -5275,6 +5651,7 @@ class APIAJController extends Controller
         
         $queryindicator5_3result2= PDCA::where('category_pdca',16)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('Indicator_id',5.3)
         ->get();
@@ -5338,6 +5715,7 @@ class APIAJController extends Controller
 
        $queryindicator5_3resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.Indicator_id',5.3)
         ->where('pdca.target','!=',null)
@@ -5351,10 +5729,12 @@ class APIAJController extends Controller
         $score5_4result1=0;
         $score5_4resultpdca=0;
         $perfor=indicator5_4::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $inc= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.indicator_id',5.4)
         ->where('pdca.target','!=',null)
@@ -5370,6 +5750,7 @@ class APIAJController extends Controller
          //// คุณภาพการสอน
          $scoreteachqua=0;
          $teachqua=category4_teaching_quality::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
          if($teachqua!="[]"){
@@ -5380,6 +5761,7 @@ class APIAJController extends Controller
          //// สรุปผลรายวิชาที่เปิดสอนในภาค/ปีการศึกษา
          $scoreccr=0;
          $ccr=category4_course_results::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
          if($ccr!="[]"){
@@ -5390,6 +5772,7 @@ class APIAJController extends Controller
          //// การวิเคราะห์รายวิชาที่มีผลการเรียนที่ไม่ปกติ
          $scoreacademic=0;
          $academic=category4_academic_performance::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
          if($academic!="[]"){
@@ -5400,6 +5783,7 @@ class APIAJController extends Controller
          //// รายวิชาที่ไม่ได้เปิดสอนในปีการศึกษา
          $scorenot_offered=0;
          $not_offered=category4_notcourse_results::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
          if($not_offered!="[]"){
@@ -5410,6 +5794,7 @@ class APIAJController extends Controller
          //// รายวิชาที่สอนเนื้อหาไม่ครบในปีการศึกษา
          $scoreincomplete_content=0;
          $queryincomplete_content=category4_incomplete_content::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
          if($queryincomplete_content!="[]"){
@@ -5420,6 +5805,7 @@ class APIAJController extends Controller
          //// ประสิทธิผลของกลยุทธ์การสอน
          $scoreeffec=0;
          $effec=category4_effectiveness::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
          ->where('year_id',session()->get('year_id'))
          ->get();
          if($effec!="[]"){
@@ -5430,6 +5816,7 @@ class APIAJController extends Controller
          //// การปฐมนิเทศอาจารย์ใหม่
          $scorenewteacher=0;
          $th=category4_newteacher::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
          if($th!="[]"){
@@ -5440,6 +5827,7 @@ class APIAJController extends Controller
          //// กิจกรรมการพัฒนาวิชาชีพของอาจารย์
          $scoreactivity=0;
          $activity=category4_activity::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
          ->where('year_id',session()->get('year_id'))
          ->get();
          if($activity!="[]"){
@@ -5453,6 +5841,7 @@ class APIAJController extends Controller
         $score6_1resultpdca=0;
         $queryindicator6_1result1= PDCA::where('category_pdca',11)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('Indicator_id',6.1)
         ->get();
@@ -5500,6 +5889,7 @@ class APIAJController extends Controller
         }
        $queryindicator6_1resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.Indicator_id',6.1)
         ->where('pdca.target','!=',null)
@@ -5512,6 +5902,7 @@ class APIAJController extends Controller
         //// การบริหารหลักสูตร
         $scorecoursemanage=0;
         $coursemanage=category5_course_manage::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         if($coursemanage!="[]"){
@@ -5524,6 +5915,7 @@ class APIAJController extends Controller
         $scoreassessmentsummary=0;
         $scoreassessmentsummary2=0;
         $queryassessmentsummary=category6_assessment_summary::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('category_assessor','=','การประเมินจากผู้ที่สำเร็จการศึกษา')
         ->where('year_id',session()->get('year_id'))
         ->get();
@@ -5532,6 +5924,7 @@ class APIAJController extends Controller
         }
 
         $queryassessmentsummary2=category6_assessment_summary::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('category_assessor','=','การประเมินจากผู้ที่มีส่วนเกี่ยวข้อง')
         ->where('year_id',session()->get('year_id'))
         ->get();
@@ -5543,6 +5936,7 @@ class APIAJController extends Controller
         //// ข้อคิดเห็น และข้อเสนอแนะเกี่ยวกับคุณภาพหลักสูตรจากผู้ประเมิน
         $scorecomment_course=0;
         $querycomment_course=category6_comment_course::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         if($querycomment_course!="[]"){
@@ -5553,6 +5947,7 @@ class APIAJController extends Controller
         //// ความก้าวหน้าของการดำเนินงานตามแผนที่เสนอในรายงานของปีที่ผ่านมา
         $scorestrength=0;
         $querystrength=category7_strength::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         if($querystrength!="[]"){
@@ -5564,6 +5959,7 @@ class APIAJController extends Controller
         //// ข้อเสนอในการพัฒนาหลักสูตร
         $scoredevelopment_proposal=0;
         $querydevelopment_proposal=category7_development_proposal_detail::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         if($querydevelopment_proposal!="[]"){
@@ -5574,6 +5970,7 @@ class APIAJController extends Controller
          //// แผนปฏิบัติการใหม่
          $scorenewstrength=0;
          $querynewstrength=category7_newstrength::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
          ->where('year_id',session()->get('year_id'))
          ->get();
          if($querynewstrength!="[]"){
@@ -5584,22 +5981,27 @@ class APIAJController extends Controller
          //// สรุปจุดแข็ง จุดที่ควรพัฒนา และแนวทางการพัฒนา
          $scorestrengths_summary=0;
          $querynewstrength2=category7_strengths_summary::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
          ->where('year_id',session()->get('year_id'))
          ->where('composition_id',2)
          ->get();
          $querynewstrength3=category7_strengths_summary::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
          ->where('year_id',session()->get('year_id'))
          ->where('composition_id',3)
          ->get();
          $querynewstrength4=category7_strengths_summary::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
          ->where('year_id',session()->get('year_id'))
          ->where('composition_id',4)
          ->get();
          $querynewstrength5=category7_strengths_summary::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
          ->where('year_id',session()->get('year_id'))
          ->where('composition_id',5)
          ->get();
          $querynewstrength6=category7_strengths_summary::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
          ->where('year_id',session()->get('year_id'))
          ->where('composition_id',6)
          ->get();
@@ -6414,10 +6816,18 @@ class APIAJController extends Controller
          return $data;
      }
      public function deletedefualindicator($id)
-    {
-        $data = defaulindicator::find($id);
-        $data->delete();
-        return $data;
+    {   
+        $indi=defaulindicator::where('id',$id)->get();
+        $checkuser=PDCA::where('Indicator_id',$indi[0]['Indicator_id'])->get();
+        if($checkuser=="[]"){
+            $data = defaulindicator::find($id);
+             $data->delete();
+            return $product;
+        }
+        else{
+            return "ไม่สามารถลบข้อมูลได้เนื่องจากข้อมูลสัมพันธ์กัน";
+        }
+
     }
       /////defualindicator/////defualindicator/////defualindicator/////defualindicator/////defualindicator/////defualindicator
 
@@ -6437,6 +6847,7 @@ class APIAJController extends Controller
       {
         $pdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.indicator_id',$id)
         ->where('pdca.target','!=',null)
@@ -6462,6 +6873,7 @@ class APIAJController extends Controller
           $data->performance3=$request->performance3;
           $data->score=$request->score;
           $data->course_id=session()->get('usercourse');
+          $data->branch_id=session()->get('branch_id');
           $data->year_id=session()->get('year_id');
           $data->save();
   
@@ -6490,12 +6902,14 @@ class APIAJController extends Controller
      public function getteaching_quality()
      {
         $data=category4_teaching_quality::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
          return view('AJ/editteaching_quality',compact('data'));
      }
      function addteaching_quality(Request $request)
      {  $data=category4_course_results::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('course_name','!=','รหัสชื่อวิชา')
         ->get();
@@ -6512,6 +6926,7 @@ class APIAJController extends Controller
             $data1[$key]['result']="";
             $data1[$key]['year_id']=session()->get('year_id');
             $data1[$key]['course_id']=session()->get('usercourse');
+            $data1[$key]['branch_id']=session()->get('branch_id');
             if(++$i === $numItems) {
                 $data1[$key]['result']=$request->resultall;
               }
@@ -6522,11 +6937,13 @@ class APIAJController extends Controller
      public function updateteaching_quality(Request $request)
      {  
         $checkdata=category4_teaching_quality::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'));
         if(isset($checkdata)){
             $checkdata->delete();
         }
         $data=category4_course_results::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('course_name','!=','รหัสชื่อวิชา')
         ->get();
@@ -6543,6 +6960,7 @@ class APIAJController extends Controller
             $data1[$key]['result']="";
             $data1[$key]['year_id']=session()->get('year_id');
             $data1[$key]['course_id']=session()->get('usercourse');
+            $data1[$key]['branch_id']=session()->get('branch_id');
             if(++$i === $numItems) {
                 $data1[$key]['result']=$request->resultall;
               }
@@ -6558,12 +6976,14 @@ class APIAJController extends Controller
     public function getresignation()
     {
         $get=year_acceptance_graduate::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->get();
         $getinfo="";
         $getinfo2="";
         $gropby="";
         if($get!='[]'){
         $getinfo=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_add', '>=',$get[0]['year_add'])
         ->where('year_add', '<=',session()->get('year'))
         ->where('reported_year', '>=',$get[0]['year_add'])
@@ -6571,12 +6991,14 @@ class APIAJController extends Controller
         ->get();
         
         $getinfo2=category3_infostudent::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_add', '>=',$get[0]['year_add'])
         ->where('year_add', '<=',session()->get('year'))
         ->where('reported_year', '>=',$get[0]['year_add'])
         ->where('reported_year', '<=',session()->get('year'))
         ->get();
         $gropby=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_add', '>=',$get[0]['year_add'])
         ->where('year_add', '<=',session()->get('year'))
         ->where('reported_year', '>=',$get[0]['year_add'])
@@ -6585,9 +7007,11 @@ class APIAJController extends Controller
         ->get();
         }
         $getyear=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_add',session()->get('year'))
         ->get();
         $re=category3_resignation::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_present',session()->get('year'))
         ->get();
        return view('AJ/addresignation',compact('get','getinfo','getyear','getinfo2','gropby','re'));
@@ -6601,6 +7025,7 @@ class APIAJController extends Controller
        $s=count($get['qty']);
        foreach($get['qty'] as $key=>$value){
             $check=category3_resignation::where('course_id',session()->get('usercourse'))
+            ->where('branch_id',session()->get('branch_id'))
             ->where('year_present',session()->get('year'))
             ->where('year_add',$get['yearadd'][$key])
             ->get();
@@ -6614,6 +7039,7 @@ class APIAJController extends Controller
             $data->year_add=$get['yearadd'][$key];
             $data->qty=$value;
             $data->course_id=session()->get('usercourse');
+            $data->branch_id=session()->get('branch_id');
             $data->year_present=session()->get('year');
             $data->save();
           }
@@ -6624,10 +7050,12 @@ class APIAJController extends Controller
    public function updateresignation(Request $request)
    {
             $get=year_acceptance_graduate::where('course_id',session()->get('usercourse'))
+            ->where('branch_id',session()->get('branch_id'))
             ->where('year_id',session()->get('year_id'))
             ->get();
         $getall=$request->all();
-        $checkdata=category3_graduate::where('course_id',session()->get('usercourse'));
+        $checkdata=category3_graduate::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'));
         if(isset($checkdata)){
             $checkdata->delete();
         }
@@ -6644,6 +7072,7 @@ class APIAJController extends Controller
                 $data[$key]['year_add']=$i;
                 $data[$key]['reported_year']=$getcount;
                 $data[$key]['course_id']=session()->get('usercourse');
+                $data[$key]['branch_id']=session()->get('branch_id');
                 $getcount++;
             }
             category3_resignation::insert($data);
@@ -6695,10 +7124,12 @@ class APIAJController extends Controller
          $score1_1=0;
          $queryindicator1_1=indicator1_1::where('year_id',session()->get('year_id'))
          ->where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
          ->get();
          
          $queryindicator1_1result= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
          ->where('pdca.course_id',session()->get('usercourse'))
+         ->where('pdca.branch_id',session()->get('branch_id'))
          ->where('pdca.year_id',session()->get('year_id'))
          ->where('pdca.Indicator_id',1.1)
          ->where('pdca.target','!=',null)
@@ -6707,17 +7138,20 @@ class APIAJController extends Controller
          //ดึงค่าตารางอาจารย์ผู้รับผิดชอบหลักสูตร
          $trc = course_responsible_teacher::join('year','course_responsible_teacher.year_id','=','year.year_id')
          ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
+         ->where('course_responsible_teacher.branch_id',session()->get('branch_id'))
          ->where('year.year_id',session()->get('year_id'))
          ->get();
           ////ดึงสาขาวิชาที่จบของอาจารย์ประจำหลักสูตร
           $tc_course= User::leftjoin('course_teacher','users.id','=','course_teacher.user_id')
           ->where('users.user_course',session()->get('usercourse'))
+          ->where('users.user_branch',session()->get('branch_id'))
           ->where('course_teacher.year_id',session()->get('year_id'))
           ->get();
  
           ////ดึงสาขาวิชาที่จบของอาจารย์ผู้สอน
           $instructor= User::leftjoin('instructor','users.id','=','instructor.user_id')
           ->where('users.user_course',session()->get('usercourse'))
+          ->where('users.user_branch',session()->get('branch_id'))
           ->where('instructor.year_id',session()->get('year_id'))
           ->get();
           if(count($trc)!=0){
@@ -6765,6 +7199,7 @@ class APIAJController extends Controller
         $score4_1resultpdca=0;
         $queryindicator4_1result1= PDCA::where('category_pdca',1)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('Indicator_id',4.1)
         ->get();
@@ -6797,6 +7232,7 @@ class APIAJController extends Controller
         
         $queryindicator4_1result2= PDCA::where('category_pdca',2)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('Indicator_id',4.1)
         ->get();
@@ -6828,6 +7264,7 @@ class APIAJController extends Controller
         }
         $queryindicator4_1result3= PDCA::where('category_pdca',3)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('Indicator_id',4.1)
         ->get();
@@ -6859,6 +7296,7 @@ class APIAJController extends Controller
         }
         $queryindicator2_1result= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.Indicator_id',2.1)
         ->where('pdca.target','!=',null)
@@ -6909,6 +7347,7 @@ class APIAJController extends Controller
        }
        $queryindicator4_1resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.Indicator_id',4.1)
         ->where('pdca.target','!=',null)
@@ -6926,10 +7365,12 @@ class APIAJController extends Controller
         //ดึงค่าตารางอาจารย์ผู้รับผิดชอบหลักสูตร
           $trc = course_responsible_teacher::join('year','course_responsible_teacher.year_id','=','year.year_id')
           ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
+          ->where('course_responsible_teacher.branch_id',session()->get('branch_id'))
           ->where('year.year_id',session()->get('year_id'))
           ->get();
           $educ_bg= User::leftjoin('course_responsible_teacher','users.id','=','course_responsible_teacher.user_id')
           ->where('users.user_course',session()->get('usercourse'))
+          ->where('users.user_branch',session()->get('branch_id'))
           ->where('course_responsible_teacher.year_id',session()->get('year_id'))
           ->get();
           foreach($educ_bg as $key=>$t){
@@ -6940,6 +7381,7 @@ class APIAJController extends Controller
          
           $queryindicator4_2resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
           ->where('pdca.course_id',session()->get('usercourse'))
+          ->where('pdca.branch_id',session()->get('branch_id'))
           ->where('pdca.year_id',session()->get('year_id'))
           ->where('pdca.Indicator_id',4.2)
           ->where('pdca.target','!=',null)
@@ -6963,6 +7405,7 @@ class APIAJController extends Controller
 
         $score4_3resultpdca=0;
         $queryindicator4_3result=indicator4_3::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         if($queryindicator4_3result!="[]"){
@@ -6978,6 +7421,7 @@ class APIAJController extends Controller
         }
         $queryindicator4_3resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.Indicator_id',4.3)
         ->where('pdca.target','!=',null)
@@ -6994,9 +7438,11 @@ class APIAJController extends Controller
          $score2_1=0;
          $queryindicator2_1=indicator2_1::where('year_id',session()->get('year_id'))
          ->where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
          ->get();
          $queryindicator2_1result= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
          ->where('pdca.course_id',session()->get('usercourse'))
+         ->where('pdca.branch_id',session()->get('branch_id'))
          ->where('pdca.year_id',session()->get('year_id'))
          ->where('pdca.Indicator_id',2.1)
          ->where('pdca.target','!=',null)
@@ -7015,9 +7461,11 @@ class APIAJController extends Controller
          $getscore2_2result=0;
          $queryindicator2_2=indicator2_2::where('year_id',session()->get('year_id'))
          ->where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
          ->get();
          $queryindicator2_2result= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
          ->where('pdca.course_id',session()->get('usercourse'))
+         ->where('pdca.branch_id',session()->get('branch_id'))
          ->where('pdca.year_id',session()->get('year_id'))
          ->where('pdca.Indicator_id',2.2)
          ->where('pdca.target','!=',null)
@@ -7039,6 +7487,7 @@ class APIAJController extends Controller
         $score3_1resultpdca=0;
         $queryindicator3_1result1= PDCA::where('category_pdca',4)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('Indicator_id',3.1)
         ->get();
@@ -7071,6 +7520,7 @@ class APIAJController extends Controller
         
         $queryindicator3_1result2= PDCA::where('category_pdca',5)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('Indicator_id',3.1)
         ->get();
@@ -7134,6 +7584,7 @@ class APIAJController extends Controller
 
        $queryindicator3_1resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.Indicator_id',3.1)
         ->where('pdca.target','!=',null)
@@ -7152,6 +7603,7 @@ class APIAJController extends Controller
         $score3_2resultpdca=0;
         $queryindicator3_2result1= PDCA::where('category_pdca',6)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('Indicator_id',3.2)
         ->get();
@@ -7184,6 +7636,7 @@ class APIAJController extends Controller
         
         $queryindicator3_2result2= PDCA::where('category_pdca',7)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('Indicator_id',3.2)
         ->get();
@@ -7247,6 +7700,7 @@ class APIAJController extends Controller
 
        $queryindicator3_2resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.Indicator_id',3.2)
         ->where('pdca.target','!=',null)
@@ -7264,6 +7718,7 @@ class APIAJController extends Controller
          $score3_3result3=0;
          $score3_3resultpdca=0;
          $queryindicator3_3result=performance3_3::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
          ->where('year_id',session()->get('year_id'))
          ->get();
          if($queryindicator3_3result!="[]"){
@@ -7280,6 +7735,7 @@ class APIAJController extends Controller
          }
          $queryindicator3_3resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
          ->where('pdca.course_id',session()->get('usercourse'))
+         ->where('pdca.branch_id',session()->get('branch_id'))
          ->where('pdca.year_id',session()->get('year_id'))
          ->where('pdca.Indicator_id',3.3)
          ->where('pdca.target','!=',null)
@@ -7293,6 +7749,7 @@ class APIAJController extends Controller
           $scorfactor=0;
           $factor=category3_GD::where('category_factor','ปัจจัยที่มีผลกระทบต่อจำนวนนักศึกษา')
          ->where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
           ->where('year_id',session()->get('year_id'))
          ->get();
          if($factor!="[]"){
@@ -7304,6 +7761,7 @@ class APIAJController extends Controller
            $scorfactor2=0;
            $factor2=category3_GD::where('category_factor','ปัยจัยที่มีผลกระทบต่อการสำเร็จการศึกษา')
           ->where('course_id',session()->get('usercourse'))
+          ->where('branch_id',session()->get('branch_id'))
            ->where('year_id',session()->get('year_id'))
           ->get();
           if($factor2!="[]"){
@@ -7315,9 +7773,11 @@ class APIAJController extends Controller
           $scoreinfo=0;
           $scoreinfoqty=0;
           $getyear=category3_infostudent::where('course_id',session()->get('usercourse'))
+          ->where('branch_id',session()->get('branch_id'))
              ->where('year_add',session()->get('year'))
              ->get();
          $getqty=category3_infostudent_qty::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
              ->where('year_id',session()->get('year_id'))
              ->get();
          if($getyear!="[]"){
@@ -7330,15 +7790,14 @@ class APIAJController extends Controller
  
          ////จำนวนผู้สำเร็จการศึกษา
          $get=year_acceptance_graduate::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
          ->get();
          $scoregraduate=0;
          if($get!="[]"){
-             $getinfo=category3_graduate::where('course_id',session()->get('usercourse'))
-             ->where('year_add', '>=',$get[0]['year_add'])
-             ->where('year_add', '<=',session()->get('year'))
-             ->where('reported_year', '>=',$get[0]['year_add'])
-             ->where('reported_year', '<=',session()->get('year'))
-             ->get();
+            $getinfo=category3_graduate::where('course_id',session()->get('usercourse'))
+            ->where('branch_id',session()->get('branch_id'))
+            ->where('year_add',session()->get('year'))
+            ->get();
              if($getinfo!="[]"){
                 $scoregraduate++;
             }
@@ -7350,6 +7809,7 @@ class APIAJController extends Controller
         ////จำนวนที่ลาออกและคัดชื่อออกสะสมจนถึงสิ้นปีการศึกษา
         $scorere=0;
          $re=category3_resignation::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
          ->where('year_present',session()->get('year'))
          ->get();
        if($re!="[]"){
@@ -7369,6 +7829,7 @@ class APIAJController extends Controller
         $score5_1resultpdca=0;
         $queryindicator5_1result1= PDCA::where('category_pdca',12)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('Indicator_id',5.1)
         ->get();
@@ -7401,6 +7862,7 @@ class APIAJController extends Controller
         
         $queryindicator5_1result2= PDCA::where('category_pdca',13)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('Indicator_id',5.1)
         ->get();
@@ -7432,6 +7894,7 @@ class APIAJController extends Controller
         }
         $queryindicator5_1result3= PDCA::where('category_pdca',14)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('Indicator_id',5.1)
         ->get();
@@ -7508,6 +7971,7 @@ class APIAJController extends Controller
        }
        $queryindicator5_1resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.Indicator_id',5.1)
         ->where('pdca.target','!=',null)
@@ -7527,6 +7991,7 @@ class APIAJController extends Controller
         $score5_2resultpdca=0;
         $queryindicator5_2result1= PDCA::where('category_pdca',8)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('Indicator_id',5.2)
         ->get();
@@ -7559,6 +8024,7 @@ class APIAJController extends Controller
         
         $queryindicator5_2result2= PDCA::where('category_pdca',9)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('Indicator_id',5.2)
         ->get();
@@ -7590,6 +8056,7 @@ class APIAJController extends Controller
         }
         $queryindicator5_2result3= PDCA::where('category_pdca',10)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('Indicator_id',5.2)
         ->get();
@@ -7666,6 +8133,7 @@ class APIAJController extends Controller
        }
        $queryindicator5_2resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.Indicator_id',5.2)
         ->where('pdca.target','!=',null)
@@ -7683,6 +8151,7 @@ class APIAJController extends Controller
        $score5_3resultpdca=0;
        $queryindicator5_3result1= PDCA::where('category_pdca',15)
        ->where('course_id',session()->get('usercourse'))
+       ->where('branch_id',session()->get('branch_id'))
        ->where('year_id',session()->get('year_id'))
        ->where('Indicator_id',5.3)
        ->get();
@@ -7715,6 +8184,7 @@ class APIAJController extends Controller
        
        $queryindicator5_3result2= PDCA::where('category_pdca',16)
        ->where('course_id',session()->get('usercourse'))
+       ->where('branch_id',session()->get('branch_id'))
        ->where('year_id',session()->get('year_id'))
        ->where('Indicator_id',5.3)
        ->get();
@@ -7778,6 +8248,7 @@ class APIAJController extends Controller
 
       $queryindicator5_3resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
        ->where('pdca.course_id',session()->get('usercourse'))
+       ->where('pdca.branch_id',session()->get('branch_id'))
        ->where('pdca.year_id',session()->get('year_id'))
        ->where('pdca.Indicator_id',5.3)
        ->where('pdca.target','!=',null)
@@ -7791,10 +8262,12 @@ class APIAJController extends Controller
        $score5_4result1=0;
        $score5_4resultpdca=0;
        $perfor=indicator5_4::where('course_id',session()->get('usercourse'))
+       ->where('branch_id',session()->get('branch_id'))
        ->where('year_id',session()->get('year_id'))
        ->get();
        $inc= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
        ->where('pdca.course_id',session()->get('usercourse'))
+       ->where('pdca.branch_id',session()->get('branch_id'))
        ->where('pdca.year_id',session()->get('year_id'))
        ->where('pdca.indicator_id',5.4)
        ->where('pdca.target','!=',null)
@@ -7810,6 +8283,7 @@ class APIAJController extends Controller
         //// คุณภาพการสอน
         $scoreteachqua=0;
         $teachqua=category4_teaching_quality::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
        ->where('year_id',session()->get('year_id'))
        ->get();
         if($teachqua!="[]"){
@@ -7820,6 +8294,7 @@ class APIAJController extends Controller
         //// สรุปผลรายวิชาที่เปิดสอนในภาค/ปีการศึกษา
         $scoreccr=0;
         $ccr=category4_course_results::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
        ->where('year_id',session()->get('year_id'))
        ->get();
         if($ccr!="[]"){
@@ -7830,6 +8305,7 @@ class APIAJController extends Controller
         //// การวิเคราะห์รายวิชาที่มีผลการเรียนที่ไม่ปกติ
         $scoreacademic=0;
         $academic=category4_academic_performance::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
        ->where('year_id',session()->get('year_id'))
        ->get();
         if($academic!="[]"){
@@ -7840,6 +8316,7 @@ class APIAJController extends Controller
         //// รายวิชาที่ไม่ได้เปิดสอนในปีการศึกษา
         $scorenot_offered=0;
         $not_offered=category4_notcourse_results::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
        ->where('year_id',session()->get('year_id'))
        ->get();
         if($not_offered!="[]"){
@@ -7850,6 +8327,7 @@ class APIAJController extends Controller
         //// รายวิชาที่สอนเนื้อหาไม่ครบในปีการศึกษา
         $scoreincomplete_content=0;
         $queryincomplete_content=category4_incomplete_content::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
        ->where('year_id',session()->get('year_id'))
        ->get();
         if($queryincomplete_content!="[]"){
@@ -7860,6 +8338,7 @@ class APIAJController extends Controller
         //// ประสิทธิผลของกลยุทธ์การสอน
         $scoreeffec=0;
         $effec=category4_effectiveness::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         if($effec!="[]"){
@@ -7870,6 +8349,7 @@ class APIAJController extends Controller
         //// การปฐมนิเทศอาจารย์ใหม่
         $scorenewteacher=0;
         $th=category4_newteacher::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
        ->where('year_id',session()->get('year_id'))
        ->get();
         if($th!="[]"){
@@ -7880,6 +8360,7 @@ class APIAJController extends Controller
         //// กิจกรรมการพัฒนาวิชาชีพของอาจารย์
         $scoreactivity=0;
         $activity=category4_activity::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         if($activity!="[]"){
@@ -7895,6 +8376,7 @@ class APIAJController extends Controller
         $score6_1resultpdca=0;
         $queryindicator6_1result1= PDCA::where('category_pdca',11)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('Indicator_id',6.1)
         ->get();
@@ -7942,6 +8424,7 @@ class APIAJController extends Controller
         }
        $queryindicator6_1resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.Indicator_id',6.1)
         ->where('pdca.target','!=',null)
@@ -7954,6 +8437,7 @@ class APIAJController extends Controller
         //// การบริหารหลักสูตร
         $scorecoursemanage=0;
         $coursemanage=category5_course_manage::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         if($coursemanage!="[]"){
@@ -7969,6 +8453,7 @@ class APIAJController extends Controller
          $scoreassessmentsummary=0;
          $scoreassessmentsummary2=0;
          $queryassessmentsummary=category6_assessment_summary::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
          ->where('category_assessor','=','การประเมินจากผู้ที่สำเร็จการศึกษา')
          ->where('year_id',session()->get('year_id'))
          ->get();
@@ -7976,6 +8461,7 @@ class APIAJController extends Controller
              $scoreassessmentsummary++;
          }        
          $queryassessmentsummary2=category6_assessment_summary::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
          ->where('category_assessor','=','การประเมินจากผู้ที่มีส่วนเกี่ยวข้อง')
          ->where('year_id',session()->get('year_id'))
          ->get();
@@ -7987,6 +8473,7 @@ class APIAJController extends Controller
          //// ข้อคิดเห็น และข้อเสนอแนะเกี่ยวกับคุณภาพหลักสูตรจากผู้ประเมิน
          $scorecomment_course=0;
          $querycomment_course=category6_comment_course::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
          ->where('year_id',session()->get('year_id'))
          ->get();
          if($querycomment_course!="[]"){
@@ -7999,6 +8486,7 @@ class APIAJController extends Controller
          //// ความก้าวหน้าของการดำเนินงานตามแผนที่เสนอในรายงานของปีที่ผ่านมา
         $scorestrength=0;
         $querystrength=category7_strength::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         if($querystrength!="[]"){
@@ -8010,6 +8498,7 @@ class APIAJController extends Controller
         //// ข้อเสนอในการพัฒนาหลักสูตร
         $scoredevelopment_proposal=0;
         $querydevelopment_proposal=category7_development_proposal_detail::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         if($querydevelopment_proposal!="[]"){
@@ -8020,6 +8509,7 @@ class APIAJController extends Controller
          //// แผนปฏิบัติการใหม่
          $scorenewstrength=0;
          $querynewstrength=category7_newstrength::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
          ->where('year_id',session()->get('year_id'))
          ->get();
          if($querynewstrength!="[]"){
@@ -8032,22 +8522,27 @@ class APIAJController extends Controller
         //// สรุปจุดแข็ง จุดที่ควรพัฒนา และแนวทางการพัฒนา
         $scorestrengths_summary=0;
         $querynewstrength2=category7_strengths_summary::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('composition_id',2)
         ->get();
         $querynewstrength3=category7_strengths_summary::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('composition_id',3)
         ->get();
         $querynewstrength4=category7_strengths_summary::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('composition_id',4)
         ->get();
         $querynewstrength5=category7_strengths_summary::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('composition_id',5)
         ->get();
         $querynewstrength6=category7_strengths_summary::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->where('composition_id',6)
         ->get();
@@ -8068,6 +8563,7 @@ class APIAJController extends Controller
            $scorestrengths_summary++;
        }
         //// ปิด สรุปจุดแข็ง จุดที่ควรพัฒนา และแนวทางการพัฒนา
+        ////ปิด  สรุปผลการดำเนินงาน
         ////ปิด  สรุปผลการดำเนินงาน
          $result1_1=(($getscore1_1+$getscore1_1result)*100)/9;
         $result2_1=($getscore2_1*100)/2;
@@ -8144,6 +8640,8 @@ class APIAJController extends Controller
         $getresultscorestrengths_summary = sprintf('%.0f',$resultscorestrengths_summary);
         /////หน้าแรก
         $queryworkandindicator=User::where('user_course',session()->get('usercourse'))
+        ->where('user_group_id','!=',2)
+        ->where('user_group_id','!=',1)
         ->get();
         $i=0;
         $m=1;
@@ -8340,1372 +8838,1441 @@ class APIAJController extends Controller
         ->where('user_permission.year_id',session()->get('year_id'))
         ->get();
 
-        ////ตัวบ่งชี้ 1.1
-        $getscore1_1=0;
-        $getscore1_1result=0;
-        $score1_1=0;
-        $queryindicator1_1=indicator1_1::where('year_id',session()->get('year_id'))
-        ->where('course_id',session()->get('usercourse'))
-        ->get();
-        
-        $queryindicator1_1result= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
-        ->where('pdca.course_id',session()->get('usercourse'))
-        ->where('pdca.year_id',session()->get('year_id'))
-        ->where('pdca.Indicator_id',1.1)
-        ->where('pdca.target','!=',null)
-        ->get();
-
-        //ดึงค่าตารางอาจารย์ผู้รับผิดชอบหลักสูตร
-        $trc = course_responsible_teacher::join('year','course_responsible_teacher.year_id','=','year.year_id')
-        ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
-        ->where('year.year_id',session()->get('year_id'))
-        ->get();
-         ////ดึงสาขาวิชาที่จบของอาจารย์ประจำหลักสูตร
-         $tc_course= User::leftjoin('course_teacher','users.id','=','course_teacher.user_id')
-         ->where('users.user_course',session()->get('usercourse'))
-         ->where('course_teacher.year_id',session()->get('year_id'))
+         ////ตัวบ่งชี้ 1.1
+         $getscore1_1=0;
+         $getscore1_1result=0;
+         $score1_1=0;
+         $queryindicator1_1=indicator1_1::where('year_id',session()->get('year_id'))
+         ->where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
          ->get();
-
-         ////ดึงสาขาวิชาที่จบของอาจารย์ผู้สอน
-         $instructor= User::leftjoin('instructor','users.id','=','instructor.user_id')
-         ->where('users.user_course',session()->get('usercourse'))
-         ->where('instructor.year_id',session()->get('year_id'))
-         ->get();
-         if(count($trc)!=0){
-            $getscore1_1++;
-        }
-
-        if(count($tc_course)!=0){
-            $getscore1_1++;
-        }
-        if(count($instructor)!=0){
-            $getscore1_1++;
-        }
-        if(count($queryindicator1_1)!=0){
-            if($queryindicator1_1[0]['result1']!=""){
-                $getscore1_1++;
-            }
-            if($queryindicator1_1[0]['result2']!=""){
-                $getscore1_1++;
-            }
-            if($queryindicator1_1[0]['result3']!=""){
-                $getscore1_1++;
-            }
-            if($queryindicator1_1[0]['result4']!=""){
-                $getscore1_1++;
-            }
-            if($queryindicator1_1[0]['result5']!=""){
-                $getscore1_1++;
-            }
-        }
-        if(count($queryindicator1_1result)!=0){
-            $getscore1_1result++;
-        }
-        
-        ////ตัวบ่งชี้ 1.1
-
-
-        ////ตัวบ่งชี้ 2.1
-        $getscore2_1=0;
-        $getscore2_1result=0;
-        $score2_1=0;
-        $queryindicator2_1=indicator2_1::where('year_id',session()->get('year_id'))
-        ->where('course_id',session()->get('usercourse'))
-        ->get();
-        $queryindicator2_1result= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
-        ->where('pdca.course_id',session()->get('usercourse'))
-        ->where('pdca.year_id',session()->get('year_id'))
-        ->where('pdca.Indicator_id',2.1)
-        ->where('pdca.target','!=',null)
-        ->get();
-        if(count($queryindicator2_1)!=0){
-            $getscore2_1++;
-        }
-        if(count($queryindicator2_1result)!=0){
-            $getscore2_1++;
-        }
-        
-        ////ตัวบ่งชี้ 2.1
-
-        ////ตัวบ่งชี้ 2.2
-        $getscore2_2=0;
-        $getscore2_2result=0;
-        $queryindicator2_2=indicator2_2::where('year_id',session()->get('year_id'))
-        ->where('course_id',session()->get('usercourse'))
-        ->get();
-        $queryindicator2_2result= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
-        ->where('pdca.course_id',session()->get('usercourse'))
-        ->where('pdca.year_id',session()->get('year_id'))
-        ->where('pdca.Indicator_id',2.2)
-        ->where('pdca.target','!=',null)
-        ->get();
-        if(count($queryindicator2_2)!=0){
-            $getscore2_2++;
-        }
-        if(count($queryindicator2_2result)!=0){
-            $getscore2_2++;
-        }
-        
-        ////ตัวบ่งชี้ 2.2
-
-        //// ตัวบ่งชี้ 3.1
-        $score3_1resultdoc1=0;
-        $score3_1resultdoc2=0;
-        $score3_1result1=0;
-        $score3_1result2=0;
-        $score3_1resultpdca=0;
-        $queryindicator3_1result1= PDCA::where('category_pdca',4)
-        ->where('course_id',session()->get('usercourse'))
-        ->where('year_id',session()->get('year_id'))
-        ->where('Indicator_id',3.1)
-        ->get();
-        if($queryindicator3_1result1!="[]"){
-            $queryindicator3_1resultdoc1p= docpdca::where('pdca_id',$queryindicator3_1result1[0]['pdca_id'])
-            ->where('categorypdca','p')
-            ->get();
-            if(count($queryindicator3_1resultdoc1p)!=0){
-                $score3_1resultdoc1++;
-            }
-            $queryindicator3_1resultdoc1d= docpdca::where('pdca_id',$queryindicator3_1result1[0]['pdca_id'])
-            ->where('categorypdca','d')
-            ->get();
-            if(count($queryindicator3_1resultdoc1d)!=0){
-                $score3_1resultdoc1++;
-            }
-            $queryindicator3_1resultdoc1c= docpdca::where('pdca_id',$queryindicator3_1result1[0]['pdca_id'])
-            ->where('categorypdca','c')
-            ->get();
-            if(count($queryindicator3_1resultdoc1c)!=0){
-                $score3_1resultdoc1++;
-            }
-            $queryindicator3_1resultdoc1a= docpdca::where('pdca_id',$queryindicator3_1result1[0]['pdca_id'])
-            ->where('categorypdca','a')
-            ->get();
-            if(count($queryindicator3_1resultdoc1a)!=0){
-                $score3_1resultdoc1++;
-            }
-        }
-        
-        $queryindicator3_1result2= PDCA::where('category_pdca',5)
-        ->where('course_id',session()->get('usercourse'))
-        ->where('year_id',session()->get('year_id'))
-        ->where('Indicator_id',3.1)
-        ->get();
-        if($queryindicator3_1result2!="[]"){
-            $queryindicator3_1resultdoc2p= docpdca::where('pdca_id',$queryindicator3_1result2[0]['pdca_id'])
-            ->where('categorypdca','p')
-            ->get();
-            if(count($queryindicator3_1resultdoc2p)!=0){
-                $score3_1resultdoc2++;
-            }
-            $queryindicator3_1resultdoc2d= docpdca::where('pdca_id',$queryindicator3_1result2[0]['pdca_id'])
-            ->where('categorypdca','d')
-            ->get();
-            if(count($queryindicator3_1resultdoc2d)!=0){
-                $score3_1resultdoc2++;
-            }
-            $queryindicator3_1resultdoc2c= docpdca::where('pdca_id',$queryindicator3_1result2[0]['pdca_id'])
-            ->where('categorypdca','c')
-            ->get();
-            if(count($queryindicator3_1resultdoc2c)!=0){
-                $score3_1resultdoc2++;
-            }
-            $queryindicator3_1resultdoc2a= docpdca::where('pdca_id',$queryindicator3_1result2[0]['pdca_id'])
-            ->where('categorypdca','a')
-            ->get();
-            if(count($queryindicator3_1resultdoc2a)!=0){
-                $score3_1resultdoc2++;
-            }
-        }
- 
-
-        if($queryindicator3_1result1!="[]"){
-            if($queryindicator3_1result1[0]['p']!=""){
-                $score3_1result1++;
-            }
-            if($queryindicator3_1result1[0]['d']!=""){
-                $score3_1result1++;
-            }
-            if($queryindicator3_1result1[0]['c']!=""){
-                $score3_1result1++;
-            }
-            if($queryindicator3_1result1[0]['a']!=""){
-                $score3_1result1++;
-            }
-        }
-        
-        if($queryindicator3_1result2!="[]"){
-        if($queryindicator3_1result2[0]['p']!=""){
-            $score3_1result2++;
-        }
-        if($queryindicator3_1result2[0]['d']!=""){
-            $score3_1result2++;
-        }
-        if($queryindicator3_1result2[0]['c']!=""){
-            $score3_1result2++;
-        }
-        if($queryindicator3_1result2[0]['a']!=""){
-            $score3_1result2++;
-        }
-        }
-
-       $queryindicator3_1resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
-        ->where('pdca.course_id',session()->get('usercourse'))
-        ->where('pdca.year_id',session()->get('year_id'))
-        ->where('pdca.Indicator_id',3.1)
-        ->where('pdca.target','!=',null)
-        ->get();
-        if($queryindicator3_1resultpdca!="[]"){
-            $score3_1resultpdca++;
-        }
-        //// ปิดตัวบ่งชี้ 3.1
-
-
-        //// ตัวบ่งชี้ 3.2
-        $score3_2resultdoc1=0;
-        $score3_2resultdoc2=0;
-        $score3_2result1=0;
-        $score3_2result2=0;
-        $score3_2resultpdca=0;
-        $queryindicator3_2result1= PDCA::where('category_pdca',6)
-        ->where('course_id',session()->get('usercourse'))
-        ->where('year_id',session()->get('year_id'))
-        ->where('Indicator_id',3.2)
-        ->get();
-        if($queryindicator3_2result1!="[]"){
-            $queryindicator3_2resultdoc1p= docpdca::where('pdca_id',$queryindicator3_2result1[0]['pdca_id'])
-            ->where('categorypdca','p')
-            ->get();
-            if(count($queryindicator3_2resultdoc1p)!=0){
-                $score3_2resultdoc1++;
-            }
-            $queryindicator3_2resultdoc1d= docpdca::where('pdca_id',$queryindicator3_2result1[0]['pdca_id'])
-            ->where('categorypdca','d')
-            ->get();
-            if(count($queryindicator3_2resultdoc1d)!=0){
-                $score3_2resultdoc1++;
-            }
-            $queryindicator3_2resultdoc1c= docpdca::where('pdca_id',$queryindicator3_2result1[0]['pdca_id'])
-            ->where('categorypdca','c')
-            ->get();
-            if(count($queryindicator3_2resultdoc1c)!=0){
-                $score3_2resultdoc1++;
-            }
-            $queryindicator3_2resultdoc1a= docpdca::where('pdca_id',$queryindicator3_2result1[0]['pdca_id'])
-            ->where('categorypdca','a')
-            ->get();
-            if(count($queryindicator3_2resultdoc1a)!=0){
-                $score3_2resultdoc1++;
-            }
-        }
-        
-        $queryindicator3_2result2= PDCA::where('category_pdca',7)
-        ->where('course_id',session()->get('usercourse'))
-        ->where('year_id',session()->get('year_id'))
-        ->where('Indicator_id',3.2)
-        ->get();
-        if($queryindicator3_2result2!="[]"){
-            $queryindicator3_2resultdoc2p= docpdca::where('pdca_id',$queryindicator3_2result2[0]['pdca_id'])
-            ->where('categorypdca','p')
-            ->get();
-            if(count($queryindicator3_2resultdoc2p)!=0){
-                $score3_2resultdoc2++;
-            }
-            $queryindicator3_2resultdoc2d= docpdca::where('pdca_id',$queryindicator3_2result2[0]['pdca_id'])
-            ->where('categorypdca','d')
-            ->get();
-            if(count($queryindicator3_2resultdoc2d)!=0){
-                $score3_2resultdoc2++;
-            }
-            $queryindicator3_2resultdoc2c= docpdca::where('pdca_id',$queryindicator3_2result2[0]['pdca_id'])
-            ->where('categorypdca','c')
-            ->get();
-            if(count($queryindicator3_2resultdoc2c)!=0){
-                $score3_2resultdoc2++;
-            }
-            $queryindicator3_2resultdoc2a= docpdca::where('pdca_id',$queryindicator3_2result2[0]['pdca_id'])
-            ->where('categorypdca','a')
-            ->get();
-            if(count($queryindicator3_2resultdoc2a)!=0){
-                $score3_2resultdoc2++;
-            }
-        }
- 
-
-        if($queryindicator3_2result1!="[]"){
-            if($queryindicator3_2result1[0]['p']!=""){
-                $score3_2result1++;
-            }
-            if($queryindicator3_2result1[0]['d']!=""){
-                $score3_2result1++;
-            }
-            if($queryindicator3_2result1[0]['c']!=""){
-                $score3_2result1++;
-            }
-            if($queryindicator3_2result1[0]['a']!=""){
-                $score3_2result1++;
-            }
-        }
-        
-        if($queryindicator3_2result2!="[]"){
-        if($queryindicator3_2result2[0]['p']!=""){
-            $score3_2result2++;
-        }
-        if($queryindicator3_2result2[0]['d']!=""){
-            $score3_2result2++;
-        }
-        if($queryindicator3_2result2[0]['c']!=""){
-            $score3_2result2++;
-        }
-        if($queryindicator3_2result2[0]['a']!=""){
-            $score3_2result2++;
-        }
-        }
-
-       $queryindicator3_2resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
-        ->where('pdca.course_id',session()->get('usercourse'))
-        ->where('pdca.year_id',session()->get('year_id'))
-        ->where('pdca.Indicator_id',3.2)
-        ->where('pdca.target','!=',null)
-        ->get();
-        if($queryindicator3_2resultpdca!="[]"){
-            $score3_2resultpdca++;
-        }
-        //// ปิดตัวบ่งชี้ 3.2
-
-         ////ตัวบ่งชี้ 3.3
-         $score3_3resultdoc1=0;
-         $score3_3resultdoc2=0;
-         $score3_3result1=0;
-         $score3_3result2=0;
-         $score3_3result3=0;
-         $score3_3resultpdca=0;
-         $queryindicator3_3result=performance3_3::where('course_id',session()->get('usercourse'))
-         ->where('year_id',session()->get('year_id'))
-         ->get();
-         if($queryindicator3_3result!="[]"){
-             // $queryindicator3_3resultdoc= docpdca::where('doc_id',$queryindicator3_3result[0]['id'])
-             // ->get();
-             // if(count($queryindicator3_3resultdoc)!=0){
-             //     $score3_3resultdoc1++;
-             // }
-             if(count($queryindicator3_3result)==3){
-                 $score3_3result1++;
-                 $score3_3result2++;
-                 $score3_3result3++;
-             }
-         }
-         $queryindicator3_3resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+         
+         $queryindicator1_1result= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
          ->where('pdca.course_id',session()->get('usercourse'))
+         ->where('pdca.branch_id',session()->get('branch_id'))
          ->where('pdca.year_id',session()->get('year_id'))
-         ->where('pdca.Indicator_id',3.3)
+         ->where('pdca.Indicator_id',1.1)
          ->where('pdca.target','!=',null)
          ->get();
-         if($queryindicator3_3resultpdca!="[]"){
-             $score3_3resultpdca++;
-         }
-         ////ปิดตัวบ่งชี้ 3.3
-
-         ////ปัจจัยที่มีผลกระทบต่อจำนวนนักศึกษา
-         $scorfactor=0;
-         $factor=category3_GD::where('category_factor','ปัจจัยที่มีผลกระทบต่อจำนวนนักศึกษา')
-        ->where('course_id',session()->get('usercourse'))
-         ->where('year_id',session()->get('year_id'))
-        ->get();
-        if($factor!="[]"){
-            $scorfactor++;
-        }
-         ////ปิด ปัจจัยที่มีผลกระทบต่อจำนวนนักศึกษา
-
-          ////ปัยจัยที่มีผลกระทบต่อการสำเร็จการศึกษา
-          $scorfactor2=0;
-          $factor2=category3_GD::where('category_factor','ปัยจัยที่มีผลกระทบต่อการสำเร็จการศึกษา')
-         ->where('course_id',session()->get('usercourse'))
-          ->where('year_id',session()->get('year_id'))
+ 
+         //ดึงค่าตารางอาจารย์ผู้รับผิดชอบหลักสูตร
+         $trc = course_responsible_teacher::join('year','course_responsible_teacher.year_id','=','year.year_id')
+         ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
+         ->where('pdcourse_responsible_teacherca.branch_id',session()->get('branch_id'))
+         ->where('year.year_id',session()->get('year_id'))
          ->get();
-         if($factor2!="[]"){
-             $scorfactor2++;
+          ////ดึงสาขาวิชาที่จบของอาจารย์ประจำหลักสูตร
+          $tc_course= User::leftjoin('course_teacher','users.id','=','course_teacher.user_id')
+          ->where('users.user_course',session()->get('usercourse'))
+          ->where('users.user_branch',session()->get('branch_id'))
+          ->where('course_teacher.year_id',session()->get('year_id'))
+          ->get();
+ 
+          ////ดึงสาขาวิชาที่จบของอาจารย์ผู้สอน
+          $instructor= User::leftjoin('instructor','users.id','=','instructor.user_id')
+          ->where('users.user_course',session()->get('usercourse'))
+          ->where('users.user_branch',session()->get('branch_id'))
+          ->where('instructor.year_id',session()->get('year_id'))
+          ->get();
+          if(count($trc)!=0){
+             $getscore1_1++;
          }
-          ////ปิด ปัยจัยที่มีผลกระทบต่อการสำเร็จการศึกษา
-
-         ////ข้อมูลนักศึกษา
-         $scoreinfo=0;
-         $scoreinfoqty=0;
-         $getyear=category3_infostudent::where('course_id',session()->get('usercourse'))
-            ->where('year_add',session()->get('year'))
-            ->get();
-        $getqty=category3_infostudent_qty::where('course_id',session()->get('usercourse'))
-            ->where('year_id',session()->get('year_id'))
-            ->get();
-        if($getyear!="[]"){
-            $scoreinfo++;
-        }
-        if($getqty!="[]"){
-            $scoreinfoqty++;
-        }
-         ////ปิด ข้อมูลนักศึกษา
-
-        ////จำนวนผู้สำเร็จการศึกษา
-        $get=year_acceptance_graduate::where('course_id',session()->get('usercourse'))
-        ->get();
-        $scoregraduate=0;
-        if($get!="[]"){
-            $getinfo=category3_graduate::where('course_id',session()->get('usercourse'))
-            ->where('year_add', '>=',$get[0]['year_add'])
-            ->where('year_add', '<=',session()->get('year'))
-            ->where('reported_year', '>=',$get[0]['year_add'])
-            ->where('reported_year', '<=',session()->get('year'))
-            ->get();
-            if($getinfo!="[]"){
-                $scoregraduate++;
-            }
-        }
-       
-       
-        ////ปิด จำนวนผู้สำเร็จการศึกษา
-
-       ////จำนวนที่ลาออกและคัดชื่อออกสะสมจนถึงสิ้นปีการศึกษา
-       $scorere=0;
-        $re=category3_resignation::where('course_id',session()->get('usercourse'))
-        ->where('year_present',session()->get('year'))
-        ->get();
-      if($re!="[]"){
-          $scorere++;
-      }
-       ////ปิด จำนวนที่ลาออกและคัดชื่อออกสะสมจนถึงสิ้นปีการศึกษา
-
-          //// ตัวบ่งชี้ 4.1
-          $score4_1resultdoc1=0;
-          $score4_1resultdoc2=0;
-          $score4_1resultdoc3=0;
-          $score4_1result1=0;
-          $score4_1result2=0;
-          $score4_1result3=0;
-          $score4_1resultpdca=0;
-          $queryindicator4_1result1= PDCA::where('category_pdca',1)
-          ->where('course_id',session()->get('usercourse'))
+ 
+         if(count($tc_course)!=0){
+             $getscore1_1++;
+         }
+         if(count($instructor)!=0){
+             $getscore1_1++;
+         }
+         if(count($queryindicator1_1)!=0){
+             if($queryindicator1_1[0]['result1']!=""){
+                 $getscore1_1++;
+             }
+             if($queryindicator1_1[0]['result2']!=""){
+                 $getscore1_1++;
+             }
+             if($queryindicator1_1[0]['result3']!=""){
+                 $getscore1_1++;
+             }
+             if($queryindicator1_1[0]['result4']!=""){
+                 $getscore1_1++;
+             }
+             if($queryindicator1_1[0]['result5']!=""){
+                 $getscore1_1++;
+             }
+         }
+         if(count($queryindicator1_1result)!=0){
+             $getscore1_1result++;
+         }
+         
+         ////ตัวบ่งชี้ 1.1
+ 
+ 
+         ////ตัวบ่งชี้ 2.1
+         $getscore2_1=0;
+         $getscore2_1result=0;
+         $score2_1=0;
+         $queryindicator2_1=indicator2_1::where('year_id',session()->get('year_id'))
+         ->where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
+         ->get();
+         $queryindicator2_1result= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+         ->where('pdca.course_id',session()->get('usercourse'))
+         ->where('pdca.branch_id',session()->get('branch_id'))
+         ->where('pdca.year_id',session()->get('year_id'))
+         ->where('pdca.Indicator_id',2.1)
+         ->where('pdca.target','!=',null)
+         ->get();
+         if(count($queryindicator2_1)!=0){
+             $getscore2_1++;
+         }
+         if(count($queryindicator2_1result)!=0){
+             $getscore2_1++;
+         }
+         
+         ////ตัวบ่งชี้ 2.1
+ 
+         ////ตัวบ่งชี้ 2.2
+         $getscore2_2=0;
+         $getscore2_2result=0;
+         $queryindicator2_2=indicator2_2::where('year_id',session()->get('year_id'))
+         ->where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
+         ->get();
+         $queryindicator2_2result= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+         ->where('pdca.course_id',session()->get('usercourse'))
+         ->where('pdca.branch_id',session()->get('branch_id'))
+         ->where('pdca.year_id',session()->get('year_id'))
+         ->where('pdca.Indicator_id',2.2)
+         ->where('pdca.target','!=',null)
+         ->get();
+         if(count($queryindicator2_2)!=0){
+             $getscore2_2++;
+         }
+         if(count($queryindicator2_2result)!=0){
+             $getscore2_2++;
+         }
+         
+         ////ตัวบ่งชี้ 2.2
+ 
+         //// ตัวบ่งชี้ 3.1
+         $score3_1resultdoc1=0;
+         $score3_1resultdoc2=0;
+         $score3_1result1=0;
+         $score3_1result2=0;
+         $score3_1resultpdca=0;
+         $queryindicator3_1result1= PDCA::where('category_pdca',4)
+         ->where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
+         ->where('year_id',session()->get('year_id'))
+         ->where('Indicator_id',3.1)
+         ->get();
+         if($queryindicator3_1result1!="[]"){
+             $queryindicator3_1resultdoc1p= docpdca::where('pdca_id',$queryindicator3_1result1[0]['pdca_id'])
+             ->where('categorypdca','p')
+             ->get();
+             if(count($queryindicator3_1resultdoc1p)!=0){
+                 $score3_1resultdoc1++;
+             }
+             $queryindicator3_1resultdoc1d= docpdca::where('pdca_id',$queryindicator3_1result1[0]['pdca_id'])
+             ->where('categorypdca','d')
+             ->get();
+             if(count($queryindicator3_1resultdoc1d)!=0){
+                 $score3_1resultdoc1++;
+             }
+             $queryindicator3_1resultdoc1c= docpdca::where('pdca_id',$queryindicator3_1result1[0]['pdca_id'])
+             ->where('categorypdca','c')
+             ->get();
+             if(count($queryindicator3_1resultdoc1c)!=0){
+                 $score3_1resultdoc1++;
+             }
+             $queryindicator3_1resultdoc1a= docpdca::where('pdca_id',$queryindicator3_1result1[0]['pdca_id'])
+             ->where('categorypdca','a')
+             ->get();
+             if(count($queryindicator3_1resultdoc1a)!=0){
+                 $score3_1resultdoc1++;
+             }
+         }
+         
+         $queryindicator3_1result2= PDCA::where('category_pdca',5)
+         ->where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
+         ->where('year_id',session()->get('year_id'))
+         ->where('Indicator_id',3.1)
+         ->get();
+         if($queryindicator3_1result2!="[]"){
+             $queryindicator3_1resultdoc2p= docpdca::where('pdca_id',$queryindicator3_1result2[0]['pdca_id'])
+             ->where('categorypdca','p')
+             ->get();
+             if(count($queryindicator3_1resultdoc2p)!=0){
+                 $score3_1resultdoc2++;
+             }
+             $queryindicator3_1resultdoc2d= docpdca::where('pdca_id',$queryindicator3_1result2[0]['pdca_id'])
+             ->where('categorypdca','d')
+             ->get();
+             if(count($queryindicator3_1resultdoc2d)!=0){
+                 $score3_1resultdoc2++;
+             }
+             $queryindicator3_1resultdoc2c= docpdca::where('pdca_id',$queryindicator3_1result2[0]['pdca_id'])
+             ->where('categorypdca','c')
+             ->get();
+             if(count($queryindicator3_1resultdoc2c)!=0){
+                 $score3_1resultdoc2++;
+             }
+             $queryindicator3_1resultdoc2a= docpdca::where('pdca_id',$queryindicator3_1result2[0]['pdca_id'])
+             ->where('categorypdca','a')
+             ->get();
+             if(count($queryindicator3_1resultdoc2a)!=0){
+                 $score3_1resultdoc2++;
+             }
+         }
+  
+ 
+         if($queryindicator3_1result1!="[]"){
+             if($queryindicator3_1result1[0]['p']!=""){
+                 $score3_1result1++;
+             }
+             if($queryindicator3_1result1[0]['d']!=""){
+                 $score3_1result1++;
+             }
+             if($queryindicator3_1result1[0]['c']!=""){
+                 $score3_1result1++;
+             }
+             if($queryindicator3_1result1[0]['a']!=""){
+                 $score3_1result1++;
+             }
+         }
+         
+         if($queryindicator3_1result2!="[]"){
+         if($queryindicator3_1result2[0]['p']!=""){
+             $score3_1result2++;
+         }
+         if($queryindicator3_1result2[0]['d']!=""){
+             $score3_1result2++;
+         }
+         if($queryindicator3_1result2[0]['c']!=""){
+             $score3_1result2++;
+         }
+         if($queryindicator3_1result2[0]['a']!=""){
+             $score3_1result2++;
+         }
+         }
+ 
+        $queryindicator3_1resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+         ->where('pdca.course_id',session()->get('usercourse'))
+         ->where('pdca.branch_id',session()->get('branch_id'))
+         ->where('pdca.year_id',session()->get('year_id'))
+         ->where('pdca.Indicator_id',3.1)
+         ->where('pdca.target','!=',null)
+         ->get();
+         if($queryindicator3_1resultpdca!="[]"){
+             $score3_1resultpdca++;
+         }
+         //// ปิดตัวบ่งชี้ 3.1
+ 
+ 
+         //// ตัวบ่งชี้ 3.2
+         $score3_2resultdoc1=0;
+         $score3_2resultdoc2=0;
+         $score3_2result1=0;
+         $score3_2result2=0;
+         $score3_2resultpdca=0;
+         $queryindicator3_2result1= PDCA::where('category_pdca',6)
+         ->where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
+         ->where('year_id',session()->get('year_id'))
+         ->where('Indicator_id',3.2)
+         ->get();
+         if($queryindicator3_2result1!="[]"){
+             $queryindicator3_2resultdoc1p= docpdca::where('pdca_id',$queryindicator3_2result1[0]['pdca_id'])
+             ->where('categorypdca','p')
+             ->get();
+             if(count($queryindicator3_2resultdoc1p)!=0){
+                 $score3_2resultdoc1++;
+             }
+             $queryindicator3_2resultdoc1d= docpdca::where('pdca_id',$queryindicator3_2result1[0]['pdca_id'])
+             ->where('categorypdca','d')
+             ->get();
+             if(count($queryindicator3_2resultdoc1d)!=0){
+                 $score3_2resultdoc1++;
+             }
+             $queryindicator3_2resultdoc1c= docpdca::where('pdca_id',$queryindicator3_2result1[0]['pdca_id'])
+             ->where('categorypdca','c')
+             ->get();
+             if(count($queryindicator3_2resultdoc1c)!=0){
+                 $score3_2resultdoc1++;
+             }
+             $queryindicator3_2resultdoc1a= docpdca::where('pdca_id',$queryindicator3_2result1[0]['pdca_id'])
+             ->where('categorypdca','a')
+             ->get();
+             if(count($queryindicator3_2resultdoc1a)!=0){
+                 $score3_2resultdoc1++;
+             }
+         }
+         
+         $queryindicator3_2result2= PDCA::where('category_pdca',7)
+         ->where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
+         ->where('year_id',session()->get('year_id'))
+         ->where('Indicator_id',3.2)
+         ->get();
+         if($queryindicator3_2result2!="[]"){
+             $queryindicator3_2resultdoc2p= docpdca::where('pdca_id',$queryindicator3_2result2[0]['pdca_id'])
+             ->where('categorypdca','p')
+             ->get();
+             if(count($queryindicator3_2resultdoc2p)!=0){
+                 $score3_2resultdoc2++;
+             }
+             $queryindicator3_2resultdoc2d= docpdca::where('pdca_id',$queryindicator3_2result2[0]['pdca_id'])
+             ->where('categorypdca','d')
+             ->get();
+             if(count($queryindicator3_2resultdoc2d)!=0){
+                 $score3_2resultdoc2++;
+             }
+             $queryindicator3_2resultdoc2c= docpdca::where('pdca_id',$queryindicator3_2result2[0]['pdca_id'])
+             ->where('categorypdca','c')
+             ->get();
+             if(count($queryindicator3_2resultdoc2c)!=0){
+                 $score3_2resultdoc2++;
+             }
+             $queryindicator3_2resultdoc2a= docpdca::where('pdca_id',$queryindicator3_2result2[0]['pdca_id'])
+             ->where('categorypdca','a')
+             ->get();
+             if(count($queryindicator3_2resultdoc2a)!=0){
+                 $score3_2resultdoc2++;
+             }
+         }
+  
+ 
+         if($queryindicator3_2result1!="[]"){
+             if($queryindicator3_2result1[0]['p']!=""){
+                 $score3_2result1++;
+             }
+             if($queryindicator3_2result1[0]['d']!=""){
+                 $score3_2result1++;
+             }
+             if($queryindicator3_2result1[0]['c']!=""){
+                 $score3_2result1++;
+             }
+             if($queryindicator3_2result1[0]['a']!=""){
+                 $score3_2result1++;
+             }
+         }
+         
+         if($queryindicator3_2result2!="[]"){
+         if($queryindicator3_2result2[0]['p']!=""){
+             $score3_2result2++;
+         }
+         if($queryindicator3_2result2[0]['d']!=""){
+             $score3_2result2++;
+         }
+         if($queryindicator3_2result2[0]['c']!=""){
+             $score3_2result2++;
+         }
+         if($queryindicator3_2result2[0]['a']!=""){
+             $score3_2result2++;
+         }
+         }
+ 
+        $queryindicator3_2resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+         ->where('pdca.course_id',session()->get('usercourse'))
+         ->where('pdca.branch_id',session()->get('branch_id'))
+         ->where('pdca.year_id',session()->get('year_id'))
+         ->where('pdca.Indicator_id',3.2)
+         ->where('pdca.target','!=',null)
+         ->get();
+         if($queryindicator3_2resultpdca!="[]"){
+             $score3_2resultpdca++;
+         }
+         //// ปิดตัวบ่งชี้ 3.2
+ 
+          ////ตัวบ่งชี้ 3.3
+          $score3_3resultdoc1=0;
+          $score3_3resultdoc2=0;
+          $score3_3result1=0;
+          $score3_3result2=0;
+          $score3_3result3=0;
+          $score3_3resultpdca=0;
+          $queryindicator3_3result=performance3_3::where('course_id',session()->get('usercourse'))
+          ->where('branch_id',session()->get('branch_id'))
           ->where('year_id',session()->get('year_id'))
-          ->where('Indicator_id',4.1)
           ->get();
-          if($queryindicator4_1result1!="[]"){
-              $queryindicator4_1resultdoc1p= docpdca::where('pdca_id',$queryindicator4_1result1[0]['pdca_id'])
-              ->where('categorypdca','p')
-              ->get();
-              if(count($queryindicator4_1resultdoc1p)!=0){
-                  $score4_1resultdoc1++;
-              }
-              $queryindicator4_1resultdoc1d= docpdca::where('pdca_id',$queryindicator4_1result1[0]['pdca_id'])
-              ->where('categorypdca','d')
-              ->get();
-              if(count($queryindicator4_1resultdoc1d)!=0){
-                  $score4_1resultdoc1++;
-              }
-              $queryindicator4_1resultdoc1c= docpdca::where('pdca_id',$queryindicator4_1result1[0]['pdca_id'])
-              ->where('categorypdca','c')
-              ->get();
-              if(count($queryindicator4_1resultdoc1c)!=0){
-                  $score4_1resultdoc1++;
-              }
-              $queryindicator4_1resultdoc1a= docpdca::where('pdca_id',$queryindicator4_1result1[0]['pdca_id'])
-              ->where('categorypdca','a')
-              ->get();
-              if(count($queryindicator4_1resultdoc1a)!=0){
-                  $score4_1resultdoc1++;
+          if($queryindicator3_3result!="[]"){
+              // $queryindicator3_3resultdoc= docpdca::where('doc_id',$queryindicator3_3result[0]['id'])
+              // ->get();
+              // if(count($queryindicator3_3resultdoc)!=0){
+              //     $score3_3resultdoc1++;
+              // }
+              if(count($queryindicator3_3result)==3){
+                  $score3_3result1++;
+                  $score3_3result2++;
+                  $score3_3result3++;
               }
           }
-          
-          $queryindicator4_1result2= PDCA::where('category_pdca',2)
-          ->where('course_id',session()->get('usercourse'))
-          ->where('year_id',session()->get('year_id'))
-          ->where('Indicator_id',4.1)
-          ->get();
-          if($queryindicator4_1result2!="[]"){
-              $queryindicator4_1resultdoc2p= docpdca::where('pdca_id',$queryindicator4_1result2[0]['pdca_id'])
-              ->where('categorypdca','p')
-              ->get();
-              if(count($queryindicator4_1resultdoc2p)!=0){
-                  $score4_1resultdoc2++;
-              }
-              $queryindicator4_1resultdoc2d= docpdca::where('pdca_id',$queryindicator4_1result2[0]['pdca_id'])
-              ->where('categorypdca','d')
-              ->get();
-              if(count($queryindicator4_1resultdoc2d)!=0){
-                  $score4_1resultdoc2++;
-              }
-              $queryindicator4_1resultdoc2c= docpdca::where('pdca_id',$queryindicator4_1result2[0]['pdca_id'])
-              ->where('categorypdca','c')
-              ->get();
-              if(count($queryindicator4_1resultdoc2c)!=0){
-                  $score4_1resultdoc2++;
-              }
-              $queryindicator4_1resultdoc2a= docpdca::where('pdca_id',$queryindicator4_1result2[0]['pdca_id'])
-              ->where('categorypdca','a')
-              ->get();
-              if(count($queryindicator4_1resultdoc2a)!=0){
-                  $score4_1resultdoc2++;
-              }
-          }
-          $queryindicator4_1result3= PDCA::where('category_pdca',3)
-          ->where('course_id',session()->get('usercourse'))
-          ->where('year_id',session()->get('year_id'))
-          ->where('Indicator_id',4.1)
-          ->get();
-          if($queryindicator4_1result3!="[]"){
-              $queryindicator4_1resultdoc3p= docpdca::where('pdca_id',$queryindicator4_1result3[0]['pdca_id'])
-              ->where('categorypdca','p')
-              ->get();
-              if(count($queryindicator4_1resultdoc3p)!=0){
-                  $score4_1resultdoc3++;
-              }
-              $queryindicator4_1resultdoc3d= docpdca::where('pdca_id',$queryindicator4_1result3[0]['pdca_id'])
-              ->where('categorypdca','d')
-              ->get();
-              if(count($queryindicator4_1resultdoc3d)!=0){
-                  $score4_1resultdoc3++;
-              }
-              $queryindicator4_1resultdoc3c= docpdca::where('pdca_id',$queryindicator4_1result3[0]['pdca_id'])
-              ->where('categorypdca','c')
-              ->get();
-              if(count($queryindicator4_1resultdoc3c)!=0){
-                  $score4_1resultdoc3++;
-              }
-              $queryindicator4_1resultdoc3a= docpdca::where('pdca_id',$queryindicator4_1result3[0]['pdca_id'])
-              ->where('categorypdca','a')
-              ->get();
-              if(count($queryindicator4_1resultdoc3a)!=0){
-                  $score4_1resultdoc3++;
-              }
-          }
-          $queryindicator2_1result= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+          $queryindicator3_3resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
           ->where('pdca.course_id',session()->get('usercourse'))
+          ->where('pdca.branch_id',session()->get('branch_id'))
           ->where('pdca.year_id',session()->get('year_id'))
-          ->where('pdca.Indicator_id',2.1)
+          ->where('pdca.Indicator_id',3.3)
           ->where('pdca.target','!=',null)
           ->get();
-          if($queryindicator4_1result1!="[]"){
-              if($queryindicator4_1result1[0]['p']!=""){
-                  $score4_1result1++;
+          if($queryindicator3_3resultpdca!="[]"){
+              $score3_3resultpdca++;
+          }
+          ////ปิดตัวบ่งชี้ 3.3
+ 
+          ////ปัจจัยที่มีผลกระทบต่อจำนวนนักศึกษา
+          $scorfactor=0;
+          $factor=category3_GD::where('category_factor','ปัจจัยที่มีผลกระทบต่อจำนวนนักศึกษา')
+         ->where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
+          ->where('year_id',session()->get('year_id'))
+         ->get();
+         if($factor!="[]"){
+             $scorfactor++;
+         }
+          ////ปิด ปัจจัยที่มีผลกระทบต่อจำนวนนักศึกษา
+ 
+           ////ปัยจัยที่มีผลกระทบต่อการสำเร็จการศึกษา
+           $scorfactor2=0;
+           $factor2=category3_GD::where('category_factor','ปัยจัยที่มีผลกระทบต่อการสำเร็จการศึกษา')
+          ->where('course_id',session()->get('usercourse'))
+          ->where('branch_id',session()->get('branch_id'))
+           ->where('year_id',session()->get('year_id'))
+          ->get();
+          if($factor2!="[]"){
+              $scorfactor2++;
+          }
+           ////ปิด ปัยจัยที่มีผลกระทบต่อการสำเร็จการศึกษา
+ 
+          ////ข้อมูลนักศึกษา
+          $scoreinfo=0;
+          $scoreinfoqty=0;
+          $getyear=category3_infostudent::where('course_id',session()->get('usercourse'))
+          ->where('branch_id',session()->get('branch_id'))
+             ->where('year_add',session()->get('year'))
+             ->get();
+         $getqty=category3_infostudent_qty::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
+             ->where('year_id',session()->get('year_id'))
+             ->get();
+         if($getyear!="[]"){
+             $scoreinfo++;
+         }
+         if($getqty!="[]"){
+             $scoreinfoqty++;
+         }
+          ////ปิด ข้อมูลนักศึกษา
+ 
+         ////จำนวนผู้สำเร็จการศึกษา
+         $get=year_acceptance_graduate::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
+         ->get();
+         $scoregraduate=0;
+         if($get!="[]"){
+             $getinfo=category3_graduate::where('course_id',session()->get('usercourse'))
+             ->where('branch_id',session()->get('branch_id'))
+             ->where('year_add', '>=',$get[0]['year_add'])
+             ->where('year_add', '<=',session()->get('year'))
+             ->where('reported_year', '>=',$get[0]['year_add'])
+             ->where('reported_year', '<=',session()->get('year'))
+             ->get();
+             if($getinfo!="[]"){
+                 $scoregraduate++;
+             }
+         }
+        
+        
+         ////ปิด จำนวนผู้สำเร็จการศึกษา
+ 
+        ////จำนวนที่ลาออกและคัดชื่อออกสะสมจนถึงสิ้นปีการศึกษา
+        $scorere=0;
+         $re=category3_resignation::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
+         ->where('year_present',session()->get('year'))
+         ->get();
+       if($re!="[]"){
+           $scorere++;
+       }
+        ////ปิด จำนวนที่ลาออกและคัดชื่อออกสะสมจนถึงสิ้นปีการศึกษา
+ 
+           //// ตัวบ่งชี้ 4.1
+           $score4_1resultdoc1=0;
+           $score4_1resultdoc2=0;
+           $score4_1resultdoc3=0;
+           $score4_1result1=0;
+           $score4_1result2=0;
+           $score4_1result3=0;
+           $score4_1resultpdca=0;
+           $queryindicator4_1result1= PDCA::where('category_pdca',1)
+           ->where('course_id',session()->get('usercourse'))
+           ->where('branch_id',session()->get('branch_id'))
+           ->where('year_id',session()->get('year_id'))
+           ->where('Indicator_id',4.1)
+           ->get();
+           if($queryindicator4_1result1!="[]"){
+               $queryindicator4_1resultdoc1p= docpdca::where('pdca_id',$queryindicator4_1result1[0]['pdca_id'])
+               ->where('categorypdca','p')
+               ->get();
+               if(count($queryindicator4_1resultdoc1p)!=0){
+                   $score4_1resultdoc1++;
+               }
+               $queryindicator4_1resultdoc1d= docpdca::where('pdca_id',$queryindicator4_1result1[0]['pdca_id'])
+               ->where('categorypdca','d')
+               ->get();
+               if(count($queryindicator4_1resultdoc1d)!=0){
+                   $score4_1resultdoc1++;
+               }
+               $queryindicator4_1resultdoc1c= docpdca::where('pdca_id',$queryindicator4_1result1[0]['pdca_id'])
+               ->where('categorypdca','c')
+               ->get();
+               if(count($queryindicator4_1resultdoc1c)!=0){
+                   $score4_1resultdoc1++;
+               }
+               $queryindicator4_1resultdoc1a= docpdca::where('pdca_id',$queryindicator4_1result1[0]['pdca_id'])
+               ->where('categorypdca','a')
+               ->get();
+               if(count($queryindicator4_1resultdoc1a)!=0){
+                   $score4_1resultdoc1++;
+               }
+           }
+           
+           $queryindicator4_1result2= PDCA::where('category_pdca',2)
+           ->where('course_id',session()->get('usercourse'))
+           ->where('branch_id',session()->get('branch_id'))
+           ->where('year_id',session()->get('year_id'))
+           ->where('Indicator_id',4.1)
+           ->get();
+           if($queryindicator4_1result2!="[]"){
+               $queryindicator4_1resultdoc2p= docpdca::where('pdca_id',$queryindicator4_1result2[0]['pdca_id'])
+               ->where('categorypdca','p')
+               ->get();
+               if(count($queryindicator4_1resultdoc2p)!=0){
+                   $score4_1resultdoc2++;
+               }
+               $queryindicator4_1resultdoc2d= docpdca::where('pdca_id',$queryindicator4_1result2[0]['pdca_id'])
+               ->where('categorypdca','d')
+               ->get();
+               if(count($queryindicator4_1resultdoc2d)!=0){
+                   $score4_1resultdoc2++;
+               }
+               $queryindicator4_1resultdoc2c= docpdca::where('pdca_id',$queryindicator4_1result2[0]['pdca_id'])
+               ->where('categorypdca','c')
+               ->get();
+               if(count($queryindicator4_1resultdoc2c)!=0){
+                   $score4_1resultdoc2++;
+               }
+               $queryindicator4_1resultdoc2a= docpdca::where('pdca_id',$queryindicator4_1result2[0]['pdca_id'])
+               ->where('categorypdca','a')
+               ->get();
+               if(count($queryindicator4_1resultdoc2a)!=0){
+                   $score4_1resultdoc2++;
+               }
+           }
+           $queryindicator4_1result3= PDCA::where('category_pdca',3)
+           ->where('course_id',session()->get('usercourse'))
+           ->where('branch_id',session()->get('branch_id'))
+           ->where('year_id',session()->get('year_id'))
+           ->where('Indicator_id',4.1)
+           ->get();
+           if($queryindicator4_1result3!="[]"){
+               $queryindicator4_1resultdoc3p= docpdca::where('pdca_id',$queryindicator4_1result3[0]['pdca_id'])
+               ->where('categorypdca','p')
+               ->get();
+               if(count($queryindicator4_1resultdoc3p)!=0){
+                   $score4_1resultdoc3++;
+               }
+               $queryindicator4_1resultdoc3d= docpdca::where('pdca_id',$queryindicator4_1result3[0]['pdca_id'])
+               ->where('categorypdca','d')
+               ->get();
+               if(count($queryindicator4_1resultdoc3d)!=0){
+                   $score4_1resultdoc3++;
+               }
+               $queryindicator4_1resultdoc3c= docpdca::where('pdca_id',$queryindicator4_1result3[0]['pdca_id'])
+               ->where('categorypdca','c')
+               ->get();
+               if(count($queryindicator4_1resultdoc3c)!=0){
+                   $score4_1resultdoc3++;
+               }
+               $queryindicator4_1resultdoc3a= docpdca::where('pdca_id',$queryindicator4_1result3[0]['pdca_id'])
+               ->where('categorypdca','a')
+               ->get();
+               if(count($queryindicator4_1resultdoc3a)!=0){
+                   $score4_1resultdoc3++;
+               }
+           }
+           $queryindicator2_1result= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+           ->where('pdca.course_id',session()->get('usercourse'))
+           ->where('pdca.branch_id',session()->get('branch_id'))
+           ->where('pdca.year_id',session()->get('year_id'))
+           ->where('pdca.Indicator_id',2.1)
+           ->where('pdca.target','!=',null)
+           ->get();
+           if($queryindicator4_1result1!="[]"){
+               if($queryindicator4_1result1[0]['p']!=""){
+                   $score4_1result1++;
+               }
+               if($queryindicator4_1result1[0]['d']!=""){
+                   $score4_1result1++;
+               }
+               if($queryindicator4_1result1[0]['c']!=""){
+                   $score4_1result1++;
+               }
+               if($queryindicator4_1result1[0]['a']!=""){
+                   $score4_1result1++;
+               }
+           }
+           
+           if($queryindicator4_1result2!="[]"){
+           if($queryindicator4_1result2[0]['p']!=""){
+               $score4_1result2++;
+           }
+           if($queryindicator4_1result2[0]['d']!=""){
+               $score4_1result2++;
+           }
+           if($queryindicator4_1result2[0]['c']!=""){
+               $score4_1result2++;
+           }
+           if($queryindicator4_1result2[0]['a']!=""){
+               $score4_1result2++;
+           }
+           }
+   
+           if($queryindicator4_1result3!="[]"){
+           if($queryindicator4_1result3[0]['p']!=""){
+               $score4_1result3++;
+           }
+           if($queryindicator4_1result3[0]['d']!=""){
+               $score4_1result3++;
+           }
+           if($queryindicator4_1result3[0]['c']!=""){
+               $score4_1result3++;
+           }
+           if($queryindicator4_1result3[0]['a']!=""){
+               $score4_1result3++;
+           }
+          }
+          $queryindicator4_1resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+           ->where('pdca.course_id',session()->get('usercourse'))
+           ->where('pdca.branch_id',session()->get('branch_id'))
+           ->where('pdca.year_id',session()->get('year_id'))
+           ->where('pdca.Indicator_id',4.1)
+           ->where('pdca.target','!=',null)
+           ->get();
+           if($queryindicator4_1resultpdca!="[]"){
+               $score4_1resultpdca++;
+           }
+           //// ตัวบ่งชี้ 4.1
+ 
+ 
+           //// ตัวบ่งชี้ 4.2
+           $score4_2result1=0;
+           $score4_2result2=0;
+           $score4_2resultpdca=0;
+           //ดึงค่าตารางอาจารย์ผู้รับผิดชอบหลักสูตร
+             $trc = course_responsible_teacher::join('year','course_responsible_teacher.year_id','=','year.year_id')
+             ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
+             ->where('course_responsible_teacher.branch_id',session()->get('branch_id'))
+             ->where('year.year_id',session()->get('year_id'))
+             ->get();
+             $educ_bg= User::leftjoin('course_responsible_teacher','users.id','=','course_responsible_teacher.user_id')
+             ->where('users.user_course',session()->get('usercourse'))
+             ->where('users.branch_id',session()->get('branch_id'))
+             ->where('course_responsible_teacher.year_id',session()->get('year_id'))
+             ->get();
+             foreach($educ_bg as $key=>$t){
+                 if(count($educ_bg[$key]->research_results)!=0){
+                         $score4_2result2=1;
+                 }
+             }
+            
+             $queryindicator4_2resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+             ->where('pdca.course_id',session()->get('usercourse'))
+             ->where('pdca.branch_id',session()->get('branch_id'))
+             ->where('pdca.year_id',session()->get('year_id'))
+             ->where('pdca.Indicator_id',4.2)
+             ->where('pdca.target','!=',null)
+             ->get();
+             if($trc!="[]"){
+                 if(count($trc)!=0){
+                     $score4_2result1++;
+                 }
+             }
+             if($queryindicator4_2resultpdca!="[]"){
+                 $score4_2resultpdca++;
+             }
+           ////ปิด ตัวบ่งชี้ 4.2
+ 
+           ////ตัวบ่งชี้ 4.3
+         $score4_3resultdoc1=0;
+         $score4_3resultdoc2=0;
+         $score4_3result1=0;
+         $score4_3result2=0;
+ 
+         $score4_3resultpdca=0;
+         $queryindicator4_3result=indicator4_3::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
+         ->where('year_id',session()->get('year_id'))
+         ->get();
+         if($queryindicator4_3result!="[]"){
+             // $queryindicator4_3resultdoc= docpdca::where('doc_id',$queryindicator4_3result[0]['id'])
+             // ->get();
+             // if(count($queryindicator4_3resultdoc)!=0){
+             //     $score4_3resultdoc1++;
+             // }
+             if(count($queryindicator4_3result)==2){
+                 $score4_3result1++;
+                 $score4_3result2++;
+             }
+         }
+         $queryindicator4_3resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+         ->where('pdca.course_id',session()->get('usercourse'))
+         ->where('pdca.branch_id',session()->get('branch_id'))
+         ->where('pdca.year_id',session()->get('year_id'))
+         ->where('pdca.Indicator_id',4.3)
+         ->where('pdca.target','!=',null)
+         ->get();
+         if($queryindicator4_3resultpdca!="[]"){
+             $score4_3resultpdca++;
+         }
+         ////ตัวบ่งชี้ 4.3
+ 
+          //// ตัวบ่งชี้ 5.1
+          $score5_1resultdoc1=0;
+          $score5_1resultdoc2=0;
+          $score5_1resultdoc3=0;
+          $score5_1result1=0;
+          $score5_1result2=0;
+          $score5_1result3=0;
+          $score5_1resultpdca=0;
+          $queryindicator5_1result1= PDCA::where('category_pdca',12)
+          ->where('course_id',session()->get('usercourse'))
+          ->where('branch_id',session()->get('branch_id'))
+          ->where('year_id',session()->get('year_id'))
+          ->where('Indicator_id',5.1)
+          ->get();
+          if($queryindicator5_1result1!="[]"){
+              $queryindicator5_1resultdoc1p= docpdca::where('pdca_id',$queryindicator5_1result1[0]['pdca_id'])
+              ->where('categorypdca','p')
+              ->get();
+              if(count($queryindicator5_1resultdoc1p)!=0){
+                  $score5_1resultdoc1++;
               }
-              if($queryindicator4_1result1[0]['d']!=""){
-                  $score4_1result1++;
+              $queryindicator5_1resultdoc1d= docpdca::where('pdca_id',$queryindicator5_1result1[0]['pdca_id'])
+              ->where('categorypdca','d')
+              ->get();
+              if(count($queryindicator5_1resultdoc1d)!=0){
+                  $score5_1resultdoc1++;
               }
-              if($queryindicator4_1result1[0]['c']!=""){
-                  $score4_1result1++;
+              $queryindicator5_1resultdoc1c= docpdca::where('pdca_id',$queryindicator5_1result1[0]['pdca_id'])
+              ->where('categorypdca','c')
+              ->get();
+              if(count($queryindicator5_1resultdoc1c)!=0){
+                  $score5_1resultdoc1++;
               }
-              if($queryindicator4_1result1[0]['a']!=""){
-                  $score4_1result1++;
+              $queryindicator5_1resultdoc1a= docpdca::where('pdca_id',$queryindicator5_1result1[0]['pdca_id'])
+              ->where('categorypdca','a')
+              ->get();
+              if(count($queryindicator5_1resultdoc1a)!=0){
+                  $score5_1resultdoc1++;
               }
           }
           
-          if($queryindicator4_1result2!="[]"){
-          if($queryindicator4_1result2[0]['p']!=""){
-              $score4_1result2++;
+          $queryindicator5_1result2= PDCA::where('category_pdca',13)
+          ->where('course_id',session()->get('usercourse'))
+          ->where('branch_id',session()->get('branch_id'))
+          ->where('year_id',session()->get('year_id'))
+          ->where('Indicator_id',5.1)
+          ->get();
+          if($queryindicator5_1result2!="[]"){
+              $queryindicator5_1resultdoc2p= docpdca::where('pdca_id',$queryindicator5_1result2[0]['pdca_id'])
+              ->where('categorypdca','p')
+              ->get();
+              if(count($queryindicator5_1resultdoc2p)!=0){
+                  $score5_1resultdoc2++;
+              }
+              $queryindicator5_1resultdoc2d= docpdca::where('pdca_id',$queryindicator5_1result2[0]['pdca_id'])
+              ->where('categorypdca','d')
+              ->get();
+              if(count($queryindicator5_1resultdoc2d)!=0){
+                  $score5_1resultdoc2++;
+              }
+              $queryindicator5_1resultdoc2c= docpdca::where('pdca_id',$queryindicator5_1result2[0]['pdca_id'])
+              ->where('categorypdca','c')
+              ->get();
+              if(count($queryindicator5_1resultdoc2c)!=0){
+                  $score5_1resultdoc2++;
+              }
+              $queryindicator5_1resultdoc2a= docpdca::where('pdca_id',$queryindicator5_1result2[0]['pdca_id'])
+              ->where('categorypdca','a')
+              ->get();
+              if(count($queryindicator5_1resultdoc2a)!=0){
+                  $score5_1resultdoc2++;
+              }
           }
-          if($queryindicator4_1result2[0]['d']!=""){
-              $score4_1result2++;
+          $queryindicator5_1result3= PDCA::where('category_pdca',14)
+          ->where('course_id',session()->get('usercourse'))
+          ->where('branch_id',session()->get('branch_id'))
+          ->where('year_id',session()->get('year_id'))
+          ->where('Indicator_id',5.1)
+          ->get();
+          if($queryindicator5_1result3!="[]"){
+              $queryindicator5_1resultdoc3p= docpdca::where('pdca_id',$queryindicator5_1result3[0]['pdca_id'])
+              ->where('categorypdca','p')
+              ->get();
+              if(count($queryindicator5_1resultdoc3p)!=0){
+                  $score5_1resultdoc3++;
+              }
+              $queryindicator5_1resultdoc3d= docpdca::where('pdca_id',$queryindicator5_1result3[0]['pdca_id'])
+              ->where('categorypdca','d')
+              ->get();
+              if(count($queryindicator5_1resultdoc3d)!=0){
+                  $score5_1resultdoc3++;
+              }
+              $queryindicator5_1resultdoc3c= docpdca::where('pdca_id',$queryindicator5_1result3[0]['pdca_id'])
+              ->where('categorypdca','c')
+              ->get();
+              if(count($queryindicator5_1resultdoc3c)!=0){
+                  $score5_1resultdoc3++;
+              }
+              $queryindicator5_1resultdoc3a= docpdca::where('pdca_id',$queryindicator5_1result3[0]['pdca_id'])
+              ->where('categorypdca','a')
+              ->get();
+              if(count($queryindicator5_1resultdoc3a)!=0){
+                  $score5_1resultdoc3++;
+              }
           }
-          if($queryindicator4_1result2[0]['c']!=""){
-              $score4_1result2++;
+ 
+          if($queryindicator5_1result1!="[]"){
+              if($queryindicator5_1result1[0]['p']!=""){
+                  $score5_1result1++;
+              }
+              if($queryindicator5_1result1[0]['d']!=""){
+                  $score5_1result1++;
+              }
+              if($queryindicator5_1result1[0]['c']!=""){
+                  $score5_1result1++;
+              }
+              if($queryindicator5_1result1[0]['a']!=""){
+                  $score5_1result1++;
+              }
           }
-          if($queryindicator4_1result2[0]['a']!=""){
-              $score4_1result2++;
+          
+          if($queryindicator5_1result2!="[]"){
+          if($queryindicator5_1result2[0]['p']!=""){
+              $score5_1result2++;
+          }
+          if($queryindicator5_1result2[0]['d']!=""){
+              $score5_1result2++;
+          }
+          if($queryindicator5_1result2[0]['c']!=""){
+              $score5_1result2++;
+          }
+          if($queryindicator5_1result2[0]['a']!=""){
+              $score5_1result2++;
           }
           }
   
-          if($queryindicator4_1result3!="[]"){
-          if($queryindicator4_1result3[0]['p']!=""){
-              $score4_1result3++;
+          if($queryindicator5_1result3!="[]"){
+          if($queryindicator5_1result3[0]['p']!=""){
+              $score5_1result3++;
           }
-          if($queryindicator4_1result3[0]['d']!=""){
-              $score4_1result3++;
+          if($queryindicator5_1result3[0]['d']!=""){
+              $score5_1result3++;
           }
-          if($queryindicator4_1result3[0]['c']!=""){
-              $score4_1result3++;
+          if($queryindicator5_1result3[0]['c']!=""){
+              $score5_1result3++;
           }
-          if($queryindicator4_1result3[0]['a']!=""){
-              $score4_1result3++;
+          if($queryindicator5_1result3[0]['a']!=""){
+              $score5_1result3++;
           }
          }
-         $queryindicator4_1resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+         $queryindicator5_1resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
           ->where('pdca.course_id',session()->get('usercourse'))
+          ->where('pdca.branch_id',session()->get('branch_id'))
           ->where('pdca.year_id',session()->get('year_id'))
-          ->where('pdca.Indicator_id',4.1)
+          ->where('pdca.Indicator_id',5.1)
           ->where('pdca.target','!=',null)
           ->get();
-          if($queryindicator4_1resultpdca!="[]"){
-              $score4_1resultpdca++;
+          if($queryindicator5_1resultpdca!="[]"){
+              $score5_1resultpdca++;
           }
-          //// ตัวบ่งชี้ 4.1
-
-
-          //// ตัวบ่งชี้ 4.2
-          $score4_2result1=0;
-          $score4_2result2=0;
-          $score4_2resultpdca=0;
-          //ดึงค่าตารางอาจารย์ผู้รับผิดชอบหลักสูตร
-            $trc = course_responsible_teacher::join('year','course_responsible_teacher.year_id','=','year.year_id')
-            ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
-            ->where('year.year_id',session()->get('year_id'))
-            ->get();
-            $educ_bg= User::leftjoin('course_responsible_teacher','users.id','=','course_responsible_teacher.user_id')
-            ->where('users.user_course',session()->get('usercourse'))
-            ->where('course_responsible_teacher.year_id',session()->get('year_id'))
-            ->get();
-            foreach($educ_bg as $key=>$t){
-                if(count($educ_bg[$key]->research_results)!=0){
-                        $score4_2result2=1;
-                }
-            }
-           
-            $queryindicator4_2resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
-            ->where('pdca.course_id',session()->get('usercourse'))
-            ->where('pdca.year_id',session()->get('year_id'))
-            ->where('pdca.Indicator_id',4.2)
-            ->where('pdca.target','!=',null)
-            ->get();
-            if($trc!="[]"){
-                if(count($trc)!=0){
-                    $score4_2result1++;
-                }
-            }
-            if($queryindicator4_2resultpdca!="[]"){
-                $score4_2resultpdca++;
-            }
-          ////ปิด ตัวบ่งชี้ 4.2
-
-          ////ตัวบ่งชี้ 4.3
-        $score4_3resultdoc1=0;
-        $score4_3resultdoc2=0;
-        $score4_3result1=0;
-        $score4_3result2=0;
-
-        $score4_3resultpdca=0;
-        $queryindicator4_3result=indicator4_3::where('course_id',session()->get('usercourse'))
-        ->where('year_id',session()->get('year_id'))
-        ->get();
-        if($queryindicator4_3result!="[]"){
-            // $queryindicator4_3resultdoc= docpdca::where('doc_id',$queryindicator4_3result[0]['id'])
-            // ->get();
-            // if(count($queryindicator4_3resultdoc)!=0){
-            //     $score4_3resultdoc1++;
-            // }
-            if(count($queryindicator4_3result)==2){
-                $score4_3result1++;
-                $score4_3result2++;
-            }
-        }
-        $queryindicator4_3resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
-        ->where('pdca.course_id',session()->get('usercourse'))
-        ->where('pdca.year_id',session()->get('year_id'))
-        ->where('pdca.Indicator_id',4.3)
-        ->where('pdca.target','!=',null)
-        ->get();
-        if($queryindicator4_3resultpdca!="[]"){
-            $score4_3resultpdca++;
-        }
-        ////ตัวบ่งชี้ 4.3
-
-         //// ตัวบ่งชี้ 5.1
-         $score5_1resultdoc1=0;
-         $score5_1resultdoc2=0;
-         $score5_1resultdoc3=0;
-         $score5_1result1=0;
-         $score5_1result2=0;
-         $score5_1result3=0;
-         $score5_1resultpdca=0;
-         $queryindicator5_1result1= PDCA::where('category_pdca',12)
+          //// ปิด ตัวบ่งชี้ 5.1
+ 
+          //// ตัวบ่งชี้ 5.2
+          $score5_2resultdoc1=0;
+          $score5_2resultdoc2=0;
+          $score5_2resultdoc3=0;
+          $score5_2result1=0;
+          $score5_2result2=0;
+          $score5_2result3=0;
+          $score5_2resultpdca=0;
+          $queryindicator5_2result1= PDCA::where('category_pdca',8)
+          ->where('course_id',session()->get('usercourse'))
+          ->where('branch_id',session()->get('branch_id'))
+          ->where('year_id',session()->get('year_id'))
+          ->where('Indicator_id',5.2)
+          ->get();
+          if($queryindicator5_2result1!="[]"){
+              $queryindicator5_2resultdoc1p= docpdca::where('pdca_id',$queryindicator5_2result1[0]['pdca_id'])
+              ->where('categorypdca','p')
+              ->get();
+              if(count($queryindicator5_2resultdoc1p)!=0){
+                  $score5_2resultdoc1++;
+              }
+              $queryindicator5_2resultdoc1d= docpdca::where('pdca_id',$queryindicator5_2result1[0]['pdca_id'])
+              ->where('categorypdca','d')
+              ->get();
+              if(count($queryindicator5_2resultdoc1d)!=0){
+                  $score5_2resultdoc1++;
+              }
+              $queryindicator5_2resultdoc1c= docpdca::where('pdca_id',$queryindicator5_2result1[0]['pdca_id'])
+              ->where('categorypdca','c')
+              ->get();
+              if(count($queryindicator5_2resultdoc1c)!=0){
+                  $score5_2resultdoc1++;
+              }
+              $queryindicator5_2resultdoc1a= docpdca::where('pdca_id',$queryindicator5_2result1[0]['pdca_id'])
+              ->where('categorypdca','a')
+              ->get();
+              if(count($queryindicator5_2resultdoc1a)!=0){
+                  $score5_2resultdoc1++;
+              }
+          }
+          
+          $queryindicator5_2result2= PDCA::where('category_pdca',9)
+          ->where('course_id',session()->get('usercourse'))
+          ->where('branch_id',session()->get('branch_id'))
+          ->where('year_id',session()->get('year_id'))
+          ->where('Indicator_id',5.2)
+          ->get();
+          if($queryindicator5_2result2!="[]"){
+              $queryindicator5_2resultdoc2p= docpdca::where('pdca_id',$queryindicator5_2result2[0]['pdca_id'])
+              ->where('categorypdca','p')
+              ->get();
+              if(count($queryindicator5_2resultdoc2p)!=0){
+                  $score5_2resultdoc2++;
+              }
+              $queryindicator5_2resultdoc2d= docpdca::where('pdca_id',$queryindicator5_2result2[0]['pdca_id'])
+              ->where('categorypdca','d')
+              ->get();
+              if(count($queryindicator5_2resultdoc2d)!=0){
+                  $score5_2resultdoc2++;
+              }
+              $queryindicator5_2resultdoc2c= docpdca::where('pdca_id',$queryindicator5_2result2[0]['pdca_id'])
+              ->where('categorypdca','c')
+              ->get();
+              if(count($queryindicator5_2resultdoc2c)!=0){
+                  $score5_2resultdoc2++;
+              }
+              $queryindicator5_2resultdoc2a= docpdca::where('pdca_id',$queryindicator5_2result2[0]['pdca_id'])
+              ->where('categorypdca','a')
+              ->get();
+              if(count($queryindicator5_2resultdoc2a)!=0){
+                  $score5_2resultdoc2++;
+              }
+          }
+          $queryindicator5_2result3= PDCA::where('category_pdca',10)
+          ->where('course_id',session()->get('usercourse'))
+          ->where('branch_id',session()->get('branch_id'))
+          ->where('year_id',session()->get('year_id'))
+          ->where('Indicator_id',5.2)
+          ->get();
+          if($queryindicator5_2result3!="[]"){
+              $queryindicator5_2resultdoc3p= docpdca::where('pdca_id',$queryindicator5_2result3[0]['pdca_id'])
+              ->where('categorypdca','p')
+              ->get();
+              if(count($queryindicator5_2resultdoc3p)!=0){
+                  $score5_2resultdoc3++;
+              }
+              $queryindicator5_2resultdoc3d= docpdca::where('pdca_id',$queryindicator5_2result3[0]['pdca_id'])
+              ->where('categorypdca','d')
+              ->get();
+              if(count($queryindicator5_2resultdoc3d)!=0){
+                  $score5_2resultdoc3++;
+              }
+              $queryindicator5_2resultdoc3c= docpdca::where('pdca_id',$queryindicator5_2result3[0]['pdca_id'])
+              ->where('categorypdca','c')
+              ->get();
+              if(count($queryindicator5_2resultdoc3c)!=0){
+                  $score5_2resultdoc3++;
+              }
+              $queryindicator5_2resultdoc3a= docpdca::where('pdca_id',$queryindicator5_2result3[0]['pdca_id'])
+              ->where('categorypdca','a')
+              ->get();
+              if(count($queryindicator5_2resultdoc3a)!=0){
+                  $score5_2resultdoc3++;
+              }
+          }
+ 
+          if($queryindicator5_2result1!="[]"){
+              if($queryindicator5_2result1[0]['p']!=""){
+                  $score5_2result1++;
+              }
+              if($queryindicator5_2result1[0]['d']!=""){
+                  $score5_2result1++;
+              }
+              if($queryindicator5_2result1[0]['c']!=""){
+                  $score5_2result1++;
+              }
+              if($queryindicator5_2result1[0]['a']!=""){
+                  $score5_2result1++;
+              }
+          }
+          
+          if($queryindicator5_2result2!="[]"){
+          if($queryindicator5_2result2[0]['p']!=""){
+              $score5_2result2++;
+          }
+          if($queryindicator5_2result2[0]['d']!=""){
+              $score5_2result2++;
+          }
+          if($queryindicator5_2result2[0]['c']!=""){
+              $score5_2result2++;
+          }
+          if($queryindicator5_2result2[0]['a']!=""){
+              $score5_2result2++;
+          }
+          }
+  
+          if($queryindicator5_2result3!="[]"){
+          if($queryindicator5_2result3[0]['p']!=""){
+              $score5_2result3++;
+          }
+          if($queryindicator5_2result3[0]['d']!=""){
+              $score5_2result3++;
+          }
+          if($queryindicator5_2result3[0]['c']!=""){
+              $score5_2result3++;
+          }
+          if($queryindicator5_2result3[0]['a']!=""){
+              $score5_2result3++;
+          }
+         }
+         $queryindicator5_2resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+          ->where('pdca.course_id',session()->get('usercourse'))
+          ->where('pdca.branch_id',session()->get('branch_id'))
+          ->where('pdca.year_id',session()->get('year_id'))
+          ->where('pdca.Indicator_id',5.2)
+          ->where('pdca.target','!=',null)
+          ->get();
+          if($queryindicator5_2resultpdca!="[]"){
+              $score5_2resultpdca++;
+          }
+          //// ปิด ตัวบ่งชี้ 5.2
+ 
+          //// ตัวบ่งชี้ 5.3
+         $score5_3resultdoc1=0;
+         $score5_3resultdoc2=0;
+         $score5_3result1=0;
+         $score5_3result2=0;
+         $score5_3resultpdca=0;
+         $queryindicator5_3result1= PDCA::where('category_pdca',15)
          ->where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
          ->where('year_id',session()->get('year_id'))
-         ->where('Indicator_id',5.1)
+         ->where('Indicator_id',5.3)
          ->get();
-         if($queryindicator5_1result1!="[]"){
-             $queryindicator5_1resultdoc1p= docpdca::where('pdca_id',$queryindicator5_1result1[0]['pdca_id'])
+         if($queryindicator5_3result1!="[]"){
+             $queryindicator5_3resultdoc1p= docpdca::where('pdca_id',$queryindicator5_3result1[0]['pdca_id'])
              ->where('categorypdca','p')
              ->get();
-             if(count($queryindicator5_1resultdoc1p)!=0){
-                 $score5_1resultdoc1++;
+             if(count($queryindicator5_3resultdoc1p)!=0){
+                 $score5_3resultdoc1++;
              }
-             $queryindicator5_1resultdoc1d= docpdca::where('pdca_id',$queryindicator5_1result1[0]['pdca_id'])
+             $queryindicator5_3resultdoc1d= docpdca::where('pdca_id',$queryindicator5_3result1[0]['pdca_id'])
              ->where('categorypdca','d')
              ->get();
-             if(count($queryindicator5_1resultdoc1d)!=0){
-                 $score5_1resultdoc1++;
+             if(count($queryindicator5_3resultdoc1d)!=0){
+                 $score5_3resultdoc1++;
              }
-             $queryindicator5_1resultdoc1c= docpdca::where('pdca_id',$queryindicator5_1result1[0]['pdca_id'])
+             $queryindicator5_3resultdoc1c= docpdca::where('pdca_id',$queryindicator5_3result1[0]['pdca_id'])
              ->where('categorypdca','c')
              ->get();
-             if(count($queryindicator5_1resultdoc1c)!=0){
-                 $score5_1resultdoc1++;
+             if(count($queryindicator5_3resultdoc1c)!=0){
+                 $score5_3resultdoc1++;
              }
-             $queryindicator5_1resultdoc1a= docpdca::where('pdca_id',$queryindicator5_1result1[0]['pdca_id'])
+             $queryindicator5_3resultdoc1a= docpdca::where('pdca_id',$queryindicator5_3result1[0]['pdca_id'])
              ->where('categorypdca','a')
              ->get();
-             if(count($queryindicator5_1resultdoc1a)!=0){
-                 $score5_1resultdoc1++;
+             if(count($queryindicator5_3resultdoc1a)!=0){
+                 $score5_3resultdoc1++;
              }
          }
          
-         $queryindicator5_1result2= PDCA::where('category_pdca',13)
+         $queryindicator5_3result2= PDCA::where('category_pdca',16)
          ->where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
          ->where('year_id',session()->get('year_id'))
-         ->where('Indicator_id',5.1)
+         ->where('Indicator_id',5.3)
          ->get();
-         if($queryindicator5_1result2!="[]"){
-             $queryindicator5_1resultdoc2p= docpdca::where('pdca_id',$queryindicator5_1result2[0]['pdca_id'])
+         if($queryindicator5_3result2!="[]"){
+             $queryindicator5_3resultdoc2p= docpdca::where('pdca_id',$queryindicator5_3result2[0]['pdca_id'])
              ->where('categorypdca','p')
              ->get();
-             if(count($queryindicator5_1resultdoc2p)!=0){
-                 $score5_1resultdoc2++;
+             if(count($queryindicator5_3resultdoc2p)!=0){
+                 $score5_3resultdoc2++;
              }
-             $queryindicator5_1resultdoc2d= docpdca::where('pdca_id',$queryindicator5_1result2[0]['pdca_id'])
+             $queryindicator5_3resultdoc2d= docpdca::where('pdca_id',$queryindicator5_3result2[0]['pdca_id'])
              ->where('categorypdca','d')
              ->get();
-             if(count($queryindicator5_1resultdoc2d)!=0){
-                 $score5_1resultdoc2++;
+             if(count($queryindicator5_3resultdoc2d)!=0){
+                 $score5_3resultdoc2++;
              }
-             $queryindicator5_1resultdoc2c= docpdca::where('pdca_id',$queryindicator5_1result2[0]['pdca_id'])
+             $queryindicator5_3resultdoc2c= docpdca::where('pdca_id',$queryindicator5_3result2[0]['pdca_id'])
              ->where('categorypdca','c')
              ->get();
-             if(count($queryindicator5_1resultdoc2c)!=0){
-                 $score5_1resultdoc2++;
+             if(count($queryindicator5_3resultdoc2c)!=0){
+                 $score5_3resultdoc2++;
              }
-             $queryindicator5_1resultdoc2a= docpdca::where('pdca_id',$queryindicator5_1result2[0]['pdca_id'])
+             $queryindicator5_3resultdoc2a= docpdca::where('pdca_id',$queryindicator5_3result2[0]['pdca_id'])
              ->where('categorypdca','a')
              ->get();
-             if(count($queryindicator5_1resultdoc2a)!=0){
-                 $score5_1resultdoc2++;
+             if(count($queryindicator5_3resultdoc2a)!=0){
+                 $score5_3resultdoc2++;
              }
          }
-         $queryindicator5_1result3= PDCA::where('category_pdca',14)
-         ->where('course_id',session()->get('usercourse'))
-         ->where('year_id',session()->get('year_id'))
-         ->where('Indicator_id',5.1)
-         ->get();
-         if($queryindicator5_1result3!="[]"){
-             $queryindicator5_1resultdoc3p= docpdca::where('pdca_id',$queryindicator5_1result3[0]['pdca_id'])
-             ->where('categorypdca','p')
-             ->get();
-             if(count($queryindicator5_1resultdoc3p)!=0){
-                 $score5_1resultdoc3++;
+  
+ 
+         if($queryindicator5_3result1!="[]"){
+             if($queryindicator5_3result1[0]['p']!=""){
+                 $score5_3result1++;
              }
-             $queryindicator5_1resultdoc3d= docpdca::where('pdca_id',$queryindicator5_1result3[0]['pdca_id'])
-             ->where('categorypdca','d')
-             ->get();
-             if(count($queryindicator5_1resultdoc3d)!=0){
-                 $score5_1resultdoc3++;
+             if($queryindicator5_3result1[0]['d']!=""){
+                 $score5_3result1++;
              }
-             $queryindicator5_1resultdoc3c= docpdca::where('pdca_id',$queryindicator5_1result3[0]['pdca_id'])
-             ->where('categorypdca','c')
-             ->get();
-             if(count($queryindicator5_1resultdoc3c)!=0){
-                 $score5_1resultdoc3++;
+             if($queryindicator5_3result1[0]['c']!=""){
+                 $score5_3result1++;
              }
-             $queryindicator5_1resultdoc3a= docpdca::where('pdca_id',$queryindicator5_1result3[0]['pdca_id'])
-             ->where('categorypdca','a')
-             ->get();
-             if(count($queryindicator5_1resultdoc3a)!=0){
-                 $score5_1resultdoc3++;
-             }
-         }
-
-         if($queryindicator5_1result1!="[]"){
-             if($queryindicator5_1result1[0]['p']!=""){
-                 $score5_1result1++;
-             }
-             if($queryindicator5_1result1[0]['d']!=""){
-                 $score5_1result1++;
-             }
-             if($queryindicator5_1result1[0]['c']!=""){
-                 $score5_1result1++;
-             }
-             if($queryindicator5_1result1[0]['a']!=""){
-                 $score5_1result1++;
+             if($queryindicator5_3result1[0]['a']!=""){
+                 $score5_3result1++;
              }
          }
          
-         if($queryindicator5_1result2!="[]"){
-         if($queryindicator5_1result2[0]['p']!=""){
-             $score5_1result2++;
+         if($queryindicator5_3result2!="[]"){
+         if($queryindicator5_3result2[0]['p']!=""){
+             $score5_3result2++;
          }
-         if($queryindicator5_1result2[0]['d']!=""){
-             $score5_1result2++;
+         if($queryindicator5_3result2[0]['d']!=""){
+             $score5_3result2++;
          }
-         if($queryindicator5_1result2[0]['c']!=""){
-             $score5_1result2++;
+         if($queryindicator5_3result2[0]['c']!=""){
+             $score5_3result2++;
          }
-         if($queryindicator5_1result2[0]['a']!=""){
-             $score5_1result2++;
+         if($queryindicator5_3result2[0]['a']!=""){
+             $score5_3result2++;
          }
          }
  
-         if($queryindicator5_1result3!="[]"){
-         if($queryindicator5_1result3[0]['p']!=""){
-             $score5_1result3++;
-         }
-         if($queryindicator5_1result3[0]['d']!=""){
-             $score5_1result3++;
-         }
-         if($queryindicator5_1result3[0]['c']!=""){
-             $score5_1result3++;
-         }
-         if($queryindicator5_1result3[0]['a']!=""){
-             $score5_1result3++;
-         }
-        }
-        $queryindicator5_1resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+        $queryindicator5_3resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
          ->where('pdca.course_id',session()->get('usercourse'))
+         ->where('pdca.branch_id',session()->get('branch_id'))
          ->where('pdca.year_id',session()->get('year_id'))
-         ->where('pdca.Indicator_id',5.1)
+         ->where('pdca.Indicator_id',5.3)
          ->where('pdca.target','!=',null)
          ->get();
-         if($queryindicator5_1resultpdca!="[]"){
-             $score5_1resultpdca++;
+         if($queryindicator5_3resultpdca!="[]"){
+             $score5_3resultpdca++;
          }
-         //// ปิด ตัวบ่งชี้ 5.1
-
-         //// ตัวบ่งชี้ 5.2
-         $score5_2resultdoc1=0;
-         $score5_2resultdoc2=0;
-         $score5_2resultdoc3=0;
-         $score5_2result1=0;
-         $score5_2result2=0;
-         $score5_2result3=0;
-         $score5_2resultpdca=0;
-         $queryindicator5_2result1= PDCA::where('category_pdca',8)
-         ->where('course_id',session()->get('usercourse'))
-         ->where('year_id',session()->get('year_id'))
-         ->where('Indicator_id',5.2)
-         ->get();
-         if($queryindicator5_2result1!="[]"){
-             $queryindicator5_2resultdoc1p= docpdca::where('pdca_id',$queryindicator5_2result1[0]['pdca_id'])
-             ->where('categorypdca','p')
-             ->get();
-             if(count($queryindicator5_2resultdoc1p)!=0){
-                 $score5_2resultdoc1++;
-             }
-             $queryindicator5_2resultdoc1d= docpdca::where('pdca_id',$queryindicator5_2result1[0]['pdca_id'])
-             ->where('categorypdca','d')
-             ->get();
-             if(count($queryindicator5_2resultdoc1d)!=0){
-                 $score5_2resultdoc1++;
-             }
-             $queryindicator5_2resultdoc1c= docpdca::where('pdca_id',$queryindicator5_2result1[0]['pdca_id'])
-             ->where('categorypdca','c')
-             ->get();
-             if(count($queryindicator5_2resultdoc1c)!=0){
-                 $score5_2resultdoc1++;
-             }
-             $queryindicator5_2resultdoc1a= docpdca::where('pdca_id',$queryindicator5_2result1[0]['pdca_id'])
-             ->where('categorypdca','a')
-             ->get();
-             if(count($queryindicator5_2resultdoc1a)!=0){
-                 $score5_2resultdoc1++;
-             }
-         }
-         
-         $queryindicator5_2result2= PDCA::where('category_pdca',9)
-         ->where('course_id',session()->get('usercourse'))
-         ->where('year_id',session()->get('year_id'))
-         ->where('Indicator_id',5.2)
-         ->get();
-         if($queryindicator5_2result2!="[]"){
-             $queryindicator5_2resultdoc2p= docpdca::where('pdca_id',$queryindicator5_2result2[0]['pdca_id'])
-             ->where('categorypdca','p')
-             ->get();
-             if(count($queryindicator5_2resultdoc2p)!=0){
-                 $score5_2resultdoc2++;
-             }
-             $queryindicator5_2resultdoc2d= docpdca::where('pdca_id',$queryindicator5_2result2[0]['pdca_id'])
-             ->where('categorypdca','d')
-             ->get();
-             if(count($queryindicator5_2resultdoc2d)!=0){
-                 $score5_2resultdoc2++;
-             }
-             $queryindicator5_2resultdoc2c= docpdca::where('pdca_id',$queryindicator5_2result2[0]['pdca_id'])
-             ->where('categorypdca','c')
-             ->get();
-             if(count($queryindicator5_2resultdoc2c)!=0){
-                 $score5_2resultdoc2++;
-             }
-             $queryindicator5_2resultdoc2a= docpdca::where('pdca_id',$queryindicator5_2result2[0]['pdca_id'])
-             ->where('categorypdca','a')
-             ->get();
-             if(count($queryindicator5_2resultdoc2a)!=0){
-                 $score5_2resultdoc2++;
-             }
-         }
-         $queryindicator5_2result3= PDCA::where('category_pdca',10)
-         ->where('course_id',session()->get('usercourse'))
-         ->where('year_id',session()->get('year_id'))
-         ->where('Indicator_id',5.2)
-         ->get();
-         if($queryindicator5_2result3!="[]"){
-             $queryindicator5_2resultdoc3p= docpdca::where('pdca_id',$queryindicator5_2result3[0]['pdca_id'])
-             ->where('categorypdca','p')
-             ->get();
-             if(count($queryindicator5_2resultdoc3p)!=0){
-                 $score5_2resultdoc3++;
-             }
-             $queryindicator5_2resultdoc3d= docpdca::where('pdca_id',$queryindicator5_2result3[0]['pdca_id'])
-             ->where('categorypdca','d')
-             ->get();
-             if(count($queryindicator5_2resultdoc3d)!=0){
-                 $score5_2resultdoc3++;
-             }
-             $queryindicator5_2resultdoc3c= docpdca::where('pdca_id',$queryindicator5_2result3[0]['pdca_id'])
-             ->where('categorypdca','c')
-             ->get();
-             if(count($queryindicator5_2resultdoc3c)!=0){
-                 $score5_2resultdoc3++;
-             }
-             $queryindicator5_2resultdoc3a= docpdca::where('pdca_id',$queryindicator5_2result3[0]['pdca_id'])
-             ->where('categorypdca','a')
-             ->get();
-             if(count($queryindicator5_2resultdoc3a)!=0){
-                 $score5_2resultdoc3++;
-             }
-         }
-
-         if($queryindicator5_2result1!="[]"){
-             if($queryindicator5_2result1[0]['p']!=""){
-                 $score5_2result1++;
-             }
-             if($queryindicator5_2result1[0]['d']!=""){
-                 $score5_2result1++;
-             }
-             if($queryindicator5_2result1[0]['c']!=""){
-                 $score5_2result1++;
-             }
-             if($queryindicator5_2result1[0]['a']!=""){
-                 $score5_2result1++;
-             }
-         }
-         
-         if($queryindicator5_2result2!="[]"){
-         if($queryindicator5_2result2[0]['p']!=""){
-             $score5_2result2++;
-         }
-         if($queryindicator5_2result2[0]['d']!=""){
-             $score5_2result2++;
-         }
-         if($queryindicator5_2result2[0]['c']!=""){
-             $score5_2result2++;
-         }
-         if($queryindicator5_2result2[0]['a']!=""){
-             $score5_2result2++;
-         }
-         }
+         //// ปิดตัวบ่งชี้ 5.3
  
-         if($queryindicator5_2result3!="[]"){
-         if($queryindicator5_2result3[0]['p']!=""){
-             $score5_2result3++;
-         }
-         if($queryindicator5_2result3[0]['d']!=""){
-             $score5_2result3++;
-         }
-         if($queryindicator5_2result3[0]['c']!=""){
-             $score5_2result3++;
-         }
-         if($queryindicator5_2result3[0]['a']!=""){
-             $score5_2result3++;
-         }
-        }
-        $queryindicator5_2resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+         //// ตัวบ่งชี้ 5.4
+         $score5_4result1=0;
+         $score5_4resultpdca=0;
+         $perfor=indicator5_4::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
+         ->where('year_id',session()->get('year_id'))
+         ->get();
+         $inc= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
          ->where('pdca.course_id',session()->get('usercourse'))
+         ->where('pdca.branch_id',session()->get('branch_id'))
          ->where('pdca.year_id',session()->get('year_id'))
-         ->where('pdca.Indicator_id',5.2)
+         ->where('pdca.indicator_id',5.4)
          ->where('pdca.target','!=',null)
          ->get();
-         if($queryindicator5_2resultpdca!="[]"){
-             $score5_2resultpdca++;
+         if($inc!="[]"){
+             $score5_4resultpdca++;
          }
-         //// ปิด ตัวบ่งชี้ 5.2
-
-         //// ตัวบ่งชี้ 5.3
-        $score5_3resultdoc1=0;
-        $score5_3resultdoc2=0;
-        $score5_3result1=0;
-        $score5_3result2=0;
-        $score5_3resultpdca=0;
-        $queryindicator5_3result1= PDCA::where('category_pdca',15)
-        ->where('course_id',session()->get('usercourse'))
-        ->where('year_id',session()->get('year_id'))
-        ->where('Indicator_id',5.3)
-        ->get();
-        if($queryindicator5_3result1!="[]"){
-            $queryindicator5_3resultdoc1p= docpdca::where('pdca_id',$queryindicator5_3result1[0]['pdca_id'])
-            ->where('categorypdca','p')
-            ->get();
-            if(count($queryindicator5_3resultdoc1p)!=0){
-                $score5_3resultdoc1++;
-            }
-            $queryindicator5_3resultdoc1d= docpdca::where('pdca_id',$queryindicator5_3result1[0]['pdca_id'])
-            ->where('categorypdca','d')
-            ->get();
-            if(count($queryindicator5_3resultdoc1d)!=0){
-                $score5_3resultdoc1++;
-            }
-            $queryindicator5_3resultdoc1c= docpdca::where('pdca_id',$queryindicator5_3result1[0]['pdca_id'])
-            ->where('categorypdca','c')
-            ->get();
-            if(count($queryindicator5_3resultdoc1c)!=0){
-                $score5_3resultdoc1++;
-            }
-            $queryindicator5_3resultdoc1a= docpdca::where('pdca_id',$queryindicator5_3result1[0]['pdca_id'])
-            ->where('categorypdca','a')
-            ->get();
-            if(count($queryindicator5_3resultdoc1a)!=0){
-                $score5_3resultdoc1++;
-            }
-        }
-        
-        $queryindicator5_3result2= PDCA::where('category_pdca',16)
-        ->where('course_id',session()->get('usercourse'))
-        ->where('year_id',session()->get('year_id'))
-        ->where('Indicator_id',5.3)
-        ->get();
-        if($queryindicator5_3result2!="[]"){
-            $queryindicator5_3resultdoc2p= docpdca::where('pdca_id',$queryindicator5_3result2[0]['pdca_id'])
-            ->where('categorypdca','p')
-            ->get();
-            if(count($queryindicator5_3resultdoc2p)!=0){
-                $score5_3resultdoc2++;
-            }
-            $queryindicator5_3resultdoc2d= docpdca::where('pdca_id',$queryindicator5_3result2[0]['pdca_id'])
-            ->where('categorypdca','d')
-            ->get();
-            if(count($queryindicator5_3resultdoc2d)!=0){
-                $score5_3resultdoc2++;
-            }
-            $queryindicator5_3resultdoc2c= docpdca::where('pdca_id',$queryindicator5_3result2[0]['pdca_id'])
-            ->where('categorypdca','c')
-            ->get();
-            if(count($queryindicator5_3resultdoc2c)!=0){
-                $score5_3resultdoc2++;
-            }
-            $queryindicator5_3resultdoc2a= docpdca::where('pdca_id',$queryindicator5_3result2[0]['pdca_id'])
-            ->where('categorypdca','a')
-            ->get();
-            if(count($queryindicator5_3resultdoc2a)!=0){
-                $score5_3resultdoc2++;
-            }
-        }
+         if($perfor!="[]"){
+             $score5_4result1++;
+         }
+         //// ปิด ตัวบ่งชี้ 5.4
  
-
-        if($queryindicator5_3result1!="[]"){
-            if($queryindicator5_3result1[0]['p']!=""){
-                $score5_3result1++;
-            }
-            if($queryindicator5_3result1[0]['d']!=""){
-                $score5_3result1++;
-            }
-            if($queryindicator5_3result1[0]['c']!=""){
-                $score5_3result1++;
-            }
-            if($queryindicator5_3result1[0]['a']!=""){
-                $score5_3result1++;
-            }
-        }
-        
-        if($queryindicator5_3result2!="[]"){
-        if($queryindicator5_3result2[0]['p']!=""){
-            $score5_3result2++;
-        }
-        if($queryindicator5_3result2[0]['d']!=""){
-            $score5_3result2++;
-        }
-        if($queryindicator5_3result2[0]['c']!=""){
-            $score5_3result2++;
-        }
-        if($queryindicator5_3result2[0]['a']!=""){
-            $score5_3result2++;
-        }
-        }
-
-       $queryindicator5_3resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
-        ->where('pdca.course_id',session()->get('usercourse'))
-        ->where('pdca.year_id',session()->get('year_id'))
-        ->where('pdca.Indicator_id',5.3)
-        ->where('pdca.target','!=',null)
-        ->get();
-        if($queryindicator5_3resultpdca!="[]"){
-            $score5_3resultpdca++;
-        }
-        //// ปิดตัวบ่งชี้ 5.3
-
-        //// ตัวบ่งชี้ 5.4
-        $score5_4result1=0;
-        $score5_4resultpdca=0;
-        $perfor=indicator5_4::where('course_id',session()->get('usercourse'))
-        ->where('year_id',session()->get('year_id'))
-        ->get();
-        $inc= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
-        ->where('pdca.course_id',session()->get('usercourse'))
-        ->where('pdca.year_id',session()->get('year_id'))
-        ->where('pdca.indicator_id',5.4)
-        ->where('pdca.target','!=',null)
-        ->get();
-        if($inc!="[]"){
-            $score5_4resultpdca++;
-        }
-        if($perfor!="[]"){
-            $score5_4result1++;
-        }
-        //// ปิด ตัวบ่งชี้ 5.4
-
-         //// คุณภาพการสอน
-         $scoreteachqua=0;
-         $teachqua=category4_teaching_quality::where('course_id',session()->get('usercourse'))
-        ->where('year_id',session()->get('year_id'))
-        ->get();
-         if($teachqua!="[]"){
-             $scoreteachqua++;
-         }
-         //// ปิด คุณภาพการสอน
-
-         //// สรุปผลรายวิชาที่เปิดสอนในภาค/ปีการศึกษา
-         $scoreccr=0;
-         $ccr=category4_course_results::where('course_id',session()->get('usercourse'))
-        ->where('year_id',session()->get('year_id'))
-        ->get();
-         if($ccr!="[]"){
-             $scoreccr++;
-         }
-         //// ปิด สรุปผลรายวิชาที่เปิดสอนในภาค/ปีการศึกษา
-
-         //// การวิเคราะห์รายวิชาที่มีผลการเรียนที่ไม่ปกติ
-         $scoreacademic=0;
-         $academic=category4_academic_performance::where('course_id',session()->get('usercourse'))
-        ->where('year_id',session()->get('year_id'))
-        ->get();
-         if($academic!="[]"){
-             $scoreacademic++;
-         }
-         //// ปิด การวิเคราะห์รายวิชาที่มีผลการเรียนที่ไม่ปกติ
-         
-         //// รายวิชาที่ไม่ได้เปิดสอนในปีการศึกษา
-         $scorenot_offered=0;
-         $not_offered=category4_notcourse_results::where('course_id',session()->get('usercourse'))
-        ->where('year_id',session()->get('year_id'))
-        ->get();
-         if($not_offered!="[]"){
-             $scorenot_offered++;
-         }
-         //// ปิด รายวิชาที่ไม่ได้เปิดสอนในปีการศึกษา
-
-         //// รายวิชาที่สอนเนื้อหาไม่ครบในปีการศึกษา
-         $scoreincomplete_content=0;
-         $queryincomplete_content=category4_incomplete_content::where('course_id',session()->get('usercourse'))
-        ->where('year_id',session()->get('year_id'))
-        ->get();
-         if($queryincomplete_content!="[]"){
-             $scoreincomplete_content++;
-         }
-         //// ปิด รายวิชาที่สอนเนื้อหาไม่ครบในปีการศึกษา
-
-         //// ประสิทธิผลของกลยุทธ์การสอน
-         $scoreeffec=0;
-         $effec=category4_effectiveness::where('course_id',session()->get('usercourse'))
+          //// คุณภาพการสอน
+          $scoreteachqua=0;
+          $teachqua=category4_teaching_quality::where('course_id',session()->get('usercourse'))
+          ->where('branch_id',session()->get('branch_id'))
          ->where('year_id',session()->get('year_id'))
          ->get();
-         if($effec!="[]"){
-             $scoreeffec++;
-         }
-         //// ปิด ประสิทธิผลของกลยุทธ์การสอน
-
-         //// การปฐมนิเทศอาจารย์ใหม่
-         $scorenewteacher=0;
-         $th=category4_newteacher::where('course_id',session()->get('usercourse'))
-        ->where('year_id',session()->get('year_id'))
-        ->get();
-         if($th!="[]"){
-             $scorenewteacher++;
-         }
-         //// ปิด การปฐมนิเทศอาจารย์ใหม่
-         
-         //// กิจกรรมการพัฒนาวิชาชีพของอาจารย์
-         $scoreactivity=0;
-         $activity=category4_activity::where('course_id',session()->get('usercourse'))
-         ->where('year_id',session()->get('year_id'))
-         ->get();
-         if($activity!="[]"){
-             $scoreactivity++;
-         }
-         //// ปิด กิจกรรมการพัฒนาวิชาชีพของอาจารย์
-
-         //// ตัวบ่งชี้ 6.1
-        $score6_1resultdoc1=0;
-        $score6_1result1=0;
-        $score6_1resultpdca=0;
-        $queryindicator6_1result1= PDCA::where('category_pdca',11)
-        ->where('course_id',session()->get('usercourse'))
-        ->where('year_id',session()->get('year_id'))
-        ->where('Indicator_id',6.1)
-        ->get();
-        if($queryindicator6_1result1!="[]"){
-            $queryindicator6_1resultdoc1p= docpdca::where('pdca_id',$queryindicator6_1result1[0]['pdca_id'])
-            ->where('categorypdca','p')
-            ->get();
-            if(count($queryindicator6_1resultdoc1p)!=0){
-                $score6_1resultdoc1++;
-            }
-            $queryindicator6_1resultdoc1d= docpdca::where('pdca_id',$queryindicator6_1result1[0]['pdca_id'])
-            ->where('categorypdca','d')
-            ->get();
-            if(count($queryindicator6_1resultdoc1d)!=0){
-                $score6_1resultdoc1++;
-            }
-            $queryindicator6_1resultdoc1c= docpdca::where('pdca_id',$queryindicator6_1result1[0]['pdca_id'])
-            ->where('categorypdca','c')
-            ->get();
-            if(count($queryindicator6_1resultdoc1c)!=0){
-                $score6_1resultdoc1++;
-            }
-            $queryindicator6_1resultdoc1a= docpdca::where('pdca_id',$queryindicator6_1result1[0]['pdca_id'])
-            ->where('categorypdca','a')
-            ->get();
-            if(count($queryindicator6_1resultdoc1a)!=0){
-                $score6_1resultdoc1++;
-            }
-        }
+          if($teachqua!="[]"){
+              $scoreteachqua++;
+          }
+          //// ปิด คุณภาพการสอน
  
-
-        if($queryindicator6_1result1!="[]"){
-            if($queryindicator6_1result1[0]['p']!=""){
-                $score6_1result1++;
-            }
-            if($queryindicator6_1result1[0]['d']!=""){
-                $score6_1result1++;
-            }
-            if($queryindicator6_1result1[0]['c']!=""){
-                $score6_1result1++;
-            }
-            if($queryindicator6_1result1[0]['a']!=""){
-                $score6_1result1++;
-            }
-        }
-       $queryindicator6_1resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
-        ->where('pdca.course_id',session()->get('usercourse'))
-        ->where('pdca.year_id',session()->get('year_id'))
-        ->where('pdca.Indicator_id',6.1)
-        ->where('pdca.target','!=',null)
-        ->get();
-        if($queryindicator6_1resultpdca!="[]"){
-            $score6_1resultpdca++;
-        }
-        //// ปิดตัวบ่งชี้ 6.1
-
-        //// การบริหารหลักสูตร
-        $scorecoursemanage=0;
-        $coursemanage=category5_course_manage::where('course_id',session()->get('usercourse'))
-        ->where('year_id',session()->get('year_id'))
-        ->get();
-        if($coursemanage!="[]"){
-            $scorecoursemanage++;
-        }
-        //// ปิด การบริหารหลักสูตร
-
-
-        //// สรุปการประเมินหลักสูตร	
-        $scoreassessmentsummary=0;
-        $scoreassessmentsummary2=0;
-        $queryassessmentsummary=category6_assessment_summary::where('course_id',session()->get('usercourse'))
-        ->where('category_assessor','=','การประเมินจากผู้ที่สำเร็จการศึกษา')
-        ->where('year_id',session()->get('year_id'))
-        ->get();
-        if($queryassessmentsummary!="[]"){
-            $scoreassessmentsummary++;
-        }
-
-        $queryassessmentsummary2=category6_assessment_summary::where('course_id',session()->get('usercourse'))
-        ->where('category_assessor','=','การประเมินจากผู้ที่มีส่วนเกี่ยวข้อง')
-        ->where('year_id',session()->get('year_id'))
-        ->get();
-        if($queryassessmentsummary2!="[]"){
-            $scoreassessmentsummary2++;
-        }
-        //// ปิด สรุปการประเมินหลักสูตร
-
-        //// ข้อคิดเห็น และข้อเสนอแนะเกี่ยวกับคุณภาพหลักสูตรจากผู้ประเมิน
-        $scorecomment_course=0;
-        $querycomment_course=category6_comment_course::where('course_id',session()->get('usercourse'))
-        ->where('year_id',session()->get('year_id'))
-        ->get();
-        if($querycomment_course!="[]"){
-            $scorecomment_course++;
-        }
-        //// ปิด ข้อคิดเห็น และข้อเสนอแนะเกี่ยวกับคุณภาพหลักสูตรจากผู้ประเมิน
-
-        //// ความก้าวหน้าของการดำเนินงานตามแผนที่เสนอในรายงานของปีที่ผ่านมา
-        $scorestrength=0;
-        $querystrength=category7_strength::where('course_id',session()->get('usercourse'))
-        ->where('year_id',session()->get('year_id'))
-        ->get();
-        if($querystrength!="[]"){
-            $scorestrength++;
-        }
-        //// ปิด ความก้าวหน้าของการดำเนินงานตามแผนที่เสนอในรายงานของปีที่ผ่านมา
-
-
-        //// ข้อเสนอในการพัฒนาหลักสูตร
-        $scoredevelopment_proposal=0;
-        $querydevelopment_proposal=category7_development_proposal_detail::where('course_id',session()->get('usercourse'))
-        ->where('year_id',session()->get('year_id'))
-        ->get();
-        if($querydevelopment_proposal!="[]"){
-            $scoredevelopment_proposal++;
-        }
-        //// ปิด ข้อเสนอในการพัฒนาหลักสูตร
-
-         //// แผนปฏิบัติการใหม่
-         $scorenewstrength=0;
-         $querynewstrength=category7_newstrength::where('course_id',session()->get('usercourse'))
+          //// สรุปผลรายวิชาที่เปิดสอนในภาค/ปีการศึกษา
+          $scoreccr=0;
+          $ccr=category4_course_results::where('course_id',session()->get('usercourse'))
+          ->where('branch_id',session()->get('branch_id'))
          ->where('year_id',session()->get('year_id'))
          ->get();
-         if($querynewstrength!="[]"){
-             $scorenewstrength++;
+          if($ccr!="[]"){
+              $scoreccr++;
+          }
+          //// ปิด สรุปผลรายวิชาที่เปิดสอนในภาค/ปีการศึกษา
+ 
+          //// การวิเคราะห์รายวิชาที่มีผลการเรียนที่ไม่ปกติ
+          $scoreacademic=0;
+          $academic=category4_academic_performance::where('course_id',session()->get('usercourse'))
+          ->where('branch_id',session()->get('branch_id'))
+         ->where('year_id',session()->get('year_id'))
+         ->get();
+          if($academic!="[]"){
+              $scoreacademic++;
+          }
+          //// ปิด การวิเคราะห์รายวิชาที่มีผลการเรียนที่ไม่ปกติ
+          
+          //// รายวิชาที่ไม่ได้เปิดสอนในปีการศึกษา
+          $scorenot_offered=0;
+          $not_offered=category4_notcourse_results::where('course_id',session()->get('usercourse'))
+          ->where('branch_id',session()->get('branch_id'))
+         ->where('year_id',session()->get('year_id'))
+         ->get();
+          if($not_offered!="[]"){
+              $scorenot_offered++;
+          }
+          //// ปิด รายวิชาที่ไม่ได้เปิดสอนในปีการศึกษา
+ 
+          //// รายวิชาที่สอนเนื้อหาไม่ครบในปีการศึกษา
+          $scoreincomplete_content=0;
+          $queryincomplete_content=category4_incomplete_content::where('course_id',session()->get('usercourse'))
+          ->where('branch_id',session()->get('branch_id'))
+         ->where('year_id',session()->get('year_id'))
+         ->get();
+          if($queryincomplete_content!="[]"){
+              $scoreincomplete_content++;
+          }
+          //// ปิด รายวิชาที่สอนเนื้อหาไม่ครบในปีการศึกษา
+ 
+          //// ประสิทธิผลของกลยุทธ์การสอน
+          $scoreeffec=0;
+          $effec=category4_effectiveness::where('course_id',session()->get('usercourse'))
+          ->where('branch_id',session()->get('branch_id'))
+          ->where('year_id',session()->get('year_id'))
+          ->get();
+          if($effec!="[]"){
+              $scoreeffec++;
+          }
+          //// ปิด ประสิทธิผลของกลยุทธ์การสอน
+ 
+          //// การปฐมนิเทศอาจารย์ใหม่
+          $scorenewteacher=0;
+          $th=category4_newteacher::where('course_id',session()->get('usercourse'))
+          ->where('branch_id',session()->get('branch_id'))
+         ->where('year_id',session()->get('year_id'))
+         ->get();
+          if($th!="[]"){
+              $scorenewteacher++;
+          }
+          //// ปิด การปฐมนิเทศอาจารย์ใหม่
+          
+          //// กิจกรรมการพัฒนาวิชาชีพของอาจารย์
+          $scoreactivity=0;
+          $activity=category4_activity::where('course_id',session()->get('usercourse'))
+          ->where('branch_id',session()->get('branch_id'))
+          ->where('year_id',session()->get('year_id'))
+          ->get();
+          if($activity!="[]"){
+              $scoreactivity++;
+          }
+          //// ปิด กิจกรรมการพัฒนาวิชาชีพของอาจารย์
+ 
+          //// ตัวบ่งชี้ 6.1
+         $score6_1resultdoc1=0;
+         $score6_1result1=0;
+         $score6_1resultpdca=0;
+         $queryindicator6_1result1= PDCA::where('category_pdca',11)
+         ->where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
+         ->where('year_id',session()->get('year_id'))
+         ->where('Indicator_id',6.1)
+         ->get();
+         if($queryindicator6_1result1!="[]"){
+             $queryindicator6_1resultdoc1p= docpdca::where('pdca_id',$queryindicator6_1result1[0]['pdca_id'])
+             ->where('categorypdca','p')
+             ->get();
+             if(count($queryindicator6_1resultdoc1p)!=0){
+                 $score6_1resultdoc1++;
+             }
+             $queryindicator6_1resultdoc1d= docpdca::where('pdca_id',$queryindicator6_1result1[0]['pdca_id'])
+             ->where('categorypdca','d')
+             ->get();
+             if(count($queryindicator6_1resultdoc1d)!=0){
+                 $score6_1resultdoc1++;
+             }
+             $queryindicator6_1resultdoc1c= docpdca::where('pdca_id',$queryindicator6_1result1[0]['pdca_id'])
+             ->where('categorypdca','c')
+             ->get();
+             if(count($queryindicator6_1resultdoc1c)!=0){
+                 $score6_1resultdoc1++;
+             }
+             $queryindicator6_1resultdoc1a= docpdca::where('pdca_id',$queryindicator6_1result1[0]['pdca_id'])
+             ->where('categorypdca','a')
+             ->get();
+             if(count($queryindicator6_1resultdoc1a)!=0){
+                 $score6_1resultdoc1++;
+             }
          }
-         //// ปิด แผนปฏิบัติการใหม่
-
-         //// สรุปจุดแข็ง จุดที่ควรพัฒนา และแนวทางการพัฒนา
-         $scorestrengths_summary=0;
-         $querynewstrength2=category7_strengths_summary::where('course_id',session()->get('usercourse'))
-         ->where('year_id',session()->get('year_id'))
-         ->where('composition_id',2)
+  
+ 
+         if($queryindicator6_1result1!="[]"){
+             if($queryindicator6_1result1[0]['p']!=""){
+                 $score6_1result1++;
+             }
+             if($queryindicator6_1result1[0]['d']!=""){
+                 $score6_1result1++;
+             }
+             if($queryindicator6_1result1[0]['c']!=""){
+                 $score6_1result1++;
+             }
+             if($queryindicator6_1result1[0]['a']!=""){
+                 $score6_1result1++;
+             }
+         }
+        $queryindicator6_1resultpdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+         ->where('pdca.course_id',session()->get('usercourse'))
+         ->where('pdca.branch_id',session()->get('branch_id'))
+         ->where('pdca.year_id',session()->get('year_id'))
+         ->where('pdca.Indicator_id',6.1)
+         ->where('pdca.target','!=',null)
          ->get();
-         $querynewstrength3=category7_strengths_summary::where('course_id',session()->get('usercourse'))
+         if($queryindicator6_1resultpdca!="[]"){
+             $score6_1resultpdca++;
+         }
+         //// ปิดตัวบ่งชี้ 6.1
+ 
+         //// การบริหารหลักสูตร
+         $scorecoursemanage=0;
+         $coursemanage=category5_course_manage::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
          ->where('year_id',session()->get('year_id'))
-         ->where('composition_id',3)
          ->get();
-         $querynewstrength4=category7_strengths_summary::where('course_id',session()->get('usercourse'))
+         if($coursemanage!="[]"){
+             $scorecoursemanage++;
+         }
+         //// ปิด การบริหารหลักสูตร
+ 
+ 
+         //// สรุปการประเมินหลักสูตร	
+         $scoreassessmentsummary=0;
+         $scoreassessmentsummary2=0;
+         $queryassessmentsummary=category6_assessment_summary::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
+         ->where('category_assessor','=','การประเมินจากผู้ที่สำเร็จการศึกษา')
          ->where('year_id',session()->get('year_id'))
-         ->where('composition_id',4)
          ->get();
-         $querynewstrength5=category7_strengths_summary::where('course_id',session()->get('usercourse'))
+         if($queryassessmentsummary!="[]"){
+             $scoreassessmentsummary++;
+         }
+ 
+         $queryassessmentsummary2=category6_assessment_summary::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
+         ->where('category_assessor','=','การประเมินจากผู้ที่มีส่วนเกี่ยวข้อง')
          ->where('year_id',session()->get('year_id'))
-         ->where('composition_id',5)
          ->get();
-         $querynewstrength6=category7_strengths_summary::where('course_id',session()->get('usercourse'))
+         if($queryassessmentsummary2!="[]"){
+             $scoreassessmentsummary2++;
+         }
+         //// ปิด สรุปการประเมินหลักสูตร
+ 
+         //// ข้อคิดเห็น และข้อเสนอแนะเกี่ยวกับคุณภาพหลักสูตรจากผู้ประเมิน
+         $scorecomment_course=0;
+         $querycomment_course=category6_comment_course::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
          ->where('year_id',session()->get('year_id'))
-         ->where('composition_id',6)
          ->get();
-
-         if($querynewstrength2!="[]"){
-            $scorestrengths_summary++;
-        }
-        if($querynewstrength3!="[]"){
-            $scorestrengths_summary++;
-        }
-        if($querynewstrength4!="[]"){
-            $scorestrengths_summary++;
-        }
-        if($querynewstrength5!="[]"){
-            $scorestrengths_summary++;
-        }
-        if($querynewstrength6!="[]"){
-            $scorestrengths_summary++;
-        }
-         //// ปิด สรุปจุดแข็ง จุดที่ควรพัฒนา และแนวทางการพัฒนา
+         if($querycomment_course!="[]"){
+             $scorecomment_course++;
+         }
+         //// ปิด ข้อคิดเห็น และข้อเสนอแนะเกี่ยวกับคุณภาพหลักสูตรจากผู้ประเมิน
+ 
+         //// ความก้าวหน้าของการดำเนินงานตามแผนที่เสนอในรายงานของปีที่ผ่านมา
+         $scorestrength=0;
+         $querystrength=category7_strength::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
+         ->where('year_id',session()->get('year_id'))
+         ->get();
+         if($querystrength!="[]"){
+             $scorestrength++;
+         }
+         //// ปิด ความก้าวหน้าของการดำเนินงานตามแผนที่เสนอในรายงานของปีที่ผ่านมา
+ 
+ 
+         //// ข้อเสนอในการพัฒนาหลักสูตร
+         $scoredevelopment_proposal=0;
+         $querydevelopment_proposal=category7_development_proposal_detail::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
+         ->where('year_id',session()->get('year_id'))
+         ->get();
+         if($querydevelopment_proposal!="[]"){
+             $scoredevelopment_proposal++;
+         }
+         //// ปิด ข้อเสนอในการพัฒนาหลักสูตร
+ 
+          //// แผนปฏิบัติการใหม่
+          $scorenewstrength=0;
+          $querynewstrength=category7_newstrength::where('course_id',session()->get('usercourse'))
+          ->where('branch_id',session()->get('branch_id'))
+          ->where('year_id',session()->get('year_id'))
+          ->get();
+          if($querynewstrength!="[]"){
+              $scorenewstrength++;
+          }
+          //// ปิด แผนปฏิบัติการใหม่
+ 
+          //// สรุปจุดแข็ง จุดที่ควรพัฒนา และแนวทางการพัฒนา
+          $scorestrengths_summary=0;
+          $querynewstrength2=category7_strengths_summary::where('course_id',session()->get('usercourse'))
+          ->where('branch_id',session()->get('branch_id'))
+          ->where('year_id',session()->get('year_id'))
+          ->where('composition_id',2)
+          ->get();
+          $querynewstrength3=category7_strengths_summary::where('course_id',session()->get('usercourse'))
+          ->where('branch_id',session()->get('branch_id'))
+          ->where('year_id',session()->get('year_id'))
+          ->where('composition_id',3)
+          ->get();
+          $querynewstrength4=category7_strengths_summary::where('course_id',session()->get('usercourse'))
+          ->where('branch_id',session()->get('branch_id'))
+          ->where('year_id',session()->get('year_id'))
+          ->where('composition_id',4)
+          ->get();
+          $querynewstrength5=category7_strengths_summary::where('course_id',session()->get('usercourse'))
+          ->where('branch_id',session()->get('branch_id'))
+          ->where('year_id',session()->get('year_id'))
+          ->where('composition_id',5)
+          ->get();
+          $querynewstrength6=category7_strengths_summary::where('course_id',session()->get('usercourse'))
+          ->where('branch_id',session()->get('branch_id'))
+          ->where('year_id',session()->get('year_id'))
+          ->where('composition_id',6)
+          ->get();
+ 
+          if($querynewstrength2!="[]"){
+             $scorestrengths_summary++;
+         }
+         if($querynewstrength3!="[]"){
+             $scorestrengths_summary++;
+         }
+         if($querynewstrength4!="[]"){
+             $scorestrengths_summary++;
+         }
+         if($querynewstrength5!="[]"){
+             $scorestrengths_summary++;
+         }
+         if($querynewstrength6!="[]"){
+             $scorestrengths_summary++;
+         }
+          //// ปิด สรุปจุดแข็ง จุดที่ควรพัฒนา และแนวทางการพัฒนา
 
         $result1_1=(($getscore1_1+$getscore1_1result)*100)/9;
         $result2_1=($getscore2_1*100)/2;
@@ -10468,6 +11035,252 @@ class APIAJController extends Controller
         }
         return response()->json($clind);
         
+    }
+    public function getindicator1_1()
+    {
+        $data=indicator1_1::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+         //ดึงค่าปี
+         $year=Year::where('active',1)
+         ->get();
+         foreach($year as $value){
+             $y=$value['year_name'];
+          }
+         //ดึงค่าตารางหลักสูตร
+         $course = Course::where('course_id',session()->get('usercourse'))
+         ->get();
+ 
+         //ดึงค่าตารางอาจารย์ผู้รับผิดชอบหลักสูตร
+         $trc = course_responsible_teacher::join('year','course_responsible_teacher.year_id','=','year.year_id')
+         ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
+         ->where('course_responsible_teacher.branch_id',session()->get('branch_id'))
+         ->where('year.year_id',session()->get('year_id'))
+         ->get();
+         ///นับอาจารย์ผู้รีบผิดชอบหลักสูตร
+         $count=count($trc);
+ 
+         foreach($course as $value)
+         {
+             $c=$value['course_name'];
+         }
+         
+         ///SELECT user_fullname
+         // FROM course_responsible_teacher
+         // left JOIN users on course_responsible_teacher.user_id=users.id
+         // LEFT JOIN year on course_responsible_teacher.year_id=year.year_id
+         // WHERE users.user_course=1 AND year.year_id=1
+         ///join table course_responsible_teacher และ users เพื่อให้ได้ชื่อ user ที่เป็นอาจารย์ผู้รับผิดชอบหลักสูตร
+         $nameteacher = course_responsible_teacher::leftjoin('users','course_responsible_teacher.user_id','=','users.id')
+         ->where('users.user_course',session()->get('usercourse'))
+         ->where('users.user_branch',session()->get('branch_id'))
+         ->where('course_responsible_teacher.year_id',session()->get('year_id'))
+         ->get();
+ 
+         ////ดึงสาขาวิชาที่จบของอาจารย์ผู้รับผิดชอบหลักสูตร
+         $educ_bg= User::leftjoin('course_responsible_teacher','users.id','=','course_responsible_teacher.user_id')
+         ->where('users.user_course',session()->get('usercourse'))
+         ->where('users.user_branch',session()->get('branch_id'))
+         ->where('course_responsible_teacher.year_id',session()->get('year_id'))
+         ->get();
+          ////ดึงสาขาวิชาที่จบของอาจารย์ประจำหลักสูตร
+          $tc_course= User::leftjoin('course_teacher','users.id','=','course_teacher.user_id')
+          ->where('users.user_course',session()->get('usercourse'))
+          ->where('users.user_branch',session()->get('branch_id'))
+          ->where('course_teacher.year_id',session()->get('year_id'))
+          ->get();
+ 
+          ////ดึงสาขาวิชาที่จบของอาจารย์ผู้สอน
+          $instructor= User::leftjoin('instructor','users.id','=','instructor.user_id')
+          ->where('users.user_course',session()->get('usercourse'))
+          ->where('users.user_branch',session()->get('branch_id'))
+          ->where('instructor.year_id',session()->get('year_id'))
+          ->get();
+          ////ดึงสาขาวิชาที่จบของอาจารย์ผู้สอนพิเศษ
+          $specialinstructor= User::leftjoin('special_teacher','users.id','=','special_teacher.user_id')
+          ->where('users.user_course',session()->get('usercourse'))
+          ->where('users.user_branch',session()->get('branch_id'))
+          ->where('special_teacher.year_id',session()->get('year_id'))
+          ->get();
+ 
+          $getresult=indicator1_1::where('year_id',session()->get('year_id'))
+          ->where('course_id',session()->get('usercourse'))
+          ->where('branch_id',session()->get('branch_id'))
+          ->get();
+          $get1=0;
+          $get2=0;
+          $get3=0;
+          $get4=0;
+          $get5=0;
+          $result1=0;
+          $result2=0;
+          $result3=0;
+          $result4=0;
+          $result5=0;
+          $result6=0;
+          $result7=0;
+          $result8=0;
+          $result9=0;
+          $result10=0;
+          if($getresult!="[]"){
+             foreach($getresult as $value){
+                 $get1=$value['result1'];
+                 $get2=$value['result2'];
+                 $get3=$value['result3'];
+                 $get4=$value['result4'];
+                 $get5=$value['result5'];
+             }
+             if($get1==2){
+                $result1=1;
+                $result2=0;
+             }
+             else if($get1==1){
+                $result1=0;
+                $result2=1;
+             }
+             else{
+                 $result1=0;
+                 $result2=0;
+             }
+            // ----------
+             if($get2==2){
+                $result3=1;
+                $result4=0;
+             }
+             else if($get2==1){
+                 $result3=0;
+                 $result4=1;
+              }
+              else{
+                  $result3=0;
+                  $result4=0;
+              }
+            // ----------
+             if($get3==2){
+                $result5=1;
+                $result6=0;
+             }
+             else if($get3==1){
+                 $result5=0;
+                 $result6=1;
+              }
+              else{
+                  $result5=0;
+                  $result6=0;
+              }
+              // ----------
+             if($get4==2){
+                $result7=1;
+                $result8=0;
+             }
+             else if($get4==1){
+                 $result7=0;
+                 $result8=1;
+              }
+              else{
+                  $result7=0;
+                  $result8=0;
+              }
+ 
+             if($get5==2){
+                 $result9=1;
+                 $result10=0;
+              }
+              else if($get5==1){
+                 $result9=0;
+                 $result10=1;
+              }
+              else{
+                  $result9=0;
+                  $result10=0;
+              }
+          }
+          $getcategorypdca=defaulindicator::where('id',1)
+         ->get();
+         $name="";
+         $id="";
+         foreach($getcategorypdca as $value)
+         {
+             $name=$value['Indicator_name'];
+             $id=$value['Indicator_id'];
+         }
+         
+          ////ดึงผลการประเมินตนเอง ตัวบ่งชี้ที่ 1.1
+         $inc= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+         ->where('pdca.course_id',session()->get('usercourse'))
+         ->where('pdca.branch_id',session()->get('branch_id'))
+         ->where('pdca.year_id',session()->get('year_id'))
+         ->where('pdca.indicator_id',1.1)
+         ->get();
+          foreach ($educ_bg as $key => $value){
+             $value->educational_background->first(); 
+          }
+         //ตรวจสอบ 1.จำนวนอาจารย์ผู้รับผิดชอบหลักสูตร
+         if($count>=5)
+         {
+             $checkpass=true;
+             $checknotpass=false;
+         }
+         else
+         {
+             $checknotpass=true;
+             $checkpass=false;
+         }
+
+      $pdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+      ->where('pdca.course_id',session()->get('usercourse'))
+      ->where('pdca.branch_id',session()->get('branch_id'))
+      ->where('pdca.year_id',session()->get('year_id'))
+      ->where('pdca.indicator_id',1.1)
+      ->where('pdca.target','!=',null)
+      ->get();
+      $per1="";
+       $get1_1=indicator1_1::where('course_id',session()->get('usercourse'))
+       ->where('branch_id',session()->get('branch_id'))
+       ->where('year_id',session()->get('year_id'))
+       ->get();
+      return view('category/editindicator1-1',compact('pdca','per1','get1_1','c','count','nameteacher'
+      ,'educ_bg','y','checkpass','checknotpass','id','name','tc_course','instructor','specialinstructor','inc','result1','result2','result3','result4','result5','result6','result7','result8','result9','result10'));
+    }
+    function addindicator1_1(Request $request)
+    {
+        $data=new indicator1_1;
+        $data->result1=$request->result1;
+        $data->result2=$request->result2;
+        $data->result3=$request->result3;
+        $data->result4=$request->result4;
+        $data->result5=$request->result5;
+        $data->course_id=session()->get('usercourse');
+        $data->branch_id=session()->get('branch_id');
+        $data->year_id=session()->get('year_id');
+        $data->save();
+        $data3=new PDCA;
+        $data3->Indicator_id=1.1;
+        $data3->target=$request->target;
+        $data3->performance3=$request->performance3;
+        $data3->score=$request->score;
+        $data3->course_id=session()->get('usercourse');
+        $data3->branch_id=session()->get('branch_id');
+        $data3->year_id=session()->get('year_id');
+        $data3->save(); 
+     return $data3;
+    }
+    public function updateindicator1_1(Request $request)
+    {
+        $data=indicator1_1::find($request->id);
+        $data->result1=$request->result1;
+        $data->result2=$request->result2;
+        $data->result3=$request->result3;
+        $data->result4=$request->result4;
+        $data->result5=$request->result5;
+        $data->save();
+        $data3=PDCA::find($request->Indicator_id);
+        $data3->target=$request->target;
+        $data3->performance3=$request->performance3;
+        $data3->score=$request->score;
+        $data3->save(); 
+        return $data3;
     }
 
 }

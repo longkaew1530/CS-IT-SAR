@@ -12,7 +12,7 @@
                 <tr>
                 @foreach($value->Categorypdca as $row)
                   <td><b>{{$row['category_name']}}</b><br>
-                  &nbsp&nbsp&nbsp&nbsp&nbsp&nbspหลักสูตร{{$getcourse[0]['course_name']}} สาขา{{$getcourse[0]['branch']}}  มีการนำระบบกลไกในการ{{$row['category_name']}}
+                  &nbsp&nbsp&nbsp&nbsp&nbsp&nbspหลักสูตร{{$getcourse[0]['course_name']}} สาขา{{$getbranch[0]['name']}}  มีการนำระบบกลไกในการ{{$row['category_name']}}
                   โดยใช้กระบวนการ PDCA เป็นพื้นฐานและมีผลการดำเนินงานในปีการศึกษา {{ Session::get('year')}} ดังนี้ <br><br><br>
                   @if(count($row->pdca)!=0)
                   @foreach($row->pdca as $row1)

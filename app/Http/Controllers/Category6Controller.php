@@ -14,6 +14,7 @@ class Category6Controller extends Controller
     public function comment_course()
     {
         $coursemanage=category6_comment_course::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $checkedit="asds";
@@ -22,10 +23,12 @@ class Category6Controller extends Controller
     public function assessment_summary()
     {
         $assessmentsummary=category6_assessment_summary::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('category_assessor',"การประเมินจากผู้ที่สำเร็จการศึกษา")
         ->where('year_id',session()->get('year_id'))
         ->get();
         $assessmentsummary2=category6_assessment_summary::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('category_assessor',"การประเมินจากผู้ที่มีส่วนเกี่ยวข้อง")
         ->where('year_id',session()->get('year_id'))
         ->get();

@@ -11,5 +11,9 @@ class Faculty extends Model
     protected $fillable=[
         'faculty_name'
     ];
+    public function course()
+    {
+        return $this->hasMany('App\Course','faculty_id','faculty_id');
+    }
     public $timestamps = false;
 }

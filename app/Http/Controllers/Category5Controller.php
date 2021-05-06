@@ -13,6 +13,7 @@ class Category5Controller extends Controller
     public function course_administration()
     {
         $coursemanage=category5_course_manage::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $checkedit="asdasd";

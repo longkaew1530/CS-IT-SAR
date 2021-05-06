@@ -3,7 +3,7 @@
 @section('content')
 <div class="box box-warning marginl ">
             <div class="box-header">
-              <h2 class="box-title">เลือกหมวดการประเมินประจำปี</h2>
+              <h2 class="box-title">เลือกหมวดการประเมินประจำปี {{session()->get('year')}}</h2>
             </div>
             
             <!-- <button  class="btn btn-success ml-1" type="button" data-toggle="modal" data-target="#modal-info"><i class="fa fa-plus"></i> เพิ่มหมวด</button>
@@ -126,8 +126,8 @@
         <thead>
             <tr>
             <th width="5%">ที่</th>
-                  <th width="5%"></th>
                   <th >หมวด</th>
+                  <th width="10%" >เปิด-ปิด</th>
                   <th width="5%"></th>
 
             </tr>
@@ -240,6 +240,7 @@ $(document).ready(function() {
     ajax: {url:"/getassessment_results",dataSrc:""},
     columns: [
         { data: "category_id" },
+        { data: "category_name" },
         {"data" : function(data) {
         if(data.active==1){
           return '<label class="toggle" for="cate'+data.id+'"><input class="toggle__input add" onclick="calc('+data.id+');"  type="checkbox" id="cate'+data.id+'"checked ><div class="toggle__fill"></div></label>'
@@ -248,7 +249,6 @@ $(document).ready(function() {
           return '<label class="toggle" for="cate'+data.id+'"><input class="toggle__input add" onclick="calc('+data.id+');"  type="checkbox" id="cate'+data.id+'"><div class="toggle__fill"></div></label>'
         }
        }},
-        { data: "category_name" },
         {
                 "class":          'details-control',
                 "orderable":      false,
@@ -269,30 +269,30 @@ function format ( d ) {
      for (const [key, value] of Object.entries(d)) {
       if(value.active==1&&value.Indicator_id!=null){
         text=text+'<tr>'+
-                '<td width="5%"></td>'+
-                '<td width="5%"><label class="toggle" for="'+`${value.id}`+'"><input class="toggle__input" onclick="calc2('+value.id+');"  type="checkbox" id="'+`${value.id}`+'" checked><div class="toggle__fill"></div></label>'+
+                '<td width="10%"></td>'+
                 '<td>'+"ตัวบ่งชี้"+`${value.Indicator_id} ${value.Indicator_name}`+'</td>'+
+                '<td width="10%"><label class="toggle" for="'+`${value.id}`+'"><input class="toggle__input" onclick="calc2('+value.id+');"  type="checkbox" id="'+`${value.id}`+'" checked><div class="toggle__fill"></div></label>'+
             '</tr>';
       }
       else if(value.Indicator_id!=null){
         text=text+'<tr>'+
-                '<td width="5%"></td>'+
-                '<td width="5%"><label class="toggle" for="'+`${value.id}`+'"><input class="toggle__input" onclick="calc2('+value.id+');"  type="checkbox" id="'+`${value.id}`+'" ><div class="toggle__fill"></div></label>'+
+                '<td width="10%"></td>'+
                 '<td>'+"ตัวบ่งชี้"+`${value.Indicator_id} ${value.Indicator_name}`+'</td>'+
+                '<td width="10%"><label class="toggle" for="'+`${value.id}`+'"><input class="toggle__input" onclick="calc2('+value.id+');"  type="checkbox" id="'+`${value.id}`+'" ><div class="toggle__fill"></div></label>'+
             '</tr>';
       }
       else if(value.active==1&&value.Indicator_id==null){
         text=text+'<tr>'+
-                '<td width="5%"></td>'+
-                '<td width="5%"><label class="toggle" for="'+`${value.id}`+'"><input class="toggle__input" onclick="calc2('+value.id+');" type="checkbox" id="'+`${value.id}`+'" checked><div class="toggle__fill"></div></label>'+
+                '<td width="10%"></td>'+
                 '<td>'+`${value.Indicator_name}`+'</td>'+
+                '<td width="10%"><label class="toggle" for="'+`${value.id}`+'"><input class="toggle__input" onclick="calc2('+value.id+');" type="checkbox" id="'+`${value.id}`+'" checked><div class="toggle__fill"></div></label>'+
             '</tr>';
       }
       else{
         text=text+'<tr>'+
-                '<td width="5%"></td>'+
-                '<td width="5%"><label class="toggle" for="'+`${value.id}`+'"><input class="toggle__input" onclick="calc2('+value.id+');" type="checkbox" id="'+`${value.id}`+'" ><div class="toggle__fill"></div></label>'+
+                '<td width="10%"></td>'+
                 '<td>'+`${value.Indicator_name}`+'</td>'+
+                '<td width="10%"><label class="toggle" for="'+`${value.id}`+'"><input class="toggle__input" onclick="calc2('+value.id+');" type="checkbox" id="'+`${value.id}`+'" ><div class="toggle__fill"></div></label>'+
             '</tr>';
       }
     }

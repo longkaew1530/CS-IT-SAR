@@ -128,11 +128,17 @@ class APIController extends Controller
         return redirect('/MenuGroup');
     }
     public function deletegroupmenu($id)
-    {
-        $product = Groupmenu::find($id);
-        $product->delete();
-        
-        return redirect('/MenuGroup');
+    {   $check=role_permission::where('g_id',$id)->get();
+        $checkuser=Menu::where('g_id',$id)->get();
+        if($check=="[]"&&$checkuser=="[]"){
+            $product = Groupmenu::find($id);
+             $product->delete();
+            return $product;
+        }
+        else{
+            return "ไม่สามารถลบข้อมูลได้เนื่องจากข้อมูลสัมพันธ์กัน";
+        }
+
     }
     /////groupmenu/////groupmenu/////groupmenu/////groupmenu/////groupmenu/////groupmenu
 
@@ -161,9 +167,16 @@ class APIController extends Controller
         return redirect('/Menu');
     }
     public function deletemenu($id)
-    {
-        $product = Menu::find($id);
-        $product->delete();
+    {    $check=role_permission::where('m_id',$id)->get();
+        if($check=="[]"){
+            $product = Menu::find($id);
+            $product->delete();
+            return $product;
+        }
+        else{
+            return "ไม่สามารถลบข้อมูลได้เนื่องจากข้อมูลสัมพันธ์กัน";
+        }
+        
         
         return redirect('/Menu');
     }
@@ -196,13 +209,13 @@ class APIController extends Controller
          $data['place']=$request->place;
          $data['initials']=$request->initials;
          Course::insert($data);
-         $getid=Course::latest('course_id')->first();
-         foreach($getdata['name'] as $key=>$value){
-            $insert[$key]['course_id'] = $getid->course_id;
-            $insert[$key]['name'] = $value;
-            $insert[$key]['background'] = $getdata['background'][$key];
-         }
-         course_detail::insert($insert);
+        //  $getid=Course::latest('course_id')->first();
+        //  foreach($getdata['name'] as $key=>$value){
+        //     $insert[$key]['course_id'] = $getid->course_id;
+        //     $insert[$key]['name'] = $value;
+        //     $insert[$key]['background'] = $getdata['background'][$key];
+        //  }
+        //  course_detail::insert($insert);
          return $data;
      }
      public function updatecourse(Request $request)
@@ -234,10 +247,47 @@ class APIController extends Controller
      }
      public function deletecourse($id)
      {
-         $product = Course::find($id);
-         $product->delete();
-         
-         return redirect('/course');
+        $check=branch::where('course_id',$id)->get();
+        $checkuser=User::where('user_course',$id)->get();
+        if($check=="[]"&&$checkuser=="[]"){
+            $product = Course::find($id);
+             $product->delete();
+            return $product;
+        }
+        else{
+            return "ไม่สามารถลบข้อมูลได้เนื่องจากข้อมูลสัมพันธ์กัน";
+        }
+
+     }
+     public function addcoursetname(Request $request)
+     {
+         $getdata=$request->all();
+         foreach($getdata['name'] as $key=>$value){
+            $insert[$key]['course_id'] = $request->course_id;
+            $insert[$key]['name'] = $value;
+            $insert[$key]['background'] = $getdata['background'][$key];
+         }
+         course_detail::insert($insert);
+         return $insert;
+     }
+     public function updatecoursetname(Request $request)
+     {
+        $getdata=$request->all();
+         $course_id=$request->input('course_id');
+         $checkdata=course_detail::where('course_id',$request->course_id);
+         if($checkdata!=""){
+             $checkdata->delete();
+         }
+         foreach($getdata['name'] as $key=>$value){
+             if($getdata['background'][$key]==""){
+                 continue;
+             }
+            $insert[$key]['course_id'] = $request->course_id;
+            $insert[$key]['name'] = $value;
+            $insert[$key]['background'] = $getdata['background'][$key];
+         }
+         course_detail::insert($insert);
+         return $insert;
      }
      /////หลักสูตร/////หลักสูตร/////หลักสูตร/////หลักสูตร/////หลักสูตร/////หลักสูตร
 
@@ -263,10 +313,19 @@ class APIController extends Controller
      }
      public function deletefaculty($id)
      {
-         $product = Faculty::find($id);
-         $product->delete();
+        $check=Course::where('faculty_id',$id)->get();
+        $checkuser=User::where('user_faculty',$id)->get();
+        if($check=="[]"&&$checkuser=="[]"){
+            $product = Faculty::find($id);
+            $product->delete();
+            return $product;
+        }
+        else{
+            return "ไม่สามารถลบข้อมูลได้เนื่องจากข้อมูลสัมพันธ์กัน";
+        }
          
-         return redirect('/faculty');
+         
+         
      }
      /////คณะ/////คณะ/////คณะ/////คณะ/////คณะ/////คณะ
 
@@ -292,9 +351,15 @@ class APIController extends Controller
      }
      public function deleteusergroup($id)
      {
-         $product = groupuser::find($id);
-         $product->delete();
-         
+        $checkuser=User::where('user_group_id',$id)->get();
+        if($checkuser=="[]"){
+            $product = groupuser::find($id);
+            $product->delete();
+            return $product;
+        }
+        else{
+            return "ไม่สามารถลบข้อมูลได้เนื่องจากข้อมูลสัมพันธ์กัน";
+        }
          return redirect('/usergroup');
      }
      /////กลุ่มผู้ใช้งาน/////กลุ่มผู้ใช้งาน/////กลุ่มผู้ใช้งาน/////กลุ่มผู้ใช้งาน/////กลุ่มผู้ใช้งาน/////กลุ่มผู้ใช้งาน
@@ -312,28 +377,35 @@ class APIController extends Controller
          $queryyaer->save();
          $getall=defaulindicator::all();
          $getcourse=Course::all();
+         $getbranch=branch::all();
          $categoryall=category::all();
-         foreach($getcourse as $row){
-            foreach($getall as $value){
-                    $data=new indicator;
-                    $data['Indicator_id']=$value['Indicator_id'];
-                    $data['Indicator_name']=$value['Indicator_name'];
-                    $data['category_id']=$value['category_id'];
-                    $data['composition_id']=$value['composition_id'];
-                    $data['url']=$value['url'];
-                    $data['active']=1;
-                    $data['year_id']=$queryyaer->year_id;
-                    $data['course_id']=$row['course_id'];
-                    $data->save(); 
+
+            foreach($getbranch as $row2){
+                 $checkdata2=$getcourse->where('course_id',$row2['course_id']);
+                foreach($getall as $value){
+                        $data=new indicator;
+                        $data['Indicator_id']=$value['Indicator_id'];
+                        $data['Indicator_name']=$value['Indicator_name'];
+                        $data['category_id']=$value['category_id'];
+                        $data['composition_id']=$value['composition_id'];
+                        $data['url']=$value['url'];
+                        $data['active']=1;
+                        $data['year_id']=$queryyaer->year_id;
+                        $data['course_id']=$checkdata2[0]['course_id'];
+                        $data['branch_id']=$row2['branch_id'];
+                        $data->save(); 
+                }
             }
-         }
-         foreach($getcourse as $row){
+
+        foreach($getbranch as $row2){
+                $checkdata2=$getcourse->where('course_id',$row2['course_id']);
             foreach($categoryall as $value){
                     $data1=new assessment_results;
                     $data1['category_id']=$value['category_id'];
                     $data1['active']=1;
                     $data1['year_id']=$queryyaer->year_id;
-                    $data1['course_id']=$row['course_id'];
+                    $data1['course_id']=$checkdata2[0]['course_id'];
+                    $data1['branch_id']=$row2['branch_id'];
                     $data1->save();  
             }
          }
@@ -344,18 +416,51 @@ class APIController extends Controller
      /////ปีก่อนหน้า/////ปีก่อนหน้า/////ปีก่อนหน้า/////ปีก่อนหน้า/////ปีก่อนหน้า/////ปีก่อนหน้า
      public function backyear(Request $request)
      {
-         $delete=Year::where('active',1)
-         ->get();
-         $get=new Year;
-         foreach($delete as $row){
-             $get=Year::find($row['year_id']);
-             $get['active']=0;
-             $get->save();
-         }
-         $queryyaer=Year::find($request->id);
-         $queryyaer['active']=1;
-         $queryyaer->save();
-         return $queryyaer;
+        $queryyaer= new Year;
+        $queryyaer->year_name=$request->year;
+        $queryyaer->active=1;
+        $queryyaer->save();
+        $getall=defaulindicator::all();
+        $getcourse=Course::all();
+        $getbranch=branch::all();
+        $categoryall=category::all();
+        foreach($getbranch as $row2){
+            $checkdata2=$getcourse->where('course_id',$row2['course_id']);
+           foreach($getall as $value){
+                   $data=new indicator;
+                   $data['Indicator_id']=$value['Indicator_id'];
+                   $data['Indicator_name']=$value['Indicator_name'];
+                   $data['category_id']=$value['category_id'];
+                   $data['composition_id']=$value['composition_id'];
+                   $data['url']=$value['url'];
+                   $data['active']=1;
+                   $data['year_id']=$queryyaer->year_id;
+                   $data['course_id']=$checkdata2[0]['course_id'];
+                   $data['branch_id']=$row2['branch_id'];
+                   $data->save(); 
+           }
+       }
+
+   foreach($getbranch as $row2){
+           $checkdata2=$getcourse->where('course_id',$row2['course_id']);
+       foreach($categoryall as $value){
+               $data1=new assessment_results;
+               $data1['category_id']=$value['category_id'];
+               $data1['active']=1;
+               $data1['year_id']=$queryyaer->year_id;
+               $data1['course_id']=$checkdata2[0]['course_id'];
+               $data1['branch_id']=$row2['branch_id'];
+               $data1->save();  
+       }
+    }
+        return $data1;
+     }
+     public function backyear2(Request $request)
+     {
+        $queryyaer=Year::find($request->id);
+        $queryyaer->active=1;
+        $queryyaer->save();
+        return $queryyaer;
      }
      /////ปีก่อนหน้า/////ปีก่อนหน้า/////ปีก่อนหน้า/////ปีก่อนหน้า/////ปีก่อนหน้า/////ปีก่อนหน้า
 
@@ -377,10 +482,12 @@ class APIController extends Controller
      }
      public function adduser(Request $request)
      {
-         
+         if($request->image!=""){
+
+        
         request()->validate([
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-       ]); 
+       ]);  }
        $data = ['user_fullname' => $request->user_fullname,
          'email' => $request->email,
           'username' => $request->username,
@@ -443,10 +550,17 @@ class APIController extends Controller
      }
      public function deleteuser($id)
      {
-         $product = User::find($id);
-         $product->delete();
-         
-         
+         $checkuser=course_teacher::where('user_id',$id)->get();
+         $checkuser2=course_responsible_teacher::where('user_id',$id)->get();
+         $checkuser3=instructor::where('user_id',$id)->get();
+        if($checkuser=="[]"&&$checkuser2=="[]"&&$checkuser3=="[]"){
+            $product = User::find($id);
+            $product->delete();
+            return $product;
+        }
+        else{
+            return "ไม่สามารถลบข้อมูลได้เนื่องจากข้อมูลสัมพันธ์กัน";
+        } 
      }
      /////เพิ่มผู้ใช้งาน/////เพิ่มผู้ใช้งาน/////เพิ่มผู้ใช้งาน/////เพิ่มผู้ใช้งาน/////เพิ่มผู้ใช้งาน/////เพิ่มผู้ใช้งาน
 
@@ -473,11 +587,17 @@ class APIController extends Controller
           return redirect('/category');
       }
       public function deletecategory($id)
-      {
-          $product = category::find($id);
-          $product->delete();
-          
-          return redirect('/category');
+      { 
+        $check=assessment_results::where('category_id',$id)->get();
+        $checkuser=indicator::where('category_id',$id)->get();
+        if($checkuser=="[]"&&$check=="[]"){
+            $product = category::find($id);
+            $product->delete();
+            return $product;
+        }
+        else{
+            return "ไม่สามารถลบข้อมูลได้เนื่องจากข้อมูลสัมพันธ์กัน";
+        }
       }
       /////หมวด/////หมวด/////หมวด/////หมวด/////หมวด/////หมวด
 
@@ -505,10 +625,15 @@ class APIController extends Controller
       }
       public function deletebranch($id)
       {
-          $product = branch::find($id);
-          $product->delete();
-          
-          return redirect('/branch');
+        $checkuser=User::where('user_branch',$id)->get();
+        if($checkuser=="[]"){
+            $product = branch::find($id);
+            $product->delete();
+            return $product;
+        }
+        else{
+            return "ไม่สามารถลบข้อมูลได้เนื่องจากข้อมูลสัมพันธ์กัน";
+        }
       }
       /////สาขา/////สาขา/////สาขา/////สาขา/////สาขา/////สาขา
 
@@ -538,6 +663,7 @@ class APIController extends Controller
             $data['user_id']=$value;
             $data['year_id']=session()->get('year_id');
             $data['course_id']=session()->get('usercourse');
+            $data['branch_id']=session()->get('branch_id');
             course_teacher::insert($data);
         }
         return $data;
@@ -547,6 +673,7 @@ class APIController extends Controller
         $product = course_teacher::where('user_id',$id)
         ->where('year_id',session()->get('year_id'))
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->delete();
         
         return true;
@@ -565,6 +692,7 @@ class APIController extends Controller
               $data['user_id']=$value;
               $data['year_id']=session()->get('year_id');
               $data['course_id']=session()->get('usercourse');
+              $data['branch_id']=session()->get('branch_id');
               instructor::insert($data);
           }
           return $data;
@@ -574,6 +702,7 @@ class APIController extends Controller
           $product = instructor::where('user_id',$id)
           ->where('year_id',session()->get('year_id'))
           ->where('course_id',session()->get('usercourse'))
+          ->where('branch_id',session()->get('branch_id'))
           ->delete();
           
           return true;
@@ -623,6 +752,7 @@ class APIController extends Controller
           $role=category::leftjoin('assessment_results','category.category_id','=','assessment_results.category_id')
           ->where('year_id',session()->get('year_id'))
           ->where('course_id',session()->get('usercourse'))
+          ->where('branch_id',session()->get('branch_id'))
           ->where('active',1)
           ->orderBy('assessment_results.category_id','asc')
           ->get();
@@ -680,6 +810,7 @@ class APIController extends Controller
               $data['user_id']=$value;
               $data['year_id']=session()->get('year_id');
               $data['course_id']=session()->get('usercourse');
+              $data['branch_id']=session()->get('branch_id');
               course_responsible_teacher::insert($data);
           }
           return $data;
@@ -688,7 +819,8 @@ class APIController extends Controller
       {
           $product = course_responsible_teacher::where('user_id',$id)
           ->where('year_id',session()->get('year_id'))
-          ->where('course_id',session()->get('usercourse'));
+          ->where('course_id',session()->get('usercourse'))
+          ->where('branch_id',session()->get('branch_id'));
 
           $product->delete();
           return true;
@@ -700,6 +832,7 @@ class APIController extends Controller
       {
         $check=indicator1_1::where('year_id',session()->get('year_id'))
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->get();
         if($check!="[]"){
             $data=indicator1_1::find($check[0]['id']);
@@ -744,6 +877,7 @@ class APIController extends Controller
          }
            $data['year_id']=session()->get('year_id');
            $data['course_id']=session()->get('usercourse');
+           $data['branch_id']=session()->get('branch_id');
            $data->save();
         }
           
@@ -768,4 +902,28 @@ class APIController extends Controller
           $username=$course[0]['initials'].$conventusername;
           return $username;
       }
+      public function getcourse_username2()
+      {
+          $course = course::first();
+        //   $getuser=User::where('user_course',$id)->get();
+          $username="";
+          $getcount=0;
+          $getcount=User::where('user_course',$course['course_id'])->orderBy('id', 'DESC')->first();
+          $getusername="a0";
+          if($getcount!=""){
+            $getusername=$getcount['username'];
+          }
+          
+          $filteredNumbers = array_filter(preg_split("/\D+/",$getusername));
+          $firstOccurence = reset($filteredNumbers);
+          $conventusername=strval($firstOccurence+1);
+          $username=$course['initials'].$conventusername;
+          return $username;
+      }
+      public function updatesessionyear($id)
+      {
+        session()->put('branch_id',$id);   
+        return session()->get('branch_id');
+      }
+
 }

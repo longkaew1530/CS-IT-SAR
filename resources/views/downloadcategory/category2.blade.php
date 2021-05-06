@@ -372,7 +372,7 @@
     var url = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(html);
     
     // Specify file name
-    filename = filename?filename+'.doc':'document.doc';
+    filename = filename?filename+'.docx':'document.doc';
     
     // Create download link element
     var downloadLink = document.createElement("a");

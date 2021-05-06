@@ -16,6 +16,7 @@ class categoty_researh extends Model
         return $this->hasMany('App\ModelAJ\Research_results','research_results_category','id')
         ->rightjoin('course_responsible_teacher','research_results.owner','=','course_responsible_teacher.user_id')
         ->where('course_responsible_teacher.year_id',session()->get('year_id'))
-        ->where('course_responsible_teacher.course_id',session()->get('usercourse'));
+        ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
+        ->where('course_responsible_teacher.branch_id',session()->get('branch_id'));
     }
 }

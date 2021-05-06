@@ -44,6 +44,7 @@ class CategoryController extends Controller
         //ดึงค่าตารางอาจารย์ผู้รับผิดชอบหลักสูตร
         $trc = course_responsible_teacher::join('year','course_responsible_teacher.year_id','=','year.year_id')
         ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
+        ->where('course_responsible_teacher.branch_id',session()->get('branch_id'))
         ->where('year.year_id',session()->get('year_id'))
         ->get();
         ///นับอาจารย์ผู้รีบผิดชอบหลักสูตร
@@ -62,33 +63,39 @@ class CategoryController extends Controller
         ///join table course_responsible_teacher และ users เพื่อให้ได้ชื่อ user ที่เป็นอาจารย์ผู้รับผิดชอบหลักสูตร
         $nameteacher = course_responsible_teacher::leftjoin('users','course_responsible_teacher.user_id','=','users.id')
         ->where('users.user_course',session()->get('usercourse'))
+        ->where('users.user_branch',session()->get('branch_id'))
         ->where('course_responsible_teacher.year_id',session()->get('year_id'))
         ->get();
 
         ////ดึงสาขาวิชาที่จบของอาจารย์ผู้รับผิดชอบหลักสูตร
         $educ_bg= User::leftjoin('course_responsible_teacher','users.id','=','course_responsible_teacher.user_id')
         ->where('users.user_course',session()->get('usercourse'))
+        ->where('users.user_branch',session()->get('branch_id'))
         ->where('course_responsible_teacher.year_id',session()->get('year_id'))
         ->get();
          ////ดึงสาขาวิชาที่จบของอาจารย์ประจำหลักสูตร
          $tc_course= User::leftjoin('course_teacher','users.id','=','course_teacher.user_id')
          ->where('users.user_course',session()->get('usercourse'))
+         ->where('users.user_branch',session()->get('branch_id'))
          ->where('course_teacher.year_id',session()->get('year_id'))
          ->get();
 
          ////ดึงสาขาวิชาที่จบของอาจารย์ผู้สอน
          $instructor= User::leftjoin('instructor','users.id','=','instructor.user_id')
          ->where('users.user_course',session()->get('usercourse'))
+         ->where('users.user_branch',session()->get('branch_id'))
          ->where('instructor.year_id',session()->get('year_id'))
          ->get();
          ////ดึงสาขาวิชาที่จบของอาจารย์ผู้สอนพิเศษ
          $specialinstructor= User::leftjoin('special_teacher','users.id','=','special_teacher.user_id')
          ->where('users.user_course',session()->get('usercourse'))
+         ->where('users.user_branch',session()->get('branch_id'))
          ->where('special_teacher.year_id',session()->get('year_id'))
          ->get();
 
          $getresult=indicator1_1::where('year_id',session()->get('year_id'))
          ->where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
          ->get();
          $get1=0;
          $get2=0;
@@ -187,10 +194,11 @@ class CategoryController extends Controller
             $name=$value['Indicator_name'];
             $id=$value['Indicator_id'];
         }
-        $checkedit="asdsad";
+        $checkedit="aaa";
          ////ดึงผลการประเมินตนเอง ตัวบ่งชี้ที่ 1.1
         $inc= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.indicator_id',1.1)
         ->get();
@@ -229,6 +237,7 @@ class CategoryController extends Controller
         //ดึงค่าตารางอาจารย์ผู้รับผิดชอบหลักสูตร
         $trc = course_responsible_teacher::join('year','course_responsible_teacher.year_id','=','year.year_id')
         ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
+        ->where('course_responsible_teacher.branch_id',session()->get('branch_id'))
         ->where('year.year_id',session()->get('year_id'))
         ->get();
         ///นับอาจารย์ผู้รีบผิดชอบหลักสูตร
@@ -247,35 +256,41 @@ class CategoryController extends Controller
         ///join table course_responsible_teacher และ users เพื่อให้ได้ชื่อ user ที่เป็นอาจารย์ผู้รับผิดชอบหลักสูตร
         $nameteacher = course_responsible_teacher::leftjoin('users','course_responsible_teacher.user_id','=','users.id')
         ->where('users.user_course',session()->get('usercourse'))
+        ->where('users.user_branch',session()->get('branch_id'))
         ->where('course_responsible_teacher.year_id',session()->get('year_id'))
         ->get();
 
         ////ดึงสาขาวิชาที่จบของอาจารย์ผู้รับผิดชอบหลักสูตร
         $educ_bg= User::leftjoin('course_responsible_teacher','users.id','=','course_responsible_teacher.user_id')
         ->where('users.user_course',session()->get('usercourse'))
+        ->where('users.user_branch',session()->get('branch_id'))
         ->where('course_responsible_teacher.year_id',session()->get('year_id'))
         ->get();
 
          ////ดึงสาขาวิชาที่จบของอาจารย์ประจำหลักสูตร
          $tc_course= User::leftjoin('course_teacher','users.id','=','course_teacher.user_id')
          ->where('users.user_course',session()->get('usercourse'))
+         ->where('users.user_branch',session()->get('branch_id'))
          ->where('course_teacher.year_id',session()->get('year_id'))
          ->get();
 
          ////ดึงสาขาวิชาที่จบของอาจารย์ผู้สอน
          $instructor= User::leftjoin('instructor','users.id','=','instructor.user_id')
          ->where('users.user_course',session()->get('usercourse'))
+         ->where('users.user_branch',session()->get('branch_id'))
          ->where('instructor.year_id',session()->get('year_id'))
          ->get();
          ////ดึงสาขาวิชาที่จบของอาจารย์ผู้สอนพิเศษ
          $specialinstructor= User::leftjoin('special_teacher','users.id','=','special_teacher.user_id')
          ->where('users.user_course',session()->get('usercourse'))
+         ->where('users.user_branch',session()->get('branch_id'))
          ->where('special_teacher.year_id',session()->get('year_id'))
          ->get();
         
          ////ดึงผลการประเมินตนเอง ตัวบ่งชี้ที่ 1.1
          $inc= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
          ->where('pdca.course_id',session()->get('usercourse'))
+         ->where('users.user_branch',session()->get('branch_id'))
          ->where('pdca.year_id',session()->get('year_id'))
          ->where('pdca.indicator_id',1.1)
          ->get();
@@ -302,6 +317,7 @@ class CategoryController extends Controller
         $pdca=PDCA::leftjoin('indicator','pdca.Indicator_id','=','indicator.indicator_id')
         ->where('pdca.Indicator_id',$id)
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->get();
         foreach ($pdca as $key => $value){
@@ -345,12 +361,14 @@ class CategoryController extends Controller
         ->leftjoin('category_research_results','research_results.research_results_category','=','category_research_results.id')
         ->where('course_responsible_teacher.year_id',session()->get('year_id'))
         ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
+        ->where('course_responsible_teacher.branch_id',session()->get('branch_id'))
         ->where('research_results.research_results_year',session()->get('year'))
         ->get();
     //    dd($category_re);
         //ดึงค่าตารางอาจารย์ผู้รับผิดชอบหลักสูตร
         $trc = course_responsible_teacher::join('year','course_responsible_teacher.year_id','=','year.year_id')
         ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
+        ->where('course_responsible_teacher.branch_id',session()->get('branch_id'))
         ->where('course_responsible_teacher.year_id',session()->get('year_id'))
         ->get();
         ///นับอาจารย์ผู้รีบผิดชอบหลักสูตร
@@ -358,6 +376,7 @@ class CategoryController extends Controller
         
         $educ_bg= User::leftjoin('course_responsible_teacher','users.id','=','course_responsible_teacher.user_id')
         ->where('users.user_course',session()->get('usercourse'))
+        ->where('users.user_branch',session()->get('branch_id'))
         ->where('course_responsible_teacher.year_id',session()->get('year_id'))
         ->get();
          $counteb_name=0;
@@ -395,6 +414,7 @@ class CategoryController extends Controller
 
         $inc=PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.indicator_id',4.2)
         ->where('pdca.target','!=',null)
@@ -450,6 +470,7 @@ class CategoryController extends Controller
         ->get();
         $inc= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
+        ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('pdca.year_id',session()->get('year_id'))
         ->where('pdca.indicator_id',4.3)
         ->get();

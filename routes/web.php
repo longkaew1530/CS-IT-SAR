@@ -36,9 +36,11 @@ Route::get('/addcourseteacher', 'DashboardController@index19');
 Route::get('/addinstructor', 'DashboardController@index20');
 Route::get('/assign_indicator', 'DashboardController@index21');
 Route::get('/addcourse_responsible_teacher', 'DashboardController@index22');
+Route::get('/historical_report', 'DashboardController@index23');
 /////อาจารย์
 Route::get('/educational_background', 'AJController@educational_background');
 Route::get('/research_results', 'AJController@research_results');
+Route::get('/addindicator1-1', 'AJController@addindicator1_1');
 Route::get('/addpastperformance', 'AJController@past_performance');
 Route::get('/pdca/{id}', 'AJController@addpdca');
 Route::get('/addindicator4-3/{id}', 'AJController@add4_3');
@@ -137,6 +139,8 @@ Route::put('/updatemenu','APIController@updatemenu');
 Route::get('/getmenu/{id}','APIController@getmenu');
 /////course
 Route::post('/addcourse', 'APIController@addcourse');
+Route::post('/addcoursetname', 'APIController@addcoursetname');
+Route::post('/updatecoursetname', 'APIController@updatecoursetname');
 Route::delete('/deletecourse/{id}', 'APIController@deletecourse');
 Route::put('/updatecourse','APIController@updatecourse');
 Route::get('/getcourse/{id}','APIController@getcourse');
@@ -153,8 +157,9 @@ Route::put('/updateusergroup','APIController@updateusergroup');
 Route::get('/getusergroup/{id}','APIController@getusergroup');
 /////nextyear
 Route::put('/nextyear','APIController@nextyear');
+Route::put('/backyear2','APIController@backyear2');
 /////backyear
-Route::put('/backyear','APIController@backyear');
+Route::post('/backyear','APIController@backyear');
 Route::delete('/deleteyear/{id}','APIController@deleteyear');
 /////user
 Route::post('/adduser','APIController@adduser');
@@ -363,6 +368,15 @@ Route::get('/getsuccess','ShowdataController@getsuccess');
 Route::get('/getallindicator','ShowdataController@getallindicator');
 /////getcourse_user
 Route::get('/getcourse_username/{id}','APIController@getcourse_username');
+Route::get('/getcourse_username2','APIController@getcourse_username2');
+
+////indicator1-1
+Route::get('/getindicator1_1','APIAJController@getindicator1_1');
+Route::post('/addindicator1_1','APIAJController@addindicator1_1');
+Route::post('/updateindicator1_1','APIAJController@updateindicator1_1');
+
+Route::get('/updatesessionyear/{id}','APIController@updatesessionyear');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

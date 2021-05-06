@@ -9,7 +9,7 @@ class indicator4_3 extends Model
     protected $table = 'indicator4_3';
     protected $primaryKey = 'id';
     protected $fillable=[
-        'retention_rate','category_retention_rate','target','performance_1','performance_2','performance_result'
+        'retention_rate','category_retention_rate','target','performance_1','performance_2','performance_result','branch_id'
     ];
     public function docindicator4_3()
     {
