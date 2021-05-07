@@ -399,7 +399,7 @@ class APIAJController extends Controller
             $data2->performance3=$request->performance3;
             $data2->score=$request->score;
             $data2->course_id=session()->get('usercourse');
-            $data->branch_id=session()->get('branch_id');
+            $data2->branch_id=session()->get('branch_id');
             $data2->year_id=session()->get('year_id');
             $data2->save();
         return $data2;
@@ -2093,6 +2093,7 @@ class APIAJController extends Controller
         $data->year_add=$request->year_add;
         // $data->reported_year=$request->reported_year;
         $data->course_id=session()->get('usercourse');
+        $data->branch_id=session()->get('branch_id');
         // $data->year_id=session()->get('year_id');
         $data->save();
      return true;
@@ -2130,6 +2131,7 @@ class APIAJController extends Controller
                     $data[$key]['year_add']=$i;
                     $data[$key]['reported_year']=$getcount;
                     $data[$key]['course_id']=session()->get('usercourse');
+                    $data[$key]['branch_id']=session()->get('branch_id');
                     $data[$key]['year_id']=session()->get('year_id');  
                 } 
                 $getcount++;
@@ -4538,41 +4540,79 @@ class APIAJController extends Controller
             ->groupBy('user_permission.category_id')
             ->groupBy('user_permission.user_id')
             ->get();
+
+            $c1=0;
+            $c2=0;
+            $c3=0;
+            $c4=0;
+            $c5=0;
+            $c6=0;
+            $c7=0;
+            $c8=0;
+            $c9=0;
+            $getcounn=count($userpermis);
             $x=0;
-            foreach($userpermis as $per){
-                if($per['category_id']==1){
-                    $role[$x]['code']=$role[$x]['code'].'<span class="badge bg-green">'.$per['user_fullname'].'</span>';
-                    $x++;
-                }
-                if($per['category_id']==2){
-                    $role[$x]['code']=$role[$x]['code'].'<span class="badge bg-green">'.$per['user_fullname'].'</span>';
-                    $x++;
-                }
-                if($per['category_id']==3){
-                    $role[$x]['code']=$role[$x]['code'].'<span class="badge bg-green">'.$per['user_fullname'].'</span>';
-                    $x++;
-                }
-                if($per['category_id']==4){
-                    $role[$x]['code']=$role[$x]['code'].'<span class="badge bg-green">'.$per['user_fullname'].'</span>';
-                    $x++;
-                }
-                if($per['category_id']==5){
-                    $role[$x]['code']=$role[$x]['code'].'<span class="badge bg-green">'.$per['user_fullname'].'</span>';
-                    $x++;
-                }
-                if($per['category_id']==6){
-                    $role[$x]['code']=$role[$x]['code'].'<span class="badge bg-green">'.$per['user_fullname'].'</span>';
-                    $x++;
-                }
-                if($per['category_id']==7){
-                    $role[$x]['code']=$role[$x]['code'].'<span class="badge bg-green">'.$per['user_fullname'].'</span>';
-                    $x++;
-                }
-                if($per['category_id']==8){
-                    $role[$x]['code']=$role[$x]['code'].'<span class="badge bg-green">'.$per['user_fullname'].'</span>';
-                    $x++;
+            $getgetget=$getcounn*2;
+            if($getgetget>8){
+                $getgetget=8;
+            }
+            $userpermis3=user_permission::leftjoin('users','user_permission.user_id','=','users.id')
+            ->where('user_permission.year_id',session()->get('year_id'))
+            ->where('users.user_course',session()->get('usercourse'))
+            ->where('users.user_branch',session()->get('branch_id'))
+            ->groupBy('user_permission.category_id')
+            ->groupBy('user_permission.user_id')
+            ->first();
+            $userpermis4=user_permission::leftjoin('users','user_permission.user_id','=','users.id')
+            ->where('user_permission.year_id',session()->get('year_id'))
+            ->where('users.user_course',session()->get('usercourse'))
+            ->where('users.user_branch',session()->get('branch_id'))
+            ->groupBy('user_permission.category_id')
+            ->groupBy('user_permission.user_id')
+            ->orderBy('category_id', 'desc')->first();
+            if($getcounn!=0){
+            for($s=$userpermis3['category_id'];$s<=$userpermis4['category_id'];$s++){
+                $userpermis2=$userpermis->where('category_id',$s);
+                
+                if($userpermis2!="[]")
+                {
+                    $pass=0;
+                    foreach($userpermis2 as $per){
+                        $role[$per['category_id']-1]['code']=$role[$per['category_id']-1]['code'].'<span class="badge bg-green">'.$per['user_fullname'].'</span>';  
+                    }
                 }
             }
+            }
+
+                // if($per['category_id']==2){
+                //     $role[$x]['code']=$role[$x]['code'].'<span class="badge bg-green">'.$per['user_fullname'].'</span>';
+                //     $x++;
+                // }
+                // if($per['category_id']==3){
+                //     $role[$x]['code']=$role[$x]['code'].'<span class="badge bg-green">'.$per['user_fullname'].'</span>';
+                //     $x++;
+                // }
+                // if($per['category_id']==4){
+                //     $role[$x]['code']=$role[$x]['code'].'<span class="badge bg-green">'.$per['user_fullname'].'</span>';
+                //     $x++;
+                // }
+                // if($per['category_id']==5){
+                //     $role[$x]['code']=$role[$x]['code'].'<span class="badge bg-green">'.$per['user_fullname'].'</span>';
+                //     $x++;
+                // }
+                // if($per['category_id']==6){
+                //     $role[$x]['code']=$role[$x]['code'].'<span class="badge bg-green">'.$per['user_fullname'].'</span>';
+                //     $x++;
+                // }
+                // if($per['category_id']==7){
+                //     $role[$x]['code']=$role[$x]['code'].'<span class="badge bg-green">'.$per['user_fullname'].'</span>';
+                //     $x++;
+                // }
+                // if($per['category_id']==8){
+                //     $role[$x]['code']=$role[$x]['code'].'<span class="badge bg-green">'.$per['user_fullname'].'</span>';
+                //     $x++;
+                // }
+           
             
          ////สรุปคะแนน
        return $role;
@@ -8640,6 +8680,7 @@ class APIAJController extends Controller
         $getresultscorestrengths_summary = sprintf('%.0f',$resultscorestrengths_summary);
         /////หน้าแรก
         $queryworkandindicator=User::where('user_course',session()->get('usercourse'))
+        ->where('user_branch',session()->get('branch_id'))
         ->where('user_group_id','!=',2)
         ->where('user_group_id','!=',1)
         ->get();
@@ -8858,7 +8899,7 @@ class APIAJController extends Controller
          //ดึงค่าตารางอาจารย์ผู้รับผิดชอบหลักสูตร
          $trc = course_responsible_teacher::join('year','course_responsible_teacher.year_id','=','year.year_id')
          ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
-         ->where('pdcourse_responsible_teacherca.branch_id',session()->get('branch_id'))
+         ->where('course_responsible_teacher.branch_id',session()->get('branch_id'))
          ->where('year.year_id',session()->get('year_id'))
          ->get();
           ////ดึงสาขาวิชาที่จบของอาจารย์ประจำหลักสูตร
@@ -9477,7 +9518,7 @@ class APIAJController extends Controller
              ->get();
              $educ_bg= User::leftjoin('course_responsible_teacher','users.id','=','course_responsible_teacher.user_id')
              ->where('users.user_course',session()->get('usercourse'))
-             ->where('users.branch_id',session()->get('branch_id'))
+             ->where('users.user_branch',session()->get('branch_id'))
              ->where('course_responsible_teacher.year_id',session()->get('year_id'))
              ->get();
              foreach($educ_bg as $key=>$t){

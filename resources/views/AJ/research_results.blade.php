@@ -28,7 +28,7 @@
                         style="width: 100%;">
                         @foreach($userall as $value)
                       <option value="{{$value['id']}}">{{$value['user_fullname']}}</option>
-                      @endforeach
+                        @endforeach
                 </select>
               </div>
 
@@ -271,7 +271,11 @@
 <script>
   $(document).ready(function() {
     $selectElement = $('#teacher_name').select2({
-   
+      allowClear: true,
+    placeholder: {
+        id: "0",
+        placeholder: "Select an Title"
+    }
   });
       
     $.ajaxSetup({

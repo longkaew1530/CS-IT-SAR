@@ -1505,6 +1505,7 @@ class ShowdataController extends Controller
         ////ปิด  สรุปผลการดำเนินงาน
         $getpermiss=indicator::where('active',1)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $check1=0;
@@ -1886,6 +1887,7 @@ class ShowdataController extends Controller
 
         $getpermiss2=assessment_results::where('active',1)
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $check100=0;

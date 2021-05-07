@@ -19,6 +19,7 @@ class categorypdca extends Model
     {
         return $this->hasMany('App\PDCA','category_pdca','id')
         ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'));
     }
 }

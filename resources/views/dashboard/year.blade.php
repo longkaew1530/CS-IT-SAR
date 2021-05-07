@@ -59,7 +59,7 @@
                   @if($row['active']==1)
                   <button type="button" class="btn btn-success"  id="{{$row->year_id}}" disabled>กำลังใช้งาน</button>
                   @else
-                  <button type="button" class="btn btn-primary aaa"  id="{{$row->year_id}}">เปิดใช้งาน</button>
+                  <button type="button" class="btn btn-danger aaa"  id="{{$row->year_id}}">เปิดใช้งาน</button>
                   @endif
                   </td>        
                 </tr>

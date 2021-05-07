@@ -457,10 +457,18 @@ class APIController extends Controller
      }
      public function backyear2(Request $request)
      {
-        $queryyaer=Year::find($request->id);
-        $queryyaer->active=1;
-        $queryyaer->save();
-        return $queryyaer;
+        $delete=Year::where('active',1)
+         ->get();
+         $get=new Year;
+         foreach($delete as $row){
+             $get=Year::find($row['year_id']);
+             $get['active']=0;
+             $get->save();
+         }
+         $queryyaer=Year::find($request->id);
+         $queryyaer['active']=1;
+         $queryyaer->save();
+         return $queryyaer;
      }
      /////ปีก่อนหน้า/////ปีก่อนหน้า/////ปีก่อนหน้า/////ปีก่อนหน้า/////ปีก่อนหน้า/////ปีก่อนหน้า
 
@@ -738,14 +746,21 @@ class APIController extends Controller
           $user_group=$user->user_group_id;
         $category=category::all();
         $roleindicator=user_permission::leftjoin('indicator','user_permission.indicator_id','=','indicator.id')
-        ->where('user_id',$user->id)
+        ->where('user_permission.user_id',$user->id)
+        ->where('user_permission.year_id',session()->get('year_id'))
+        ->where('indicator.year_id',session()->get('year_id'))
         ->get();
         foreach ($category as $key => $value){
             $value->indicator->first(); 
          }
         session()->put('category',$category);
         session()->put('roleindicator',$roleindicator);
-        return $item;
+        if(isset($item)){
+            return $item;
+        }
+        else{
+            return $deleterolepermission;
+        }
       }
       public function getindicator($id)
       {
@@ -922,8 +937,15 @@ class APIController extends Controller
       }
       public function updatesessionyear($id)
       {
-        session()->put('branch_id',$id);   
+        session()->put('branch_id',$id);  
+        session()->put('checkbranch',1);  
         return session()->get('branch_id');
+      }
+      public function updatebackyear($id)
+      {
+        session()->put('year_id',$id);  
+   
+        return session()->get('year_id');
       }
 
 }

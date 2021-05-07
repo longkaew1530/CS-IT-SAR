@@ -4,7 +4,7 @@
 <div class="box box-warning marginl" id="exportContent">
 <div class="box-header" >
               <h3 class="text-center">หมวดที่3 นักศึกษาและบัณฑิต</h3><br>
-              @if($get!=""&&$checkinfostd==1)
+              @if($get!=""&&$checkinfostd==1&&$getinfo!="")
               <div class="box-body">
               <h4>ข้อมูลนักศึกษา</h4>
               
@@ -629,7 +629,7 @@
                 <tr>
                 @foreach($value->Categorypdca as $row)
                   <td><b>{{$row['category_name']}}</b><br>
-                  &nbsp&nbsp&nbsp&nbsp&nbsp&nbspหลักสูตร{{$getcourse3_1[0]['course_name']}} สาขา{{$getcourse3_1[0]['branch']}}  มีการนำระบบกลไกในการ{{$row['category_name']}}
+                  &nbsp&nbsp&nbsp&nbsp&nbsp&nbspหลักสูตร{{$getcourse3_1[0]['course_name']}} สาขา{{$getbranch[0]['name']}}  มีการนำระบบกลไกในการ{{$row['category_name']}}
                   โดยใช้กระบวนการ PDCA เป็นพื้นฐานและมีผลการดำเนินงานในปีการศึกษา {{ Session::get('year')}} ดังนี้ <br><br><br>
                   @if(count($row->pdca)!=0)
                   @foreach($row->pdca as $row1)
@@ -749,7 +749,7 @@
                 <tr>
                 @foreach($value->Categorypdca as $row)
                   <td><b>{{$row['category_name']}}</b><br>
-                  &nbsp&nbsp&nbsp&nbsp&nbsp&nbspหลักสูตร{{$getcourse3_2[0]['course_name']}} สาขา{{$getcourse3_2[0]['branch']}}  มีการนำระบบกลไกในการ{{$row['category_name']}}
+                  &nbsp&nbsp&nbsp&nbsp&nbsp&nbspหลักสูตร{{$getcourse3_2[0]['course_name']}} สาขา{{$getbranch[0]['name']}}  มีการนำระบบกลไกในการ{{$row['category_name']}}
                   โดยใช้กระบวนการ PDCA เป็นพื้นฐานและมีผลการดำเนินงานในปีการศึกษา {{ Session::get('year')}} ดังนี้ <br><br><br>
                   @if(count($row->pdca)!=0)
                   @foreach($row->pdca as $row1)

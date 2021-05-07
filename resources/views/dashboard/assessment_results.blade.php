@@ -122,12 +122,13 @@
                 @endforeach
                 </tbody>
               </table>  -->
+              
               <table id="myTable" class="table table-striped table-bordered" style="width:100%">
         <thead>
             <tr>
             <th width="5%">ที่</th>
                   <th >หมวด</th>
-                  <th width="10%" >เปิด-ปิด</th>
+                  <th width="9%" >เปิด-ปิด <br>การใช้งาน</th>
                   <th width="5%"></th>
 
             </tr>
@@ -189,6 +190,7 @@ tr.shown td.details-control {
 div.slider {
     display: none;
 }
+
 .toggle {
     --width: 40px;
     --height: calc(var(--width) / 2);
@@ -201,6 +203,7 @@ div.slider {
     display: none;
 }
 .toggle__fill {
+  content: "off";
     position: relative;
     width: var(--width);
     height: var(--height);

@@ -21,7 +21,7 @@
                 <tr>
                 <td>องค์ประกอบที่ {{$key+1}} {{$value['name']}}</td>
                 @if($key+1==1)
-                <td colspan="6" class="text-center">{{$data[0]['o']}}</td>
+                <td colspan="6" class="text-center">@if($data[0]['o']!=""){{$data[0]['o']}}@else-@endif</td>
                 <?php 
                 if($data[0]['o']==="ผ่านการประเมิน")
                 {
@@ -37,14 +37,14 @@
                 <td class="text-center"><b>{{$gett}}</b></td>
                 @else
                 @if($key+1==2)
-                <td rowspan="6" class="text-center"></td>
+                <td rowspan="6" class="text-center"><br><br><br><br>{{$data[0]['avgall']}}</td>
                 @endif
-                <td  class="text-center">{{$data[$key]['cindi']}}</td>
+                <td  class="text-center">@if(isset($data[$key]['cindi'])){{$data[$key]['cindi']}}@else-@endif</td>
                 <td class="text-center">@if(isset($data[$key]['i'])){{$data[$key]['i']}}@else-@endif</td>
                 <td class="text-center">@if(isset($data[$key]['p'])){{$data[$key]['p']}}@else-@endif</td>
                 <td class="text-center">@if(isset($data[$key]['o'])){{$data[$key]['o']}}@else-@endif</td>
                 <td class="text-center">@if(isset($data[$key]['avr']))<b>{{$data[$key]['avr']}}</b>@else-@endif</td>
-                <td class="text-center">@if(isset($data[$key]['result']))<b>{{$data[$key]['result']}}</b>@endif</td>
+                <td class="text-center">@if(isset($data[$key]['result']))<b>{{$data[$key]['result']}}</b>@else-@endif</td>
                 @endif
                 </tr>
                 @endforeach
@@ -54,7 +54,7 @@
                   <td class="text-center"><b>{{$data[0]['resultindicatori']}}</b></td>
                   <td class="text-center"><b>{{$data[0]['resultindicatorp']}}</b></td>
                   <td class="text-center"><b>{{$data[0]['resultindicatoro']}}</b></td>
-                  <td rowspan="2" class="text-center"><b>{{$data[0]['avgall']}}</b></td>
+                  <td rowspan="2" class="text-center"><b><br>{{$data[0]['avgall']}}</b></td>
                   <td rowspan="2" class="text-center"><b>@if($data[0]['resultavg']!=""){{$data[0]['resultavg']}}@endif</b></td>
                 </tr>
                 <tr>

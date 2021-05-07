@@ -4,7 +4,7 @@
 <div class="box box-warning marginl ml wid20">
 <div class="form-group">
                 <label for="exampleInputPassword1">เลือกปีการศึกษาที่ต้องการดูย้อนหลัง</label>
-                                  <select class="form-control"  id="facultyid"  class="form-control @error('role') is-invalid @enderror" name="faculty_id">
+                                  <select  class="form-control" id="year"  onchange="calc2()"  class="form-control @error('role') is-invalid @enderror" name="faculty_id">
                                     @foreach($getyear as $value)
                                     <option value="{{$value['year_id']}}">{{$value['year_name']}}</option>
                                     @endforeach
@@ -227,6 +227,25 @@ $('#myTable tbody').on('click', 'td.details-control', function () {
       lengthMenu: [ 5, 10, 15, 100]
     })
   })
+  function calc2()
+{
+  var token = $('meta[name="csrf-token"]').attr('content');
+  var e = document.getElementById("year");
+  var strUser = e.value;
+     $.ajax({
+           type:'GET',
+           url:'/updatebackyear/'+strUser,
+           data: {
+          _token : token
+        },
+           success:function(data){
+             console.log(data);
+            $("#year").val(data);
+            $('#myTable').DataTable().ajax.reload();
+              // location.reload().then;
+           }
+        });
+}
 </script>
 <script type="text/javascript">
     $.ajaxSetup({
@@ -255,30 +274,25 @@ $('#myTable tbody').on('click', 'td.details-control', function () {
            }
         });
 	});
-  $("#myid li").click(function() {
+  $("#myid option").click(function() {
     var token = $('meta[name="csrf-token"]').attr('content');
   
      var idb=this.id;
         console.log(this.id);
-        $.ajax({
-           type:'GET',
-           url:'/updatesessionyear/'+idb,
-           data: {
-          _token : token
-        },
-           success:function(data){
-              location.reload();
-           }
-        });
+        // $.ajax({
+        //    type:'GET',
+        //    url:'/updatesessionyear/'+idb,
+        //    data: {
+        //   _token : token
+        // },
+        //    success:function(data){
+        //       location.reload();
+        //    }
+        // });
 
     
 });
-  function calc2()
-{
-  var token = $('meta[name="csrf-token"]').attr('content');
-  var id = $(this).attr('id');
-     console.log(id);
-}
+  
 
   $('.aaa').click(function(e){
     var token = $('meta[name="csrf-token"]').attr('content');

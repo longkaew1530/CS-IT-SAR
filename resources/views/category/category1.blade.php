@@ -6,7 +6,7 @@
 <div class="box-header" >
 <h3 class="text-center">หมวดที่ 1 ข้อมูลทั่วไป</h3><br>
               @foreach($course as $key =>$value)
-              <br><b>หลักสูตร{{$value['course_name']." สาขา" .$user_branch[0]['name']." หลักสูตรปรับปรุง พ.ศ. ".$value['update_course']}} ระดับปริญญาตรี</b><br>
+              <br><b>หลักสูตร{{$value['course_name']." สาขา" .$getbranch[0]['name']." หลักสูตรปรับปรุง พ.ศ. ".$value['update_course']}} ระดับปริญญาตรี</b><br>
               <b>รหัสหลักสูตร</b> {{$value['course_code']}}<br>
               <b>สถานที่จัดการเรียนการสอน</b> {{$value['place']}}<br>
               @endforeach

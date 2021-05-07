@@ -89,9 +89,15 @@
                 <tr>
                 <td class="text-center" colspan="2">ผลการประเมิน</td>
                 <?php
-                 
-                $getget=$resultall/($getloop-1); 
-                     $scorecategory1 = sprintf('%.2f',$getget);
+                $getget=0;
+
+                if($getloop!=1&&$getloop!=0&&$resultall!=0){
+                  $getget=$resultall/($getloop-1); 
+                  $scorecategory1 = sprintf('%.2f',$getget);
+                 }
+                 else{
+                   $scorecategory1 =0.00;
+                 }
                 ?>
                 <td  class="text-center" colspan="3">{{$scorecategory1}}</td>
                 </tr>

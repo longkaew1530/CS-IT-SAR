@@ -178,7 +178,7 @@
           <!-- /.modal-dialog -->
         </div>
         <div class="modal  fade" id="modal-edit">
-          <div class="modal-dialog modal-lg">
+          <div class="modal-dialog ">
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -189,8 +189,7 @@
               @csrf
               {{ method_field('PUT') }}
               <div class="modal-body">
-          <div class="row">
-            <div class="col-md-6">
+
             <div class="form-group">
               <input type="hidden" class="form-control" id="courseid" name="course_id" >
                   <label for="exampleInputEmail1">หลักสูตร</label>
@@ -223,17 +222,8 @@
                   <input type="text" class="form-control" id="initials1" name="initials" placeholder="ชื่อย่อ">
                 </div>
             </div>
-            <div class="col-md-6">
-            <label>มคอ.2</label>
-            <div class="table-responsive">  
-                <table class="table table-bordered" id="dynamic_field2">
-                        <div id="get"></div>
-                </table>
-            </div>
-           
-            </div>
-          </div>
-             </div>
+ 
+    
               
                 
                 

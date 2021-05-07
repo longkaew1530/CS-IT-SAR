@@ -62,15 +62,36 @@ class ReportController extends Controller
         $query=assessment_results::leftjoin('category','assessment_results.category_id','=','category.category_id')
         ->where('assessment_results.year_id',session()->get('year_id'))
         ->get();
-       
+        $year=Year::where('active',1)
+        ->get();
+        $getAllyear=Year::all();
+        if($getAllyear!="[]"){
+            foreach($year as $value){
+                $y_name=$value['year_name'];
+                $y_id=$value['year_id'];
+            }
+            session()->put('year',$y_name);
+            session()->put('year_id',$y_id);
+        }
             return view('report/overview',compact('query'));
     }
     public function teacheroverview()
     {
+        $year=Year::where('active',1)
+        ->get();
+        $getAllyear=Year::all();
+        if($getAllyear!="[]"){
+            foreach($year as $value){
+                $y_name=$value['year_name'];
+                $y_id=$value['year_id'];
+            }
+            session()->put('year',$y_name);
+            session()->put('year_id',$y_id);
+        }
         $query=assessment_results::leftjoin('category','assessment_results.category_id','=','category.category_id')
         ->where('assessment_results.year_id',session()->get('year_id'))
         ->get();
-       
+        
             return view('report/teacheroverview',compact('query'));
     }
     public function instructor()
@@ -84,6 +105,17 @@ class ReportController extends Controller
     }
     public function performance_summary()
     {
+        $year=Year::where('active',1)
+        ->get();
+        $getAllyear=Year::all();
+        if($getAllyear!="[]"){
+            foreach($year as $value){
+                $y_name=$value['year_name'];
+                $y_id=$value['year_id'];
+            }
+            session()->put('year',$y_name);
+            session()->put('year_id',$y_id);
+        }
         $getall=composition::all();
         $indicator=defaulindicator::where('Indicator_id','!=',null)
         ->get();
@@ -96,7 +128,7 @@ class ReportController extends Controller
         ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('target','!=',null)
         ->get();
-
+        
         $per1="";
         foreach($pdca as $value)
         {
@@ -140,6 +172,17 @@ class ReportController extends Controller
     }
     public function course_overview()
     {
+        $year=Year::where('active',1)
+        ->get();
+        $getAllyear=Year::all();
+        if($getAllyear!="[]"){
+            foreach($year as $value){
+                $y_name=$value['year_name'];
+                $y_id=$value['year_id'];
+            }
+            session()->put('year',$y_name);
+            session()->put('year_id',$y_id);
+        }
         $getall=composition::all();
         $indicator=defaulindicator::where('Indicator_id','!=',null)
         ->get();
@@ -159,6 +202,7 @@ class ReportController extends Controller
                 }
             }
         }
+        
         $per1="";
         $result1_1=0;
         $result2_1=0;
@@ -493,7 +537,9 @@ class ReportController extends Controller
             }
         }
         $course_detail = course_detail::where('course_id',session()->get('usercourse'))->get();
-        return view('category/category1',compact('c','count','nameteacher'
+        $getbranch=branch::where('branch_id',session()->get('branch_id'))
+        ->get();
+        return view('category/category1',compact('getbranch','c','count','nameteacher'
         ,'educ_bg','y','checkpass','checknotpass','tc_course','instructor','specialinstructor'
         ,'inc','course','result1','result2','result3','result4','result5','result6','result7'
         ,'result8','result9','result10','id','name','checkedit','inc','user_branch','check1_1','course_detail'));
@@ -989,7 +1035,9 @@ class ReportController extends Controller
                 $checkres=1;
             }
         }
-            return view('showcategory/category3',compact('get','getinfo','getqty','countnumber'
+        $getbranch=branch::where('branch_id',session()->get('branch_id'))
+        ->get();
+            return view('showcategory/category3',compact('getbranch','get','getinfo','getqty','countnumber'
             ,'checkedit','get2','getinfo1','getyear','getinfo2','gropby','factor','factor2',
             'factor3','pdca','per1','name','id','factor4','pdca2','pdca3_1','name3_1',
             'id3_1','getcourse3_1','getcategorypdca3_1','inc3_1','pdca3_2','name3_2',
@@ -1263,7 +1311,9 @@ class ReportController extends Controller
                 $check8=1;
             }
         }
-            return view('showcategory/category4',compact('ccr','ccr2','checkedit','pdca5_1','name5_1',
+        $getbranch=branch::where('branch_id',session()->get('branch_id'))
+        ->get();
+            return view('showcategory/category4',compact('getbranch','ccr','ccr2','checkedit','pdca5_1','name5_1',
             'id5_1','getcourse5_1','getcategorypdca5_1','inc5_1','pdca5_2','name5_2','id5_2','getcourse5_2',
             'getcategorypdca5_2','inc5_2','pdca5_3','name5_3','id5_3','getcourse5_3','getcategorypdca5_3','inc5_3'
          ,'indi','id5_4','name5_4','perfor','result','resultpass1_5','resultpass1_5persen','resultpassall','inc5_4',
@@ -1430,6 +1480,16 @@ class ReportController extends Controller
         ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('target','!=',null)
         ->get();
+        $data[0]['cindiall']=0;
+        foreach($getall2 as $key11=>$getallvalue){
+                    $data[$key11]['cindi']=0;
+            foreach($indicator as $getindi){
+                if($getallvalue['id']==$getindi['composition_id']&&$getindi['Indicator_id']!=1.1){
+                    $data[$key11]['cindi']++;
+                    $data[0]['cindiall']++;
+                }
+            }
+        }
         $per1="";
         $per2="";
         $result1_1=0;
@@ -1496,20 +1556,45 @@ class ReportController extends Controller
             }
         }
         $data[0]['o']=$result1_1;
-        $data[1]['o']=sprintf('%.2f',($result2_1+$result2_2)/2);
-        $data[1]['avr']=sprintf('%.2f',($result2_1+$result2_2)/2);
-        $data[2]['p']=sprintf('%.2f',($result3_1+$result3_2)/2);     
-        $data[2]['o']=sprintf('%.2f',$result3_3);
-        $data[2]['avr']=sprintf('%.2f',($result3_1+$result3_2+$result3_3)/3);       
-        $data[3]['i']=sprintf('%.2f',$result4_2);
-        $data[3]['p']=sprintf('%.2f',$result4_1);
-        $data[3]['o']=sprintf('%.2f',$result4_3);
-        $data[3]['avr']=sprintf('%.2f',($result4_2+$result4_1+$result4_3)/3);
-        $data[4]['p']=sprintf('%.2f',($result5_1+$result5_2+$result5_3)/3);
-        $data[4]['o']=sprintf('%.2f',$result5_4);
-        $data[4]['avr']=sprintf('%.2f',($result5_1+$result5_2+$result5_3+$result5_4)/4);
+        $data[1]['o']=sprintf('%.2f',($result2_1+$result2_2)/$data[1]['cindi']);
+        $data[1]['counto']=2; 
+        $data[1]['avr']=sprintf('%.2f',($result2_1+$result2_2)/$data[1]['cindi']);
+        $data[2]['i']=sprintf('%.2f',($result3_1+$result3_2+$result3_3)/$data[2]['cindi']); 
+        $data[2]['counti']=3;      
+        $data[2]['avr']=sprintf('%.2f',($result3_1+$result3_2+$result3_3)/$data[2]['cindi']);       
+        $data[3]['i']=sprintf('%.2f',($result4_2+$result4_1+$result4_3)/$data[3]['cindi']);
+        $data[3]['counti']=3;
+        $data[3]['avr']=sprintf('%.2f',($result4_2+$result4_1+$result4_3)/$data[3]['cindi']);
+        $data[4]['i']=sprintf('%.2f',$result5_1);
+        $data[4]['counti']=1;
+        $data[4]['p']=sprintf('%.2f',($result5_4+$result5_2+$result5_3)/($data[4]['cindi']-1));
+        $data[4]['countp']=3; 
+        $data[4]['avr']=sprintf('%.2f',($result5_1+$result5_2+$result5_3+$result5_4)/$data[4]['cindi']);
         $data[5]['p']=sprintf('%.2f',$result6_1);
+        $data[5]['countp']=1;
         $data[5]['avr']=sprintf('%.2f',$result6_1);
+
+        $data[0]['resultipo1']=sprintf('%.2f',($result3_1+$result3_2+$result3_3+$result4_2+$result4_1+$result4_3+$result5_1)/7);
+        $data[0]['resultipo2']=sprintf('%.2f',($result5_4+$result5_2+$result5_3+$result6_1)/4);
+        $data[0]['resultipo3']=sprintf('%.2f',($result2_1+$result2_2)/2);
+        $data[0]['resultindicatori']=$data[2]['counti']+$data[3]['counti']+$data[4]['counti'];
+        $data[0]['resultindicatorp']=$data[4]['countp']+$data[5]['countp'];
+        $data[0]['resultindicatoro']=$data[1]['counto'];
+        $data[0]['avgall']=sprintf('%.2f',($data[1]['avr']+$data[2]['avr']+$data[3]['avr']+$data[4]['avr']+$data[5]['avr'])/5);
+        $data[0]['resultavg']="";
+        if($data[0]['avgall']>=0.01&&$data[0]['avgall']<=2.00){
+            $data[0]['resultavg']="น้อย";
+        }
+        else if($data[0]['avgall']>=2.01&&$data[0]['avgall']<=3.00){
+            $data[0]['resultavg']="ปานกลาง";
+        }
+        else if($data[0]['avgall']>=3.01&&$data[0]['avgall']<=4.00){
+            $data[0]['resultavg']="ดี";
+        }
+        else if($data[0]['avgall']>=4.01&&$data[0]['avgall']<=5.00){
+            $data[0]['resultavg']="ดีมาก";
+        }
+
         for($i = 1; $i <= 5; $i++){
             if($data[$i]['avr']>=0.01&&$data[$i]['avr']<=2.00){
                 $data[$i]['result']="น้อย";

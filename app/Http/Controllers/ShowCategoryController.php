@@ -12,6 +12,7 @@ use App\User;
 use App\PDCA;
 use App\Year;
 use App\Course;
+use App\branch;
 use App\category4_teaching_quality;
 use App\docpdca;
 use App\category3_resignation;
@@ -368,7 +369,9 @@ class ShowCategoryController extends Controller
                 $id=$value['Indicator_id'];
             }
             $checkedit="";
-            return view('category3/showpdca',compact('pdca','name','id','getcourse','getcategorypdca','inc','checkedit'));
+            $getbranch=branch::where('branch_id',session()->get('branch_id'))
+            ->get();
+            return view('category3/showpdca',compact('getbranch','pdca','name','id','getcourse','getcategorypdca','inc','checkedit'));
         }
          if($id=="3.2"){
             $getcategorypdca=indicator::where('Indicator_id',3.2)
@@ -403,7 +406,9 @@ class ShowCategoryController extends Controller
                 $id=$value['Indicator_id'];
             }
             $checkedit="";
-            return view('category3/showpdca',compact('pdca','name','id','getcourse','getcategorypdca','inc','checkedit'));
+            $getbranch=branch::where('branch_id',session()->get('branch_id'))
+             ->get();
+            return view('category3/showpdca',compact('getbranch','pdca','name','id','getcourse','getcategorypdca','inc','checkedit'));
         }
          if($id=="3.3"){
             $in3_3=performance3_3::where('course_id',session()->get('usercourse'))
@@ -462,7 +467,9 @@ class ShowCategoryController extends Controller
                 $id=$value['Indicator_id'];
             }
             $checkedit="";
-            return view('category3/showpdca',compact('pdca','name','id','getcourse','getcategorypdca','inc','checkedit'));
+            $getbranch=branch::where('branch_id',session()->get('branch_id'))
+             ->get();
+            return view('category3/showpdca',compact('getbranch','pdca','name','id','getcourse','getcategorypdca','inc','checkedit'));
         }
         if($id=="4.2"){
            //ดึงค่าปี
@@ -585,16 +592,16 @@ class ShowCategoryController extends Controller
         }
         $getcategorypdca=defaulindicator::where('id',9)
         ->get();
-        $name="";
-        $id="";
+        $name4_2="";
+        $id4_2="";
         $checkedit="";
         foreach($getcategorypdca as $value)
         {
-            $name=$value['Indicator_name'];
-            $id=$value['Indicator_id'];
+            $name4_2=$value['Indicator_name'];
+            $id4_2=$value['Indicator_id'];
         }
         return view('category/indicator4-2',compact('category_re','count','counteb_name','countposition1','countposition2','countposition3'
-                    ,'cate','qty1','B','qty2','C','qty3','E','inc','id','name','checkedit'));
+                    ,'cate','qty1','B','qty2','C','qty3','E','inc','id4_2','name4_2','checkedit'));
        }
        if($id=="4.3"){
         $in4_3=indicator4_3::where('course_id',session()->get('usercourse'))
@@ -652,7 +659,9 @@ class ShowCategoryController extends Controller
             $id=$value['Indicator_id'];
         }
         $checkedit="";
-        return view('category3/showpdca',compact('pdca','name','id','getcourse','getcategorypdca','inc','checkedit'));
+        $getbranch=branch::where('branch_id',session()->get('branch_id'))
+            ->get();
+        return view('category3/showpdca',compact('getbranch','pdca','name','id','getcourse','getcategorypdca','inc','checkedit'));
        }
        if($id=="5.2"){
         $getcategorypdca=indicator::where('Indicator_id',5.2)
@@ -687,7 +696,9 @@ class ShowCategoryController extends Controller
             $id=$value['Indicator_id'];
         }
         $checkedit="";
-        return view('category3/showpdca',compact('pdca','name','id','getcourse','getcategorypdca','inc','checkedit'));
+        $getbranch=branch::where('branch_id',session()->get('branch_id'))
+            ->get();
+        return view('category3/showpdca',compact('getbranch','pdca','name','id','getcourse','getcategorypdca','inc','checkedit'));
        }
        if($id=="5.3"){
         $getcategorypdca=indicator::where('Indicator_id',5.3)
@@ -722,7 +733,9 @@ class ShowCategoryController extends Controller
             $id=$value['Indicator_id'];
         }
         $checkedit="";
-        return view('category3/showpdca',compact('pdca','name','id','getcourse','getcategorypdca','inc','checkedit'));
+        $getbranch=branch::where('branch_id',session()->get('branch_id'))
+            ->get();
+        return view('category3/showpdca',compact('getbranch','pdca','name','id','getcourse','getcategorypdca','inc','checkedit'));
        }
        if($id=="5.4"){
         $indi=in_index::all();
@@ -826,7 +839,9 @@ class ShowCategoryController extends Controller
             $id=$value['Indicator_id'];
         }
         $checkedit="";
-        return view('category3/showpdca',compact('pdca','name','id','getcourse','getcategorypdca','inc','checkedit'));
+        $getbranch=branch::where('branch_id',session()->get('branch_id'))
+        ->get();
+        return view('category3/showpdca',compact('getbranch','pdca','name','id','getcourse','getcategorypdca','inc','checkedit'));
            }
        
            if($id=="คุณภาพการสอน"){

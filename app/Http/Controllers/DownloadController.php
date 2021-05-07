@@ -262,7 +262,9 @@ class DownloadController extends Controller
             }
         }
         $course_detail = course_detail::where('course_id',session()->get('usercourse'))->get();
-        return view('downloadcategory/category1',compact('c','count','nameteacher'
+        $getbranch=branch::where('branch_id',session()->get('branch_id'))
+            ->get();
+        return view('downloadcategory/category1',compact('getbranch','c','count','nameteacher'
         ,'educ_bg','y','checkpass','checknotpass','tc_course','instructor','specialinstructor'
         ,'inc','course','result1','result2','result3','result4','result5','result6','result7'
         ,'result8','result9','result10','id','name','checkedit','inc','user_branch','check1_1','course_detail'));
@@ -471,7 +473,9 @@ class DownloadController extends Controller
                 $check4_3=1;
             }
         }
-        return view('downloadcategory/category2',compact('check4_1','check4_2','check4_3','pdca','name','id','getcourse','getcategorypdca','inc','checkedit','category_re','count','counteb_name','countposition1','countposition2','countposition3'
+        $getbranch=branch::where('branch_id',session()->get('branch_id'))
+        ->get();
+        return view('downloadcategory/category2',compact('getbranch','check4_1','check4_2','check4_3','pdca','name','id','getcourse','getcategorypdca','inc','checkedit','category_re','count','counteb_name','countposition1','countposition2','countposition3'
                     ,'cate','qty1','B','qty2','C','qty3','E','inc4_2','id4_2','name4_2','in4_3','inc3','name4_3','id4_3','getcategorypdca4_3'));
         }
         else if($id==3){
@@ -756,7 +760,9 @@ class DownloadController extends Controller
                 $checkres=1;
             }
         }
-            return view('downloadcategory/category3',compact('get','getinfo','getqty','countnumber'
+        $getbranch=branch::where('branch_id',session()->get('branch_id'))
+            ->get();
+            return view('downloadcategory/category3',compact('getbranch','get','getinfo','getqty','countnumber'
             ,'checkedit','get2','getinfo1','getyear','getinfo2','gropby','factor','factor2',
             'factor3','pdca','per1','name','id','factor4','pdca2','pdca3_1','name3_1',
             'id3_1','getcourse3_1','getcategorypdca3_1','inc3_1','pdca3_2','name3_2',
@@ -1030,7 +1036,9 @@ class DownloadController extends Controller
                 $check8=1;
             }
         }
-            return view('downloadcategory/category4',compact('ccr','ccr2','checkedit','pdca5_1','name5_1',
+        $getbranch=branch::where('branch_id',session()->get('branch_id'))
+            ->get();
+            return view('downloadcategory/category4',compact('getbranch','ccr','ccr2','checkedit','pdca5_1','name5_1',
             'id5_1','getcourse5_1','getcategorypdca5_1','inc5_1','pdca5_2','name5_2','id5_2','getcourse5_2',
             'getcategorypdca5_2','inc5_2','pdca5_3','name5_3','id5_3','getcourse5_3','getcategorypdca5_3','inc5_3'
          ,'indi','id5_4','name5_4','perfor','result','resultpass1_5','resultpass1_5persen','resultpassall','inc5_4',
@@ -1091,7 +1099,9 @@ class DownloadController extends Controller
                 $check1=1;
             }
             }
-            return view('downloadcategory/category5',compact('coursemanage','checkedit','pdca','name','id'
+            $getbranch=branch::where('branch_id',session()->get('branch_id'))
+        ->get();
+            return view('downloadcategory/category5',compact('getbranch','coursemanage','checkedit','pdca','name','id'
             ,'getcourse','getcategorypdca','inc','check6_1','check1'));
         }
         else if($id==6){

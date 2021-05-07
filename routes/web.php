@@ -376,6 +376,7 @@ Route::post('/addindicator1_1','APIAJController@addindicator1_1');
 Route::post('/updateindicator1_1','APIAJController@updateindicator1_1');
 
 Route::get('/updatesessionyear/{id}','APIController@updatesessionyear');
+Route::get('/updatebackyear/{id}','APIController@updatebackyear');
 
 Auth::routes();
 
