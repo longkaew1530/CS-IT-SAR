@@ -27,7 +27,9 @@
                   @foreach($user as $key=>$row)
                 <tr>
                   <td>{{$key+1}}</td>
-                  <td><img src="{{asset('public/user/' . $row['image'])}}" width="65"></td>
+                  <td>@if($row['image']!="")<img src="{{asset('public/user/' . $row['image'])}}" width="65">
+                  @else<img src="/images1/profile.png" width="65">
+                  @endif</td>
                   <td>{{$row['user_fullname']}}</td>  
                   <td>{{$row['email']}}</td>
                   <td>{{$row['faculty_name']}}</td>
@@ -342,7 +344,12 @@ var url = "/getuser";
             $("#branch1").val(data[0].user_branch);
             $("#user_group_id1").val(data[0].user_group_id);
             $("#academic_position1").val(data[0].academic_position);
-            document.getElementById("image_preview_container1").src ="public/user/"+ data[0].image;
+            if(data[0].image!=""){
+              document.getElementById("image_preview_container1").src ="public/user/"+ data[0].image;
+            }
+            else{
+              document.getElementById("image_preview_container1").src ="/images1/profile.png";
+            }
             // $("#image1").val(data[0].image);
             console.log(data[0].image);
         }) 

@@ -8,7 +8,7 @@
         @if(Auth::user()->image)
               <img src="{{asset('public/user/' . Auth::user()->image)}}" class="img-circle" alt="User Image">
               @else
-              <img src="{{url('/')}}/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+              <img src="{{url('/')}}/images1/profile.png" class="img-circle" alt="User Image">
               @endif
         </div>
         <div class="pull-left info">
@@ -132,11 +132,20 @@
           </ul>
         </li> -->
         <!-- <li ><a href="/"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li> -->
-        <?php $data2=session()->get('groupmenu')->where('g_id','!=',30); ?>
+        <?php $data2=session()->get('groupmenu')->where('g_id','!=',30); ?> 
         @foreach($data2  as $value)
         @foreach(session()->get('roleper')  as $value1)
         @if($value1['g_id']==$value['g_id'])
+        @if(session()->get('putput')==0)
+        @if(session()->get('m_menu1')==$value['g_id'])
         <li class="active treeview ">
+        @else
+        <li class="treeview ">
+        @endif
+        @else
+        <li class="treeview ">
+        @endif
+
           <a href="">
             <i class="{{$value['g_icon']}}"></i><span>{{$value['g_name']}}</span>
             
@@ -151,27 +160,29 @@
             @foreach($value->menu as $row)
               @foreach(session()->get('roleper')  as $value)
               @if($value['m_id']==$row['m_id'])
-                @if($row['m_url']=="/category3/pdca"||$row['m_url']=="/addimpactfactor"||$row['m_url']=="/addassessment_summary"||$row['m_url']=="/category/indicator4-2")
-                <li  class="{{ (request()->segment(2)==$row['m_id']) ? 'active' : '' }}"><a   href="{{$row['m_url']}}/{{$row['m_id']}}" ><i class="fa fa-circle-o text-red"></i>{!!$row['m_name']!!}</a></li>
-                @else
-               <li  class="{{ ('/'.request()->segment(1)==$row['m_url']) ? 'active' : ''}}"><a  href="{{$row['m_url']}}" ><i class="fa fa-circle-o text-red"></i>{!!$row['m_name']!!}</a></li>
-                @endif
+               <li id="{{$row['m_id']}}" class="{{ (session()->get('m_menu2')==$row['m_id']) ? 'active' : ''}}"><a  href="{{$row['m_url']}}" ><i class="fa fa-circle-o text-red"></i>{!!$row['m_name']!!}</a></li>
               @endif
               @endforeach
             @endforeach
           </ul>
-     
         @endforeach
 
-
+        
         @if(session()->get('roleindicator')!="")
         @foreach(session()->get('category')  as $value)
         @foreach(session()->get('roleindicator')  as $value1)
         @if($value1['category_id']==$value['category_id'])
-        <li class="active treeview ">
+          @if(session()->get('putput')!=0)
+          @if(session()->get('dindicator')==$value['category_id'])
+          <li class="active treeview ">
+          @else
+          <li class="treeview ">
+          @endif
+          @else
+          <li class="treeview ">
+          @endif
           <a href="">
             <i class="{{$value['icon']}}"></i><span>@if($value['category_id']!=8)หมวดที่ {{$value['category_id']}}@else {{$value['category_name']}} @endif</span>
-            
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -179,12 +190,12 @@
           @break
          @endif
          @endforeach
-          <ul class="treeview-menu" id="item_id">
+          <ul class="treeview-menu"  id="myid">
             @foreach($value->indicator as $row)
             @if($row['url']=="/category3/pdca"||$row['url']=="/addimpactfactor"||$row['url']=="/addassessment_summary"||$row['url']=="/addindicator4-3")
-                <li  class="{{ (request()->segment(2)==$row['m_id']) ? 'active' : '' }}"><a   href="{{$row['url']}}/{{$row['id']}}" ><i class="fa fa-circle-o text-red"></i>@if($row['Indicator_id']!="")ตัวบ่งชี้ {!!$row['Indicator_id']!!}@else{!!$row['Indicator_name']!!}@endif</a></li>
+                <li id="{{$row['id']}}"  class="{{ (session()->get('dindicator2')==$row['id']) ? 'active' : '' }}"><a   href="{{$row['url']}}/{{$row['id']}}" ><i class="fa fa-circle-o text-red"></i>@if($row['Indicator_id']!="")ตัวบ่งชี้ {!!$row['Indicator_id']!!}@else{!!$row['Indicator_name']!!}@endif</a></li>
                 @else
-                <li  class="{{ ('/'.request()->segment(1)==$row['url']) ? 'active' : ''}}"><a  href="{{$row['url']}}" ><i class="fa fa-circle-o text-red"></i>@if($row['Indicator_id']!="")ตัวบ่งชี้ {!!$row['Indicator_id']!!}@else{!!$row['Indicator_name']!!}@endif</a></li>
+                <li id="{{$row['id']}}"  class="{{ (session()->get('dindicator2')==$row['id']) ? 'active' : ''}}"><a  href="{{$row['url']}}" ><i class="fa fa-circle-o text-red"></i>@if($row['Indicator_id']!="")ตัวบ่งชี้ {!!$row['Indicator_id']!!}@else{!!$row['Indicator_name']!!}@endif</a></li>
                 @endif
                
               
@@ -198,7 +209,16 @@
         @foreach($data3  as $value)
         @foreach(session()->get('roleper')  as $value1)
         @if($value1['g_id']==$value['g_id'])
+        @if(session()->get('putput')==0)
+        @if(session()->get('m_menu1')==$value['g_id'])
         <li class="active treeview ">
+        @else
+        <li class="treeview ">
+        @endif
+        @else
+        <li class="treeview ">
+        @endif
+        
           <a href="">
             <i class="{{$value['g_icon']}}"></i><span>{{$value['g_name']}}</span>
             
@@ -209,15 +229,11 @@
           @break
          @endif
          @endforeach
-          <ul class="treeview-menu" id="item_id">
+          <ul class="treeview-menu" id="myid2">
             @foreach($value->menu as $row)
               @foreach(session()->get('roleper')  as $value)
               @if($value['m_id']==$row['m_id'])
-                @if($row['m_url']=="/category3/pdca"||$row['m_url']=="/addimpactfactor"||$row['m_url']=="/addassessment_summary"||$row['m_url']=="/category/indicator4-2")
-                <li  class="{{ (request()->segment(2)==$row['m_id']) ? 'active' : '' }}"><a   href="{{$row['m_url']}}/{{$row['m_id']}}" ><i class="fa fa-circle-o text-red"></i>{!!$row['m_name']!!}</a></li>
-                @else
-               <li  class="{{ ('/'.request()->segment(1)==$row['m_url']) ? 'active' : ''}}"><a  href="{{$row['m_url']}}" ><i class="fa fa-circle-o text-red"></i>{!!$row['m_name']!!}</a></li>
-                @endif
+               <li id="{{$row['m_id']}}" class="{{ (session()->get('m_menu2')==$row['m_id']) ? 'active' : ''}}"><a  href="{{$row['m_url']}}" ><i class="fa fa-circle-o text-red"></i>{!!$row['m_name']!!}</a></li>
               @endif
               @endforeach
             @endforeach
@@ -312,8 +328,58 @@
     <!-- /.sidebar -->
   </aside>
 <script>
-        $("#item_id li a").click(function() {
-            $(this).parent().addClass('active').siblings().removeClass('active');
-
+        $("#myid li").click(function() {
+    var token = $('meta[name="csrf-token"]').attr('content');
+  
+     var idb=this.id;
+        console.log(this.id);
+        $.ajax({
+           type:'GET',
+           url:'/updatesessionyear2/'+idb,
+           data: {
+          _token : token
+        },
+           success:function(data){
+              
+           }
         });
+
+    
+});
+$("#myid2 li").click(function() {
+  var token = $('meta[name="csrf-token"]').attr('content');
+  
+  var idb=this.id;
+     console.log(this.id);
+     $.ajax({
+        type:'GET',
+        url:'/updatesessionyear3/'+idb,
+        data: {
+       _token : token
+     },
+        success:function(data){
+         
+        }
+     });
+
+    
+});
+$("#item_id li").click(function() {
+    var token = $('meta[name="csrf-token"]').attr('content');
+  
+     var idb=this.id;
+        console.log(this.id);
+        $.ajax({
+           type:'GET',
+           url:'/updatesessionyear3/'+idb,
+           data: {
+          _token : token
+        },
+           success:function(data){
+              
+           }
+        });
+
+    
+});
 </script>

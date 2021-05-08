@@ -47,7 +47,7 @@
                 <tr>
                   <th width="10%">ที่</th>
                   <th>ปีการศึกษา</th>
-                  <th width="15%">เปิดใช้งาน</th>
+                  <th width="15%">เปิด-ปิดการใช้งาน</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -57,9 +57,9 @@
                   <td>{{$row['year_name']}}</td>    
                   <td>
                   @if($row['active']==1)
-                  <button type="button" class="btn btn-success"  id="{{$row->year_id}}" disabled>กำลังใช้งาน</button>
+                  <label class="switch" ><input class="switch-input " type="checkbox"  checked disabled/><span class="switch-label" data-on="เปิดการใช้งาน" data-off="ปิดการใช้งาน"></span><span class="switch-handle"></span></label>
                   @else
-                  <button type="button" class="btn btn-danger aaa"  id="{{$row->year_id}}">เปิดใช้งาน</button>
+                  <label class="switch" ><input class="switch-input aaa" type="checkbox"  id="{{$row->year_id}}" /><span class="switch-label" data-on="ปิดการใช้งาน" data-off="ปิดการใช้งาน"></span><span class="switch-handle"></span></label>
                   @endif
                   </td>        
                 </tr>
@@ -197,6 +197,110 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+.switch {
+	position: relative;
+	display: block;
+	vertical-align: top;
+	width: 100px;
+	height: 30px;
+	padding: 3px;
+	margin: 0 10px 10px 0;
+	background: linear-gradient(to bottom, #eeeeee, #FFFFFF 25px);
+	background-image: -webkit-linear-gradient(top, #eeeeee, #FFFFFF 25px);
+	border-radius: 18px;
+	box-shadow: inset 0 -1px white, inset 0 1px 1px rgba(0, 0, 0, 0.05);
+	cursor: pointer;
+	box-sizing:content-box;
+}
+.switch-input {
+	position: absolute;
+	top: 0;
+	left: 0;
+	opacity: 0;
+	box-sizing:content-box;
+}
+.switch-label {
+	position: relative;
+	display: block;
+	height: inherit;
+	font-size: 10px;
+	text-transform: uppercase;
+	background: #eceeef;
+	border-radius: inherit;
+	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.12), inset 0 0 2px rgba(0, 0, 0, 0.15);
+	box-sizing:content-box;
+}
+.switch-label:before, .switch-label:after {
+	position: absolute;
+	top: 50%;
+	margin-top: -.5em;
+	line-height: 1;
+	-webkit-transition: inherit;
+	-moz-transition: inherit;
+	-o-transition: inherit;
+	transition: inherit;
+	box-sizing:content-box;
+}
+.switch-label:before {
+	content: attr(data-off);
+	right: 11px;
+	color: #aaaaaa;
+	text-shadow: 0 1px rgba(255, 255, 255, 0.5);
+}
+.switch-label:after {
+	content: attr(data-on);
+	left: 11px;
+	color: #FFFFFF;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.2);
+	opacity: 0;
+}
+.switch-input:checked ~ .switch-label {
+	background: #009578;
+	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15), inset 0 0 3px rgba(0, 0, 0, 0.2);
+}
+.switch-input:checked ~ .switch-label:before {
+	opacity: 0;
+}
+.switch-input:checked ~ .switch-label:after {
+	opacity: 1;
+}
+.switch-handle {
+	position: absolute;
+	top: 4px;
+	left: 4px;
+	width: 28px;
+	height: 28px;
+	background: linear-gradient(to bottom, #FFFFFF 40%, #f0f0f0);
+	background-image: -webkit-linear-gradient(top, #FFFFFF 40%, #f0f0f0);
+	border-radius: 100%;
+	box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+}
+.switch-handle:before {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin: -6px 0 0 -6px;
+	width: 12px;
+	height: 12px;
+	background: linear-gradient(to bottom, #eeeeee, #FFFFFF);
+	background-image: -webkit-linear-gradient(top, #eeeeee, #FFFFFF);
+	border-radius: 6px;
+	box-shadow: inset 0 1px rgba(0, 0, 0, 0.02);
+}
+.switch-input:checked ~ .switch-handle {
+	left: 74px;
+	box-shadow: -1px 1px 5px rgba(0, 0, 0, 0.2);
+}
+ 
+/* Transition
+========================== */
+.switch-label, .switch-handle {
+	transition: All 0.3s ease;
+	-webkit-transition: All 0.3s ease;
+	-moz-transition: All 0.3s ease;
+	-o-transition: All 0.3s ease;
+}
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script>
@@ -212,6 +316,9 @@ input:checked + .slider:before {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     }); 
+
+
+
     $('#adddata2').submit(function(e) {
       e.preventDefault();
       for (instance in CKEDITOR.instances) {
@@ -274,7 +381,7 @@ input:checked + .slider:before {
       var token = $('meta[name="csrf-token"]').attr('content');
         e.preventDefault();
         $.ajax({
-           type:'PUT',
+           type:'post',
            url:'/nextyear',
            data: {
           _token : token 
@@ -298,6 +405,14 @@ input:checked + .slider:before {
     var id = $(this).attr('id');
         e.preventDefault();
         console.log(id);
+        swal({
+      title: "ยืนยันการบันทึก?",
+      icon: "warning",
+      buttons: true,
+      successMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
         $.ajax({
            type:'PUT',
            url:'/backyear2',
@@ -316,6 +431,10 @@ input:checked + .slider:before {
            });
            }
         });
+      } else {
+        
+      }
+    });
   });
   $('.ddd').click(function(e){
     var token = $('meta[name="csrf-token"]').attr('content');

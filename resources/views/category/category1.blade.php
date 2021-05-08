@@ -21,6 +21,7 @@
                     </tr>
                     @foreach($educ_bg as $key =>$row)
                     <tr>
+                    @if(count($course_detail)==count($educ_bg))
                     @if($course_detail!="[]")<td>{{($key + 1)}}. {{$course_detail[$key]['name']}}<br>@else<td>-@endif
                       @if($course_detail!="[]")
                       <?php 
@@ -29,6 +30,9 @@
                        @foreach($get as $getvalue)
                        {{$getvalue}}<br>
                        @endforeach
+                       @endif
+                       @else
+                       <td></td>
                        @endif
                       </td>
                       <td>{{($key + 1)}}. {{$row['user_fullname']}}<br>

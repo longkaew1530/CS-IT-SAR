@@ -76,7 +76,7 @@
               @if(Auth::user()->image)
               <img src="{{asset('public/user/' . Auth::user()->image)}}" class="user-image" alt="User Image">
               @else
-              <img src="{{url('/')}}/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+              <img src="{{url('/')}}/images1/profile.png" class="user-image" alt="User Image">
               @endif
               @guest
               <span class="hidden-xs">Alax</span>
@@ -90,7 +90,7 @@
               @if(Auth::user()->image)
               <img src="{{asset('public/user/' . Auth::user()->image)}}" class="img-circle" alt="User Image" >
               @else
-              <img src="{{url('/')}}/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+              <img src="{{url('/')}}/images1/profile.png" class="img-circle" alt="User Image">
               @endif
                 
                 

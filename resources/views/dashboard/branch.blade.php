@@ -84,8 +84,8 @@
                   <span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">เพิ่มข้อมูลสาขา</h4>
               </div>
-              <form  method="POST" action="/addbranch">
-              @csrf
+              <form id="adddata" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data">
+               @csrf
               <div class="box-body">
                 <div class="form-group">
                   <label for="exampleInputPassword1">สาขา</label>
@@ -170,6 +170,59 @@ $(document).ready(function() {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       }
     });
+    $('#adddata').submit(function(e) {
+      e.preventDefault();
+
+      var formData = new FormData(this);
+ 
+      var name = document.getElementById("name").value;
+      if(name==""){
+         swal({
+          title: "กรุณาป้อนข้อมูลให้ครบ",
+          text: "",
+          icon: "warning",
+          showConfirmButton: false,
+        });
+      }
+      else{
+      swal({
+      title: "ยืนยันการบันทึก?",
+      icon: "warning",
+      buttons: true,
+      successMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        $.ajax({
+        type: 'POST',
+        url: "/addbranch",
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        success: (data) => {
+          swal({
+          title: "บันทึกข้อมูลเรียบร้อย",
+          text: "",
+          icon: "success",
+          button: "ตกลง",
+        }).then(function() {
+          window.location = "/branch";
+        });
+        },
+        error: function(data) {
+          console.log(data);
+
+        }
+      });
+      } else {
+        
+      }
+    });
+  }
+    });
+ 
 $('#modal-edit').on('show.bs.modal', function (event) {
 var button = $(event.relatedTarget);
 var id= button.data('id');

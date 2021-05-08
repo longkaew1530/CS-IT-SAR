@@ -156,13 +156,14 @@ Route::delete('/deleteusergroup/{id}', 'APIController@deleteusergroup');
 Route::put('/updateusergroup','APIController@updateusergroup');
 Route::get('/getusergroup/{id}','APIController@getusergroup');
 /////nextyear
-Route::put('/nextyear','APIController@nextyear');
+Route::post('/nextyear','APIController@nextyear');
 Route::put('/backyear2','APIController@backyear2');
 /////backyear
 Route::post('/backyear','APIController@backyear');
 Route::delete('/deleteyear/{id}','APIController@deleteyear');
 /////user
 Route::post('/adduser','APIController@adduser');
+Route::post('/uploadimage','APIController@uploadimage');
 Route::delete('/deleteuser/{id}', 'APIController@deleteuser');
 Route::get('/getuser/{id}','APIController@getuser');
 Route::put('/updateuser','APIController@updateuser');
@@ -376,6 +377,8 @@ Route::post('/addindicator1_1','APIAJController@addindicator1_1');
 Route::post('/updateindicator1_1','APIAJController@updateindicator1_1');
 
 Route::get('/updatesessionyear/{id}','APIController@updatesessionyear');
+Route::get('/updatesessionyear2/{id}','APIController@updatesessionyear2');
+Route::get('/updatesessionyear3/{id}','APIController@updatesessionyear3');
 Route::get('/updatebackyear/{id}','APIController@updatebackyear');
 
 Auth::routes();

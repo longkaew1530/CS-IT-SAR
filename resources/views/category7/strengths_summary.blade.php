@@ -20,7 +20,7 @@
                       <td>{!!$row['strength']!!}</td>
                       <td>{!!$row['points_development']!!}</td>
                       <td>
-                      @if($checkedit!="")<a href="/getstrengths_summary/{{$row['id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไข</a>@endif
+                      @if($checkedit!="")<a href="/getstrengths_summary/{{$row['id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>@endif
                       {!!$row['development_approach']!!}
                       </td>
                   

@@ -196,7 +196,7 @@
                   <td >{{$row['performance1']}}</td>
                   <td rowspan="2">{{$row['performance3']}}</td>
                   <td rowspan="2">
-                  @if($checkedit!="")<a href="/getself_assessment_results2/4.2" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไข</a>@endif
+                  @if($checkedit!="")<a href="/getself_assessment_results2/4.2" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>@endif
                   {{$row['score']}}</td>
                 </tr>
                 <tr>

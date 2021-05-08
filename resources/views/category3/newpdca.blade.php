@@ -24,7 +24,7 @@
                       }
                   }
                   ?>
-                  @if($row1['p']!=null||$checkcheck!=0)@if($checkedit!="")<a href="/getp/{{$row1['pdca_id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไข</a>@endif
+                  @if($row1['p']!=null||$checkcheck!=0)@if($checkedit!="")<a href="/getp/{{$row1['pdca_id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>@endif
                   @else
                   @if($checkedit!="")<a href="/addp/{{$row['id']}}" class="btn btn-success fr"><i class='fa fa-plus'></i> เพิ่ม</a>@endif
                   @endif
@@ -38,7 +38,7 @@
                       }
                   }
                   ?>
-                  @if($row1['d']!=null||$checkcheck2!=0)@if($checkedit!="")<a href="/getd/{{$row1['pdca_id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไข</a>@endif
+                  @if($row1['d']!=null||$checkcheck2!=0)@if($checkedit!="")<a href="/getd/{{$row1['pdca_id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>@endif
                   @else
                   @if($checkedit!="")<a href="/addd/{{$row['id']}}" class="btn btn-success fr"><i class='fa fa-plus'></i> เพิ่ม</a>@endif
                   @endif
@@ -52,7 +52,7 @@
                       }
                   }
                   ?>
-                  @if($row1['c']!=null||$checkcheck3!=0)@if($checkedit!="")<a href="/getc/{{$row1['pdca_id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไข</a>@endif
+                  @if($row1['c']!=null||$checkcheck3!=0)@if($checkedit!="")<a href="/getc/{{$row1['pdca_id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>@endif
                   @else
                   @if($checkedit!="")<a href="/addc/{{$row['id']}}" class="btn btn-success fr"><i class='fa fa-plus'></i> เพิ่ม</a>@endif
                   @endif
@@ -66,7 +66,7 @@
                       }
                   }
                   ?>
-                  @if($row1['a']!=null||$checkcheck4!=0)@if($checkedit!="")<a href="/geta/{{$row1['pdca_id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไข</a>@endif
+                  @if($row1['a']!=null||$checkcheck4!=0)@if($checkedit!="")<a href="/geta/{{$row1['pdca_id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>@endif
                   @else
                   @if($checkedit!="")<a href="/adda/{{$row['id']}}" class="btn btn-success fr"><i class='fa fa-plus'></i> เพิ่ม</a>@endif
                   @endif
@@ -119,7 +119,7 @@
                   <td class="text-center">{{$row['target']}}</td>
                   <td class="text-center">{{$row['performance3']}}</td>
                   <td class="text-center">            
-                  @if($checkedit!="")<a href="/getself_assessment_results2/{{$row['Indicator_id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไข</a>@endif
+                  @if($checkedit!="")<a href="/getself_assessment_results2/{{$row['Indicator_id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>@endif
                   {{$row['score']}}</td>
                 </tr>
                 <tr>

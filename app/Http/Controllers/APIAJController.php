@@ -4540,7 +4540,6 @@ class APIAJController extends Controller
             ->groupBy('user_permission.category_id')
             ->groupBy('user_permission.user_id')
             ->get();
-
             $c1=0;
             $c2=0;
             $c3=0;
@@ -4570,6 +4569,7 @@ class APIAJController extends Controller
             ->groupBy('user_permission.category_id')
             ->groupBy('user_permission.user_id')
             ->orderBy('category_id', 'desc')->first();
+
             if($getcounn!=0){
             for($s=$userpermis3['category_id'];$s<=$userpermis4['category_id'];$s++){
                 $userpermis2=$userpermis->where('category_id',$s);
@@ -4578,7 +4578,14 @@ class APIAJController extends Controller
                 {
                     $pass=0;
                     foreach($userpermis2 as $per){
-                        $role[$per['category_id']-1]['code']=$role[$per['category_id']-1]['code'].'<span class="badge bg-green">'.$per['user_fullname'].'</span>';  
+                        $getkey=0;
+                        foreach($role as $key2=>$checkdata){
+                            if($checkdata['category_id']==$per['category_id']){
+                                $role[$key2]['code']=$role[$key2]['code'].'<span class="badge bg-green">'.$per['user_fullname'].'</span>';
+                            }
+                        }
+                         
+                         
                     }
                 }
             }

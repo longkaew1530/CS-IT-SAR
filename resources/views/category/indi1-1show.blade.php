@@ -3,7 +3,7 @@
             <div class="box-header">
             <div class="data">
         <div class="col-md-12">
-        @if($checkedit!="")<a href="/getindicator1_1" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไข</a>@endif
+        @if($checkedit!="")<a href="/getindicator1_1" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>@endif
               <h1 class="box-title">การกำกับให้เป็นไปตามมาตรฐาน (เกณฑ์มาตรฐานหลักสูตร พ.ศ.2558)</h1>
               <br>
               <br><li><h4 class="box-title">การบริหารจัดการหลักสูตรตามเกณฑ์มาตรฐานหลักสูตรที่กำหนดโดย สกอ. (ตัวบ่งชี้ที่ 1.1)</h4><br></li>

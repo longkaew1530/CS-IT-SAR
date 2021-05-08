@@ -9,7 +9,12 @@
 <div class="box box-primary">
     
             <div class="box-body box-profile">
-              <img class="profile-user-img img-responsive img-circle" src="{{asset('public/user/' . Auth::user()->image)}}" alt="User profile picture">
+            @if(Auth::user()->image)
+            <img class="profile-user-img img-responsive img-circle" src="{{asset('public/user/' . Auth::user()->image)}}" alt="User profile picture">
+              @else
+              <img src="{{url('/')}}/images1/profile.png" class="profile-user-img img-responsive img-circle" alt="User profile picture">
+              @endif
+              <span><a class="btn profile-username" data-toggle="modal" data-target="#proflie" style="margin-top: -50px; margin-left: 180px; color : black ;"> <i class="fa fa-camera"></i> </a></span>
 
               <h3 class="profile-username text-center">{{ Auth::user()->user_fullname }}</h3>
 
@@ -40,6 +45,32 @@
             <!-- /.box-body -->
           </div>
         </div>
+
+        <div class="modal fade" id="proflie">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span></button>
+          <h4 class="modal-title">เปลี่ยนรูปโปรไฟล์</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group" align="center">
+            <img id="blah" width="35%" height="30%"> 
+          </div>
+          <div class="form-group" align="center">
+            <form  id="uploadimage" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data">
+              <input type="file" id="image" name="image">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">ปิด</button>
+          <button type="submit"  class="btn btn-primary">อัพโหลด</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
         <div class="modal  fade" id="modal-edit">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -152,7 +183,47 @@
         dataType: 'json',
         success: (data) => {
           swal({
-          title: "แก้ไขข้อมูลเรียบร้อยแล้ว",
+          title: "แก้ไขข้อมูลเรียบร้อย",
+          text: "",
+          icon: "success",
+          button: "ตกลง",
+        }).then(function() {
+          window.location = "/profile";
+        });
+        },
+        error: function(data) {
+          alert(data.responseJSON.errors.files1[0]);
+          console.log(data.responseJSON.errors);
+        }
+      });
+      
+    });
+
+    $('#uploadimage').submit(function(e) {
+      e.preventDefault();
+      var formData = new FormData(this);
+      var pass2 = document.getElementById("image").value;
+      if(pass2==""){
+         swal({
+          title: "กรุณาเลือกรูปภาพ",
+          text: "",
+          icon: "warning",
+          button: false,
+          showConfirmButton: false,
+          timer: 1500
+        });
+      }
+        $.ajax({
+        type: 'POST',
+        url: "/uploadimage",
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        success: (data) => {
+          swal({
+          title: "แก้ไขข้อมูลเรียบร้อย",
           text: "",
           icon: "success",
           button: "ตกลง",
@@ -213,7 +284,7 @@
         dataType: 'json',
         success: (data) => {
           swal({
-          title: "เปลี่ยนรหัสผ่านเรียบร้อยแล้ว",
+          title: "เปลี่ยนรหัสผ่านเรียบร้อย",
           text: "",
           icon: "success",
           button: "ตกลง",

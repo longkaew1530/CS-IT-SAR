@@ -83,6 +83,8 @@ class DashboardController extends Controller
         
         session()->put('usercourse',$user_course);
         $groupmenu=Groupmenu::all();
+        $menu=Menu::all();
+        $indica=defaulindicator::all();
         $rolepermiss=rolepermission::leftjoin('menu','role_permission.m_id','=','menu.m_id')
         ->where('user_group_id',$user_group)
         ->get();
@@ -90,9 +92,10 @@ class DashboardController extends Controller
          foreach ($groupmenu as $key => $value){
             $value->menu->first(); 
          }
+         session()->put('checkindica',$indica);
         session()->put('groupmenu',$groupmenu);
         session()->put('roleper',$rolepermiss);
-
+        session()->put('menu',$menu);
         $category=category::all();
         $getfaculty=faculty::where('faculty_id',$user->user_faculty)->get();
         

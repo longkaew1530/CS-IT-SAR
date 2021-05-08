@@ -381,7 +381,7 @@ class APIController extends Controller
          $categoryall=category::all();
 
             foreach($getbranch as $row2){
-                 $checkdata2=$getcourse->where('course_id',$row2['course_id']);
+                 $checkdata2=Course::where('course_id',$row2['course_id'])->get();
                 foreach($getall as $value){
                         $data=new indicator;
                         $data['Indicator_id']=$value['Indicator_id'];
@@ -398,7 +398,7 @@ class APIController extends Controller
             }
 
         foreach($getbranch as $row2){
-                $checkdata2=$getcourse->where('course_id',$row2['course_id']);
+            $checkdata2=Course::where('course_id',$row2['course_id'])->get();
             foreach($categoryall as $value){
                     $data1=new assessment_results;
                     $data1['category_id']=$value['category_id'];
@@ -517,8 +517,38 @@ class APIController extends Controller
            $files->move($destinationPath, $profileImage);
            $data['image'] = "$profileImage";
         }
+        else{
+
+        }
         
         User::insert($data);  
+    
+        return $data;
+     }
+     public function uploadimage(Request $request)
+     {
+        $user=auth()->user();
+         if($request->image!=""){
+        request()->validate([
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+       ]); }
+        if ($files = $request->file('image')) {
+            
+           //delete old file
+           \File::delete('public/user/'.$request->hidden_image);
+         
+           //insert new file
+           $destinationPath = 'public/user/'; // upload path
+           $profileImage = date('YmdHis') . "." . $files->getClientOriginalExtension();
+           $files->move($destinationPath, $profileImage);
+           $data=User::find($user->id);
+           $data->image= "$profileImage";
+           $data->save();
+        }
+        else{
+            
+        }
+        
     
         return $data;
      }
@@ -617,10 +647,44 @@ class APIController extends Controller
       }
       public function addbranch(Request $request)
       {
-          $data['name']=$request->name;
-          $data['course_id']=$request->course_id;
-          branch::insert($data);
-          return redirect('/branch');
+          $data=new branch;
+          $data->name=$request->name;
+          $data->course_id=$request->course_id;
+          $data->save();
+          $getcourse=Course::where('course_id',$request->course_id)
+          ->get();
+          $getall=defaulindicator::all();
+          $categoryall=Category::all();
+          $getyear=Year::all();
+            foreach($getyear as $row2){
+                foreach($getall as $value){
+                        $data2=new indicator;
+                        $data2['Indicator_id']=$value['Indicator_id'];
+                        $data2['Indicator_name']=$value['Indicator_name'];
+                        $data2['category_id']=$value['category_id'];
+                        $data2['composition_id']=$value['composition_id'];
+                        $data2['url']=$value['url'];
+                        $data2['active']=1;
+                        $data2['year_id']=$row2['year_id'];
+                        $data2['course_id']=$getcourse[0]['course_id'];
+                        $data2['branch_id']=$data->branch_id;
+                        $data2->save(); 
+                } 
+            }
+
+        foreach($getyear as $row2){
+            foreach($categoryall as $value){
+                    $data1=new assessment_results;
+                    $data1['category_id']=$value['category_id'];
+                    $data1['active']=1;
+                    $data1['year_id']=$row2['year_id'];
+                    $data1['course_id']=$getcourse[0]['course_id'];
+                    $data1['branch_id']=$data->branch_id;
+                    $data1->save();  
+            }
+         }
+    
+          return $data;
       }
       public function updatebranch(Request $request)
       {
@@ -940,6 +1004,22 @@ class APIController extends Controller
         session()->put('branch_id',$id);  
         session()->put('checkbranch',1);  
         return session()->get('branch_id');
+      }
+      public function updatesessionyear2($id)
+      {
+        $get=indicator::where('id',$id)->get();
+        session()->put('dindicator',$get[0]['category_id']);  
+        session()->put('dindicator2',$get[0]['id']); 
+        session()->put('putput',1); 
+        return session()->get('dindicator');
+      }
+      public function updatesessionyear3($id)
+      {
+        $get=Menu::where('m_id',$id)->get();
+        session()->put('m_menu1',$get[0]['g_id']);  
+        session()->put('m_menu2',$get[0]['m_id']); 
+        session()->put('putput',0); 
+        return session()->get('dindicator');
       }
       public function updatebackyear($id)
       {
