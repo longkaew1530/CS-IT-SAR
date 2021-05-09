@@ -29,6 +29,7 @@ class Addcourse_results implements ToModel
             'pass_exam'=>$row[11],
             'year_id'=>session()->get('year_id'),
             'course_id'=>session()->get('usercourse'),
+            'branch_id'=>session()->get('branch_id'),
         ]);
     }
 }

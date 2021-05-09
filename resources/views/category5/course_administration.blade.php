@@ -4,6 +4,7 @@
 <div class="box box-warning marginl">
 <div class="box-header">
             <div class="box-body">
+            <a href="/addcourse_manage" class="btn btn-success fr"><i class='fa fa-plus'></i> เพิ่มข้อมูล</a>
             <b><h4>การบริหารหลักสูตร</h4></b>
               <table class="table table-bordered" >
                 <tbody><tr>

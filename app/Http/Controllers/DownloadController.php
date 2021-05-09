@@ -1205,6 +1205,16 @@ class DownloadController extends Controller
         ->where('pdca.branch_id',session()->get('branch_id'))
         ->where('target','!=',null)
         ->get();
+        $data[0]['cindiall']=0;
+        foreach($getall2 as $key11=>$getallvalue){
+                    $data[$key11]['cindi']=0;
+            foreach($indicator as $getindi){
+                if($getallvalue['id']==$getindi['composition_id']&&$getindi['Indicator_id']!=1.1){
+                    $data[$key11]['cindi']++;
+                    $data[0]['cindiall']++;
+                }
+            }
+        }
         $per1="";
         $per2="";
         $result1_1=0;
@@ -1271,20 +1281,45 @@ class DownloadController extends Controller
             }
         }
         $data[0]['o']=$result1_1;
-        $data[1]['o']=sprintf('%.2f',($result2_1+$result2_2)/2);
-        $data[1]['avr']=sprintf('%.2f',($result2_1+$result2_2)/2);
-        $data[2]['p']=sprintf('%.2f',($result3_1+$result3_2)/2);     
-        $data[2]['o']=sprintf('%.2f',$result3_3);
-        $data[2]['avr']=sprintf('%.2f',($result3_1+$result3_2+$result3_3)/3);       
-        $data[3]['i']=sprintf('%.2f',$result4_2);
-        $data[3]['p']=sprintf('%.2f',$result4_1);
-        $data[3]['o']=sprintf('%.2f',$result4_3);
-        $data[3]['avr']=sprintf('%.2f',($result4_2+$result4_1+$result4_3)/3);
-        $data[4]['p']=sprintf('%.2f',($result5_1+$result5_2+$result5_3)/3);
-        $data[4]['o']=sprintf('%.2f',$result5_4);
-        $data[4]['avr']=sprintf('%.2f',($result5_1+$result5_2+$result5_3+$result5_4)/4);
+        $data[1]['o']=sprintf('%.2f',($result2_1+$result2_2)/$data[1]['cindi']);
+        $data[1]['counto']=2; 
+        $data[1]['avr']=sprintf('%.2f',($result2_1+$result2_2)/$data[1]['cindi']);
+        $data[2]['i']=sprintf('%.2f',($result3_1+$result3_2+$result3_3)/$data[2]['cindi']); 
+        $data[2]['counti']=3;      
+        $data[2]['avr']=sprintf('%.2f',($result3_1+$result3_2+$result3_3)/$data[2]['cindi']);       
+        $data[3]['i']=sprintf('%.2f',($result4_2+$result4_1+$result4_3)/$data[3]['cindi']);
+        $data[3]['counti']=3;
+        $data[3]['avr']=sprintf('%.2f',($result4_2+$result4_1+$result4_3)/$data[3]['cindi']);
+        $data[4]['i']=sprintf('%.2f',$result5_1);
+        $data[4]['counti']=1;
+        $data[4]['p']=sprintf('%.2f',($result5_4+$result5_2+$result5_3)/($data[4]['cindi']-1));
+        $data[4]['countp']=3; 
+        $data[4]['avr']=sprintf('%.2f',($result5_1+$result5_2+$result5_3+$result5_4)/$data[4]['cindi']);
         $data[5]['p']=sprintf('%.2f',$result6_1);
+        $data[5]['countp']=1;
         $data[5]['avr']=sprintf('%.2f',$result6_1);
+
+        $data[0]['resultipo1']=sprintf('%.2f',($result3_1+$result3_2+$result3_3+$result4_2+$result4_1+$result4_3+$result5_1)/7);
+        $data[0]['resultipo2']=sprintf('%.2f',($result5_4+$result5_2+$result5_3+$result6_1)/4);
+        $data[0]['resultipo3']=sprintf('%.2f',($result2_1+$result2_2)/2);
+        $data[0]['resultindicatori']=$data[2]['counti']+$data[3]['counti']+$data[4]['counti'];
+        $data[0]['resultindicatorp']=$data[4]['countp']+$data[5]['countp'];
+        $data[0]['resultindicatoro']=$data[1]['counto'];
+        $data[0]['avgall']=sprintf('%.2f',($data[1]['avr']+$data[2]['avr']+$data[3]['avr']+$data[4]['avr']+$data[5]['avr'])/5);
+        $data[0]['resultavg']="";
+        if($data[0]['avgall']>=0.01&&$data[0]['avgall']<=2.00){
+            $data[0]['resultavg']="น้อย";
+        }
+        else if($data[0]['avgall']>=2.01&&$data[0]['avgall']<=3.00){
+            $data[0]['resultavg']="ปานกลาง";
+        }
+        else if($data[0]['avgall']>=3.01&&$data[0]['avgall']<=4.00){
+            $data[0]['resultavg']="ดี";
+        }
+        else if($data[0]['avgall']>=4.01&&$data[0]['avgall']<=5.00){
+            $data[0]['resultavg']="ดีมาก";
+        }
+
         for($i = 1; $i <= 5; $i++){
             if($data[$i]['avr']>=0.01&&$data[$i]['avr']<=2.00){
                 $data[$i]['result']="น้อย";

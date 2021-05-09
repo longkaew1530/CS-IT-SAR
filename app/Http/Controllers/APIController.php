@@ -424,6 +424,8 @@ class APIController extends Controller
         $getcourse=Course::all();
         $getbranch=branch::all();
         $categoryall=category::all();
+        if($getbranch!="[]")
+        {
         foreach($getbranch as $row2){
             $checkdata2=$getcourse->where('course_id',$row2['course_id']);
            foreach($getall as $value){
@@ -440,7 +442,9 @@ class APIController extends Controller
                    $data->save(); 
            }
        }
-
+    }
+    if($getbranch!="[]")
+    {
    foreach($getbranch as $row2){
            $checkdata2=$getcourse->where('course_id',$row2['course_id']);
        foreach($categoryall as $value){
@@ -453,7 +457,10 @@ class APIController extends Controller
                $data1->save();  
        }
     }
-        return $data1;
+    return $data1;
+}
+    return $queryyaer;
+        
      }
      public function backyear2(Request $request)
      {

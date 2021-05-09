@@ -120,9 +120,13 @@ class DashboardController extends Controller
         ->get();
         $getwork=count($querygetwork);
         if($user_group==1){
+            session()->put('m_menu1',1);  
+            session()->put('m_menu2',10);
+            session()->put('putput',0);  
             return view('dashboard/year',compact('year','getAllyear'));
         }
        else if($user_group==3){
+            session()->put('putput',3);
             return view('dashboard/dashboard');
        }
        else if($user_group==2){
@@ -131,9 +135,11 @@ class DashboardController extends Controller
             $queryb=branch::where('course_id',$querycourse[0]['course_id'])->get();
             session()->put('branch_id',$queryb[0]['branch_id']);
         }
+        session()->put('putput',3);
         return view('dashboard/dashboard3');
-   }
+        }
        else{
+        session()->put('putput',3);
             return view('dashboard/dashboard2',compact('getwork'));
        }
     }

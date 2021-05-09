@@ -314,6 +314,7 @@ class APIAJController extends Controller
     public function getaddindicator4_3($id)
     {
         $editdata = indicator4_3::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
 
@@ -368,7 +369,7 @@ class APIAJController extends Controller
 
         $data1=new indicator4_3;
         $data1->course_id=session()->get('usercourse');
-        $data->branch_id=session()->get('branch_id');
+        $data1->branch_id=session()->get('branch_id');
         $data1->year_id=session()->get('year_id');
         $data1->retention_rate=$request->retention_rate2;
         $data1->category_retention_rate="ความพึงพอใจของอาจารย์ต่อการบริหารหลักสูตร";
@@ -811,6 +812,7 @@ class APIAJController extends Controller
     public function getindicator3_3($id)
     {
         $editdata = performance3_3::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
         $pdca= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
@@ -1813,6 +1815,7 @@ class APIAJController extends Controller
           else{
               $data=new PDCA;
               $data->course_id=session()->get('usercourse');
+              $data->branch_id=session()->get('branch_id');
               $data->year_id=session()->get('year_id');
               $data->category_pdca=$request->category_id;
               $data->Indicator_id=$request->Indicator_id;
@@ -2168,9 +2171,8 @@ class APIAJController extends Controller
             ->where('year_id',session()->get('year_id'))
             ->get();
         $getall=$request->all();
-        $checkdata=category3_infostudent::where('course_id',session()
-        ->where('branch_id',session()->get('branch_id'))
-        ->get('usercourse'));
+        $checkdata=category3_infostudent::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'));
         if(isset($checkdata)){
             $checkdata->delete();
         }

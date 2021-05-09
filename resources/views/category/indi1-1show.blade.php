@@ -270,7 +270,8 @@
                 <tr>
                   <td rowspan="2">ตัวบ่งชี้ที่ {{$id}} {{$name}}</td>           
                   <td rowspan="2"></td>
-                  <td rowspan="2">@if($checkedit!="")<td rowspan="2"><a href="/getself_assessment_results/1.1" class="btn btn-success fr ml-1"><i class='fa fa-plus'></i> เพิ่ม</a>@endif</td>
+                  <td rowspan="2"></td>
+                  <td rowspan="2">@if($checkedit!="")<a href="/getself_assessment_results/1.1" class="btn btn-success fr ml-1"><i class='fa fa-plus'></i> เพิ่ม</a>@endif</td>
                   
                 </tr>
                 <tr>

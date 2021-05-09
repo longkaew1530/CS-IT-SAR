@@ -3,7 +3,6 @@
 @section('content')
 <div class="box box-warning marginl">
   <div class="box-header">
-  <a href="{{ URL::previous() }}" class="btn btn-primary fr"><i class='fa fa-arrow-left'></i> ย้อนกลับ</a>
     <div class="box-body">
     
       <div class="col-sm-2" align="right"></div>

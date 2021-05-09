@@ -36,7 +36,7 @@
               <h2 class="box-title">จัดการปีการศึกษา</h2>
             </div>
            @else
-           <button type="button" class="btn btn-success fr" id="next"  data-toggle="modal" data-target="#modal-info"><i class="fa fa-plus "></i>  เพิ่มปีการศึกษา</button>
+           <button type="button" class="btn btn-success fr" data-toggle="modal" data-target="#modal-info"><i class="fa fa-plus "></i>  เพิ่มปีการศึกษา</button>
               <h2 class="box-title">จัดการปีการศึกษา</h2>
             </div>
            @endif

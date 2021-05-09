@@ -172,7 +172,7 @@
         @foreach(session()->get('category')  as $value)
         @foreach(session()->get('roleindicator')  as $value1)
         @if($value1['category_id']==$value['category_id'])
-          @if(session()->get('putput')!=0)
+          @if(session()->get('putput')==1)
           @if(session()->get('dindicator')==$value['category_id'])
           <li class="active treeview ">
           @else

@@ -92,6 +92,9 @@
     });
     $('#adddata').submit(function(e) {
       e.preventDefault();
+      for (instance in CKEDITOR.instances) {
+                CKEDITOR.instances[instance].updateElement();
+        }
      var formData = new FormData(this);
       
 

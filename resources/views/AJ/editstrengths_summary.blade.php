@@ -4,7 +4,6 @@
 <div class="box box-warning marginl">
   <div class="box-header">
     <div class="box-body">
-    <a href="{{ URL::previous() }}" class="btn btn-primary fr"><i class='fa fa-arrow-left'></i> ย้อนกลับ</a>
       <div class="col-sm-2" align="right"></div>
       <div class="col-sm-8" align="center">
       

@@ -243,16 +243,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script type="text/javascript">
  $(document).ready(function(){      
-var i=1;  
-$('#add').click(function(){  
-var id = $("#add").attr("data-id")
-// i++;  
-$('#show'+id).append('<tr><td>'+id+'</td></tr>');  
-});  
-$(document).on('click', '.btn_remove', function(){  
-var button_id = $(this).attr("id");   
-$('#row'+button_id+'').remove();  
-}); 
+  Export2Word('exportContent','สรุปผลการประเมินคุณภาพ');
+  window.history.back();
  }); 
 
  function Export2Word(element, filename = ''){
