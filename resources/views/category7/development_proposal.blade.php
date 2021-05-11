@@ -3,7 +3,7 @@
 @section('content')
 <div class="box box-warning marginl">
 <div class="box-header">
-<a href="/adddevelopment_proposal" class="btn btn-success fr"><i class='fa fa-plus'></i> เพิ่ม</a>
+<a href="/adddevelopment_proposal" class="btn btn-success fr"><i class='fa fa-plus'></i> เพิ่มข้อมูล</a>
             <div class="box-body">
               <h4>ข้อเสนอในการพัฒนาหลักสูตร</h4></b>
               @if($querydevelopment_proposal!="[]")

@@ -111,11 +111,11 @@
               <form id="updatedata" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data" >
                 @csrf
                 <div class="box-body">
-                    <input type="hidden" class="form-control" id="id" name="id">
+                    <input type="hidden" class="form-control" id="id" name="id" >
                   <div class="form-group">
                     <label for="exampleInputPassword1">ชื่อผู้วิจัย</label>
-                    <input type="hidden" id="owner1" name="owner"   >
-                    <input type="text" id="ownername"  class="form-control"   disabled>
+                    <input type="hidden" id="owner1" name="owner"   value="{{ Auth::user()->id }}">
+                    <input type="text" id="ownername"  class="form-control" value="{{ Auth::user()->user_fullname }}"   disabled>
                   </div>
                   
                   <div class="form-group">
@@ -450,8 +450,8 @@
       $.get(url + '/' + id, function(data) {
         //success data
         $("#id").val(data[0].research_results_id);
-        $("#owner1").val(data[0].owner);
-        $("#ownername").val(data[0].user_fullname);
+        // $("#owner1").val(data[0].owner);
+        // $("#ownername").val(data[0].user_fullname);
         var get=[];
         for (index = 0; index < data.length; ++index) {
                 if(data[index].user_id!=data[0].owner){

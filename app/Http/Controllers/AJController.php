@@ -443,16 +443,16 @@ class AJController extends Controller
     }
     public function addincomplete_content()
     {
-        $ccr=category4_incomplete_content::where('course_id',session()->get('usercourse'))
+        $academic=category4_incomplete_content::where('course_id',session()->get('usercourse'))
         ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
-        if(count($ccr)===0){
+        if(count($academic)===0){
             return view('AJ/addincomplete_content');
         }
         else{
             $checkedit="asdasd";
-            return view('category4/not_course_summary',compact('ccr','checkedit'));
+            return view('category4/incomplete_content',compact('academic','checkedit'));
         }               
     }
     public function addeffectiveness()
@@ -475,7 +475,8 @@ class AJController extends Controller
             return view('AJ/addteacher_orientation');
         }
         else{
-            return view('category4/newteacher',compact('th','checkpass'));
+            $checkedit="aa";
+            return view('category4/newteacher',compact('th','checkpass','checkedit'));
         }               
     }
     public function addactivity()

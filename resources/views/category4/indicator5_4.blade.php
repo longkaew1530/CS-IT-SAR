@@ -129,7 +129,7 @@
                     <td ></td>
                   @endif  
                   <td rowspan="2"></td>
-                  <td rowspan="2">@if($checkedit!="")<a href="/getself_assessment_results/5.4" class="btn btn-success fr ml-1"><i class='fa fa-plus'></i> เพิ่ม</a>@endif</td>
+                  <td rowspan="2">@if($checkedit!="")<a href="/getself_assessment_results/5.4" class="btn btn-success fr ml-1"><i class='fa fa-plus'></i> เพิ่มข้อมูล</a>@endif</td>
                 </tr>
                 <tr>
                 @if($per1!=null)

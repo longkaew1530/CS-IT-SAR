@@ -31,7 +31,7 @@
                       <td>-</td>
                       <td>-</td>
                       <td>
-                      @if($checkedit!="")<a href="/addstrengths_summary/{{$value['id']}}" class="btn btn-success fr"><i class='fa fa-plus'></i> เพิ่ม</a>@endif
+                      @if($checkedit!="")<a href="/addstrengths_summary/{{$value['id']}}" class="btn btn-success fr"><i class='fa fa-plus'></i> เพิ่มข้อมูล</a>@endif
                       -
                       </td>
                   

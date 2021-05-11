@@ -5,7 +5,7 @@
 <div class="box-header">
             <div class="box-body">
             
-                            @if($checkedit!="")<a href="/getacademic_performance" class="btn btn-warning fr"><i class='fa fas fa-edit'></i></a>@endif
+                            @if($checkedit!="")<a href="/getacademic_performance" class="btn btn-warning fr"><i class='fa fas fa-edit'></i>แก้ไขข้อมูล</a>@endif
                             <h4>การวิเคราะห์รายวิชาที่มีผลการเรียนที่ไม่ปกติ</h4></b>
             <table class="table table-bordered" >
                 <tbody><tr>

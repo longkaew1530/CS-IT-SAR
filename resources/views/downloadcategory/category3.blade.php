@@ -11,7 +11,7 @@
               <table class="table table-bordered text-center">
                 <tbody><tr>
                   <th width="10%" rowspan="2" style="background-color:#9ddfd3">ปีการศึกษาที่รับเข้า</th>
-                  <th width="10%" colspan="{{$countnumber}}" style="background-color:#9ddfd3">ปีการศึกษาที่รับเข้า</th>
+                  <th width="10%" colspan="{{$countnumber}}" style="background-color:#9ddfd3">จำนวนนักศึกษาคงอยู่(จำนวนจริง)ในแต่ละปีการศึกษา</th>
                   </tr>
                   <tr>
                   <?php $yearname=session()->get('year'); ?>
@@ -191,7 +191,7 @@
               <table class="table table-bordered text-center">
                 <tbody><tr>
                   <th width="10%" rowspan="2" style="background-color:#9ddfd3">ปีการศึกษาที่รับเข้า</th>
-                  <th width="10%" colspan="{{$countnumber}}" style="background-color:#9ddfd3">ปีการศึกษาที่รับเข้า</th>
+                  <th width="10%" colspan="{{$countnumber}}" style="background-color:#9ddfd3">จำนวนนักศึกษาคงอยู่(จำนวนจริง)ในแต่ละปีการศึกษา</th>
                   </tr>
                   <tr>
                   <?php $yearname=session()->get('year'); ?>
