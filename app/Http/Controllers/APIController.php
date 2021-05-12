@@ -92,7 +92,7 @@ class APIController extends Controller
          }
         session()->put('groupmenu',$groupmenu);
         session()->put('roleper',$rolepermiss);
-        return redirect('/permission');
+        return $item;
     }
     public function getrolepermission($id)
     {
@@ -113,10 +113,10 @@ class APIController extends Controller
     }
     public function addgroupmenu(Request $request)
     {
-        $data['g_name']=$request->group;
-        $data['g_icon']=$request->icon;
+        $data['g_name']=$request->group1;
+        $data['g_icon']=$request->icon1;
         Groupmenu::insert($data);
-        return redirect('/MenuGroup');
+        return $data;
     }
     public function updategroupmenu(Request $request)
     {
@@ -125,10 +125,10 @@ class APIController extends Controller
         $data->g_name = $request->input('g_name');
         $data->g_icon = $request->input('g_icon');
         $data->save();
-        return redirect('/MenuGroup');
+        return $data;
     }
     public function deletegroupmenu($id)
-    {   $check=role_permission::where('g_id',$id)->get();
+    {   $check=rolepermission::where('g_id',$id)->get();
         $checkuser=Menu::where('g_id',$id)->get();
         if($check=="[]"&&$checkuser=="[]"){
             $product = Groupmenu::find($id);
@@ -154,7 +154,7 @@ class APIController extends Controller
         $data['m_url']=$request->m_url;
         $data['g_id']=$request->g_id;
         Menu::insert($data);
-        return redirect('/Menu');
+        return $data;
     }
     public function updatemenu(Request $request)
     {
@@ -164,7 +164,7 @@ class APIController extends Controller
         $data->m_url = $request->input('m_url1');
         $data->g_id = $request->input('g_id1');
         $data->save();
-        return redirect('/Menu');
+        return $data;
     }
     public function deletemenu($id)
     {    $check=role_permission::where('m_id',$id)->get();
@@ -301,7 +301,7 @@ class APIController extends Controller
      {
          $data['faculty_name']=$request->faculty_name;
          Faculty::insert($data);
-         return redirect('/faculty');
+         return $data;
      }
      public function updatefaculty(Request $request)
      {
@@ -309,7 +309,7 @@ class APIController extends Controller
          $data = Faculty::find($course_id);
          $data->faculty_name = $request->input('faculty_name');
          $data->save();
-         return redirect('/faculty');
+         return $data;
      }
      public function deletefaculty($id)
      {
@@ -339,7 +339,7 @@ class APIController extends Controller
      {
          $data['user_group_name']=$request->user_group_name;
          groupuser::insert($data);
-         return redirect('/usergroup');
+         return $data;
      }
      public function updateusergroup(Request $request)
      {
@@ -347,7 +347,7 @@ class APIController extends Controller
          $data = groupuser::find($course_id);
          $data->user_group_name = $request->input('user_group_name');
          $data->save();
-         return redirect('/usergroup');
+         return $data;
      }
      public function deleteusergroup($id)
      {
@@ -695,12 +695,11 @@ class APIController extends Controller
       }
       public function updatebranch(Request $request)
       {
-          $course_id=$request->input('id');
-          $data = branch::find($course_id);
-          $data['name']=$request->name;
-          $data['course_id']=$request->course_id;
+          $data = branch::find($request->id);
+          $data->name=$request->name;
+          $data->course_id=$request->course_id;
           $data->save();
-          return redirect('/branch');
+          return $data;
       }
       public function deletebranch($id)
       {

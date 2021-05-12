@@ -130,12 +130,12 @@ Route::get('/getrolepermisson/{id}','APIController@getrolepermission');
 /////groupmenu
 Route::post('/addgroupmenu', 'APIController@addgroupmenu');
 Route::delete('/deletegroupmenu/{id}', 'APIController@deletegroupmenu');
-Route::put('/updategroupmenu','APIController@updategroupmenu');
+Route::post('/updategroupmenu','APIController@updategroupmenu');
 Route::get('/getgroupmenu/{id}','APIController@getgroupmenu');
 /////menu
 Route::post('/addmenu', 'APIController@addmenu');
 Route::delete('/deletemenu/{id}', 'APIController@deletemenu');
-Route::put('/updatemenu','APIController@updatemenu');
+Route::post('/updatemenu','APIController@updatemenu');
 Route::get('/getmenu/{id}','APIController@getmenu');
 /////course
 Route::post('/addcourse', 'APIController@addcourse');
@@ -148,12 +148,12 @@ Route::get('/getcoursedetail/{id}','APIController@getcoursedetail');
 /////faculty
 Route::post('/addfaculty', 'APIController@addfaculty');
 Route::delete('/deletefaculty/{id}', 'APIController@deletefaculty');
-Route::put('/updatefaculty','APIController@updatefaculty');
+Route::post('/updatefaculty','APIController@updatefaculty');
 Route::get('/getfaculty/{id}','APIController@getfaculty');
 /////usergroup
 Route::post('/addusergroup', 'APIController@addusergroup');
 Route::delete('/deleteusergroup/{id}', 'APIController@deleteusergroup');
-Route::put('/updateusergroup','APIController@updateusergroup');
+Route::post('/updateusergroup','APIController@updateusergroup');
 Route::get('/getusergroup/{id}','APIController@getusergroup');
 /////nextyear
 Route::post('/nextyear','APIController@nextyear');
@@ -171,7 +171,7 @@ Route::put('/updateuser','APIController@updateuser');
 Route::post('/addeducational_background','APIAJController@addeducational_background');
 Route::post('/deleteeducational_background/{id}', 'APIAJController@deleteeducational_background');
 Route::get('/geteducational_background/{id}','APIAJController@geteducational_background');
-Route::put('/updateeducational_background','APIAJController@updateeducational_background');
+Route::post('/updateeducational_background','APIAJController@updateeducational_background');
 /////research_results
 Route::post('/addresearch_results','APIAJController@addresearch_results');
 Route::post('/deleteresearch_results/{id}', 'APIAJController@deleteresearch_results');
@@ -272,7 +272,7 @@ Route::get('/getcategory/{id}','APIController@getcategory');
 /////branch
 Route::post('/addbranch', 'APIController@addbranch');
 Route::delete('/deletebranch/{id}', 'APIController@deletebranch');
-Route::put('/updatebranch','APIController@updatebranch');
+Route::post('/updatebranch','APIController@updatebranch');
 Route::get('/getbranch/{id}','APIController@getbranch');
 /////assessment_results
 Route::post('/addassessment_results', 'APIController@addassessment_results');

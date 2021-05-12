@@ -29,6 +29,9 @@
                   <td class="text-center"><button id="{{$row['g_id']}}" class="btn btn-danger delete" type="button" name="remove" ><i class="fa fa-trash"></i></button>
                   </td>
                 </tr>
+                @endforeach
+                </tbody>
+              </table>
                 <div class="modal  fade" id="modal-info">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -37,16 +40,16 @@
                   <span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">เพิ่มข้อมูลกลุ่มเมนู</h4>
               </div>
-              <form  method="POST" action="/addgroupmenu">
+              <form  id="adddata" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data" >
               @csrf
               <div class="box-body">
                 <div class="form-group">
                   <label for="exampleInputEmail1">กลุ่มเมนู</label>
-                  <input type="text" class="form-control" id="group" name="group" placeholder="กลุ่มเมนู">
+                  <input type="text" class="form-control" id="group1" name="group1" placeholder="กลุ่มเมนู">
                 </div>
                 <div class="form-group">
                   <label for="exampleInputPassword1">icon</label>
-                  <input type="text" class="form-control" id="icon" name="icon" placeholder="icon">
+                  <input type="text" class="form-control" id="icon1" name="icon1" placeholder="icon">
                 </div>
               </div>
             
@@ -70,11 +73,10 @@
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">เพิ่มข้อมูลกลุ่มเมนู</h4>
+                <h4 class="modal-title">แก้ไขข้อมูลกลุ่มเมนู</h4>
               </div>
-              <form  method="POST" action="/updategroupmenu">
+              <form  id="update" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data">
               @csrf
-              {{ method_field('PUT') }}
               <div class="box-body">
                 <div class="form-group">
                   <label for="exampleInputEmail1">กลุ่มเมนู</label>
@@ -102,9 +104,7 @@
         </div>
             </div>
 
-                @endforeach
-                </tbody>
-              </table>
+               
                 
             </div>
 
@@ -147,7 +147,7 @@
 </style>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script>
+<script >
   $(function () {
     $('#example3').DataTable({
       lengthMenu: [ 5, 10, 50, 100]
@@ -162,7 +162,7 @@ $(document).ready(function() {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       }
     });
-$('#modal-edit').on('show.bs.modal', function (event) {
+    $('#modal-edit').on('show.bs.modal', function (event) {
 var button = $(event.relatedTarget);
 var id= button.data('id');
 var modal = $(this);
@@ -176,7 +176,131 @@ var url = "/getgroupmenu";
             $("#g_icon").val(data[0].g_icon);
         }) 
 });
-$('.delete').click(function(e) {
+    $('#adddata').submit(function(e) {
+      e.preventDefault();
+      for (instance in CKEDITOR.instances) {
+                CKEDITOR.instances[instance].updateElement();
+        }
+      var formData = new FormData(this);
+      var group = document.getElementById("group1").value;
+      var icon = document.getElementById("icon1").value;
+
+
+       if(group==""||icon==""){
+        swal({
+          title: "กรุณาป้อนข้อมูลให้ครบ",
+          text: "",
+          icon: "warning",
+          showConfirmButton: false,
+        });
+      }
+      else{
+      swal({
+      title: "ยืนยันการบันทึก?",
+      icon: "warning",
+      buttons: true,
+      successMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        $.ajax({
+        type: 'POST',
+        url: "/addgroupmenu",
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        success: (data) => {
+          if(data){
+            swal({
+          title: "บันทึกข้อมูลเรียบร้อย",
+          text: "",
+          icon: "success",
+          button: "ตกลง",
+        }).then(function() {
+          window.location = "/MenuGroup";
+        });
+          }
+        },
+        error: function(data) {
+         
+          
+          console.log(data.responseJSON.errors);
+        }
+      });
+      } else {
+        
+      }
+    });
+  }
+    });
+    $('#update').submit(function(e) {
+      e.preventDefault();
+      for (instance in CKEDITOR.instances) {
+                CKEDITOR.instances[instance].updateElement();
+        }
+      var formData = new FormData(this);
+      var group = document.getElementById("g_name").value;
+      var icon = document.getElementById("g_icon").value;
+
+
+       if(group==""||icon==""){
+        swal({
+          title: "กรุณาป้อนข้อมูลให้ครบ",
+          text: "",
+          icon: "warning",
+          showConfirmButton: false,
+        });
+      }
+      else{
+   
+
+ 
+      swal({
+      title: "ยืนยันการบันทึก?",
+      icon: "warning",
+      buttons: true,
+      successMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        $.ajax({
+        type: 'POST',
+        url: "/updategroupmenu",
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        success: (data) => {
+          if(data){
+            swal({
+          title: "บันทึกข้อมูลเรียบร้อย",
+          text: "",
+          icon: "success",
+          button: "ตกลง",
+        }).then(function() {
+          window.location = "/MenuGroup";
+        });
+          }
+        },
+        error: function(data) {
+         
+          
+          console.log(data.responseJSON.errors);
+        }
+      });
+      } else {
+        
+      }
+    });
+      }
+    });
+
+
+  });
+    $('.delete').click(function(e) {
       var id = $(this).attr('id');
       swal({
       title: "ยืนยันการลบข้อมูล?",
@@ -195,8 +319,6 @@ $('.delete').click(function(e) {
         processData: false,
         dataType: 'json',
         success: (data) => {
-          console.log(data);
-
             swal({
           title: "ลบข้อมูลเรียบร้อย",
           text: "",
@@ -222,6 +344,6 @@ $('.delete').click(function(e) {
       }
     });
     });
-});
+
 </script>
 @endsection

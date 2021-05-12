@@ -39,9 +39,8 @@
                   <span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">เพิ่มข้อมูลกลุ่มเมนู</h4>
               </div>
-              <form  method="POST" action="/updatebranch">
+              <form id="update" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data">
               @csrf
-              {{ method_field('PUT') }}
               <div class="box-body">
               <div class="form-group">
               <input type="hidden" class="form-control" id="id" name="id" >
@@ -222,7 +221,62 @@ $(document).ready(function() {
     });
   }
     });
- 
+    $('#update').submit(function(e) {
+      e.preventDefault();
+      for (instance in CKEDITOR.instances) {
+                CKEDITOR.instances[instance].updateElement();
+        }
+      var formData = new FormData(this);
+      var name = document.getElementById("bname").value;
+      if(name==""){
+         swal({
+          title: "กรุณาป้อนข้อมูลให้ครบ",
+          text: "",
+          icon: "warning",
+          showConfirmButton: false,
+        });
+      }
+      else{
+      swal({
+      title: "ยืนยันการบันทึก?",
+      icon: "warning",
+      buttons: true,
+      successMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        $.ajax({
+        type: 'POST',
+        url: "/updatebranch",
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        success: (data) => {
+          if(data){
+            swal({
+          title: "บันทึกข้อมูลเรียบร้อย",
+          text: "",
+          icon: "success",
+          button: "ตกลง",
+        }).then(function() {
+          window.location = "/branch";
+        });
+          }
+        },
+        error: function(data) {
+         
+          
+          console.log(data.responseJSON.errors);
+        }
+      });
+      } else {
+        
+      }
+    });
+      }
+    });
 $('#modal-edit').on('show.bs.modal', function (event) {
 var button = $(event.relatedTarget);
 var id= button.data('id');
@@ -232,7 +286,7 @@ var url = "/getbranch";
         $.get(url + '/' + id, function (data) {
             //success data
             console.log(data)
-            $("#id").val(data[0].id);
+            $("#id").val(data[0].branch_id);
             $("#bname").val(data[0].name);
             $("#courseid").val(data[0].course_id);
         }) 

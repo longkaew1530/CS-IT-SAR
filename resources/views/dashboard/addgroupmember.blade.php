@@ -36,7 +36,7 @@
                   <span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">เพิ่มข้อมูลกลุ่มเมนู</h4>
               </div>
-              <form  method="POST" action="/addusergroup">
+              <form  id="adddata" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data" >
               @csrf
               <div class="box-body">
                 <div class="form-group">
@@ -68,9 +68,8 @@
                   <span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">เพิ่มข้อมูลกลุ่มเมนู</h4>
               </div>
-              <form  method="POST" action="/updateusergroup">
+              <form  id="update" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data">
               @csrf
-              {{ method_field('PUT') }}
               <div class="box-body">
               <div class="form-group">
               <input type="hidden" class="form-control" id="usergroup_id" name="user_group_id" >
@@ -154,6 +153,112 @@ $(document).ready(function() {
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       }
+    });
+    $('#adddata').submit(function(e) {
+      e.preventDefault();
+      for (instance in CKEDITOR.instances) {
+                CKEDITOR.instances[instance].updateElement();
+        }
+      var formData = new FormData(this);
+      var user_group_name = document.getElementById("user_group_name").value;
+       if(user_group_name==""){
+        swal({
+          title: "กรุณาป้อนข้อมูลให้ครบ",
+          text: "",
+          icon: "warning",
+          showConfirmButton: false,
+        });
+      }
+      else{
+      swal({
+      title: "ยืนยันการบันทึก?",
+      icon: "warning",
+      buttons: true,
+      successMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        $.ajax({
+        type: 'POST',
+        url: "/addusergroup",
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        success: (data) => {
+          if(data){
+            swal({
+          title: "บันทึกข้อมูลเรียบร้อย",
+          text: "",
+          icon: "success",
+          button: "ตกลง",
+        }).then(function() {
+          window.location = "/usergroup";
+        });
+          }
+        },
+        error: function(data) {
+         
+          
+          console.log(data.responseJSON.errors);
+        }
+      });
+      } else {
+        
+      }
+    });
+  }
+    });
+    $('#update').submit(function(e) {
+      e.preventDefault();
+      for (instance in CKEDITOR.instances) {
+                CKEDITOR.instances[instance].updateElement();
+        }
+      var formData = new FormData(this);
+
+   
+
+ 
+      swal({
+      title: "ยืนยันการบันทึก?",
+      icon: "warning",
+      buttons: true,
+      successMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        $.ajax({
+        type: 'POST',
+        url: "/updateusergroup",
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        success: (data) => {
+          if(data){
+            swal({
+          title: "บันทึกข้อมูลเรียบร้อย",
+          text: "",
+          icon: "success",
+          button: "ตกลง",
+        }).then(function() {
+          window.location = "/usergroup";
+        });
+          }
+        },
+        error: function(data) {
+         
+          
+          console.log(data.responseJSON.errors);
+        }
+      });
+      } else {
+        
+      }
+    });
+
     });
 $('#modal-edit').on('show.bs.modal', function (event) {
 var button = $(event.relatedTarget);

@@ -79,7 +79,7 @@ class APIAJController extends Controller
         $data['abbreviations']=$request->abbreviations;
         $data['education']=$request->education;
         Educational_background::insert($data);
-        return redirect('/educational_background');
+        return $data;
     }
     public function updateeducational_background(Request $request)
     {
@@ -91,7 +91,7 @@ class APIAJController extends Controller
         $data->abbreviations = $request->input('abbreviations');
         $data->education = $request->input('education');
         $data->save();
-        return redirect('/educational_background');
+        return $data;
     }
     public function deleteeducational_background($id)
     {

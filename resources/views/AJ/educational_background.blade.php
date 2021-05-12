@@ -14,7 +14,7 @@
                   <span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">เพิ่มวุฒิการศึกษา</h4>
               </div>
-              <form id="formadd" method="POST" action="/addeducational_background">
+              <form id="adddata" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data" >
                 @csrf
                 <div class="box-body">
                   <div class="form-group">
@@ -97,9 +97,8 @@
                   <span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">แก้ไขวุฒิการศึกษา</h4>
               </div>
-              <form id="updatedata" method="POST" action="/updateeducational_background">
+              <form id="update" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data" >
                 @csrf
-                {{ method_field('PUT') }}
                 <div class="box-body">
                   <div class="form-group">
                     <input type="hidden" class="form-control" id="id" name="id">
@@ -206,26 +205,131 @@
   })
 </script>
 <script type="text/javascript">
-  $('#formadd').ajaxForm(function() {
-    swal({
-      title: "บันทึกข้อมูลเรียบร้อย",
-      text: "",
-      icon: "success",
-      button: "ตกลง",
-    }).then(function() {
-      window.location = "/educational_background";
+$('#adddata').submit(function(e) {
+      e.preventDefault();
+      for (instance in CKEDITOR.instances) {
+                CKEDITOR.instances[instance].updateElement();
+        }
+      var formData = new FormData(this);
+      var eb_yearsuccess = document.getElementById("eb_yearsuccess").value;
+      var eb_fieldofstudy = document.getElementById("eb_fieldofstudy").value;
+      var abbreviations = document.getElementById("abbreviations").value;
+      var education = document.getElementById("education").value;
+
+
+       if(eb_yearsuccess==""||eb_fieldofstudy==""||abbreviations==""||education==""){
+        swal({
+          title: "กรุณาป้อนข้อมูลให้ครบ",
+          text: "",
+          icon: "warning",
+          showConfirmButton: false,
+        });
+      }
+      else{
+      swal({
+      title: "ยืนยันการบันทึก?",
+      icon: "warning",
+      buttons: true,
+      successMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        $.ajax({
+        type: 'POST',
+        url: "/addeducational_background",
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        success: (data) => {
+          if(data){
+            swal({
+          title: "บันทึกข้อมูลเรียบร้อย",
+          text: "",
+          icon: "success",
+          button: "ตกลง",
+        }).then(function() {
+          window.location = "/educational_background";
+        });
+          }
+        },
+        error: function(data) {
+         
+          
+          console.log(data.responseJSON.errors);
+        }
+      });
+      } else {
+        
+      }
     });
-  });
-  $('#updatedata').ajaxForm(function() {
-    swal({
-      title: "แก้ไขข้อมูลเรียบร้อย",
-      text: "",
-      icon: "success",
-      button: "ตกลง",
-    }).then(function() {
-      window.location = "/educational_background";
+  }
     });
-  });
+    $('#update').submit(function(e) {
+      e.preventDefault();
+      for (instance in CKEDITOR.instances) {
+                CKEDITOR.instances[instance].updateElement();
+        }
+      var formData = new FormData(this);
+      var eb_yearsuccess = document.getElementById("eb_yearsuccess1").value;
+      var eb_fieldofstudy = document.getElementById("eb_fieldofstudy1").value;
+      var abbreviations = document.getElementById("abbreviations1").value;
+      var education = document.getElementById("education1").value;
+
+
+       if(eb_yearsuccess==""||eb_fieldofstudy==""||abbreviations==""||education==""){
+        swal({
+          title: "กรุณาป้อนข้อมูลให้ครบ",
+          text: "",
+          icon: "warning",
+          showConfirmButton: false,
+        });
+      }
+      else{
+   
+
+ 
+      swal({
+      title: "ยืนยันการบันทึก?",
+      icon: "warning",
+      buttons: true,
+      successMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        $.ajax({
+        type: 'POST',
+        url: "/updateeducational_background",
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        success: (data) => {
+          if(data){
+            swal({
+          title: "บันทึกข้อมูลเรียบร้อย",
+          text: "",
+          icon: "success",
+          button: "ตกลง",
+        }).then(function() {
+          window.location = "/educational_background";
+        });
+          }
+        },
+        error: function(data) {
+         
+          
+          console.log(data.responseJSON.errors);
+        }
+      });
+      } else {
+        
+      }
+    });
+      }
+    });
 </script>
 <script>
   $(document).ready(function() {
@@ -252,8 +356,15 @@
   $(".deletedata").click(function() {
     var id = $(this).data("id");
     var token = $("meta[name='csrf-token']").attr("content");
-
-    $.ajax({
+    swal({
+      title: "ยืนยันการบันทึก?",
+      icon: "warning",
+      buttons: true,
+      successMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        $.ajax({
       url: "/deleteeducational_background/" + id,
       type: 'post',
       data: {
@@ -269,6 +380,10 @@
         }).then(function() {
           window.location = "/educational_background";
         });
+      }
+    });
+      } else {
+        
       }
     });
 

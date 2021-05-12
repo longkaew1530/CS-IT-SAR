@@ -3,13 +3,13 @@
 @section('content')
 <div class="box box-warning ">
             <div class="box-header">
-            <a href="{{ URL::previous() }}" class="btn btn-primary fr"><i class='fa fa-arrow-left'></i> ย้อนกลับ</a>
+            <a href="/permission" class="btn btn-primary fr"><i class='fa fa-arrow-left'></i> ย้อนกลับ</a>
               <h2 class="box-title">กำหนดสิทธิ์ {{$nameusergroup[0]['user_group_name']}}</h2>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
               <?php $checkrole=false ?>
-              <form method="POST" action="/addper" class="bd">
+              <form class="bd" id="adddata" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data">
                @csrf
                <input type="hidden" class="form-control" id="id" name="id" value="{{$userid}}"/>
                 @foreach($role as $row )
@@ -83,7 +83,57 @@
 }
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-
+<script type="text/javascript">
+  $(document).ready(function(e) {
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $('#adddata').submit(function(e) {
+      e.preventDefault();
+      var formData = new FormData(this);
+      swal({
+      title: "ยืนยันการบันทึก?",
+      icon: "warning",
+      buttons: true,
+      successMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        $.ajax({
+        type: 'POST',
+        url: "/addper",
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        success: (data) => {
+          if(data){
+            swal({
+          title: "บันทึกข้อมูลเรียบร้อย",
+          text: "",
+          icon: "success",
+          button: "ตกลง",
+        }).then(function() {
+          window.location = "/permission";
+        });
+          }
+        },
+        error: function(data) {
+          alert(data.responseJSON.errors.files1[0]);
+          console.log(data.responseJSON.errors);
+        }
+      });
+      } else {
+        
+      }
+    });
+    });
+  });
+  
+</script>
 <script>
   $(function () {
     $('#example2').DataTable({

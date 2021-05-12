@@ -7,7 +7,7 @@ use App\ModelAJ\Educational_background;
 use App\ModelAJ\Research_results;
 use App\ModelAJ\Research_results_user;
 use App\ModelAJ\past_performance;
-use App\ModelAJ\categoty_researh;
+use App\categoty_researh;
 use App\User;
 use App\PDCA;
 use App\Year;
@@ -472,7 +472,8 @@ class ShowCategoryController extends Controller
             return view('category3/showpdca',compact('getbranch','pdca','name','id','getcourse','getcategorypdca','inc','checkedit'));
         }
         if($id=="4.2"){
-           //ดึงค่าปี
+          
+        //ดึงค่าปี
         $year=Year::where('year_name',2563)->get();
         foreach($year as $value){
             $y=$value['year_name'];
@@ -600,8 +601,9 @@ class ShowCategoryController extends Controller
             $name4_2=$value['Indicator_name'];
             $id4_2=$value['Indicator_id'];
         }
-        return view('category/indicator4-2',compact('category_re','count','counteb_name','countposition1','countposition2','countposition3'
-                    ,'cate','qty1','B','qty2','C','qty3','E','inc','id4_2','name4_2','checkedit'));
+       
+        return view('category/indicator4-2',compact('checkedit','category_re','count','counteb_name','countposition1','countposition2','countposition3'
+                    ,'cate','qty1','B','qty2','C','qty3','E','inc','id4_2','name4_2'));
        }
        if($id=="4.3"){
         $in4_3=indicator4_3::where('course_id',session()->get('usercourse'))

@@ -33,7 +33,9 @@
                   <td class="text-center"><button id="{{$row['m_id']}}" class="btn btn-danger delete" type="button" name="remove" ><i class="fa fa-trash"></i></button>
                   </td>
                 </tr>
-
+                @endforeach
+                </tbody>
+              </table>
                 <div class="modal  fade" id="modal-info">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -42,7 +44,7 @@
                   <span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">เพิ่มข้อมูลกลุ่มเมนู</h4>
               </div>
-              <form  method="POST" action="/addmenu">
+              <form id="adddata" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data" >
               @csrf
               <div class="box-body">
                 <div class="form-group">
@@ -85,9 +87,8 @@
                   <span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">เพิ่มข้อมูลกลุ่มเมนู</h4>
               </div>
-              <form  method="POST" action="/updatemenu">
+              <form  id="update" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data" >
               @csrf
-              {{ method_field('PUT') }}
               <div class="box-body">
               <input type="hidden" class="form-control" id="m_id1" name="m_id1" >
                 <div class="form-group">
@@ -122,9 +123,7 @@
           <!-- /.modal-dialog -->
         </div>
             </div>
-                @endforeach
-                </tbody>
-              </table>
+                
                 
             </div>
             <!-- /.box-body -->
@@ -176,6 +175,122 @@ $(document).ready(function() {
   $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $('#adddata').submit(function(e) {
+      e.preventDefault();
+
+      var formData = new FormData(this);
+      var m_name = document.getElementById("m_name").value;
+      var m_url = document.getElementById("m_url").value;
+
+
+       if(m_name==""||m_url==""){
+        swal({
+          title: "กรุณาป้อนข้อมูลให้ครบ",
+          text: "",
+          icon: "warning",
+          showConfirmButton: false,
+        });
+      }
+      else{
+      swal({
+      title: "ยืนยันการบันทึก?",
+      icon: "warning",
+      buttons: true,
+      successMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        $.ajax({
+        type: 'POST',
+        url: "/addmenu",
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        success: (data) => {
+          if(data){
+            swal({
+          title: "บันทึกข้อมูลเรียบร้อย",
+          text: "",
+          icon: "success",
+          button: "ตกลง",
+        }).then(function() {
+          window.location = "/Menu";
+        });
+          }
+        },
+        error: function(data) {
+         
+          
+          console.log(data.responseJSON.errors);
+        }
+      });
+      } else {
+        
+      }
+    });
+  }
+    });
+    $('#update').submit(function(e) {
+      e.preventDefault();
+      for (instance in CKEDITOR.instances) {
+                CKEDITOR.instances[instance].updateElement();
+        }
+      var formData = new FormData(this);
+      var m_name = document.getElementById("m_name1").value;
+      var m_url = document.getElementById("m_url1").value;
+
+
+       if(m_name==""||m_url==""){
+        swal({
+          title: "กรุณาป้อนข้อมูลให้ครบ",
+          text: "",
+          icon: "warning",
+          showConfirmButton: false,
+        });
+      }
+      else{
+      swal({
+      title: "ยืนยันการบันทึก?",
+      icon: "warning",
+      buttons: true,
+      successMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        $.ajax({
+        type: 'POST',
+        url: "/updatemenu",
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        success: (data) => {
+          if(data){
+            swal({
+          title: "บันทึกข้อมูลเรียบร้อย",
+          text: "",
+          icon: "success",
+          button: "ตกลง",
+        }).then(function() {
+          window.location = "/Menu";
+        });
+          }
+        },
+        error: function(data) {
+         
+          
+          console.log(data.responseJSON.errors);
+        }
+      });
+      } else {
+        
+      }
+    });
       }
     });
 $('#modal-edit').on('show.bs.modal', function (event) {

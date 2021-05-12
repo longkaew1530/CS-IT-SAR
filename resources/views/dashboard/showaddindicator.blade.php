@@ -113,13 +113,10 @@
         success: (data) => {
           if(data){
             swal({
-          title: "บันทึกข้อมูลเรียบร้อย",
-          text: "Success",
+              title: "บันทึกข้อมูลเรียบร้อย",
+          text: "",
           icon: "success",
           button: "ตกลง",
-          button: false,
-          showConfirmButton: false,
-          timer: 1500
         }).then(function() {
           window.location = "/assign_indicator";
         });

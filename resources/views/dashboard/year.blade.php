@@ -380,6 +380,16 @@ input:checked + .slider:before {
     $("#next").click(function(e){
       var token = $('meta[name="csrf-token"]').attr('content');
         e.preventDefault();
+        
+
+        swal({
+      title: "ยืนยันการบันทึก?",
+      icon: "warning",
+      buttons: true,
+      successMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
         $.ajax({
            type:'post',
            url:'/nextyear',
@@ -397,6 +407,10 @@ input:checked + .slider:before {
            });
            }
         });
+      } else {
+        
+      }
+    });
 	});
   
 
