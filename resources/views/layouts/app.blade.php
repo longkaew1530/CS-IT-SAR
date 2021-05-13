@@ -11,6 +11,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300&display=swap" rel="stylesheet">
 	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{{url('/')}}/vendor1/bootstrap/css/bootstrap.min.css">
@@ -25,9 +26,10 @@
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{{url('/')}}/css1/util.css">
 	<link rel="stylesheet" type="text/css" href="{{url('/')}}/css1/main.css">
+    
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">

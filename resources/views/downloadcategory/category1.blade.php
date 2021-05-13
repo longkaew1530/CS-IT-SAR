@@ -63,9 +63,10 @@
                     @endforeach
                   </tbody></table>  
                 </div>
-
+                @if($check1_1==1)
                 <br><br>@include('category/indi1-1show',['c','count','nameteacher'
                   ,'educ_bg','y','checkpass','checknotpass','tc_course','instructor','specialinstructor','inc','course','checkedit'])
+                  @endif
               </div>
               </div>
 </div>

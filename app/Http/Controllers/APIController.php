@@ -7,6 +7,8 @@ use App\rolepermission;
 use App\user_permission;
 use App\Menu;
 use App\Groupmenu;
+use Response;
+use Excel;
 use App\defaulindicator;
 use App\branch;
 use App\instructor;
@@ -1033,5 +1035,8 @@ class APIController extends Controller
    
         return session()->get('year_id');
       }
+      public function getDownload(){
 
+        Excel::store(new InvoicesExport(2018), 'invoices.xlsx');
+     }
 }

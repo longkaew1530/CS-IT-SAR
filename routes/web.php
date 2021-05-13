@@ -381,6 +381,8 @@ Route::get('/updatesessionyear2/{id}','APIController@updatesessionyear2');
 Route::get('/updatesessionyear3/{id}','APIController@updatesessionyear3');
 Route::get('/updatebackyear/{id}','APIController@updatebackyear');
 
+
+Route::get('/getDownload','APIController@getDownload');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

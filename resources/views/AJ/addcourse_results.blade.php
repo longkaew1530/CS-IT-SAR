@@ -12,10 +12,15 @@
     @csrf
       <div class="data">
         <div class="col-md-12">
-          <div class="box-header col-md-12 col-sm-9 col-xs-12">
+          <div class="box-header col-md-5 col-sm-9 col-xs-5">
             <h3 class="box-title">สรุปผลรายวิชาที่เปิดสอน</h3>
           </div>
-          <!-- <i class="fa fa-download"><a>ดาวน์โหลดไฟล์ตัวอย่าง</a></i> -->
+
+         <a href="public/download/ตัวอย่างสรุปผลรายวิชาที่เปิดสอน.xlsx"
+                                       download="ตัวอย่างสรุปผลรายวิชาที่เปิดสอน.xlsx"
+                                       class="btn btn-outline-info" title="Download"> <i class="fa fa-download"></i> ดาวน์โหลดไฟล์ตัวอย่าง</a>
+
+          
           <div id="body">
             <div class="col-md-12 col-sm-9 col-xs-12">
             <input   type="file" id="infostd" name="infostd">
@@ -100,6 +105,12 @@
           }
         },
         error: function(data) {
+          swal({
+          title: "เอกสารอ้างอิงไม่ถูกต้อง",
+          text: "",
+          icon: "error",
+          showConfirmButton: false,
+        });
           alert(data.responseJSON.errors.files1[0]);
           console.log(data.responseJSON.errors);
         }
