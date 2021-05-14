@@ -117,6 +117,7 @@ class Category3Controller extends Controller
             if(count($get)==0){
                 $get="";
             }
+            
         $getqty=category3_infostudent_qty::where('course_id',session()->get('usercourse'))
         ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))

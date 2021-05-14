@@ -5070,10 +5070,7 @@ class APIAJController extends Controller
         if($get!="[]"){
             $getinfo=category3_graduate::where('course_id',session()->get('usercourse'))
             ->where('branch_id',session()->get('branch_id'))
-            ->where('year_add', '>=',$get[0]['year_add'])
-            ->where('year_add', '<=',session()->get('year'))
-            ->where('reported_year', '>=',$get[0]['year_add'])
-            ->where('reported_year', '<=',session()->get('year'))
+            ->where('reported_year',session()->get('year'))
             ->get();
             if($getinfo!="[]"){
                 $scoregraduate++;
@@ -6831,6 +6828,31 @@ class APIAJController extends Controller
                                                                               $i++;
                                                                                 }
         }
+
+        $userpermis=user_permission::leftjoin('users','user_permission.user_id','=','users.id')
+            ->where('user_permission.year_id',session()->get('year_id'))
+            ->where('users.user_course',session()->get('usercourse'))
+            ->where('users.user_branch',session()->get('branch_id'))
+            ->get();
+            
+            $getcounn=count($userpermis);
+                    foreach($clind as $key2=>$checkdata){
+                            $userpermis2=$userpermis->where('Indicator_id',$checkdata['id']);
+                            foreach($userpermis2 as $uservalue){
+
+                                if($checkdata['Indicator_id']!=""){
+                                    if($checkdata['id']==$uservalue['Indicator_id']){
+                                        $clind[$key2]['code']=$clind[$key2]['code'].'<span class="badge bg-green">'.$uservalue['user_fullname'].'</span>';
+                                    }
+                                }
+                                else{
+                                    $getname=indicator::where('id',$checkdata['id'])->get();
+                                    if($checkdata['Indicator_name']==$getname[0]['Indicator_name']){  
+                                        $clind[$key2]['code']=$clind[$key2]['code'].'<span class="badge bg-green">'.$uservalue['user_fullname'].'</span>';
+                                    }
+                                }
+                            }
+                        }
         return response()->json($clind);
         
     }

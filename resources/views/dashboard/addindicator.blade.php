@@ -82,7 +82,7 @@ var url = "/getrolepermisson";
 <script>
   $(function () {
     $('#example7').DataTable({
-      lengthMenu: [ 5, 20, 50, 100]
+      lengthMenu: [ 10, 20, 50, 100]
     })
   })
 </script>

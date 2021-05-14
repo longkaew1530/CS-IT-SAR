@@ -9,9 +9,9 @@
 		@csrf
             <div class="form-group">
             <input type="username" id="username" name="username"  class="form-control mt-3 @error('username') is-invalid @enderror" value="{{ old('username') }}"  placeholder="Username" required autocomplete="username" autofocus>
-						<span >
+						<!-- <span >
 							<i class="fa fa-user" aria-hidden="true"></i>
-                        </span>
+                        </span> -->
 						
                         @error('email')
                                     <span class="invalid-feedback" role="alert">
@@ -21,9 +21,9 @@
             </div>
             <div class="form-group">
             <input  class="form-control @error('password') is-invalid @enderror" value="{{ old('password') }}"  type="password" placeholder="Password" id="password"   name="password" required autocomplete="current-password">
-			<span>
+			<!-- <span>
 							<i class="fa fa-lock" aria-hidden="true"></i>
-                        </span>
+                        </span> -->
 						
                         @error('password')
                                     <span class="invalid-feedback" role="alert">
@@ -113,7 +113,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    color: #056839;
+    color: #63AFBB;
     padding: 16px;
 }
 
@@ -134,8 +134,8 @@
 }
 .login #login_form .btn_submit {
     width: 100%;
-    background-color: #056839;
-    border-color: #056839;
+    background-color: #63AFBB;
+    border-color: #63AFBB;
 }
 .login .box .title {
     font-weight: bold;

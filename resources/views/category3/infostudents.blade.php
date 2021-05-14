@@ -6,7 +6,7 @@
 @if($checkedit!="")<a href="/getinfostudent" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>@endif
 <h4>ข้อมูลนักศึกษา </h4>
 </div>
-            @if($get!="")
+            @if($get!=""&&$checkinfo!="[]")
             <div class="box-body">
             <table class="table table-bordered text-center">
                 <tbody><tr>

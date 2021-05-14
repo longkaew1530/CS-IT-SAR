@@ -494,6 +494,10 @@ class DownloadController extends Controller
                     if(count($get)==0){
                         $get="";
                     }
+                    $checkinfo=category3_infostudent::where('course_id',session()->get('usercourse'))
+                    ->where('branch_id',session()->get('branch_id'))
+                    ->where('year_add',session()->get('year'))
+                    ->get();
                 $getqty=category3_infostudent_qty::where('course_id',session()->get('usercourse'))
                 ->where('branch_id',session()->get('branch_id'))
                 ->where('year_id',session()->get('year_id'))
@@ -535,6 +539,10 @@ class DownloadController extends Controller
         ->groupBy('year_add')
         ->get();
              }
+             $checkinfo2=category3_graduate::where('course_id',session()->get('usercourse'))
+                    ->where('branch_id',session()->get('branch_id'))
+                    ->where('year_add',session()->get('year'))
+                    ->get();
              $getyear=category3_graduate::where('course_id',session()->get('usercourse'))
              ->where('branch_id',session()->get('branch_id'))
         ->where('year_add',session()->get('year'))
@@ -692,7 +700,6 @@ class DownloadController extends Controller
         ->where('branch_id',session()->get('branch_id'))
         ->where('year_present',session()->get('year'))
         ->get();
-
         $in3_3=performance3_3::where('course_id',session()->get('usercourse'))
         ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
@@ -761,8 +768,8 @@ class DownloadController extends Controller
             }
         }
         $getbranch=branch::where('branch_id',session()->get('branch_id'))
-            ->get();
-            return view('downloadcategory/category3',compact('getbranch','get','getinfo','getqty','countnumber'
+        ->get();
+            return view('downloadcategory/category3',compact('checkinfo','checkinfo2','getbranch','get','getinfo','getqty','countnumber'
             ,'checkedit','get2','getinfo1','getyear','getinfo2','gropby','factor','factor2',
             'factor3','pdca','per1','name','id','factor4','pdca2','pdca3_1','name3_1',
             'id3_1','getcourse3_1','getcategorypdca3_1','inc3_1','pdca3_2','name3_2',

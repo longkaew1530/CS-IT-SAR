@@ -1007,6 +1007,7 @@ class ShowCategoryController extends Controller
                                                                                     ->where('reported_year', '<=',session()->get('year'))
                                                                                     ->get();
                                                                                 }
+                                                                                
                                                                                 if(count($get)==0){
                                                                                     $get="";
                                                                                 }
@@ -1019,8 +1020,12 @@ class ShowCategoryController extends Controller
                                                                             if($getinfo!=""){
                                                                                 $countnumber=count($getinfo);
                                                                             }
-                                                                            
-                                                                            return view('category3/infostudents',compact('checkedit','get','getinfo','getqty','countnumber'));
+                                                                            $checkinfo=category3_infostudent::where('course_id',session()->get('usercourse'))
+                                                                                    ->where('branch_id',session()->get('branch_id'))
+                                                                                    ->where('year_add',session()->get('year'))
+                                                                                    ->get();
+                                                                                 
+                                                                            return view('category3/infostudents',compact('checkedit','get','getinfo','getqty','countnumber','checkinfo'));
                                                                                    }
                                                                                    if($id=="จุดแข็ง จุดที่ควรพัฒนา"){
                                                                                     $querynewstrength=composition::where('id','!=',1)

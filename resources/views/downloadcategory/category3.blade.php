@@ -4,14 +4,14 @@
 <div class="box box-warning marginl" id="exportContent">
 <div class="box-header" >
               <h3 class="text-center">หมวดที่3 นักศึกษาและบัณฑิต</h3><br>
-              @if($get!=""&&$checkinfostd==1)
+              @if($get!=""&&$checkinfostd==1&&$checkinfo!="[]")
               <div class="box-body">
               <h4>ข้อมูลนักศึกษา</h4>
               
               <table class="table table-bordered text-center">
                 <tbody><tr>
                   <th width="10%" rowspan="2" style="background-color:#9ddfd3">ปีการศึกษาที่รับเข้า</th>
-                  <th width="10%" colspan="{{$countnumber}}" style="background-color:#9ddfd3">จำนวนนักศึกษาคงอยู่(จำนวนจริง)ในแต่ละปีการศึกษา</th>
+                  <th width="10%" colspan="{{$countnumber}}" style="background-color:#9ddfd3">ปีการศึกษาที่รับเข้า</th>
                   </tr>
                   <tr>
                   <?php $yearname=session()->get('year'); ?>
@@ -89,7 +89,7 @@
            @if($getqty!="[]") จำนวนนักศึกษาที่รับเข้าตามแผน (ตาม มคอ2 ของปีที่ประเมิน) {{$getqty[0]['qty']}} คน @endif
             </div>
             @endif
-            @if($get2!=""&&$checkgdqty==1)
+            @if($get2!=""&&$checkgdqty==1&&$checkinfo2!="[]")
             <div class="box-body">
             <h4>จำนวนผู้สำเร็จการศึกษา</h4>
             
@@ -184,14 +184,14 @@
              
               </div>
               @endif
-              @if($get!=""&&$checkinfostd==1)
+              @if($get!=""&&$checkinfostd==1&&$checkinfo!="[]")
               <div class="box-body">
               <h4>การคงอยู่ของนักศึกษา</h4>
               
               <table class="table table-bordered text-center">
                 <tbody><tr>
                   <th width="10%" rowspan="2" style="background-color:#9ddfd3">ปีการศึกษาที่รับเข้า</th>
-                  <th width="10%" colspan="{{$countnumber}}" style="background-color:#9ddfd3">จำนวนนักศึกษาคงอยู่(จำนวนจริง)ในแต่ละปีการศึกษา</th>
+                  <th width="10%" colspan="{{$countnumber}}" style="background-color:#9ddfd3">ปีการศึกษาที่รับเข้า</th>
                   </tr>
                   <tr>
                   <?php $yearname=session()->get('year'); ?>
@@ -282,7 +282,7 @@
             @endif
             @endif
             <div class="box-body">
-            @if($get2!=""&&$checkgdqty==1)
+            @if($get2!=""&&$checkgdqty==1&&$checkinfo2!="[]")
             <h4>จำนวนผู้สำเร็จการศึกษา</h4>
             <table class="table table-bordered text-center">
                 <tbody><tr>
@@ -858,7 +858,7 @@
               1.  การประเมินความพึงพอใจของนักศึกษา เป็นการประเมินความพึงพอใจของนักศึกษาต่อกระบวนที่ดำเนินการให้กับนักศึกษาตามกิจกรรมในตัวบ่งชี้ 3.1 และ 3.2<br></p>
               2.  อัตราการคงอยู่ของนักศึกษา คิดจากจำนวนนักศึกษาที่เข้าในแต่ละรุ่น ลบด้วยจำนวนนักศึกษาที่ออกทุกกรณีนับถึงสิ้นปีการศึกษาที่ประเมิน ยกเว้นเสียชีวิต
                   การย้ายสถานที่ทำงานของนักศึกษาในระดับบัณฑิตศึกษา คิดเป็นร้อยละของจำนวนที่รับเข้าในแต่ละรุ่นที่มีบัณฑิตสำเร็จการศึกษาแล้ว<br>
-                @if($get5!="[]")
+                @if($get5!="[]"&&$re5!="[]")
               <p class="text-center">ตารางคำนวณอัตราการคงอยู่และการสำเร็จการศึกษาของนักศึกษา</p>
             <table class="table table-bordered text-center">
                 <tbody><tr>
@@ -1093,7 +1093,7 @@ $(document).ready(function(){
     var url = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(html);
     
     // Specify file name
-    filename = filename?filename+'.docx':'document.doc';
+    filename = filename?filename+'.doc':'document.doc';
     
     // Create download link element
     var downloadLink = document.createElement("a");

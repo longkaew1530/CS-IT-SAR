@@ -14,7 +14,7 @@
 
 <div class="box box-warning marginl ml">
             <div class="box-header">
-              <h2 class="box-title">ความคืบหน้าในภาพรวม</h2>
+              <h2 class="box-title">ความคืบหน้าในภาพรวม </h2>
             </div>
             <div class="box-body">
               <table id="myTable" class="table table-striped table-bordered" style="width:100%">
@@ -124,6 +124,7 @@ $(document).ready(function(){
             }
             $("#not").html(not);
             $("#success").html(success);
+            document.getElementById("year").selectedIndex = "-1";
           }
         });
         var table = $('#myTable').DataTable( {

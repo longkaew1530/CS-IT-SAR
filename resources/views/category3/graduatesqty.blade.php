@@ -5,7 +5,7 @@
 <div class="box-header">
 @if($checkedit!="")<a href="/getgraduate" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>@endif
 <b>จำนวนผู้สำเร็จการศึกษา</b>
-          @if($get!="[]")
+          @if($get!="[]"&&$getyear!="[]")
             <div class="box-body">
             <table class="table table-bordered text-center">
                 <tbody><tr>
