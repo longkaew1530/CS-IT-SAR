@@ -119,23 +119,23 @@ class APIAJController extends Controller
         }
         $getname=User::where('id',$request->owner)
         ->get();
-        $text=$getname[0]['user_fullname'];
-        $i=1;
-        if(isset($getdata['teacher_name'])){
-        foreach($getdata['teacher_name'] as $row){
-            $query=User::find($row);
-            if($i!=$countgetname){
-                $text=$text.", ".$query->user_fullname;
-            }
-            else{
-                $text=$text." และ".$query->user_fullname;
-            }
-            $i++;
-        }
-    }
+        // $text=$getname[0]['user_fullname'];
+        // $i=1;
+        // if(isset($getdata['teacher_name'])){
+        // foreach($getdata['teacher_name'] as $row){
+        //     $query=User::find($row);
+        //     if($i!=$countgetname){
+        //         $text=$text.", ".$query->user_fullname;
+        //     }
+        //     else{
+        //         $text=$text." และ".$query->user_fullname;
+        //     }
+        //     $i++;
+        // }
+    // }
         $data=new Research_results;
         $data->owner=$request->owner;
-        $data->teacher_name=$text;
+        $data->teacher_name=$request->listname;
         $data->research_results_category=$request->research_results_category;
         $data->research_results_year=$request->research_results_year;
         $data->research_results_name=$request->research_results_name;
@@ -166,23 +166,23 @@ class APIAJController extends Controller
         }
         $getname=User::where('id',$request->owner)
         ->get();
-        $text=$getname[0]['user_fullname'];
-        $i=1;
-        if(isset($getdata['teacher_name'])){
-        foreach($getdata['teacher_name'] as $row){
-            $query=User::find($row);
-            if($i!=$countgetname){
-                $text=$text.", ".$query->user_fullname;
-            }
-            else{
-                $text=$text." และ".$query->user_fullname;
-            }
-            $i++;
-        }
-    }
+        // $text=$getname[0]['user_fullname'];
+        // $i=1;
+        // if(isset($getdata['teacher_name'])){
+        // foreach($getdata['teacher_name'] as $row){
+        //     $query=User::find($row);
+        //     if($i!=$countgetname){
+        //         $text=$text.", ".$query->user_fullname;
+        //     }
+        //     else{
+        //         $text=$text." และ".$query->user_fullname;
+        //     }
+        //     $i++;
+        // }
+        // }
         $data=Research_results::find($request->id);
         $data->owner=$request->owner;
-        $data->teacher_name=$text;
+        $data->teacher_name=$request->listname;
         $data->research_results_category=$request->research_results_category;
         $data->research_results_year=$request->research_results_year;
         $data->research_results_name=$request->research_results_name;

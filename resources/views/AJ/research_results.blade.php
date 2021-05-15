@@ -31,7 +31,10 @@
                         @endforeach
                 </select>
               </div>
-
+              <div class="form-group">
+                    <label for="exampleInputPassword1">รายชื่อ</label>
+                    <textarea class="form-control" rows="3" placeholder="รายละเอียด" id="listname" name="listname"></textarea>
+                  </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">ประเภทผลงานวิจัย</label>
                     <select class="form-control" id="research_results_category" class="form-control @error('role') is-invalid @enderror" name="research_results_category">
@@ -127,6 +130,10 @@
                       @endforeach
                 </select>
               </div>
+              <div class="form-group">
+                    <label for="exampleInputPassword1">รายชื่อ</label>
+                    <textarea class="form-control" rows="3" placeholder="รายละเอียด" id="listname1" name="listname"></textarea>
+                  </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">ประเภทผลงานวิจัย</label>
                     <select class="form-control" id="research_results_category1" class="form-control @error('role') is-invalid @enderror" name="research_results_category">
@@ -459,6 +466,7 @@
                 } 
         }
         $("#select").val(get);
+        $("#listname1").val(data[0].teacher_name);
         $("#research_results_year1").val(data[0].research_results_year);
         $("#research_results_year1").val(data[0].research_results_year);
         $("#research_results_category1").val(data[0].research_results_category);
