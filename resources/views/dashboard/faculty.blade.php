@@ -43,7 +43,7 @@
               <div class="form-group">
               <input type="hidden" class="form-control" id="facultyid" name="faculty_id" >
                   <label for="exampleInputEmail1">คณะ</label>
-                  <input type="text" class="form-control" id="facultyname" name="faculty_name" placeholder="หลักสูตร">
+                  <input type="text" class="form-control" id="facultyname" name="faculty_name" placeholder="คณะ">
                 </div> 
               </div>
             
@@ -78,7 +78,7 @@
               <div class="box-body">
                 <div class="form-group">
                   <label for="exampleInputEmail1">คณะ</label>
-                  <input type="text" class="form-control" id="faculty_name" name="faculty_name" placeholder="หลักสูตร">
+                  <input type="text" class="form-control" id="faculty_name" name="faculty_name" placeholder="คณะ">
                 </div>             
               </div>
             

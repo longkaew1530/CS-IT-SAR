@@ -32,8 +32,8 @@
                 </select>
               </div>
               <div class="form-group">
-                    <label for="exampleInputPassword1">รายชื่อ</label>
-                    <textarea class="form-control" rows="3" placeholder="รายละเอียด" id="listname" name="listname"></textarea>
+                    <label for="exampleInputPassword1">ชื่อผู้ทำวิจัยทั้งหมด</label>
+                    <textarea class="form-control" rows="3" placeholder="ชื่อผู้ทำวิจัยทั้งหมด" id="listname" name="listname"></textarea>
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">ประเภทผลงานวิจัย</label>
@@ -131,8 +131,8 @@
                 </select>
               </div>
               <div class="form-group">
-                    <label for="exampleInputPassword1">รายชื่อ</label>
-                    <textarea class="form-control" rows="3" placeholder="รายละเอียด" id="listname1" name="listname"></textarea>
+                    <label for="exampleInputPassword1">ชื่อผู้ทำวิจัยทั้งหมด</label>
+                    <textarea class="form-control" rows="3" placeholder="ชื่อผู้ทำวิจัยทั้งหมด" id="listname1" name="listname"></textarea>
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">ประเภทผลงานวิจัย</label>

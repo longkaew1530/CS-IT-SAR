@@ -258,7 +258,7 @@ class DownloadController extends Controller
         $check1_1=0;
         foreach($getpermiss as $checkper){
             if($checkper['Indicator_id']==1.1){
-                $check4_1=1;
+                $check1_1=1;
             }
         }
         $course_detail = course_detail::where('course_id',session()->get('usercourse'))->get();

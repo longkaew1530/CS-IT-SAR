@@ -5131,10 +5131,7 @@ class ShowdataController extends Controller
         if($get!="[]"){
             $getinfo=category3_graduate::where('course_id',session()->get('usercourse'))
             ->where('branch_id',session()->get('branch_id'))
-            ->where('year_add', '>=',$get[0]['year_add'])
-            ->where('year_add', '<=',session()->get('year'))
-            ->where('reported_year', '>=',$get[0]['year_add'])
-            ->where('reported_year', '<=',session()->get('year'))
+            ->where('reported_year',session()->get('year'))
             ->get();
             if($getinfo!="[]"){
                 $scoregraduate++;

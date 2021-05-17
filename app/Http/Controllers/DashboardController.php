@@ -136,6 +136,7 @@ class DashboardController extends Controller
             session()->put('branch_id',$queryb[0]['branch_id']);
         }
         session()->put('putput',3);
+        session()->put('checkyear_id',$y_id);
         return view('dashboard/dashboard3');
         }
        else{
@@ -358,7 +359,9 @@ class DashboardController extends Controller
     }
     public function index23()
     {
-        $getyear=Year::where('active',0)->get();
+        
+        $getyear=Year::where('year_id','<',session()->get('checkyear_id'))
+        ->get();
         return view('dashboard/dashboard4',compact('getyear'));
     }
 }

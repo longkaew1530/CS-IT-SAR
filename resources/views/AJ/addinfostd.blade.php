@@ -30,9 +30,9 @@
               <table class="table table-bordered text-center">
                 <tbody><tr>
                 <?php $yearname=session()->get('year'); ?>
-                  <th width="30%" style="background-color:#9ddfd3">ปีการศึกษาที่รับเข้า</th>
+                  <th width="15%" style="background-color:#9ddfd3">ปีการศึกษาที่รับเข้า</th>
                   @for($i =$get[0]['year_add'];$i<=$yearname; $i++)
-                  <th width="5%" style="background-color:#9ddfd3">{{$i}}</th>
+                  <th width="7%" style="background-color:#9ddfd3">{{$i}}</th>
                   @endfor
                   <?php $n=0 ?>
                   @for($y=$get[0]['year_add'];$y<=$yearname; $y++)

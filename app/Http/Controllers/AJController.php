@@ -214,7 +214,11 @@ class AJController extends Controller
                 ->get();
                 $countnumber=count($getyear);
                 $checkedit="asdsad";
-                return view('category3/infostudents',compact('get','getinfo','getqty','countnumber','checkedit'));
+                $checkinfo=category3_infostudent::where('course_id',session()->get('usercourse'))
+                ->where('branch_id',session()->get('branch_id'))
+                ->where('year_add',session()->get('year'))
+                ->get();
+                return view('category3/infostudents',compact('checkinfo','get','getinfo','getqty','countnumber','checkedit'));
             }
             
     }

@@ -124,7 +124,11 @@ class Category3Controller extends Controller
         ->get();
         $countnumber=count($getinfo);
         $checkedit="klkl";
-        return view('category3/infostudents',compact('get','getinfo','getqty','countnumber','checkedit'));
+        $checkinfo=category3_infostudent::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
+        ->where('year_add',session()->get('year'))
+        ->get();
+        return view('category3/infostudents',compact('checkinfo','get','getinfo','getqty','countnumber','checkedit'));
     }
     public function Impactfactors()
     {

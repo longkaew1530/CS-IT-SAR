@@ -4,7 +4,7 @@
 <div class="box box-warning marginl">
 <div class="box-header">
             <div class="box-body">
-            <a href="/addstrength" class="btn btn-success fr"><i class='fa fa-plus'></i> เพิ่มข้อมูล</a>
+            @if($checkedit!="")<a href="/addstrength" class="btn btn-success fr"><i class='fa fa-plus'></i> เพิ่มข้อมูล</a>@endif
            <h4>ความก้าวหน้าของการดำเนินงานตามแผนที่เสนอในรายงานของปีที่ผ่านมา</h4>
               <table class="table table-bordered" >
                 <tbody><tr>

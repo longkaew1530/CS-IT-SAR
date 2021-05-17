@@ -4,7 +4,7 @@
 <div class="box box-warning marginl">
 <div class="box-header">
             <div class="box-body">
-            <a href="/addactivity" class="btn btn-success fr"><i class='fa fa-plus'></i> เพิ่มข้อมูล</a>
+            @if($checkedit!="")<a href="/addactivity" class="btn btn-success fr"><i class='fa fa-plus'></i> เพิ่มข้อมูล</a>@endif
             <h4 >กิจกรรมการพัฒนาวิชาชีพของอาจารย์และบุคลากรสายสนับสนุน</h4></b>
             <table class="table table-bordered" >
                 <tbody ><tr>
@@ -30,7 +30,7 @@
                             <i class="fa fa-check "></i>
                             @endif
                     </td>
-                    <td>@if($checkedit!="")<a href="/getactivity/{{$value['id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i></a>@endif{!!$value['comment']!!}
+                    <td>@if($checkedit!="")<a href="/getactivity/{{$value['id']}}" class="btn btn-warning fr"><i class='fa fas fa-edit'></i>แก้ไขข้อมูล</a>@endif{!!$value['comment']!!}
                     </td>
                 </tr>
                 @endforeach

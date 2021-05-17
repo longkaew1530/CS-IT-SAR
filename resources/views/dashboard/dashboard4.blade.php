@@ -14,7 +14,7 @@
 
 <div class="box box-warning marginl ml">
             <div class="box-header">
-              <h2 class="box-title">ความคืบหน้าในภาพรวม </h2>
+              <h2 class="box-title">รายงานย้อนหลัง </h2>
             </div>
             <div class="box-body">
               <table id="myTable" class="table table-striped table-bordered" style="width:100%">
@@ -101,32 +101,16 @@ div.slider {
 <script src="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css"></script>
 <script type=text/javascript>
 $(document).ready(function(){
+
   $.ajax({  //create an ajax request to display.php
           type: "GET",
-          url: "/getallresult",       
+          url: "/updatebackyear/0",       
           success: function (data) {
-            $("#getwork").html(data.score+'%');
-          }
-        });
-        $.ajax({  //create an ajax request to display.php
-          type: "GET",
-          url: "/getallindicator",       
-          success: function (data) {
-            var success=0;
-           var not=0;
-            for (index = 0; index < data.length; ++index) {
-              if(data[index].score==100){
-              success=success+1;
-             }
-             else{
-              not=not+1;
-             }
-            }
-            $("#not").html(not);
-            $("#success").html(success);
+            $('#myTable').DataTable().ajax.reload();
             document.getElementById("year").selectedIndex = "-1";
           }
         });
+
         var table = $('#myTable').DataTable( {
     ajax: {url:"/getoverview",dataSrc:""},
     columns: [
@@ -167,24 +151,46 @@ function format ( d ) {
      var text="";
      for (const [key, value] of Object.entries(d)) {
       if(value.Indicator_id!=null){
-        text=text+'<tr>'+
+        if(typeof value.code === 'undefined'){
+          text=text+'<tr>'+
                 '<td width="10%"></td>'+
                 '<td width="50%">'+"ตัวบ่งชี้"+`${value.Indicator_id} ${value.Indicator_name}`+'</td>'+
                 '<td width="25%">'+'<div class="progress progress-xs"><div class="progress-bar progress-bar-'+`${value.color}`+'" style="width:'+`${value.score}`+'%"></div></div>'+'</td>'+
                 '<td width="5%">'+'<span class="badge bg-'+`${value.color2}`+'">'+`${value.score}`+'%</span>'+'</td>'+
                 '<td ><a href="/showindicator/'+`${value.Indicator_id}`+'">ดูรายละเอียด</a></td>'+
-                '<td ></td>'+
             '</tr>';
+        }
+        else{
+          text=text+'<tr>'+
+                '<td width="10%"></td>'+
+                '<td width="50%">'+"ตัวบ่งชี้"+`${value.Indicator_id} ${value.Indicator_name}`+'<br>'+`${value.code}`+'</td>'+
+                '<td width="25%">'+'<div class="progress progress-xs"><div class="progress-bar progress-bar-'+`${value.color}`+'" style="width:'+`${value.score}`+'%"></div></div>'+'</td>'+
+                '<td width="5%">'+'<span class="badge bg-'+`${value.color2}`+'">'+`${value.score}`+'%</span>'+'</td>'+
+                '<td ><a href="/showindicator/'+`${value.Indicator_id}`+'">ดูรายละเอียด</a></td>'+
+            '</tr>';
+        }
+        
       }
       else{
-        text=text+'<tr>'+
+        if(typeof value.code === 'undefined'){
+          text=text+'<tr>'+
                 '<td width="10%"></td>'+
                 '<td width="50%">'+`${value.Indicator_name}`+'</td>'+
                 '<td width="25%">'+'<div class="progress progress-xs"><div class="progress-bar progress-bar-'+`${value.color}`+'" style="width:'+`${value.score}`+'%"></div></div>'+'</td>'+
                 '<td width="5%">'+'<span class="badge bg-'+`${value.color2}`+'">'+`${value.score}`+'%</span>'+'</td>'+
                 '<td ><a href="/showindicator/'+`${value.Indicator_name}`+'">ดูรายละเอียด</a></td>'+
-                '<td ></td>'+
             '</tr>';
+        }
+        else{
+          text=text+'<tr>'+
+                '<td width="10%"></td>'+
+                '<td width="50%">'+`${value.Indicator_name}`+'<br>'+`${value.code}`+'</td>'+
+                '<td width="25%">'+'<div class="progress progress-xs"><div class="progress-bar progress-bar-'+`${value.color}`+'" style="width:'+`${value.score}`+'%"></div></div>'+'</td>'+
+                '<td width="5%">'+'<span class="badge bg-'+`${value.color2}`+'">'+`${value.score}`+'%</span>'+'</td>'+
+                '<td ><a href="/showindicator/'+`${value.Indicator_name}`+'">ดูรายละเอียด</a></td>'+
+            '</tr>';
+        }
+        
       }
     }
     return '<div class="slider">'+

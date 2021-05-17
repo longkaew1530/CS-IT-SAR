@@ -3,7 +3,7 @@
 @section('content')
 <div class="box box-warning marginl">
 <div class="box-header">
-  <a href="/addnewstrength" class="btn btn-success fr"><i class='fa fa-plus'></i> เพิ่มข้อมูล</a>
+@if($checkedit!="")<a href="/addnewstrength" class="btn btn-success fr"><i class='fa fa-plus'></i> เพิ่มข้อมูล</a>@endif
             <div class="box-body">
               <h4>แผนปฏิบัติการใหม่ สำหรับปี {{ Session::get('year')}}</h4></br>
               <table class="table table-bordered" >
