@@ -9,6 +9,8 @@ use App\ModelAJ\categoty_researh;
 use App\User;
 use App\Menu;
 use App\Year;
+use App\branch;
+use App\training_information;
 use App\category3_resignation;
 use App\course_responsible_teacher;
 use App\indicator4_3;
@@ -73,6 +75,15 @@ class AJController extends Controller
         // ->get();
         $category=categoty_researh::all();
         return view('AJ/research_results',compact('researchresults','category','userall'));
+    }
+    public function training_information()
+    {
+        $user=auth()->user();
+        $userall=training_information::where('user_id',$user->id)
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+
+        return view('AJ/training_information',compact('userall'));
     }
     public function past_performance()
     {
@@ -623,6 +634,7 @@ class AJController extends Controller
         ->where('course_name','!=','รหัสชื่อวิชา')
         ->get();
         $teachqua=category4_teaching_quality::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
        ->where('year_id',session()->get('year_id'))
        ->get();
        $teachquagroup=category4_teaching_quality::groupBy('student_year')

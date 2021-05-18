@@ -262,6 +262,10 @@ class Category3Controller extends Controller
         ->where('pdca.indicator_id',$getcategorypdca[0]['Indicator_id'])
         ->where('pdca.target','!=',null)
         ->get();
+        $tran=User::rightjoin('course_responsible_teacher','users.id','=','course_responsible_teacher.user_id')
+        ->where('users.user_course',session()->get('usercourse'))
+        ->where('users.user_branch',session()->get('branch_id'))
+        ->get();
         if(count($inc)==0){
             $inc="";
         }
@@ -271,7 +275,7 @@ class Category3Controller extends Controller
             $id=$value['Indicator_id'];
         }
         $checkedit="asdsad";
-        return view('category3/showpdca',compact('pdca','name','id','getcourse','getcategorypdca','inc','checkedit','getbranch'));
+        return view('category3/showpdca',compact('pdca','name','id','getcourse','getcategorypdca','inc','checkedit','getbranch','tran'));
     }
     public function indicator3_3()
     {

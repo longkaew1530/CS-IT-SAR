@@ -40,6 +40,7 @@ Route::get('/historical_report', 'DashboardController@index23');
 /////อาจารย์
 Route::get('/educational_background', 'AJController@educational_background');
 Route::get('/research_results', 'AJController@research_results');
+Route::get('/training_information', 'AJController@training_information');
 Route::get('/addindicator1-1', 'AJController@addindicator1_1');
 Route::get('/addpastperformance', 'AJController@past_performance');
 Route::get('/pdca/{id}', 'AJController@addpdca');
@@ -376,12 +377,19 @@ Route::get('/getindicator1_1','APIAJController@getindicator1_1');
 Route::post('/addindicator1_1','APIAJController@addindicator1_1');
 Route::post('/updateindicator1_1','APIAJController@updateindicator1_1');
 
+////training_information
+Route::get('/gettraining_information','APIController@gettraining_information');
+Route::post('/addtraining_information','APIController@addtraining_information');
+Route::post('/updatetraining_information','APIController@updatetraining_information');
+
 Route::get('/updatesessionyear/{id}','APIController@updatesessionyear');
 Route::get('/updatesessionyear2/{id}','APIController@updatesessionyear2');
 Route::get('/updatesessionyear3/{id}','APIController@updatesessionyear3');
 Route::get('/updatebackyear/{id}','APIController@updatebackyear');
 
-
+Route::get('/getcate/{id}','APIController@getcategory_id');
+Route::get('/getcateall','APIController@getcateall');
+Route::get('/getcateall2','APIController@getcateall2');
 Route::get('/getDownload','APIController@getDownload');
 Auth::routes();
 

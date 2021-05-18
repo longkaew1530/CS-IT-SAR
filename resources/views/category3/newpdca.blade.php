@@ -43,7 +43,16 @@
                   @if($checkedit!="")<a href="/addd/{{$row['id']}}" class="btn btn-success fr"><i class='fa fa-plus'></i> เพิ่มข้อมูล</a>@endif
                   @endif
                   <ins><b>การดำเนินงานตามแผน (D)</b></ins><br>
-                  {!!$row1['d']!!}</b><br><br>
+                  {!!$row1['d']!!}
+                  @if($row['id']==3)
+                  @foreach($tran as $k=>$tvalue)
+                  {{$k+1}}. <b>{{$tvalue['user_fullname']}}</b><br>
+                  @foreach($tvalue->training_information as $ttvalue)
+                  <li>{{$ttvalue['name_training']." วันที่ ".$ttvalue['date_training']." ".$ttvalue['place_training']}}</li>
+                  @endforeach<br>
+                  @endforeach
+                  @endif
+                  </b><br><br>
                   <?php 
                   $checkcheck3=0;
                   foreach($row1->docpdca as $check4){

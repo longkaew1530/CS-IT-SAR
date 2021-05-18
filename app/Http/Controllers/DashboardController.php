@@ -98,12 +98,13 @@ class DashboardController extends Controller
         session()->put('menu',$menu);
         $category=category::all();
         $getfaculty=faculty::where('faculty_id',$user->user_faculty)->get();
-        
+        session()->put('checkyear_id',$y_id);
         session()->put('getfaculty',$getfaculty);
         $roleindicator=user_permission::leftjoin('indicator','user_permission.indicator_id','=','indicator.id')
         ->where('user_permission.user_id',$user->id)
         ->where('user_permission.year_id',session()->get('year_id'))
         ->get();
+        
         foreach ($category as $key => $value){
             $value->indicator->first(); 
          }
@@ -136,7 +137,7 @@ class DashboardController extends Controller
             session()->put('branch_id',$queryb[0]['branch_id']);
         }
         session()->put('putput',3);
-        session()->put('checkyear_id',$y_id);
+        
         return view('dashboard/dashboard3');
         }
        else{

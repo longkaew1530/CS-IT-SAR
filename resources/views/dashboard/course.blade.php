@@ -112,11 +112,14 @@
             <input type="hidden" class="form-control" id="courseid2" name="course_id" >
             <div class="table-responsive">  
                 <table class="table table-bordered" id="dynamic_field">  
-                    <tr><td width="100%"><input type="text" id="name" name="name[]" placeholder="ชื่อ-สกุล" class="form-control name_list" /></td></tr>
-                    <tr>  
+                    <tr><td>1</td><td width="100%"><input type="text" id="name" name="name[]" placeholder="ชื่อ-สกุล" class="form-control name_list" /></td></tr>
+                    <tr> <td></td> 
                         <td><textarea type="text" id="background"   name="background[]" placeholder="วุฒิการศึกษา" class="form-control name_list"></textarea></td>    
-                        <td><button type="button" name="add" id="add" class="btn btn-success"><i class="fa fa-plus"></i></button></td>  
                     </tr>  
+                    <tr> <td></td> 
+                        <td><textarea type="text" id="academic_position"   name="academic_position[]" placeholder="ตำแหน่งทางวิชาการ" class="form-control name_list"></textarea></td>    
+                        <td><button type="button" name="add" id="add" class="btn btn-success"><i class="fa fa-plus"></i></button></td>  
+                    </tr> 
                 </table>  
             </div>
 
@@ -158,6 +161,9 @@
                     <tr><td width="100%"><input type="text" id="name" name="name[]" placeholder="ชื่อ-สกุล" class="form-control name_list" /></td></tr>
                     <tr>  
                         <td><textarea type="text" id="background"   name="background[]" placeholder="วุฒิการศึกษา" class="form-control name_list"></textarea></td>    
+                    </tr> 
+                    <tr>
+                        <td><textarea type="text" id="academic_position"   name="academic_position[]" placeholder="ตำแหน่งทางวิชาการ" class="form-control name_list"></textarea></td>    
                         <td><button type="button" name="add2" id="add2" class="btn btn-success"><i class="fa fa-plus"></i></button></td>  
                     </tr>  
                 </table>  
@@ -395,17 +401,18 @@ var url2 = "/getcoursedetail";
       $('#add').click(function(){  
            i++;  
 
-           $('#dynamic_field').append('<tr id="row2'+i+'"><td width="100%"><input type="text" id="name" name="name[]" placeholder="ชื่อ-สกุล" class="form-control name_list" /></td></tr><tr id="row'+i+'" class="dynamic-added"><td><textarea type="text"  id="editor" name="background[]" placeholder="วุฒิการศึกษา" class="form-control name_list"></textarea></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');  
+           $('#dynamic_field').append('<tr id="row2'+i+'"><td>'+(i+1)+'</td><td width="100%"><input type="text" id="name" name="name[]" placeholder="ชื่อ-สกุล" class="form-control name_list" /></td></tr><tr id="row'+i+'" class="dynamic-added"><td></td><td><textarea type="text"  id="editor" name="background[]" placeholder="วุฒิการศึกษา" class="form-control name_list"></textarea></td></tr><tr id="row3'+i+'" class="dynamic-added"><td></td><td><textarea type="text"  id="editor" name="academic_position[]" placeholder="ตำแหน่งทางวิชา" class="form-control name_list"></textarea></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');  
       });  
       $('#add2').click(function(){  
            x++;  
-           $('#dynamic_field3').append('<tr id="row2'+x+'"><td width="100%"><input type="text" id="name" name="name[]" placeholder="ชื่อ-สกุล" class="form-control name_list" /></td></tr><tr id="row'+x+'" class="dynamic-added"><td><textarea type="text"  id="editor" name="background[]" placeholder="วุฒิการศึกษา" class="form-control name_list"></textarea></td><td><button type="button" name="remove" id="'+x+'" class="btn btn-danger btn_remove">X</button></td></tr>');  
+           $('#dynamic_field3').append('<tr id="row2'+x+'"><td width="100%"><input type="text" id="name" name="name[]" placeholder="ชื่อ-สกุล" class="form-control name_list" /></td></tr><tr id="row'+x+'" class="dynamic-added"><td><textarea type="text"  id="editor" name="background[]" placeholder="วุฒิการศึกษา" class="form-control name_list"></textarea></td></tr><tr id="row3'+x+'" class="dynamic-added"><td><textarea type="text"  id="editor" name="academic_position[]" placeholder="ตำแหน่งทางวิชา" class="form-control name_list"></textarea></td><td><button type="button" name="remove" id="'+x+'" class="btn btn-danger btn_remove">X</button></td></tr>');  
       });
 
       $(document).on('click', '.btn_remove', function(){  
            var button_id = $(this).attr("id");   
            $('#row'+button_id+'').remove(); 
-           $('#row2'+button_id+'').remove();   
+           $('#row2'+button_id+'').remove(); 
+           $('#row3'+button_id+'').remove();    
       });
       $(document).on('click', '.btn_remove2', function(){  
            var button_id = $(this).attr("id"); 

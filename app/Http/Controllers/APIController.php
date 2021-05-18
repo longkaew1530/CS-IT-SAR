@@ -11,6 +11,10 @@ use Response;
 use Excel;
 use App\defaulindicator;
 use App\branch;
+use App\user_permission_status;
+use App\category4_teaching_quality;
+use App\training_information;
+use App\category4_course_results;
 use App\instructor;
 use App\course_detail;
 use App\Course;
@@ -195,8 +199,9 @@ class APIController extends Controller
          $course = course_detail::where('course_id',$id)->get();
          $li = '';   
         foreach ($course as $key=>$enrollment) {
-        $li .= '<tr id="row'.$key.'"><td width="110%"><input type="text" id="name1" name="name[]" placeholder="ชื่อ-สกุล" class="form-control name_list" value="'.$enrollment->name.'"/></td><td><button type="button" name="remove" id="'.$key.'" class="btn btn-danger ml-1 btn_remove2">X</button></td></tr>
-                <tr id="row2'.$key.'"><td><textarea type="text" id="background1"  name="background[]" placeholder="วุฒิการศึกษา" class="form-control name_list">'.$enrollment->background.'</textarea><br></td></tr>';
+        $li .= '<tr id="row'.$key.'"><td>'.($key+1).'. </td><td width="110%"><input type="text" id="name1" name="name[]" placeholder="ชื่อ-สกุล" class="form-control name_list" value="'.$enrollment->name.'"/></td><td><button type="button" name="remove" id="'.$key.'" class="btn btn-danger ml-1 btn_remove2">X</button></td></tr>
+                <tr id="row2'.$key.'"><td></td><td><textarea type="text" id="background1"  name="background[]" placeholder="วุฒิการศึกษา" class="form-control name_list">'.$enrollment->background.'</textarea><br></td></tr>
+                <tr id="row3'.$key.'"><td></td><td><textarea type="text" id="academic_position1"  name="academic_position[]" placeholder="ตำแหน่งทางวิชาการ" class="form-control name_list">'.$enrollment->academic_position.'</textarea><br></td></tr>';
         }
     
         return response()->json(['success'=> $li]);
@@ -268,6 +273,7 @@ class APIController extends Controller
             $insert[$key]['course_id'] = $request->course_id;
             $insert[$key]['name'] = $value;
             $insert[$key]['background'] = $getdata['background'][$key];
+            $insert[$key]['academic_position'] = $getdata['academic_position'][$key];
          }
          course_detail::insert($insert);
          return $insert;
@@ -287,6 +293,7 @@ class APIController extends Controller
             $insert[$key]['course_id'] = $request->course_id;
             $insert[$key]['name'] = $value;
             $insert[$key]['background'] = $getdata['background'][$key];
+            $insert[$key]['academic_position'] = $getdata['academic_position'][$key];
          }
          course_detail::insert($insert);
          return $insert;
@@ -799,7 +806,45 @@ class APIController extends Controller
           if($deleterolepermission!=null){
               $deleterolepermission->delete();
           }
-          
+          $getstatus=user_permission_status::where('year_id',session()->get('year_id'))
+          ->where('course_id',session()->get('usercourse'))
+          ->where('branch_id',session()->get('branch_id'))
+          ->get();
+          if($getstatus!="[]"){
+            $data3=user_permission_status::find($getstatus[0]['id']);
+          }
+          else{
+            $data3= new user_permission_status;
+          }
+
+          if(isset($data['cate1'])){
+            $data3->status1=1;
+          }
+          if(isset($data['cate2'])){
+            $data3->status2=1;
+          }
+          if(isset($data['cate3'])){
+            $data3->status3=1;
+          }
+          if(isset($data['cate4'])){
+            $data3->status4=1;
+          }
+          if(isset($data['cate5'])){
+            $data3->status5=1;
+          }
+          if(isset($data['cate6'])){
+            $data3->status6=1;
+          }
+          if(isset($data['cate7'])){
+            $data3->status7=1;
+          }
+          if(isset($data['cate8'])){
+            $data3->status8=1;
+          }
+          $data3->course_id=session()->get('usercourse');
+          $data3->branch_id=session()->get('branch_id');
+          $data3->year_id=session()->get('year_id');
+          $data3->save();
           if(isset($data['per'])){
           foreach($data['per'] as $value)
           {
@@ -847,9 +892,12 @@ class APIController extends Controller
           ->where('year_id',session()->get('year_id'))
           ->get();
           $userid=$id;
+          $getstatus=user_permission_status::where('course_id',session()->get('usercourse'))
+          ->where('branch_id',session()->get('branch_id'))
+          ->where('year_id',session()->get('year_id'))
+          ->get();
           
-          
-          return view('dashboard.showaddindicator',compact('permiss','role','userid'));
+          return view('dashboard.showaddindicator',compact('permiss','role','userid','getstatus'));
       }
             /////มอบหมายตัวบ่งชี้/////มอบหมายตัวบ่งชี้/////มอบหมายตัวบ่งชี้/////มอบหมายตัวบ่งชี้/////มอบหมายตัวบ่งชี้/////มอบหมายตัวบ่งชี้
 
@@ -1038,5 +1086,83 @@ class APIController extends Controller
       public function getDownload(){
 
         Excel::store(new InvoicesExport(2018), 'invoices.xlsx');
+     }
+     public function getcategory_id($id)
+      {
+        $getcate=indicator::where('category_id',$id)
+        ->where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+   
+        return $getcate;
+      }
+      public function getcateall()
+      {
+        $getcate2=indicator::where('branch_id',session()->get('branch_id'))
+        ->where('course_id',session()->get('usercourse'))
+        ->where('year_id',session()->get('year_id'))
+        ->get();
+   
+        return $getcate2;
+      }
+      public function getcateall2()
+      {
+        $getcate2=category4_course_results::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
+        ->where('year_id',session()->get('year_id'))
+        ->where('course_name','!=','รหัสชื่อวิชา')
+        ->get();
+   
+        return $getcate2;
+      }
+      public function gettraining_information($id)
+     {
+         $course = course_detail::where('course_id',$id)->get();
+         $li = '';   
+        foreach ($course as $key=>$enrollment) {
+        $li .= '<tr id="row'.$key.'"><td>'.($key+1).'. </td><td width="110%"><input type="text" id="name1" name="name[]" placeholder="ชื่อ-สกุล" class="form-control name_list" value="'.$enrollment->name.'"/></td><td><button type="button" name="remove" id="'.$key.'" class="btn btn-danger ml-1 btn_remove2">X</button></td></tr>
+                <tr id="row2'.$key.'"><td></td><td><textarea type="text" id="background1"  name="background[]" placeholder="วุฒิการศึกษา" class="form-control name_list">'.$enrollment->background.'</textarea><br></td></tr>
+                <tr id="row3'.$key.'"><td></td><td><textarea type="text" id="academic_position1"  name="academic_position[]" placeholder="ตำแหน่งทางวิชาการ" class="form-control name_list">'.$enrollment->academic_position.'</textarea><br></td></tr>';
+        }
+    
+        return response()->json(['success'=> $li]);
+     }
+     public function addtraining_information(Request $request)
+     {
+        $user=auth()->user();
+         $data['user_id']=$user->id;
+         $data['name_training']=$request->name_training;
+         $data['date_training']=$request->date_training;
+         $data['place_training']=$request->place_training;
+         $data['category_training']=$request->category_training;
+         $data['year_id']=session()->get('year_id');
+         training_information::insert($data);
+
+         return $data;
+     }
+     public function updatetraining_information(Request $request)
+     {
+        $getdata=$request->all();
+         $course_id=$request->input('course_id');
+         $data = training_information::find($course_id);
+         $data->course_name = $request->input('course_name');
+         $data->faculty_id = $request->input('faculty_id');
+         $data->course_code = $request->input('course_code');
+         $data->update_course = $request->input('update_course');
+         $data->place = $request->input('place');
+         $data->initials = $request->input('initials');
+         $data->save();
+
+     }
+     public function deletetraining_information($id)
+     {
+         $product = training_information::where('user_id',$id)
+         ->where('year_id',session()->get('year_id'))
+         ->where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'));
+
+         $product->delete();
+         return true;
      }
 }

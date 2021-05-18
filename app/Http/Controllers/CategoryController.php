@@ -231,7 +231,9 @@ class CategoryController extends Controller
          }
         //ดึงค่าตารางหลักสูตร
         $course = Course::where('course_id',session()->get('usercourse'))->get();
-        $course_detail = course_detail::where('course_id',session()->get('usercourse'))->get();
+        $course_detail = course_detail::where('course_id',session()->get('usercourse'))
+        ->orderBy('academic_position','desc')
+        ->get();
         $user=auth()->user();
         $user_branch=branch::where('id',$user->user_branch)->get();
         //ดึงค่าตารางอาจารย์ผู้รับผิดชอบหลักสูตร

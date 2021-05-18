@@ -18,15 +18,32 @@
     @csrf
     <table class="table table-bordered">
                 <tbody><tr>
-                  <th width="15%" rowspan="2" class="text-center">รหัส ชื่อวิชา</th>
-                  <th width="10%" rowspan="2" class="text-center">ภาคการศึกษา</th>
-                  <th width="10%" rowspan="2" class="text-center">ชั้นปีการศึกษา</th>
+                  <th width="15%" rowspan="3" class="text-center">รหัส ชื่อวิชา</th>
+                  <th width="10%" rowspan="3" class="text-center">ภาคการศึกษา</th>
+                  <th width="10%" rowspan="3" class="text-center">ชั้นปีการศึกษา</th>
                   <th width="15%"  colspan="2" class="text-center">ผลการประเมินโดยนักศึกษา</th>
-                  <th width="30%" rowspan="2" class="text-center">แผนการปรับปรุง</th>
+                  <th width="30%" rowspan="3" class="text-center">แผนการปรับปรุง</th>
                 </tr>
                 <tr>
                     <th class="text-center">มี</th>
                     <th class="text-center">ไม่มี</th>
+                </tr>
+                <tr>
+                    <th class="text-center">เลือกทั้งหมด<br>
+                    <div class="radio">
+                    <label>
+                      <input type="radio" id="ONE" onclick="calc()" >
+                    </label>
+                    </div>
+                    </th>
+                    <th class="text-center">เลือกทั้งหมด<br>
+                    <div class="radio">
+                    <label>
+                      <input type="radio" id="TWO"   onclick="calc2()" >
+                    </label>
+                    </div>
+                    </th>
+                    
                 </tr>
                 @foreach($data as $value)
                 <tr> 
@@ -43,13 +60,13 @@
                 <td class="text-center">
                   <div class="radio">
                     <label>
-                      <input type="radio" name="result{{$value['id']}}" id="result7" value="1" >
+                      <input type="radio" name="result{{$value['id']}}" id="ONE{{$value['id']}}" value="1" >
                     </label>
                   </div>
                 </td>
                 <td class="text-center"><div class="radio">
                     <label>
-                      <input type="radio" name="result{{$value['id']}}" id="result8" value="0" >   
+                      <input type="radio" name="result{{$value['id']}}" id="TWO{{$value['id']}}" value="0" >   
                     </label>
                   </div></td>
                 <td><textarea class="form-control" rows="3" placeholder="แผนการปรับปรุง" name="planupdate{{$value['id']}}"></textarea></td>
@@ -160,6 +177,38 @@ function myScript1() {
     document.getElementById("performance1").value = id.value;
     document.getElementById("performance3").value = id.value/id2.value;
     document.getElementById("score").value = id.value;
+}
+</script>
+<script>
+  function calc() {
+    $.ajax({  //create an ajax request to display.php
+          type: "GET",
+          url: "/getcateall2",       
+          success: function (data) {
+            for (index = 0; index < data.length; ++index) {
+              const cb = document.getElementById("ONE"+data[index].id);
+              document.getElementById("TWO").checked = false;
+                document.getElementById("ONE"+data[index].id).checked = true;
+            }
+ 
+          }
+        });
+}
+function calc2(id) {
+      
+  $.ajax({  //create an ajax request to display.php
+          type: "GET",
+          url: "/getcateall2",       
+          success: function (data) {
+            for (index = 0; index < data.length; ++index) {
+              const cb = document.getElementById("TWO"+data[index].id);
+              document.getElementById("ONE").checked = false;
+              
+                document.getElementById("TWO"+data[index].id).checked = true;
+            }
+ 
+          }
+        });
 }
 </script>
 @endsection

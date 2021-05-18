@@ -469,7 +469,11 @@ class ShowCategoryController extends Controller
             $checkedit="";
             $getbranch=branch::where('branch_id',session()->get('branch_id'))
              ->get();
-            return view('category3/showpdca',compact('getbranch','pdca','name','id','getcourse','getcategorypdca','inc','checkedit'));
+             $tran=User::rightjoin('course_responsible_teacher','users.id','=','course_responsible_teacher.user_id')
+            ->where('users.user_course',session()->get('usercourse'))
+            ->where('users.user_branch',session()->get('branch_id'))
+            ->get();
+            return view('category3/showpdca',compact('tran','getbranch','pdca','name','id','getcourse','getcategorypdca','inc','checkedit'));
         }
         if($id=="4.2"){
           

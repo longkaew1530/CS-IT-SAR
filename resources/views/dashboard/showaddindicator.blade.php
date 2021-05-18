@@ -12,8 +12,11 @@
               <form  class="bd" id="adddata" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data">
                @csrf
                <input type="hidden" class="form-control" id="id" name="id" value="{{$userid}}"/>
-                @foreach($role as $row )
-                <h4><p class="bginfo"><i class="{{$row['icon']}}"></i> {{$row['category_name']}}</p></h4>
+                @foreach($role as $key=>$row )
+                <?php
+                $getstatus1=$getstatus[0]['status'.($key+1)]
+                 ?>
+                <h4><p class="bginfo"><input type="checkbox" id="cate{{$row->category_id}}" name="cate{{$row->category_id}}"   onclick="calc('{{$row->category_id}}');" @if($getstatus1) checked @endif/> <i class="{{$row['icon']}}"></i> {{$row['category_name']}}</p></h4>
                 <div class="form-group ml-1">
                 @foreach($row->indicator2 as $value)
                     @if($permiss!=null)
@@ -25,7 +28,7 @@
                      @endif
                   <div class="checkbox">
                     <label>
-                      <input type="checkbox"   name="per[]" value="{{$value['id']}}" @if($checkrole) checked @endif> 
+                      <input type="checkbox" id="{{$value['id']}}"   name="per[]" onclick="calc2('{{$row->category_id}}');" value="{{$value['id']}}" @if($checkrole) checked @endif> 
                       <?php $checkrole=false; ?>      
                       <p class="bd">{{$value['Indicator_name']}} @if($value['Indicator_id']!="")(ตัวบ่งชี้ {{$value['Indicator_id']}})@endif</p>
                     </label>
@@ -85,7 +88,40 @@
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script type="text/javascript">
+  
   $(document).ready(function(e) {
+    $.ajax({  //create an ajax request to display.php
+          type: "GET",
+          url: "/getcateall",    
+          success: function(data){
+            var get1=0;
+            var get2=0;
+            var get3=0;
+            var get4=0;
+            var get5=0;
+            var get6=0;
+            var get7=0;
+            var get8=0;
+            var check=0;
+            var notcheck=0;
+            for (index = 0; index < data.length; ++index) {
+              const cb = document.getElementById(data[index].id);
+              if(cb.checked){
+                check++;
+              }
+              else{
+                notcheck++;
+              }         
+            }
+            console.log(check);
+            // if(check==data.length){
+            //   document.getElementById("cate"+id).checked = true;
+            // }
+            // if(notcheck==data.length){
+            //   document.getElementById("cate"+id).checked = false;
+            // }
+          }
+        });
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -132,8 +168,74 @@
       }
     });
     });
+    
   });
-  
+</script>
+<script>
+  function calc(id) {
+      
+      $.ajax({  //create an ajax request to display.php
+          type: "GET",
+          url: "/getcate/"+id,       
+          success: function (data) {
+            var check=0;
+            var notcheck=0;
+            for (index = 0; index < data.length; ++index) {
+              const cb = document.getElementById(data[index].id);
+              if(cb.checked){
+                check++;
+              }
+              else{
+                notcheck++;
+              }         
+            }
+            for (index = 0; index < data.length; ++index) {
+              const cb = document.getElementById(data[index].id);
+              const cb2 = document.getElementById("cate"+id);
+              if(!cb2.checked){
+                document.getElementById(data[index].id).checked = false;
+              }
+              else{
+                if(cb.checked&&check==data.length){
+                document.getElementById(data[index].id).checked = false;
+              }
+              else{
+                document.getElementById(data[index].id).checked = true;
+              }
+              }
+              
+              
+            }
+ 
+          }
+        });
+}
+function calc2(id) {
+      
+      $.ajax({  //create an ajax request to display.php
+          type: "GET",
+          url: "/getcate/"+id,       
+          success: function (data) {
+            var check=0;
+            var notcheck=0;
+            for (index = 0; index < data.length; ++index) {
+              const cb = document.getElementById(data[index].id);
+              if(cb.checked){
+                check++;
+              }
+              else{
+                notcheck++;
+              }         
+            }
+            if(check==data.length){
+              document.getElementById("cate"+id).checked = true;
+            }
+            if(notcheck==data.length){
+              document.getElementById("cate"+id).checked = false;
+            }
+          }
+        });
+}
 </script>
 <script>
   $(function () {

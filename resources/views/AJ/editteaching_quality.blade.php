@@ -16,15 +16,32 @@
     @csrf
     <table class="table table-bordered">
                 <tbody><tr>
-                  <th width="15%" rowspan="2" class="text-center">รหัส ชื่อวิชา</th>
-                  <th width="10%" rowspan="2" class="text-center">ภาคการศึกษา</th>
-                  <th width="10%" rowspan="2" class="text-center">ชั้นปีการศึกษา</th>
+                  <th width="15%" rowspan="3" class="text-center">รหัส ชื่อวิชา</th>
+                  <th width="10%" rowspan="3" class="text-center">ภาคการศึกษา</th>
+                  <th width="10%" rowspan="3" class="text-center">ชั้นปีการศึกษา</th>
                   <th width="15%"  colspan="2" class="text-center">ผลการประเมินโดยนักศึกษา</th>
-                  <th width="30%" rowspan="2" class="text-center">แผนการปรับปรุง</th>
+                  <th width="30%" rowspan="3" class="text-center">แผนการปรับปรุง</th>
                 </tr>
                 <tr>
                     <th class="text-center">มี</th>
                     <th class="text-center">ไม่มี</th>
+                </tr>
+                <tr>
+                    <th class="text-center">เลือกทั้งหมด<br>
+                    <div class="radio">
+                    <label>
+                      <input type="radio" id="ONE" onclick="calc()" >
+                    </label>
+                    </div>
+                    </th>
+                    <th class="text-center">เลือกทั้งหมด<br>
+                    <div class="radio">
+                    <label>
+                      <input type="radio" id="TWO"   onclick="calc2()" >
+                    </label>
+                    </div>
+                    </th>
+                    
                 </tr>
                 @foreach($data as $value)
                 <tr> 
@@ -50,13 +67,13 @@
                 ?>
                   <div class="radio">
                     <label>
-                      <input type="radio" name="result{{$value['stu_year_of_admission']}}" id="result7" value="1" @if($check1) checked @endif>
+                      <input type="radio" name="result{{$value['stu_year_of_admission']}}" id="ONE{{$value['stu_year_of_admission']}}" value="1" @if($check1) checked @endif>
                     </label>
                   </div>
                 </td>
                 <td class="text-center"><div class="radio">
                     <label>
-                      <input type="radio" name="result{{$value['stu_year_of_admission']}}" id="result8" value="0" @if($check2) checked @endif>   
+                      <input type="radio" name="result{{$value['stu_year_of_admission']}}" id="TWO{{$value['stu_year_of_admission']}}" value="0" @if($check2) checked @endif>   
                     </label>
                   </div></td>
                 <td><textarea class="form-control" rows="3" placeholder="แผนการปรับปรุง" name="planupdate{{$value['stu_year_of_admission']}}">{{$value['description']}}</textarea></td>
@@ -70,7 +87,7 @@
             <h3 class="box-title">ผลการประเมินคุณภาพการสอนโดยรวม</h3>
           </div>
             <div class="col-md-12 col-sm-9 col-xs-12">
-            <textarea class="form-control" rows="3" placeholder="ผลการประเมินคุณภาพการสอนโดยรวม" name="resultall">{{$value['result']}}</textarea>
+            <textarea class="form-control" rows="3" placeholder="ผลการประเมินคุณภาพการสอนโดยรวม" name="resultall">{{$data2[0]['result']}}</textarea>
             </div>
         </div>
       <div class="col-md-12">
@@ -101,6 +118,32 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script type="text/javascript">
   $(document).ready(function(e) {
+    $.ajax({  //create an ajax request to display.php
+          type: "GET",
+          url: "/getcateall2",       
+          success: function (data) {
+            check=0;
+            notcheck=0;
+            for (index = 0; index < data.length; ++index) {
+              const cb = document.getElementById("ONE"+data[index].id);
+              if(cb.checked){
+                check++;
+              }
+              else{
+                notcheck++;
+              }
+              if(check==data.length){
+                document.getElementById("ONE").checked = true;
+              }
+              if(notcheck==data.length){
+                document.getElementById("TWO").checked = true;
+              }
+              
+                
+            }
+ 
+          }
+        });
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -164,6 +207,38 @@ function myScript1() {
     document.getElementById("performance1").value = id.value;
     document.getElementById("performance3").value = id.value/id2.value;
     document.getElementById("score").value = id.value;
+}
+</script>
+<script>
+  function calc() {
+    $.ajax({  //create an ajax request to display.php
+          type: "GET",
+          url: "/getcateall2",       
+          success: function (data) {
+            for (index = 0; index < data.length; ++index) {
+              const cb = document.getElementById("ONE"+data[index].id);
+              document.getElementById("TWO").checked = false;
+                document.getElementById("ONE"+data[index].id).checked = true;
+            }
+ 
+          }
+        });
+}
+function calc2(id) {
+      
+  $.ajax({  //create an ajax request to display.php
+          type: "GET",
+          url: "/getcateall2",       
+          success: function (data) {
+            for (index = 0; index < data.length; ++index) {
+              const cb = document.getElementById("TWO"+data[index].id);
+              document.getElementById("ONE").checked = false;
+              
+                document.getElementById("TWO"+data[index].id).checked = true;
+            }
+ 
+          }
+        });
 }
 </script>
 @endsection

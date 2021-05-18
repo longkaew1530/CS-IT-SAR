@@ -10,6 +10,7 @@ use App\ModelAJ\past_performance;
 use App\ModelAJ\categoty_researh;
 use App\User;
 use App\PDCA;
+use App\user_permission_status;
 use App\category4_teaching_quality;
 use App\Year;
 use App\Course;
@@ -6976,7 +6977,13 @@ class APIAJController extends Controller
         ->where('branch_id',session()->get('branch_id'))
         ->where('year_id',session()->get('year_id'))
         ->get();
-         return view('AJ/editteaching_quality',compact('data'));
+        
+        $data2=category4_teaching_quality::where('course_id',session()->get('usercourse'))
+        ->where('branch_id',session()->get('branch_id'))
+        ->where('year_id',session()->get('year_id'))
+        ->where('result','!=',"")
+        ->get();
+         return view('AJ/editteaching_quality',compact('data','data2'));
      }
      function addteaching_quality(Request $request)
      {  $data=category4_course_results::where('course_id',session()->get('usercourse'))

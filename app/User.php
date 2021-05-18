@@ -35,7 +35,11 @@ class User extends Authenticatable
         ->where('indicator.branch_id',session()->get('branch_id'))
         ->where('indicator.year_id',session()->get('year_id'));
     }
-    
+    public function training_information()
+    {
+        return $this->hasMany('App\training_information','user_id','id')
+        ->where('year_id',session()->get('year_id'));
+    }
     /**
      * The attributes that should be hidden for arrays.
      *
