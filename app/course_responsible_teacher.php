@@ -10,4 +10,5 @@ class course_responsible_teacher extends Model
     protected $fillable=[
         'user_id','year_id','course_id','branch_id'
     ];
+    public $timestamps = false;
 }

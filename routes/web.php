@@ -40,6 +40,7 @@ Route::get('/historical_report', 'DashboardController@index23');
 /////อาจารย์
 Route::get('/educational_background', 'AJController@educational_background');
 Route::get('/research_results', 'AJController@research_results');
+Route::get('/publish_work', 'AJController@publish_work');
 Route::get('/training_information', 'AJController@training_information');
 Route::get('/addindicator1-1', 'AJController@addindicator1_1');
 Route::get('/addpastperformance', 'AJController@past_performance');
@@ -381,6 +382,10 @@ Route::post('/updateindicator1_1','APIAJController@updateindicator1_1');
 Route::get('/gettraining_information','APIController@gettraining_information');
 Route::post('/addtraining_information','APIController@addtraining_information');
 Route::post('/updatetraining_information','APIController@updatetraining_information');
+
+Route::post('/addcourse_responsible_teacherback','APIController@addcourse_responsible_teacherback');
+Route::post('/addcourseteacherback','APIController@addcourseteacherback');
+Route::post('/addinstructorback','APIController@addinstructorback');
 
 Route::get('/updatesessionyear/{id}','APIController@updatesessionyear');
 Route::get('/updatesessionyear2/{id}','APIController@updatesessionyear2');

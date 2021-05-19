@@ -85,6 +85,24 @@ class AJController extends Controller
 
         return view('AJ/training_information',compact('userall'));
     }
+    public function publish_work()
+    {
+        $user=auth()->user();
+        $userall=User::where('user_course',$user->user_course)
+        ->where('user_branch',session()->get('branch_id'))
+        ->where('user_group_id','!=',2)
+        ->where('user_group_id','!=',1)
+        ->get();
+        $researchresults=Research_results::rightjoin('research_results_user','research_results_user.research_results_research_results_id','=','research_results.research_results_id')
+        ->leftjoin('category_research_results','category_research_results.id','=','research_results.research_results_category')
+        ->where('research_results_user.user_id',$user->id)
+        ->get();
+        // $researchresults=Research_results::leftjoin('category_research_results','category_research_results.id','=','research_results.research_results_category')
+        // ->where('owner',$user->id)
+        // ->get();
+        $category=categoty_researh::all();
+        return view('AJ/publish_work',compact('researchresults','category','userall'));
+    }
     public function past_performance()
     {
         $user=auth()->user();

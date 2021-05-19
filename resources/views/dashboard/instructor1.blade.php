@@ -55,6 +55,7 @@
           <!-- /.modal-dialog -->
         </div>
             <button  class="btn btn-success ml-1" type="button"   data-toggle="modal" data-target="#modal-edit"><i class="fa fa-plus"></i> เพิ่มข้อมูล</button>
+            <button  class="btn btn-success ml-1" type="button"  onclick="calc()" ><i class="fa fa-save"></i> ดึงข้อมูลปีการศึกษาที่ผ่านมา</button>
             <!-- /.box-header -->
             <div class="box-body">
             <!-- /.box-header -->
@@ -278,5 +279,52 @@ var url = "/getcategory";
         }) 
 });
 });
+</script>
+<script>
+function calc() {
+
+        swal({
+      title: "ยืนยันการบันทึก?",
+      icon: "warning",
+      buttons: true,
+      successMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        $.ajax({
+        type: 'POST',
+        url: "/addinstructorback",
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        success: (data) => {
+          if(data){
+            swal({
+          title: "บันทึกข้อมูลเรียบร้อย",
+          text: "",
+          icon: "success",
+          button: "ตกลง",
+        }).then(function() {
+          window.location = "/addinstructor";
+        });
+          }
+        },
+        error: function(data) {
+          swal({
+          title: "ข้อมูลเป็นของปีการศึกษาปีก่อนหน้าแล้ว",
+          text: "",
+          icon: "error",
+          showConfirmButton: false,
+        });
+          alert(data.responseJSON.errors.files1[0]);
+          console.log(data.responseJSON.errors);
+        }
+      });
+      } else {
+        
+      }
+    });
+}
 </script>
 @endsection

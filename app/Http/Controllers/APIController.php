@@ -1165,4 +1165,55 @@ class APIController extends Controller
          $product->delete();
          return true;
      }
+     public function addcourse_responsible_teacherback(Request $request)
+     {
+         $check=course_responsible_teacher::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
+         ->where('year_id',(session()->get('year_id')-1))
+         ->get();
+        foreach($check as $value){
+            $data=new course_responsible_teacher;
+            $data->user_id=$value['user_id'];
+            $data->year_id=session()->get('year_id');
+            $data->course_id=$value['course_id'];
+            $data->branch_id=$value['branch_id'];
+            $data->save();
+        }
+
+         return $data;
+     }
+     public function addcourseteacherback(Request $request)
+     {
+         $check=course_teacher::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
+         ->where('year_id',(session()->get('year_id')-1))
+         ->get();
+        foreach($check as $value){
+            $data=new course_teacher;
+            $data->user_id=$value['user_id'];
+            $data->year_id=session()->get('year_id');
+            $data->course_id=$value['course_id'];
+            $data->branch_id=$value['branch_id'];
+            $data->save();
+        }
+
+         return $data;
+     }
+     public function addinstructorback(Request $request)
+     {
+         $check=instructor::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
+         ->where('year_id',(session()->get('year_id')-1))
+         ->get();
+        foreach($check as $value){
+            $data=new instructor;
+            $data->user_id=$value['user_id'];
+            $data->year_id=session()->get('year_id');
+            $data->course_id=$value['course_id'];
+            $data->branch_id=$value['branch_id'];
+            $data->save();
+        }
+
+         return $data;
+     }
 }
