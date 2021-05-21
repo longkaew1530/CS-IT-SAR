@@ -5,7 +5,8 @@
   <div class="box-header">
     <h2 class="box-title">ข้อมูลผลงานวิจัย</h2>
   </div>
-  <button class="btn btn-success ml-1" type="button" data-toggle="modal" data-target="#modal-info"><i class="fa fa-plus"></i> เพิ่มข้อมูล</button>
+  <a href="/showresearch_results" class="btn btn-success ml-1"><i class='fa fa-plus'></i> เพิ่มข้อมูล</a>
+  <!-- <button class="btn btn-success ml-1" type="button" data-toggle="modal" data-target="#modal-info"><i class="fa fa-plus"></i> เพิ่มข้อมูล</button> -->
   <div class="modal  fade" id="modal-info">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -17,6 +18,10 @@
               <form id="adddata" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data" >
                 @csrf
                 <div class="box-body">
+                <div class="form-group">
+                    <label for="exampleInputPassword1">ชื่อผลงานวิจัย</label>
+                    <input type="text" class="form-control" id="research_results_name" name="research_results_name" placeholder="ชื่อผลงานวิจัย">
+                  </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">ชื่อผู้วิจัย</label>
                     <input type="hidden" id="owner" name="owner"  value="{{ Auth::user()->id }}" >
@@ -44,15 +49,12 @@
                     </select>
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">ปีที่ทำวิจัย/ตีพิมพ์</label>
+                    <label for="exampleInputPassword1">ปีที่ทำวิจัย</label>
                     <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                   type = "number"
                   maxlength = "4" class="form-control" id="research_results_year" name="research_results_year" placeholder="ปีที่จัดทำ">
                   </div>
-                  <div class="form-group">
-                    <label for="exampleInputPassword1">ชื่อผลงาน</label>
-                    <input type="text" class="form-control" id="research_results_name" name="research_results_name" placeholder="ชื่อผลงาน">
-                  </div>
+                  
                   <div class="form-group">
                     <label for="exampleInputPassword1">รายละเอียด</label>
                     <textarea class="form-control" rows="3" placeholder="รายละเอียด" id="research_results_description" name="research_results_description"></textarea>
@@ -83,8 +85,10 @@
       <thead>
         <tr>
           <th width="5%">ที่</th>
-          <th width="30%">ผลงานวิจัย</th>
-          <th width="30%">ประเภทผลงานวิจัย</th>
+          <th width="25%">ชื่อผู้วิจัย</th>
+          <th width="25%">ชื่อผลงานวิจัย</th>
+          <th width="10%">ปีที่ทำวิจัย</th>
+          <th width="10%">งบประมาณ</th>
           <th width="5%">แก้ไข</th>
           <th width="5%">ลบ</th>
         </tr>
@@ -93,9 +97,13 @@
         @foreach($researchresults as $key=>$row)
         <tr>
           <td>{{$key+1}}</td>
-          <td>{{$row['teacher_name'].".(".$row['research_results_year'].")".$row['research_results_name'].". ".$row['research_results_description']}}</td>
-          <td>{{$row['name']}}</td>
-          <td class="text-center"><button class="btn btn-warning" type="button" data-toggle="modal" data-target="#modal-edit" data-id="{{$row['research_results_id']}}"><i class='fa fas fa-edit'></i></button></td>
+          <td>{{$row['teacher_name']}}</td>
+          <td>{{$row['research_results_name']}}</td>
+          <td>{{$row['research_results_year']}}</td>
+          <td>{{$row['research_results_salary']}}</td>	
+          <td class="text-center">
+          <a href="/editresearch_results" class="btn btn-warning"><i class='fa fas fa-edit'></i></a>
+          </button></td>
           <td class="text-center">
             <meta name="csrf-token" content="{{ csrf_token() }}">
             <button type="button" class="btn btn-danger deletedata" data-id="{{$row['research_results_id']}}"><i class='fa fa-trash'></i></button>

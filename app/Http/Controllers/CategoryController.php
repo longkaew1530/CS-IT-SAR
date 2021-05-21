@@ -10,6 +10,7 @@ use App\Menu;
 use App\Course;
 use App\indicator;
 use App\categoty_researh;
+use App\publish_work;
 use App\ModelAJ\Research_results;
 use App\Year;
 use App\Tps;
@@ -359,12 +360,12 @@ class CategoryController extends Controller
         // ->groupBy('research_results_id')
         // ->leftjoin('category_research_results','research_results.research_results_category','=','category_research_results.id')
         // ->get();
-        $category_re = Research_results::rightjoin('course_responsible_teacher','research_results.owner','=','course_responsible_teacher.user_id')
-        ->leftjoin('category_research_results','research_results.research_results_category','=','category_research_results.id')
+        $category_re = publish_work::rightjoin('course_responsible_teacher','publish_work.owner','=','course_responsible_teacher.user_id')
+        ->leftjoin('category_research_results','publish_work.category_publish_work','=','category_research_results.id')
         ->where('course_responsible_teacher.year_id',session()->get('year_id'))
         ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
         ->where('course_responsible_teacher.branch_id',session()->get('branch_id'))
-        ->where('research_results.research_results_year',session()->get('year'))
+        ->where('publish_work.publish_work_year',session()->get('year'))
         ->get();
     //    dd($category_re);
         //ดึงค่าตารางอาจารย์ผู้รับผิดชอบหลักสูตร
@@ -408,7 +409,7 @@ class CategoryController extends Controller
         }
         $countcate=0;
         foreach($category_re as $value){
-            if($value['research_results_year']==session()->get('year')){
+            if($value['publish_work_year']==session()->get('year')){
                 $countcate=$countcate+$value['score'];
             }
             

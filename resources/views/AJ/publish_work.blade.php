@@ -3,7 +3,7 @@
 @section('content')
 <div class="box box-warning marginl ">
   <div class="box-header">
-    <h2 class="box-title">ข้อมูลเผยพร่ผลงานทางวิชาการ</h2>
+    <h2 class="box-title">ข้อมูลเผยแพร่ผลงานทางวิชาการ</h2>
   </div>
   <button class="btn btn-success ml-1" type="button" data-toggle="modal" data-target="#modal-info"><i class="fa fa-plus"></i> เพิ่มข้อมูล</button>
   <div class="modal  fade" id="modal-info">
@@ -17,53 +17,112 @@
               <form id="adddata" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data" >
                 @csrf
                 <div class="box-body ">
-                
+                <input type="hidden" id="owner" name="owner" >
+                <input type="hidden" id="checkinfo" name="checkinfo" >
+                <div class="form-group">
+                <input type="radio" id="cate1" name="cate" value="0" onclick="myFunction()" checked/>
+                    <label for="exampleInputPassword1">ตีพิมพ์ในวารสาร</label>
+                    <input type="radio" id="cate2" name="cate" value="1" onclick="myFunction2()"/>
+                    <label for="exampleInputPassword1">นำเสนอผลงาน</label>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">ผลงานวิจัย</label>
+                    <select class="form-control" id="research_results_name" class="form-control @error('role') is-invalid @enderror" 
+                    name="research_results_name" onchange="myFunction3()">
+                      @foreach($researchresults2 as $value)
+                      <option value="{{$value['research_results_id']}}">{{$value['research_results_name']}}</option>
+                      @endforeach
+                    </select>
+                  </div>
                   <div id="myDIV">
                   <div class="form-group">
-                <label>ชื่อบทความ</label>
-                <select class="form-control" id="teacher_name" name="teacher_name[]" multiple="multiple" 
+                    <label for="exampleInputPassword1">ชื่อบทความ</label>
+                    <input type="text" class="form-control" id="publish_work_name" name="publish_work_name" placeholder="ชื่อบทความ">
+                  </div>
+                  <div class="form-group">
+                <label>ชื่อเจ้าของผลงาน</label>
+                <select class="form-control select1" id="teacher_name" name="teacher_name[]" multiple="multiple" 
+                        style="width: 100%;">
+                        @foreach($userall as $value)
+                      <option value="{{$value['id']}}">{{$value['user_fullname']}}</option>
+                        @endforeach
+                </select disabled>
+              </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">ชื่อวารสาร</label>
+                    <input type = "text" class="form-control" id="journal_name" name="journal_name" placeholder="ชื่อวารสาร">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">ปีที่</label>
+                    <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                  type = "number"
+                  maxlength = "4" class="form-control" id="publish_work_year" name="publish_work_year" placeholder="ปีที่">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">ฉบับที่</label>
+                    <input type = "text" class="form-control" id="publish_work_issue" name="publish_work_issue" placeholder="ฉบับที่">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">หน้า</label>
+                    <input type="text" class="form-control" id="publish_work_page" name="publish_work_page" placeholder="หน้า">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">ประเภทการเผยแพร่</label>
+                    <select class="form-control" id="category_publish_work" class="form-control @error('role') is-invalid @enderror" name="category_publish_work">
+                      @foreach($category as $value)
+                      <option value="{{$value['id']}}">{{$value['name']}}</option>
+                      @endforeach
+                    </select>
+                  </div>
+                  </div>
+
+
+                  <div id="myDIV2">
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">ชื่อผลงาน</label>
+                    <input type = "text" class="form-control" id="publish_work_name2" name="publish_work_name2" placeholder="ชื่อผลงาน">
+                  </div>
+                  <div class="form-group">
+                <label>ชื่อเจ้าของผลงาน</label>
+                <select class="form-control " id="select3" name="teacher_name2[]" multiple="multiple" 
                         style="width: 100%;">
                         @foreach($userall as $value)
                       <option value="{{$value['id']}}">{{$value['user_fullname']}}</option>
                         @endforeach
                 </select>
               </div>
-              </div>
-              <div class="form-group">
-                    <label for="exampleInputPassword1">ชื่อเจ้าของผลงาน</label>
-                    <textarea class="form-control" rows="3" placeholder="ชื่อผู้ทำวิจัยทั้งหมด" id="listname" name="listname"></textarea>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">ชื่อการประชุม</label>
+                    <input type = "text" class="form-control" id="journal_name2" name="journal_name2" placeholder="ชื่องาน">
                   </div>
                   <div class="form-group">
-                <input type="radio" id="cate" name="cate" onclick="myFunction()"/>
-                    <label for="exampleInputPassword1">ตีพิมพ์ในวารสาร</label>
-                    <input type="radio" id="cate" name="cate"/>
-                    <label for="exampleInputPassword1">นำเสนอผลงาน</label>
+                    <label for="exampleInputPassword1">วันที่</label>
+                    <input type = "text" class="form-control" id="publish_work_date2" name="publish_work_date2" placeholder="วันที่">
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">ประเภทผลงานวิจัย</label>
-                    <select class="form-control" id="research_results_category" class="form-control @error('role') is-invalid @enderror" name="research_results_category">
+                    <label for="exampleInputPassword1">หน้า</label>
+                    <input type = "text" class="form-control" id="publish_work_page2" name="publish_work_page2" placeholder="หน้า">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">สถานที่จัด</label>
+                    <input type="text" class="form-control" id="publish_work_place2" name="publish_work_place2" placeholder="สถานที่จัด">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">จังหวัด</label>
+                    <input type="text" class="form-control" id="province" name="province" placeholder="จังหวัด">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">ประเทศ</label>
+                    <input type="text" class="form-control" id="country" name="country" placeholder="ประเทศ">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">ประเภทการเผยแพร่</label>
+                    <select class="form-control" id="category_publish_work2" class="form-control @error('role') is-invalid @enderror" name="category_publish_work2">
                       @foreach($category as $value)
                       <option value="{{$value['id']}}">{{$value['name']}}</option>
                       @endforeach
                     </select>
                   </div>
-                  <div class="form-group">
-                    <label for="exampleInputPassword1">ปีที่ทำวิจัย/ตีพิมพ์</label>
-                    <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-                  type = "number"
-                  maxlength = "4" class="form-control" id="research_results_year" name="research_results_year" placeholder="ปีที่จัดทำ">
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputPassword1">ชื่อผลงาน</label>
-                    <input type="text" class="form-control" id="research_results_name" name="research_results_name" placeholder="ชื่อผลงาน">
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputPassword1">รายละเอียด</label>
-                    <textarea class="form-control" rows="3" placeholder="รายละเอียด" id="research_results_description" name="research_results_description"></textarea>
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputPassword1">งบประมาณ</label>
-                    <input type="number" class="form-control" id="research_results_salary" name="research_results_salary" placeholder="งบประมาณ">
                   </div>
                 </div>
 
@@ -87,8 +146,8 @@
       <thead>
         <tr>
           <th width="5%">ที่</th>
-          <th width="30%">ผลงานวิจัย</th>
-          <th width="30%">ประเภทผลงานวิจัย</th>
+          <th width="30%">ผลงานที่เผยแพร่</th>
+          <th width="30%">ประเภทการเผยแพร่</th>
           <th width="5%">แก้ไข</th>
           <th width="5%">ลบ</th>
         </tr>
@@ -96,13 +155,30 @@
       <tbody>
         @foreach($researchresults as $key=>$row)
         <tr>
+        <?php 
+              $y=0;
+              if($row['publish_work_year']<=2500){
+                  $y=543;
+              }
+            ?>
           <td>{{$key+1}}</td>
-          <td>{{$row['teacher_name'].".(".$row['research_results_year'].")".$row['research_results_name'].". ".$row['research_results_description']}}</td>
+          @if($row['category']==1)
+            
+          <td>{{$row['teacher_name'].".(".($row['publish_work_year']+$y).") ".$row['publish_work_name'].". ".$row['journal_name']." ".$row['publish_work_issue']." (".$row['publish_work_year'].") ".$row['publish_work_page']}}</td>
+          @else
+          <?php
+            $get_date=explode(" ",$row['publish_work_date']);          
+          ?>
+          @if($row['publish_work_date']!=1)
+          <td>{{$row['teacher_name'].".(".($row['publish_work_year']+$y).") ".$row['publish_work_name']." ".$row['journal_name'].". ".$row['publish_work_date']." ".$row['publish_work_place'].", ".$row['province'].". ".$row['country']." ".$row['publish_work_page']."."}}</td>
+          @else
+          <td>{{$row['teacher_name'].".(".($row['publish_work_year']+$y).") ".$row['publish_work_name']." ".$row['journal_name'].". ".$row['province'].". ".$row['country']." ".$row['publish_work_page']."."}}</td>
+          @endif
+          @endif
           <td>{{$row['name']}}</td>
-          <td class="text-center"><button class="btn btn-warning" type="button" data-toggle="modal" data-target="#modal-edit" data-id="{{$row['research_results_id']}}"><i class='fa fas fa-edit'></i></button></td>
+          <td class="text-center"><button class="btn btn-warning" type="button" data-toggle="modal" data-target="#modal-edit" data-id="{{$row['publish_id']}}"><i class='fa fas fa-edit'></i></button></td>
           <td class="text-center">
-            <meta name="csrf-token" content="{{ csrf_token() }}">
-            <button type="button" class="btn btn-danger deletedata" data-id="{{$row['research_results_id']}}"><i class='fa fa-trash'></i></button>
+          <button type="button" class="btn btn-danger deletedata" data-id="{{$row['publish_id']}}"><i class='fa fa-trash'></i></button>
           </td>
         </tr>
         
@@ -117,52 +193,82 @@
               </div>
               <form id="updatedata" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data" >
                 @csrf
+                   <input type="hidden" class="form-control" id="id3" name="id" >
+                    <input type="hidden" class="form-control" id="getcategory3" name="category" >
                 <div class="box-body">
-                    <input type="hidden" class="form-control" id="id" name="id" >
+                    <div id="myDIV3">
                   <div class="form-group">
-                    <label for="exampleInputPassword1">ชื่อผู้วิจัย</label>
-                    <input type="hidden" id="owner1" name="owner"   value="{{ Auth::user()->id }}">
-                    <input type="text" id="ownername"  class="form-control" value="{{ Auth::user()->user_fullname }}"   disabled>
+                    <label for="exampleInputPassword1">ชื่อบทความ</label>
+                    <input type="text" class="form-control" id="publish_work_name3" name="publish_work_name" placeholder="ชื่อบทความ">
                   </div>
-                  
+
                   <div class="form-group">
-                <label>ชื่อผู้ร่วมวิจัย</label>
-                <select class="form-control select2" id="select" name="teacher_name[]" multiple="multiple" data-placeholder="เลือกผู้ร่วมวิจัย"
-                        style="width: 100%;">
-                        @foreach($userall as $value)
-                      <option value="{{$value['id']}}">{{$value['user_fullname']}}</option>
-                      @endforeach
-                </select>
-              </div>
-              <div class="form-group">
-                    <label for="exampleInputPassword1">ชื่อผู้ทำวิจัยทั้งหมด</label>
-                    <textarea class="form-control" rows="3" placeholder="ชื่อผู้ทำวิจัยทั้งหมด" id="listname1" name="listname"></textarea>
+                    <label for="exampleInputPassword1">ชื่อวารสาร</label>
+                    <input type = "text" class="form-control" id="journal_name3" name="journal_name" placeholder="ชื่อวารสาร">
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">ประเภทผลงานวิจัย</label>
-                    <select class="form-control" id="research_results_category1" class="form-control @error('role') is-invalid @enderror" name="research_results_category">
+                    <label for="exampleInputPassword1">ปีที่</label>
+                    <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                  type = "number"
+                  maxlength = "4" class="form-control" id="publish_work_year3" name="publish_work_year" placeholder="ปีที่">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">ฉบับที่</label>
+                    <input type = "text" class="form-control" id="publish_work_issue3" name="publish_work_issue" placeholder="ฉบับที่">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">หน้า</label>
+                    <input type="text" class="form-control" id="publish_work_page3" name="publish_work_page" placeholder="หน้า">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">ประเภทการเผยแพร่</label>
+                    <select class="form-control" id="category_publish_work3" class="form-control @error('role') is-invalid @enderror" name="category_publish_work">
                       @foreach($category as $value)
                       <option value="{{$value['id']}}">{{$value['name']}}</option>
                       @endforeach
                     </select>
                   </div>
-                  <div class="form-group">
-                    <label for="exampleInputPassword1">ปีที่ทำวิจัย/ตีพิมพ์</label>
-                    <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-                  type = "number"
-                  maxlength = "4" class="form-control" id="research_results_year1" name="research_results_year" placeholder="ปีที่จัดทำ">
                   </div>
+
+
+                  <div id="myDIV4">
                   <div class="form-group">
                     <label for="exampleInputPassword1">ชื่อผลงาน</label>
-                    <input type="text" class="form-control" id="research_results_name1" name="research_results_name" placeholder="ชื่อผลงาน">
+                    <input type = "text" class="form-control" id="publish_work_name4" name="publish_work_name3" placeholder="ชื่อผลงาน">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">ชื่อการประชุม</label>
+                    <input type = "text" class="form-control" id="journal_name4" name="journal_name3" placeholder="ชื่องาน">
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">รายละเอียด</label>
-                    <textarea class="form-control" rows="3" placeholder="รายละเอียด" id="research_results_description1" name="research_results_description"></textarea>
+                    <label for="exampleInputPassword1">วันที่</label>
+                    <input type = "text" class="form-control" id="publish_work_date4" name="publish_work_date3" placeholder="วันที่">
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">งบประมาณ</label>
-                    <input type="number" class="form-control" id="research_results_salary1" name="research_results_salary" placeholder="งบประมาณ">
+                    <label for="exampleInputPassword1">หน้า</label>
+                    <input type = "text" class="form-control" id="publish_work_page4" name="publish_work_page3" placeholder="หน้า">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">สถานที่จัด</label>
+                    <input type="text" class="form-control" id="publish_work_place4" name="publish_work_place3" placeholder="สถานที่จัด">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">จังหวัด</label>
+                    <input type="text" class="form-control" id="province4" name="province3" placeholder="จังหวัด">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">ประเทศ</label>
+                    <input type="text" class="form-control" id="country4" name="country3" placeholder="ประเทศ">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">ประเภทการเผยแพร่</label>
+                    <select class="form-control" id="category_publish_work4" class="form-control @error('role') is-invalid @enderror" name="category_publish_work3">
+                      @foreach($category as $value)
+                      <option value="{{$value['id']}}">{{$value['name']}}</option>
+                      @endforeach
+                    </select>
+                  </div>
                   </div>
                 </div>
                 <div class="modal-footer">
@@ -234,6 +340,9 @@
 #myDIV{
     display:block;
 }
+#myDIV2{
+    display:none;
+}
 </style>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -244,9 +353,11 @@
       lengthMenu: [8, 20, 50, 100]
     })
   });
+ 
 </script>
 
 <script type="text/javascript">
+
 // function doAction(el) {
 
 // for (var i = 0; i < document.getElementById('owner1').length; i++) {
@@ -284,6 +395,12 @@
 </script>
 <script>
   $(document).ready(function() {
+    $('#select3').select2({
+        
+      })
+      $('.select1').select2({
+        
+      })
     $selectElement = $('#teacher_name').select2({
       allowClear: true,
     placeholder: {
@@ -291,7 +408,7 @@
         placeholder: "Select an Title"
     }
   });
-      
+  document.getElementById("research_results_name").selectedIndex = "-1";
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -300,42 +417,42 @@
     $('#adddata').submit(function(e) {
       e.preventDefault();
       var formData = new FormData(this);
-      var owner = document.getElementById("owner").value;
-      var research_results_year = document.getElementById("research_results_year").value;
-      var research_results_name = document.getElementById("research_results_name").value;
-      var research_results_salary = document.getElementById("research_results_salary").value;
-      var teacher_name = $('#teacher_name').val();
+      // var owner = document.getElementById("owner").value;
+      // var research_results_year = document.getElementById("research_results_year").value;
+      // var research_results_name = document.getElementById("research_results_name").value;
+      // var research_results_salary = document.getElementById("research_results_salary").value;
+      // var teacher_name = $('#teacher_name').val();
       
-      var checkdup="aaaaa";
-            for (index = 0; index < teacher_name.length; ++index) {
-              if(teacher_name[index]==owner){
-                checkdup="";
-              }
-            }
-      var gettname="";
-            for (index = 0; index < teacher_name.length; ++index) {
-              if(teacher_name[index]!=""){
-                gettname="aaaa";
-             }
-            }
-            console.log(research_results_salary);
-      if(checkdup==""){
-         swal({
-          title: "ชื่อผู้วิจัยไม่สามารถซ้ำกับชื่อผู้ร่วมวิจัยได้",
-          text: "",
-          icon: "warning",
-          showConfirmButton: false,
-        });
-      }
-      else if(owner==""||research_results_year==""||research_results_name==""||research_results_salary==""){
-        swal({
-          title: "กรุณาป้อนข้อมูลให้ครบ",
-          text: "",
-          icon: "warning",
-          showConfirmButton: false,
-        });
-      }
-      else{
+      // var checkdup="aaaaa";
+      //       for (index = 0; index < teacher_name.length; ++index) {
+      //         if(teacher_name[index]==owner){
+      //           checkdup="";
+      //         }
+      //       }
+      // var gettname="";
+      //       for (index = 0; index < teacher_name.length; ++index) {
+      //         if(teacher_name[index]!=""){
+      //           gettname="aaaa";
+      //        }
+      //       }
+      //       console.log(research_results_salary);
+      // if(checkdup==""){
+      //    swal({
+      //     title: "ชื่อผู้วิจัยไม่สามารถซ้ำกับชื่อผู้ร่วมวิจัยได้",
+      //     text: "",
+      //     icon: "warning",
+      //     showConfirmButton: false,
+      //   });
+      // }
+      // else if(owner==""||research_results_year==""||research_results_name==""||research_results_salary==""){
+      //   swal({
+      //     title: "กรุณาป้อนข้อมูลให้ครบ",
+      //     text: "",
+      //     icon: "warning",
+      //     showConfirmButton: false,
+      //   });
+      // }
+      // else{
       swal({
       title: "ยืนยันการบันทึก?",
       icon: "warning",
@@ -346,7 +463,7 @@
       if (willDelete) {
         $.ajax({
         type: 'POST',
-        url: "/addresearch_results",
+        url: "/addpublish_work",
         data: formData,
         cache: false,
         contentType: false,
@@ -360,7 +477,7 @@
           icon: "success",
           button: "ตกลง",
         }).then(function() {
-          window.location = "/research_results";
+          window.location = "/publish_work";
         });
           }
         },
@@ -374,45 +491,11 @@
         
       }
     });
-  }
+  
     });
     $('#updatedata').submit(function(e) {
       e.preventDefault();
       var formData = new FormData(this);
-      var owner = document.getElementById("owner1").value;
-      var research_results_year = document.getElementById("research_results_year1").value;
-      var research_results_name = document.getElementById("research_results_name1").value;
-      var research_results_salary = document.getElementById("research_results_salary1").value;
-      var teacher_name = $('#select').val();
-      var checkdup="aaaaa";
-            for (index = 0; index < teacher_name.length; ++index) {
-              if(teacher_name[index]==owner){
-                checkdup="";
-              }
-            }
-      var gettname="";
-            for (index = 0; index < teacher_name.length; ++index) {
-              if(teacher_name[index]!=""){
-                gettname="aaaa";
-             }
-            }
-      if(checkdup==""){
-         swal({
-          title: "ชื่อผู้วิจัยไม่สามารถซ้ำกับชื่อผู้ร่วมวิจัยได้",
-          text: "",
-          icon: "warning",
-          showConfirmButton: false,
-        });
-      }
-      else if(owner==""||research_results_year==""||research_results_name==""||research_results_salary==""){
-        swal({
-          title: "กรุณาป้อนข้อมูลให้ครบ",
-          text: "",
-          icon: "warning",
-          showConfirmButton: false,
-        });
-      }
-      else{
       swal({
       title: "ยืนยันการบันทึก?",
       icon: "warning",
@@ -423,7 +506,7 @@
       if (willDelete) {
         $.ajax({
         type: 'POST',
-        url: "/updateresearch_results",
+        url: "/updatepublish_work",
         data: formData,
         cache: false,
         contentType: false,
@@ -437,7 +520,7 @@
           icon: "success",
           button: "ตกลง",
         }).then(function() {
-          window.location = "/research_results";
+          window.location = "/publish_work";
         });
           }
         },
@@ -451,7 +534,7 @@
         
       }
     });
-  }
+
     });
 
     $('#modal-edit').on('show.bs.modal', function(event) {
@@ -460,26 +543,38 @@
       var modal = $(this);
       var studentSelect = $('#select');
       modal.find('#emp_id').val(id);
-      var url = "/getresearch_results";
+      var url = "/getpublish_work";
       $.get(url + '/' + id, function(data) {
         //success data
-        $("#id").val(data[0].research_results_id);
-        // $("#owner1").val(data[0].owner);
-        // $("#ownername").val(data[0].user_fullname);
-        var get=[];
-        for (index = 0; index < data.length; ++index) {
-                if(data[index].user_id!=data[0].owner){
-                  get[index]=data[index].user_id;
-                } 
+        
+        $("#id3").val(data[0].publish_id);
+          $("#getcategory3").val(data[0].category);
+        if(data[0].category==1){
+          var x = document.getElementById("myDIV3");
+          x.style.display = "block";
+          var n = document.getElementById("myDIV4");
+          n.style.display = "none";
+        $("#publish_work_name3").val(data[0].publish_work_name);
+        $("#journal_name3").val(data[0].journal_name);
+        $("#publish_work_year3").val(data[0].publish_work_year);
+        $("#publish_work_issue3").val(data[0].publish_work_issue);
+        $("#publish_work_page3").val(data[0].publish_work_page);
+        $("#category_publish_work3").val(data[0].category_publish_work);
         }
-        $("#select").val(get);
-        $("#listname1").val(data[0].teacher_name);
-        $("#research_results_year1").val(data[0].research_results_year);
-        $("#research_results_year1").val(data[0].research_results_year);
-        $("#research_results_category1").val(data[0].research_results_category);
-        $("#research_results_name1").val(data[0].research_results_name);
-        $("#research_results_description1").val(data[0].research_results_description);
-        $("#research_results_salary1").val(data[0].research_results_salary);
+        else{
+          var x = document.getElementById("myDIV3");
+          x.style.display = "none";
+          var n = document.getElementById("myDIV4");
+          n.style.display = "block";
+        $("#publish_work_name4").val(data[0].publish_work_name);
+        $("#journal_name4").val(data[0].journal_name);
+        $("#publish_work_date4").val(data[0].publish_work_year);
+        $("#publish_work_page4").val(data[0].publish_work_page);
+        $("#publish_work_place4").val(data[0].publish_work_place);
+        $("#province4").val(data[0].province);
+        $("#country4").val(data[0].country);
+        $("#category_publish_work4").val(data[0].category_publish_work);
+        }
         
 
         $('#select').select2({
@@ -500,7 +595,7 @@
   $(".deletedata").click(function() {
     var id = $(this).data("id");
     var token = $("meta[name='csrf-token']").attr("content");
-
+    console.log(id);
     swal({
       title: "ยืนยันการลบข้อมูล?",
       icon: "warning",
@@ -510,7 +605,7 @@
     .then((willDelete) => {
       if (willDelete) {
         $.ajax({
-      url: "/deleteresearch_results/" + id,
+      url: "/deletepublish_work/" + id,
       type: 'post',
       data: {
         "id": id,
@@ -523,7 +618,7 @@
           icon: "success",
           button: "ตกลง",
         }).then(function() {
-          window.location = "/research_results";
+          window.location = "/publish_work";
         });
       }
     });
@@ -537,11 +632,50 @@
 <script>
 function myFunction() {
   var x = document.getElementById("myDIV");
-  if (x.style.display === "none") {
     x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
+    var n = document.getElementById("myDIV2");
+    n.style.display = "none";
+
+}
+function myFunction2() {
+  var x = document.getElementById("myDIV2");
+    x.style.display = "block";
+    var n = document.getElementById("myDIV");
+    n.style.display = "none";
+
+}
+function myFunction3() {
+  var e = document.getElementById("research_results_name");
+  var id = e.value;
+  var radios = document.getElementById('cate1');
+  
+  $.ajax({  //create an ajax request to display.php
+          type: "GET",
+          url: "/getresu/"+id,       
+          success: function (data) {
+            var get=[];
+            for (index = 0; index < data.length; ++index) {
+                      get[index]=data[index].user_id;
+            }
+            $("#owner").val(data[0].owner);
+            if(radios.checked){
+            $("#checkinfo").val(1);
+            $(".select1").empty();
+            for (index = 0; index < data.length; ++index) {
+            var newOption = new Option(data[index].user_fullname, data[index].user_id, true, true);
+            $('.select1').append(newOption).trigger('change');
+            }
+            }
+            else{
+              $("#checkinfo").val(0);
+              $("#select3").empty();
+            for (index = 0; index < data.length; ++index) {
+            var newOption = new Option(data[index].user_fullname, data[index].user_id, true, true);
+            $('#select3').append(newOption).trigger('change');
+            }
+            }
+          }
+        });
 }
 </script>
 @endsection

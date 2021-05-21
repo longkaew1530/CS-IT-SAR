@@ -9,6 +9,8 @@ use App\ModelAJ\Research_results_user;
 use App\ModelAJ\past_performance;
 use App\ModelAJ\categoty_researh;
 use App\User;
+use App\publish_work;
+use App\publish_work_user;
 use App\PDCA;
 use App\user_permission_status;
 use App\category4_teaching_quality;
@@ -120,23 +122,23 @@ class APIAJController extends Controller
         }
         $getname=User::where('id',$request->owner)
         ->get();
-        // $text=$getname[0]['user_fullname'];
-        // $i=1;
-        // if(isset($getdata['teacher_name'])){
-        // foreach($getdata['teacher_name'] as $row){
-        //     $query=User::find($row);
-        //     if($i!=$countgetname){
-        //         $text=$text.", ".$query->user_fullname;
-        //     }
-        //     else{
-        //         $text=$text." และ".$query->user_fullname;
-        //     }
-        //     $i++;
-        // }
-    // }
+        $text=$getname[0]['user_fullname'];
+        $i=1;
+        if(isset($getdata['teacher_name'])){
+        foreach($getdata['teacher_name'] as $row){
+            $query=User::find($row);
+            if($i!=$countgetname){
+                $text=$text.", ".$query->user_fullname;
+            }
+            else{
+                $text=$text." และ".$query->user_fullname;
+            }
+            $i++;
+        }
+    }
         $data=new Research_results;
         $data->owner=$request->owner;
-        $data->teacher_name=$request->listname;
+        $data->teacher_name=$text;
         $data->research_results_category=$request->research_results_category;
         $data->research_results_year=$request->research_results_year;
         $data->research_results_name=$request->research_results_name;
@@ -167,20 +169,20 @@ class APIAJController extends Controller
         }
         $getname=User::where('id',$request->owner)
         ->get();
-        // $text=$getname[0]['user_fullname'];
-        // $i=1;
-        // if(isset($getdata['teacher_name'])){
-        // foreach($getdata['teacher_name'] as $row){
-        //     $query=User::find($row);
-        //     if($i!=$countgetname){
-        //         $text=$text.", ".$query->user_fullname;
-        //     }
-        //     else{
-        //         $text=$text." และ".$query->user_fullname;
-        //     }
-        //     $i++;
-        // }
-        // }
+        $text=$getname[0]['user_fullname'];
+        $i=1;
+        if(isset($getdata['teacher_name'])){
+        foreach($getdata['teacher_name'] as $row){
+            $query=User::find($row);
+            if($i!=$countgetname){
+                $text=$text.", ".$query->user_fullname;
+            }
+            else{
+                $text=$text." และ".$query->user_fullname;
+            }
+            $i++;
+        }
+        }
         $data=Research_results::find($request->id);
         $data->owner=$request->owner;
         $data->teacher_name=$request->listname;
@@ -218,6 +220,158 @@ class APIAJController extends Controller
         return $product1;
     }
     /////ผลงานวิจัย/////ผลงานวิจัย/////ผลงานวิจัย/////ผลงานวิจัย/////ผลงานวิจัย/////ผลงานวิจัย
+
+    /////เผยแพร่ผลงาน/////เผยแพร่ผลงาน/////เผยแพร่ผลงาน/////เผยแพร่ผลงาน/////เผยแพร่ผลงาน/////เผยแพร่ผลงาน
+    public function getpublish_work($id)
+    {
+        $data = publish_work::join('publish_work_user','publish_work.publish_id','=','publish_work_user.publish_work_publish_id')
+        ->join('users','publish_work_user.user_id','=','users.id')
+        ->where('publish_work_user.publish_work_publish_id',$id)
+        ->get();
+        return $data;
+    }
+    public function addpublish_work(Request $request)
+    {
+        $getdata=$request->all();
+        if(isset($getdata['teacher_name'])){
+            $countgetname=count($getdata['teacher_name']);
+        }
+        $getname=User::where('id',$request->owner)
+        ->get();
+        $text=$getname[0]['user_fullname'];
+        $i=1;
+        if(isset($getdata['teacher_name'])){
+        foreach($getdata['teacher_name'] as $row){
+            $query=User::find($row);
+            if($i!=$countgetname){
+                $text=$text.", ".$query->user_fullname;
+            }
+            else{
+                $text=$text." และ".$query->user_fullname;
+            }
+            $i++;
+        }
+    }
+        $data=new publish_work;
+        if($request->checkinfo==1){
+            $data->owner=$request->owner;
+            $data->teacher_name=$text;
+            $data->category_publish_work=$request->category_publish_work;
+            if($request->publish_work_year<=2500){
+                $gety=$request->publish_work_year+543;
+            }
+            else{
+                $gety=$request->publish_work_year;
+            }
+            $data->publish_work_year=$gety;
+            $data->publish_work_yearshow=$request->publish_work_year;
+            $data->publish_work_name=$request->publish_work_name;
+            $data->publish_work_issue=$request->publish_work_issue;
+            $data->publish_work_page=$request->publish_work_page;
+            $data->journal_name=$request->journal_name;
+            $data->category=1;
+            $data->save();
+            if(isset($getdata['teacher_name'])){
+                foreach($getdata['teacher_name'] as $row){
+                    $query=User::find($row);
+                    $insert=new publish_work_user;
+                    $insert->publish_work_publish_id=$data->publish_id;
+                    $insert->user_id=$row;
+                    $insert->save();
+                }
+        }
+        }
+        else{
+            $get_date=explode(" ",$request->publish_work_date2);
+            $data->owner=$request->owner;
+            $data->teacher_name=$text;
+            $data->category_publish_work=$request->category_publish_work2;
+           
+            if(isset($get_date[2])){
+                $data->publish_work_year=$get_date[2];
+                $data->publish_work_date=$request->publish_work_date2;
+            }
+            else{
+                $data->publish_work_year=$get_date[0]+543;
+                $data->publish_work_date=1;
+            }
+            
+            $data->publish_work_name=$request->publish_work_name2;
+            $data->journal_name=$request->journal_name2;
+            $data->publish_work_page=$request->publish_work_page2;
+            $data->publish_work_place=$request->publish_work_place2;
+            $data->province=$request->province;
+            $data->country=$request->country;
+            $data->category=0;
+            $data->save();
+            if(isset($getdata['teacher_name2'])){
+                foreach($getdata['teacher_name2'] as $row){
+                    $query=User::find($row);
+                    $insert=new publish_work_user;
+                    $insert->publish_work_publish_id=$data->publish_id;
+                    $insert->user_id=$row;
+                    $insert->save();
+                }
+        }  
+            }
+     return $insert;
+    }
+    public function updatepublish_work(Request $request)
+    {
+        $data=publish_work::find($request->id);
+        if($request->category==1){
+        $data->category_publish_work=$request->category_publish_work;
+        if($request->publish_work_year<=2500){
+                $gety=$request->publish_work_year;
+        }
+        else{
+            $gety=$request->publish_work_year;
+        }
+        $data->publish_work_year=$gety;
+        $data->publish_work_yearshow=$request->publish_work_year;
+        $data->publish_work_name=$request->publish_work_name;
+        $data->publish_work_issue=$request->publish_work_issue;
+        $data->publish_work_page=$request->publish_work_page;
+        $data->journal_name=$request->journal_name;
+        $data->save();
+        }
+        else{
+        $data->category_publish_work=$request->category_publish_work3;
+        $get_date=explode(" ",$request->publish_work_date3);
+         if(isset($get_date[2])){
+                $data->publish_work_year=$get_date[2];
+                $data->publish_work_date=$request->publish_work_date3;
+        }
+        else{
+            if($get_date[0]<=2500){
+                $data->publish_work_year=$get_date[0]+543;
+            }
+            else{
+                $data->publish_work_year=$get_date[0];
+            }
+            $data->publish_work_date=1;
+        }
+            
+        $data->publish_work_name=$request->publish_work_name3;
+        $data->journal_name=$request->journal_name3;
+         $data->publish_work_page=$request->publish_work_page3;
+         $data->publish_work_place=$request->publish_work_place23;
+        $data->province=$request->province3;
+        $data->country=$request->country3;
+        $data->save();
+        }
+
+        return $data;
+    }
+    public function deletepublish_work($id)
+    {
+        $product = publish_work::find($id);
+        $product1 = publish_work_user::find($id);
+        $product->delete();
+        $product1->delete();
+        return $product1;
+    }
+    /////เผยแพร่ผลงาน/////เผยแพร่ผลงาน/////เผยแพร่ผลงาน/////เผยแพร่ผลงาน/////เผยแพร่ผลงาน/////เผยแพร่ผลงาน
 
     /////pdca/////pdca/////pdca/////pdca/////pdca/////pdca
     public function getpdca($id)

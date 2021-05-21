@@ -12,9 +12,13 @@
               <form  class="bd" id="adddata" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data">
                @csrf
                <input type="hidden" class="form-control" id="id" name="id" value="{{$userid}}"/>
-                @foreach($role as $key=>$row )
+                @foreach($role as $key=>$row)
                 <?php
-                $getstatus1=$getstatus[0]['status'.($key+1)]
+                $getstatus1=0;
+                if(isset($getstatus[0]['status'.($key+1)])){
+                  $getstatus1=$getstatus[0]['status'.($key+1)];
+                }
+                
                  ?>
                 <h4><p class="bginfo"><input type="checkbox" id="cate{{$row->category_id}}" name="cate{{$row->category_id}}"   onclick="calc('{{$row->category_id}}');" @if($getstatus1) checked @endif/> <i class="{{$row['icon']}}"></i> {{$row['category_name']}}</p></h4>
                 <div class="form-group ml-1">

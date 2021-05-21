@@ -8,6 +8,7 @@ use App\ModelAJ\Research_results;
 use App\ModelAJ\categoty_researh;
 use App\User;
 use App\Menu;
+use App\publish_work;
 use App\Year;
 use App\branch;
 use App\training_information;
@@ -93,7 +94,11 @@ class AJController extends Controller
         ->where('user_group_id','!=',2)
         ->where('user_group_id','!=',1)
         ->get();
-        $researchresults=Research_results::rightjoin('research_results_user','research_results_user.research_results_research_results_id','=','research_results.research_results_id')
+        $researchresults=publish_work::rightjoin('publish_work_user','publish_work_user.publish_work_publish_id','=','publish_work.publish_id')
+        ->leftjoin('category_research_results','category_research_results.id','=','publish_work.category_publish_work')
+        ->where('publish_work_user.user_id',$user->id)
+        ->get();
+        $researchresults2=Research_results::rightjoin('research_results_user','research_results_user.research_results_research_results_id','=','research_results.research_results_id')
         ->leftjoin('category_research_results','category_research_results.id','=','research_results.research_results_category')
         ->where('research_results_user.user_id',$user->id)
         ->get();
@@ -101,7 +106,7 @@ class AJController extends Controller
         // ->where('owner',$user->id)
         // ->get();
         $category=categoty_researh::all();
-        return view('AJ/publish_work',compact('researchresults','category','userall'));
+        return view('AJ/publish_work',compact('researchresults','researchresults2','category','userall'));
     }
     public function past_performance()
     {

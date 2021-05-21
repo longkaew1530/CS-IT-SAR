@@ -11,6 +11,8 @@ use App\indicator1_1;
 use App\branch;
 use App\indicator2_1;
 use App\indicator2_2;
+use App\ModelAJ\Research_results;
+use App\ModelAJ\categoty_researh;
 use App\indicator4_3;
 use App\indicator5_4;
 use App\performance3_3;
@@ -364,5 +366,85 @@ class DashboardController extends Controller
         $getyear=Year::where('year_id','<',session()->get('checkyear_id'))
         ->get();
         return view('dashboard/dashboard4',compact('getyear'));
+    }
+    public function index24()
+    {
+        $user=auth()->user();
+        $userall=User::where('user_course',$user->user_course)
+        ->where('user_branch',session()->get('branch_id'))
+        ->where('user_group_id','!=',2)
+        ->where('user_group_id','!=',1)
+        ->get();
+        $researchresults=Research_results::rightjoin('research_results_user','research_results_user.research_results_research_results_id','=','research_results.research_results_id')
+        ->leftjoin('category_research_results','category_research_results.id','=','research_results.research_results_category')
+        ->where('research_results_user.user_id',$user->id)
+        ->get();
+        // $researchresults=Research_results::leftjoin('category_research_results','category_research_results.id','=','research_results.research_results_category')
+        // ->where('owner',$user->id)
+        // ->get();
+        $category=categoty_researh::all();
+        $course=Course::all();
+        $branch=branch::all();
+        $faculty=Faculty::all();
+        $groupuser=groupuser::all();
+        $user=User::leftjoin('course','users.user_course','=','course.course_id')
+        ->leftjoin('faculty','users.user_faculty','=','faculty.faculty_id')
+        ->leftjoin('branch','users.user_branch','=','branch.branch_id')
+        ->leftjoin('user_group','users.user_group_id','=','user_group.user_group_id')
+        ->get();
+        $tc_course= User::leftjoin('course_teacher','users.id','=','course_teacher.user_id')
+         ->where('users.user_course',session()->get('usercourse'))
+         ->where('course_teacher.year_id',session()->get('year_id'))
+         ->get();
+        // $tc=User::select('*')->whereNotIn('book_price', [100,200])
+        // ->where('user_course',session()->get('usercourse'))
+        // ->paginate(10);
+        $tc=User::where('user_course','!=',session()->get('usercourse'))
+        ->where('user_branch','!=',session()->get('branch_id'))
+        ->where('user_group_id','!=',2)
+        ->where('user_group_id','!=',1)
+        ->get();
+        
+        return view('AJ/showresearch_results',compact('tc','tc_course','researchresults','category','userall','user','course','faculty','groupuser','branch'));
+    }
+    public function index25()
+    {
+        $user=auth()->user();
+        $userall=User::where('user_course',$user->user_course)
+        ->where('user_branch',session()->get('branch_id'))
+        ->where('user_group_id','!=',2)
+        ->where('user_group_id','!=',1)
+        ->get();
+        $researchresults=Research_results::rightjoin('research_results_user','research_results_user.research_results_research_results_id','=','research_results.research_results_id')
+        ->leftjoin('category_research_results','category_research_results.id','=','research_results.research_results_category')
+        ->where('research_results_user.user_id',$user->id)
+        ->get();
+        // $researchresults=Research_results::leftjoin('category_research_results','category_research_results.id','=','research_results.research_results_category')
+        // ->where('owner',$user->id)
+        // ->get();
+        $category=categoty_researh::all();
+        $course=Course::all();
+        $branch=branch::all();
+        $faculty=Faculty::all();
+        $groupuser=groupuser::all();
+        $user=User::leftjoin('course','users.user_course','=','course.course_id')
+        ->leftjoin('faculty','users.user_faculty','=','faculty.faculty_id')
+        ->leftjoin('branch','users.user_branch','=','branch.branch_id')
+        ->leftjoin('user_group','users.user_group_id','=','user_group.user_group_id')
+        ->get();
+        $tc_course= User::leftjoin('course_teacher','users.id','=','course_teacher.user_id')
+         ->where('users.user_course',session()->get('usercourse'))
+         ->where('course_teacher.year_id',session()->get('year_id'))
+         ->get();
+        // $tc=User::select('*')->whereNotIn('book_price', [100,200])
+        // ->where('user_course',session()->get('usercourse'))
+        // ->paginate(10);
+        $tc=User::where('user_course','!=',session()->get('usercourse'))
+        ->where('user_branch','!=',session()->get('branch_id'))
+        ->where('user_group_id','!=',2)
+        ->where('user_group_id','!=',1)
+        ->get();
+        
+        return view('AJ/editresearch_results',compact('tc','tc_course','researchresults','category','userall','user','course','faculty','groupuser','branch'));
     }
 }

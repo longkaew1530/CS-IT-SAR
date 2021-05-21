@@ -28,6 +28,10 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\ModelAJ\Research_results');
     }
+    public function publish_work()
+    {
+        return $this->belongsToMany('App\publish_work');
+    }
     public function user_permission()
     {
         return $this->hasMany('App\user_permission','user_id','id')

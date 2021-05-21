@@ -37,6 +37,8 @@ Route::get('/addinstructor', 'DashboardController@index20');
 Route::get('/assign_indicator', 'DashboardController@index21');
 Route::get('/addcourse_responsible_teacher', 'DashboardController@index22');
 Route::get('/historical_report', 'DashboardController@index23');
+Route::get('/showresearch_results', 'DashboardController@index24');
+Route::get('/editresearch_results', 'DashboardController@index25');
 /////อาจารย์
 Route::get('/educational_background', 'AJController@educational_background');
 Route::get('/research_results', 'AJController@research_results');
@@ -391,6 +393,14 @@ Route::get('/updatesessionyear/{id}','APIController@updatesessionyear');
 Route::get('/updatesessionyear2/{id}','APIController@updatesessionyear2');
 Route::get('/updatesessionyear3/{id}','APIController@updatesessionyear3');
 Route::get('/updatebackyear/{id}','APIController@updatebackyear');
+
+Route::get('/getresu/{id}','APIController@getresu');
+
+////addpublish_work
+Route::get('/getpublish_work/{id}','APIAJController@getpublish_work');
+Route::post('/addpublish_work','APIAJController@addpublish_work');
+Route::post('/updatepublish_work','APIAJController@updatepublish_work');
+Route::post('/deletepublish_work/{id}','APIAJController@deletepublish_work');
 
 Route::get('/getcate/{id}','APIController@getcategory_id');
 Route::get('/getcateall','APIController@getcateall');

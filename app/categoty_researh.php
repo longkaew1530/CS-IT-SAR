@@ -19,4 +19,12 @@ class categoty_researh extends Model
         ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
         ->where('course_responsible_teacher.branch_id',session()->get('branch_id'));
     }
+    public function publish_work()
+    {
+        return $this->hasMany('App\publish_work','category_publish_work','id')
+        ->rightjoin('course_responsible_teacher','publish_work.owner','=','course_responsible_teacher.user_id')
+        ->where('course_responsible_teacher.year_id',session()->get('year_id'))
+        ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
+        ->where('course_responsible_teacher.branch_id',session()->get('branch_id'));
+    }
 }

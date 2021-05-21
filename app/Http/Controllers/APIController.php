@@ -10,6 +10,7 @@ use App\Groupmenu;
 use Response;
 use Excel;
 use App\defaulindicator;
+use App\ModelAJ\Research_results;
 use App\branch;
 use App\user_permission_status;
 use App\category4_teaching_quality;
@@ -809,6 +810,7 @@ class APIController extends Controller
           $getstatus=user_permission_status::where('year_id',session()->get('year_id'))
           ->where('course_id',session()->get('usercourse'))
           ->where('branch_id',session()->get('branch_id'))
+          ->where('user_id',$userid)
           ->get();
           if($getstatus!="[]"){
             $data3=user_permission_status::find($getstatus[0]['id']);
@@ -844,6 +846,7 @@ class APIController extends Controller
           $data3->course_id=session()->get('usercourse');
           $data3->branch_id=session()->get('branch_id');
           $data3->year_id=session()->get('year_id');
+          $data3->user_id=$userid;
           $data3->save();
           if(isset($data['per'])){
           foreach($data['per'] as $value)
@@ -895,8 +898,8 @@ class APIController extends Controller
           $getstatus=user_permission_status::where('course_id',session()->get('usercourse'))
           ->where('branch_id',session()->get('branch_id'))
           ->where('year_id',session()->get('year_id'))
+          ->where('user_id',$id)
           ->get();
-          
           return view('dashboard.showaddindicator',compact('permiss','role','userid','getstatus'));
       }
             /////มอบหมายตัวบ่งชี้/////มอบหมายตัวบ่งชี้/////มอบหมายตัวบ่งชี้/////มอบหมายตัวบ่งชี้/////มอบหมายตัวบ่งชี้/////มอบหมายตัวบ่งชี้
@@ -1215,5 +1218,16 @@ class APIController extends Controller
         }
 
          return $data;
+     }
+     public function getresu($id)
+     {
+
+         $researchresults2=Research_results::rightjoin('research_results_user','research_results_user.research_results_research_results_id','=','research_results.research_results_id')
+         ->leftjoin('category_research_results','category_research_results.id','=','research_results.research_results_category')
+         ->leftjoin('users','users.id','=','research_results_user.user_id')
+         ->where('research_results.research_results_id',$id)
+         ->get();
+
+         return $researchresults2;
      }
 }

@@ -94,6 +94,7 @@
                 <div class="form-group">
                 <label for="exampleInputPassword1">ตำแหน่งทางวิชาการ</label>
                                   <select class="form-control"  id="academic_position"  class="form-control @error('role') is-invalid @enderror" name="academic_position">
+                                  <option value=""></option>
                                     <option value="ศาสตราจารย์">ศาสตราจารย์</option>
                                     <option value="รองศาสตราจารย์">รองศาสตราจารย์</option>
                                     <option value="ผู้ช่วยศาสตราจารย์">ผู้ช่วยศาสตราจารย์</option>

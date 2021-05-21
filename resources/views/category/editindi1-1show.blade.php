@@ -74,13 +74,21 @@
                   </td>
                   
                  
-                  <td>@foreach($row->research_results as $value) 
-                  @if($value['research_results_year']==$y
-                     ||$value['research_results_year']==$y-1
-                     ||$value['research_results_year']==$y-2
-                     ||$value['research_results_year']==$y-3
-                     ||$value['research_results_year']==$y-4)
-                    -{{$value['teacher_name'].".(".$value['research_results_year']."). ".$value['research_results_name'].". ".$value['research_results_description']}}<br>
+                  <td>@foreach($row->publish_work as $value) 
+                  @if($value['publish_work_year']==$y
+                     ||$value['publish_work_year']==$y-1
+                     ||$value['publish_work_year']==$y-2
+                     ||$value['publish_work_year']==$y-3
+                     ||$value['publish_work_year']==$y-4)
+                     @if($value['category']==1)
+                    -{{$value['teacher_name'].".(".($value['publish_work_year']).") ".$value['publish_work_name'].". ".$value['journal_name']." ".$value['publish_work_issue']." (".$value['publish_work_yearshow'].") ".$value['publish_work_page']}}<br>
+                    @else
+                    @if($value['publish_work_date']!=1)
+                    -{{$value['teacher_name'].".(".($value['publish_work_year']).") ".$value['publish_work_name']." ".$value['journal_name'].". ".$value['publish_work_date']." ".$value['publish_work_place'].", ".$value['province'].". ".$value['country']." ".$value['publish_work_page']."."}}<br>
+                    @else
+                    -{{$value['teacher_name'].".(".($value['publish_work_year']).") ".$value['publish_work_name']." ".$value['journal_name'].". ".$value['province'].". ".$value['country']." ".$value['publish_work_page']."."}}<br>
+                    @endif
+                    @endif
                   @endif
                   @endforeach
                   </td>
@@ -129,13 +137,21 @@
                   </td>
                   
                  
-                  <td>@foreach($row->research_results as $value) 
-                  @if($value['research_results_year']==$y
-                     ||$value['research_results_year']==$y-1
-                     ||$value['research_results_year']==$y-2
-                     ||$value['research_results_year']==$y-3
-                     ||$value['research_results_year']==$y-4)
-                    -{{$value['teacher_name'].".(".$value['research_results_year']."). ".$value['research_results_name'].". ".$value['research_results_description']}}<br>
+                  <td>@foreach($row->publish_work as $value) 
+                  @if($value['publish_work_year']==$y
+                     ||$value['publish_work_year']==$y-1
+                     ||$value['publish_work_year']==$y-2
+                     ||$value['publish_work_year']==$y-3
+                     ||$value['publish_work_year']==$y-4)
+                     @if($value['category']==1)
+                    -{{$value['teacher_name'].".(".($value['publish_work_year']).") ".$value['publish_work_name'].". ".$value['journal_name']." ".$value['publish_work_issue']." (".$value['publish_work_yearshow'].") ".$value['publish_work_page']}}<br>
+                    @else
+                    @if($value['publish_work_date']!=1)
+                    -{{$value['teacher_name'].".(".($value['publish_work_year']).") ".$value['publish_work_name']." ".$value['journal_name'].". ".$value['publish_work_date']." ".$value['publish_work_place'].", ".$value['province'].". ".$value['country']." ".$value['publish_work_page']."."}}<br>
+                    @else
+                    -{{$value['teacher_name'].".(".($value['publish_work_year']).") ".$value['publish_work_name']." ".$value['journal_name'].". ".$value['province'].". ".$value['country']." ".$value['publish_work_page']."."}}<br>
+                    @endif
+                    @endif
                   @endif
                   @endforeach
                   </td>
