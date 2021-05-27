@@ -9,6 +9,7 @@ use App\defaulindicator;
 use App\composition;
 use App\indicator;
 use App\category;
+use App\publish_work;
 use App\assessment_results;
 use App\category6_comment_course;
 use App\course_detail;
@@ -537,7 +538,7 @@ class ReportController extends Controller
             }
         }
         $course_detail = course_detail::where('course_id',session()->get('usercourse'))
-        ->orderBy('academic_position','desc')
+        ->orderBy('academic_position','asc')
         ->get();
         $getbranch=branch::where('branch_id',session()->get('branch_id'))
         ->get();
@@ -607,12 +608,14 @@ class ReportController extends Controller
         // ->groupBy('research_results_id')
         // ->leftjoin('category_research_results','research_results.research_results_category','=','category_research_results.id')
         // ->get();
-        $category_re = Research_results::rightjoin('course_responsible_teacher','research_results.owner','=','course_responsible_teacher.user_id')
-        ->leftjoin('category_research_results','research_results.research_results_category','=','category_research_results.id')
+        $category_re = publish_work::rightjoin('course_responsible_teacher','publish_work.owner','=','course_responsible_teacher.user_id')
+        ->leftjoin('category_research_results','publish_work.category_publish_work','=','category_research_results.id')
         ->where('course_responsible_teacher.year_id',session()->get('year_id'))
         ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
         ->where('course_responsible_teacher.branch_id',session()->get('branch_id'))
-        ->where('research_results.research_results_year',session()->get('year'))
+        ->where('publish_work.publish_work_yearanddate','>=',session()->get('yearBegin'))
+        ->where('publish_work.publish_work_yearanddate','<=',session()->get('yearEnd'))
+        ->orderBy('category_research_results.score','desc')
         ->get();
     //    dd($category_re);
         //ดึงค่าตารางอาจารย์ผู้รับผิดชอบหลักสูตร
@@ -646,7 +649,7 @@ class ReportController extends Controller
             {
                 $countposition1=$countposition1+1;
             }
-            else if($value['academic_position']=='รองศาตราจารย์')
+            else if($value['academic_position']=='รองศาสตราจารย์')
             {
                 $countposition2=$countposition2+1;
             }
@@ -656,10 +659,7 @@ class ReportController extends Controller
         }
         $countcate=0;
         foreach($category_re as $value){
-            if($value['research_results_year']==session()->get('year')){
-                $countcate=$countcate+$value['score'];
-            }
-            
+                $countcate=$countcate+$value['score']; 
         }
 
         $inc4_2=PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
@@ -755,6 +755,7 @@ class ReportController extends Controller
         $tran=User::rightjoin('course_responsible_teacher','users.id','=','course_responsible_teacher.user_id')
             ->where('users.user_course',session()->get('usercourse'))
             ->where('users.user_branch',session()->get('branch_id'))
+            ->where('course_responsible_teacher.year_id',session()->get('year_id'))
             ->get();
         return view('category3/category2',compact('tran','getbranch','check4_1','check4_2','check4_3','pdca','name','id','getcourse','getcategorypdca','inc','checkedit','category_re','count','counteb_name','countposition1','countposition2','countposition3'
                     ,'cate','qty1','B','qty2','C','qty3','E','inc4_2','id4_2','name4_2','in4_3','inc3','name4_3','id4_3','getcategorypdca4_3'));

@@ -27,6 +27,7 @@
   <link rel="stylesheet" href="{{url('/')}}/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
   <link rel="stylesheet" href="{{url('/')}}/plugins/iCheck/all.css">
   <link rel="stylesheet" href="{{url('/')}}/bower_components/select2/dist/css/select2.min.css">
+  <link rel="stylesheet" href="{{url('/')}}/plugins/timepicker/bootstrap-timepicker.min.css">
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" ></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css"  />
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
@@ -56,7 +57,7 @@
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>A</b>LT</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>CS-IT</b> SAR</span>
+      <span class="logo-lg"><b>CS-IT</b> SAR {{session()->get('year')}}</span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
@@ -182,6 +183,13 @@
 <script src="{{url('/')}}/bower_components/Flot/jquery.flot.pie.js"></script>
 <!-- FLOT CATEGORIES PLUGIN - Used to draw bar charts -->
 <script src="{{url('/')}}/bower_components/Flot/jquery.flot.categories.js"></script>
+<script src="{{url('/')}}/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+<!-- bootstrap datepicker -->
+<script src="{{url('/')}}/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<!-- bootstrap color picker -->
+<script src="{{url('/')}}/bower_components/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js"></script>
+<!-- bootstrap time picker -->
+<script src="{{url('/')}}/plugins/timepicker/bootstrap-timepicker.min.js"></script>
 <script>
     
 
@@ -219,7 +227,9 @@ $(function () {
     $('#example1').DataTable({
       lengthMenu: [3, 5, 10, 20, 50, 100]
     })
+    
   })
+ 
   $(function () {
     $('#example2').DataTable({
       'paging'      : true,

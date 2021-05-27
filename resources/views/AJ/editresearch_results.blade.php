@@ -13,6 +13,7 @@
     <form id="adddata" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data">
     @csrf
     <div class="row">
+    <input type="hidden" class="form-control" id="id" name="id" value="{{$data[0]['research_results_id']}}"/>
             <div class="col">
             <div class="data">
         <div class="col-md-12">
@@ -20,7 +21,7 @@
             <div class="col-md-12 col-sm-9 col-xs-12">
             <div class="form-group">
                     <label for="exampleInputPassword1">ชื่อผลงานวิจัย</label>
-                    <input type="text" class="form-control" id="research_results_name" name="research_results_name" placeholder="ชื่อผลงานวิจัย">
+                    <input type="text" class="form-control" id="research_results_name" name="research_results_name" placeholder="ชื่อผลงานวิจัย" value="{{$data[0]['research_results_name']}}">
                   </div>
             </div>
           </div>
@@ -51,8 +52,7 @@
             <div class="col-md-12 col-sm-9 col-xs-12">
             <div class="form-group">
             
-                <label>ชื่อผู้ร่วมวิจัย</label> <a data-target="#modal-edit" data-toggle="modal" class="MainNavText" id="MainNavHelp" 
-       href="#modal-edit"><i class='fa fa-plus'></i> เพิ่มผู้ร่วมวิจัยหลักสูตรอื่น</a> 
+                <label>ชื่อผู้ร่วมวิจัย</label>
        &nbsp;&nbsp;<a data-target="#modal-info" data-toggle="modal" class="MainNavText" id="MainNavHelp" 
        href="#modal-info"><i class='fa fa-plus'></i> เพิ่มผู้ใช้งาน</a>
                 <select class="form-control" id="teacher_name" name="teacher_name[]" multiple="multiple" 
@@ -74,9 +74,7 @@
             <div class="col-md-12 col-sm-9 col-xs-12">
             <div class="form-group">
                     <label for="exampleInputPassword1">ปีที่ทำวิจัย</label>
-                    <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-                  type = "number"
-                  maxlength = "4" class="form-control" id="research_results_year" name="research_results_year" placeholder="ปีที่จัดทำ">
+                    <input type="date" class="form-control" id="research_results_date" name="research_results_date" placeholder="งบประมาณ" value="{{$data[0]['research_results_date']}}">
                   </div>
             </div>
           </div>
@@ -92,7 +90,7 @@
             <div class="col-md-12 col-sm-9 col-xs-12">
             <div class="form-group">
                     <label for="exampleInputPassword1">แหล่งงบประมาณ</label>
-                    <input type="text" class="form-control" id="research_results_salary" name="research_results_salary" placeholder="งบประมาณ">
+                    <input type="text" class="form-control" id="research_results_source_salary" name="research_results_source_salary" placeholder="แหล่งงบประมาณ" value="{{$data[0]['research_results_source_salary']}}" />
                   </div>
             </div>
           </div>
@@ -106,7 +104,7 @@
             <div class="col-md-12 col-sm-9 col-xs-12">
             <div class="form-group">
                     <label for="exampleInputPassword1">งบประมาณ</label>
-                    <input type="number" class="form-control" id="research_results_salary" name="research_results_salary" placeholder="งบประมาณ">
+                    <input type="number" class="form-control" id="research_results_salary" name="research_results_salary" placeholder="งบประมาณ" value="{{$data[0]['research_results_salary']}}">
                   </div>
             </div>
           </div>
@@ -114,7 +112,6 @@
       </div>
       </div>
     </div>
-   
       <div class="col-md-12">
         <div id="body">
           <div class="col-md-12 col-sm-9 col-xs-12">
@@ -300,8 +297,7 @@ function myFunction() {
           type: "GET",
           url: "/getcourse_username/"+strUser,       
       success: function (data) {
-        console.log(data);
-        document.getElementById("username").value =data;
+        
           }
           });
 
@@ -343,10 +339,22 @@ $(function () {
     });
     $.ajax({  //create an ajax request to display.php
           type: "GET",
-          url: "/getcourse_username2",       
+          url: "/getcourse_username3",       
       success: function (data) {
-        console.log(data);
-        document.getElementById("username").value =data;
+        var get=[];
+        for (index = 0; index < data.length; ++index) {
+                if(data[index].user_id!=data[0].owner){
+                  get[index]=data[index].user_id;
+                }
+                  
+        }
+        $("#teacher_name").val(get);
+        $('#teacher_name').select2();
+        // for (index = 0; index < data.length; ++index) {
+        //         var newOption = new Option(data[index].user_fullname, data[index].user_id, true, true);
+        //          $('#teacher_name').append(newOption).trigger('change');
+        // }
+
           }
           });
     $selectElement = $('#teacher_name').select2({
@@ -374,7 +382,7 @@ $(function () {
       e.preventDefault();
       var formData = new FormData(this);
       var owner = document.getElementById("owner").value;
-      var research_results_year = document.getElementById("research_results_year").value;
+      var research_results_year = document.getElementById("research_results_date").value;
       var research_results_name = document.getElementById("research_results_name").value;
       var research_results_salary = document.getElementById("research_results_salary").value;
       var teacher_name = $('#teacher_name').val();
@@ -419,7 +427,7 @@ $(function () {
       if (willDelete) {
         $.ajax({
         type: 'POST',
-        url: "/addresearch_results",
+        url: "/updateresearch_results",
         data: formData,
         cache: false,
         contentType: false,

@@ -19,6 +19,7 @@
                       <th width="15%">ปัจจุบัน</th>
                       <th width="15%">หมายเหตุ</th>
                     </tr>
+                    <?php  ?>
                     @foreach($educ_bg as $key =>$row)
                     <tr>
                     @if(count($course_detail)==count($educ_bg))
@@ -35,7 +36,16 @@
                        <td></td>
                        @endif
                       </td>
-                      <td>{{($key + 1)}}. {{$row['user_fullname']}}<br>
+                      <td>{{($key + 1)}}. 
+                      @if($row['academic_position']!="")
+                          @if($row['prefix']=="ดร.")
+                          {{$row['academic_position']}} {{$row['prefix']}}{{$row['user_fullname']}}<br>
+                          @else
+                          {{$row['academic_position']}}{{$row['user_fullname']}}<br>
+                          @endif
+                      @else
+                      {{$row['prefix']}}{{$row['user_fullname']}}<br>
+                      @endif
                       @foreach($row->educational_background as $value) 
                       {{$value['abbreviations']." (".$value['eb_fieldofstudy'].")"}}<br>
                       @endforeach
@@ -56,7 +66,17 @@
                     </tr>
                     @foreach($instructor as $key =>$row )
                     <tr>
-                      <td>{{($key + 1)}}.{{$row['user_fullname']}}</td>             
+                      <td>{{($key + 1)}}.
+                      @if($row['academic_position']!="")
+                          @if($row['prefix']=="ดร.")
+                          {{$row['academic_position']}} {{$row['prefix']}}{{$row['user_fullname']}}
+                          @else
+                          {{$row['academic_position']}}{{$row['user_fullname']}}
+                          @endif
+                      @else
+                      {{$row['prefix']}}{{$row['user_fullname']}}
+                      @endif
+                      </td>             
                       <td>
                       @foreach($row->educational_background as $value) 
                       {{$value['abbreviations']." (".$value['eb_fieldofstudy'].")"}}<br>

@@ -11,6 +11,7 @@ use App\indicator1_1;
 use App\branch;
 use App\indicator2_1;
 use App\indicator2_2;
+use App\course_teacher;
 use App\ModelAJ\Research_results;
 use App\ModelAJ\categoty_researh;
 use App\indicator4_3;
@@ -75,9 +76,13 @@ class DashboardController extends Controller
             foreach($year as $value){
                 $y_name=$value['year_name'];
                 $y_id=$value['year_id'];
+                $y1=$value['date1'];
+                $y2=$value['date2'];
             }
             session()->put('year',$y_name);
             session()->put('year_id',$y_id);
+            session()->put('yearBegin',$y1);
+            session()->put('yearEnd',$y2);
         }
         if($user_group!=2){
             session()->put('branch_id',$user->user_branch);
@@ -297,7 +302,11 @@ class DashboardController extends Controller
             ->where('user_group_id','!=',2)
             ->where('user_group_id','!=',1)
             ->get();
-        return view('dashboard/tc_course',compact('tc_course','tc'));
+            $check=course_teacher::where('course_id',session()->get('usercourse'))
+            ->where('branch_id',session()->get('branch_id'))
+            ->where('year_id',(session()->get('year_id')-1))
+            ->get();
+        return view('dashboard/tc_course',compact('tc_course','tc','check'));
     }
     public function index20()
     {
@@ -318,7 +327,11 @@ class DashboardController extends Controller
          ->where('user_group_id','!=',2)
             ->where('user_group_id','!=',1)
          ->get();
-        return view('dashboard/instructor1',compact('tc_course','tc'));
+         $check=instructor::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
+         ->where('year_id',(session()->get('year_id')-1))
+         ->get();
+        return view('dashboard/instructor1',compact('tc_course','tc','check'));
     }
     public function index21()
     {
@@ -358,7 +371,11 @@ class DashboardController extends Controller
          ->where('user_group_id','!=',2)
             ->where('user_group_id','!=',1)
         ->get();
-        return view('dashboard/crt',compact('tc_course','tc'));
+        $check=course_responsible_teacher::where('course_id',session()->get('usercourse'))
+         ->where('branch_id',session()->get('branch_id'))
+         ->where('year_id',(session()->get('year_id')-1))
+         ->get();
+        return view('dashboard/crt',compact('tc_course','tc','check'));
     }
     public function index23()
     {
@@ -370,10 +387,14 @@ class DashboardController extends Controller
     public function index24()
     {
         $user=auth()->user();
-        $userall=User::where('user_course',$user->user_course)
-        ->where('user_branch',session()->get('branch_id'))
-        ->where('user_group_id','!=',2)
+        // $userall=User::where('user_course',$user->user_course)
+        // ->where('user_branch',session()->get('branch_id'))
+        // ->where('user_group_id','!=',2)
+        // ->where('user_group_id','!=',1)
+        // ->get();
+        $userall=User::where('user_group_id','!=',2)
         ->where('user_group_id','!=',1)
+        ->where('id','!=',$user->id)
         ->get();
         $researchresults=Research_results::rightjoin('research_results_user','research_results_user.research_results_research_results_id','=','research_results.research_results_id')
         ->leftjoin('category_research_results','category_research_results.id','=','research_results.research_results_category')
@@ -407,13 +428,13 @@ class DashboardController extends Controller
         
         return view('AJ/showresearch_results',compact('tc','tc_course','researchresults','category','userall','user','course','faculty','groupuser','branch'));
     }
-    public function index25()
-    {
+    public function index25($id)
+    {   
+        session()->put('index25',$id);
         $user=auth()->user();
-        $userall=User::where('user_course',$user->user_course)
-        ->where('user_branch',session()->get('branch_id'))
-        ->where('user_group_id','!=',2)
+        $userall=User::where('user_group_id','!=',2)
         ->where('user_group_id','!=',1)
+        ->where('id','!=',$user->id)
         ->get();
         $researchresults=Research_results::rightjoin('research_results_user','research_results_user.research_results_research_results_id','=','research_results.research_results_id')
         ->leftjoin('category_research_results','category_research_results.id','=','research_results.research_results_category')
@@ -444,7 +465,9 @@ class DashboardController extends Controller
         ->where('user_group_id','!=',2)
         ->where('user_group_id','!=',1)
         ->get();
-        
-        return view('AJ/editresearch_results',compact('tc','tc_course','researchresults','category','userall','user','course','faculty','groupuser','branch'));
+        $data = Research_results::where('research_results_id',$id)
+        ->get();
+      
+        return view('AJ/editresearch_results',compact('data','tc','tc_course','researchresults','category','userall','user','course','faculty','groupuser','branch'));
     }
 }

@@ -136,13 +136,27 @@ class APIAJController extends Controller
             $i++;
         }
     }
+        $getyear=Year::all();
+        
+        
         $data=new Research_results;
+        foreach($getyear as $row1){
+            $paymentDate=date('Y-m-d', strtotime($request->research_results_date));
+
+            //echo $paymentDate; // echos today! 
+            $contractDateBegin = date('Y-m-d', strtotime($row1['date1']));
+            $contractDateEnd = date('Y-m-d', strtotime($row1['date2']));
+            if (($paymentDate >= $contractDateBegin) && ($paymentDate <= $contractDateEnd)){
+                $data->research_results_year=$row1['year_name'];
+            }
+        }
         $data->owner=$request->owner;
         $data->teacher_name=$text;
         $data->research_results_category=$request->research_results_category;
-        $data->research_results_year=$request->research_results_year;
+        $data->research_results_date=$request->research_results_date;
         $data->research_results_name=$request->research_results_name;
-        $data->research_results_description=$request->research_results_description;
+        $data->research_results_source_salary=$request->research_results_source_salary;
+        $data->source_salary=$request->source_salary;
         $data->research_results_salary=$request->research_results_salary;
         $data->save();
 
@@ -183,13 +197,25 @@ class APIAJController extends Controller
             $i++;
         }
         }
+        
         $data=Research_results::find($request->id);
+        $getyear=Year::all();
+        foreach($getyear as $row1){
+            $paymentDate=date('Y-m-d', strtotime($request->research_results_date));
+
+            //echo $paymentDate; // echos today! 
+            $contractDateBegin = date('Y-m-d', strtotime($row1['date1']));
+            $contractDateEnd = date('Y-m-d', strtotime($row1['date2']));
+            if (($paymentDate >= $contractDateBegin) && ($paymentDate <= $contractDateEnd)){
+                $data->research_results_year=$row1['year_name'];
+            }
+        }
         $data->owner=$request->owner;
-        $data->teacher_name=$request->listname;
+        $data->teacher_name=$text;
         $data->research_results_category=$request->research_results_category;
-        $data->research_results_year=$request->research_results_year;
+        $data->research_results_date=$request->research_results_date;
         $data->research_results_name=$request->research_results_name;
-        $data->research_results_description=$request->research_results_description;
+        $data->research_results_source_salary=$request->research_results_source_salary;
         $data->research_results_salary=$request->research_results_salary;
         $data->save();
         $checkdata=Research_results_user::where('research_results_research_results_id',$request->id);
@@ -236,35 +262,53 @@ class APIAJController extends Controller
         if(isset($getdata['teacher_name'])){
             $countgetname=count($getdata['teacher_name']);
         }
+        if(isset($getdata['teacher_name2'])){
+            $countgetname=count($getdata['teacher_name2']);
+        }
         $getname=User::where('id',$request->owner)
         ->get();
-        $text=$getname[0]['user_fullname'];
+        $text="";
         $i=1;
         if(isset($getdata['teacher_name'])){
         foreach($getdata['teacher_name'] as $row){
             $query=User::find($row);
             if($i!=$countgetname){
-                $text=$text.", ".$query->user_fullname;
+                $text=$text.$query->user_fullname.", ";
             }
             else{
                 $text=$text." และ".$query->user_fullname;
             }
             $i++;
         }
-    }
+        }
+        if(isset($getdata['teacher_name2'])){
+            foreach($getdata['teacher_name2'] as $row){
+                $query=User::find($row);
+                if($i!=$countgetname){
+                    $text=$text.$query->user_fullname.", ";
+                }
+                else{
+                    $text=$text." และ".$query->user_fullname;
+                }
+                $i++;
+            }
+            }
         $data=new publish_work;
         if($request->checkinfo==1){
             $data->owner=$request->owner;
             $data->teacher_name=$text;
             $data->category_publish_work=$request->category_publish_work;
-            if($request->publish_work_year<=2500){
-                $gety=$request->publish_work_year+543;
+            $date = explode('-', $request->publish_work_year);
+            $geti=(int)$date[0];
+            if($geti<=2500){
+                $gety=$geti+543;
             }
             else{
-                $gety=$request->publish_work_year;
+                $gety=$request->$geti;
             }
             $data->publish_work_year=$gety;
             $data->publish_work_yearshow=$request->publish_work_year;
+            $data->publish_work_yearanddate=$request->publish_work_year;
             $data->publish_work_name=$request->publish_work_name;
             $data->publish_work_issue=$request->publish_work_issue;
             $data->publish_work_page=$request->publish_work_page;
@@ -286,13 +330,28 @@ class APIAJController extends Controller
             $data->owner=$request->owner;
             $data->teacher_name=$text;
             $data->category_publish_work=$request->category_publish_work2;
-           
-            if(isset($get_date[2])){
-                $data->publish_work_year=$get_date[2];
-                $data->publish_work_date=$request->publish_work_date2;
+            $date = explode('-', $request->publish_work_yearanddate2);
+            $geti=(int)$date[0];
+            // if(isset($get_date[2])){
+            //     $data->publish_work_year=$get_date[2];
+            //     $data->publish_work_date=$request->publish_work_date2;
+            // }
+            // else{
+            //     $data->publish_work_year=$get_date[0]+543;
+            //     $data->publish_work_date=1;
+            // }
+            if($geti<=2500){
+                $gety=$geti+543;
             }
             else{
-                $data->publish_work_year=$get_date[0]+543;
+                $gety=$request->$geti;
+            }
+            $data->publish_work_year=$gety;
+            $data->publish_work_yearanddate=$request->publish_work_yearanddate2;
+            if(isset($request->publish_work_date)){
+                $data->publish_work_date=$request->publish_work_date;
+            }
+            else{
                 $data->publish_work_date=1;
             }
             

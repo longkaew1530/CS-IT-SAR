@@ -32,7 +32,7 @@
 <div class="box box-warning marginl wid90 fr">
             <div class="box-header">
             @if($getAllyear!="[]")
-            <button type="button" class="btn btn-success fr" id="next"><i class="fa fa-plus "></i>  เพิ่มปีการศึกษา</button>
+            <button type="button" class="btn btn-success fr" data-toggle="modal" data-target="#modal-info2"><i class="fa fa-plus "></i>  เพิ่มปีการศึกษา</button>
               <h2 class="box-title">จัดการปีการศึกษา</h2>
             </div>
            @else
@@ -84,6 +84,52 @@
                   maxlength = "4" class="form-control" id="year" name="year" placeholder="ปีการศึกษา">
                 </div>
             </div>
+        
+           
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">ปิด</button>
+                <button type="submit" class="btn btn-info">บันทึกข้อมูล</button>
+              </div>
+              
+              <input type="hidden" class="form-control" name="id" id="emp_id" >
+              </form>
+            </div>
+            
+            <!-- /.modal-content -->
+          </div>
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+
+        <div class="modal  fade" id="modal-info2">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">เพิ่มปีการศึกษา</h4>
+              </div>
+              <form id="adddata1" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data" >
+              @csrf
+              <div class="modal-body">
+              <div class="row">
+              <div class="col-md-6">
+              <div class="form-group">
+                  <label for="exampleInputEmail1">วัน/เดือน/ปี</label>
+                  <input type ="date"  class="form-control" id="date1" name="date1" placeholder="ปีการศึกษา">
+                </div>
+             </div>
+             <div class="col-md-6">
+              <div class="form-group">
+                  <label for="exampleInputEmail1">ถึง วัน/เดือน/ปี</label>
+                  <input type ="date"  class="form-control" id="date2" name="date2" placeholder="ปีการศึกษา"> 
+                </div>
+             </div>
+              </div>
+
+              
+            </div>
+           
         
            
               <div class="modal-footer">
@@ -348,6 +394,65 @@ input:checked + .slider:before {
         $.ajax({
         type: 'POST',
         url: "/backyear",
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        success: (data) => {
+          if(data){
+            swal({
+          title: "บันทึกข้อมูลเรียบร้อย",
+          text: "",
+          icon: "success",
+          button: "ตกลง",
+        }).then(function() {
+          window.location = "/";
+        });
+          }
+        },
+        error: function(data) {
+         
+          
+          console.log(data.responseJSON.errors);
+        }
+      });
+      } else {
+        
+      }
+    });
+  }
+    });
+
+    $('#adddata1').submit(function(e) {
+      e.preventDefault();
+      for (instance in CKEDITOR.instances) {
+                CKEDITOR.instances[instance].updateElement();
+        }
+      var formData = new FormData(this);
+      var date1 = document.getElementById("date1").value;
+      var date2 = document.getElementById("date2").value;
+
+       if(date1==""||date1==""){
+        swal({
+          title: "กรุณาป้อนข้อมูลให้ครบ",
+          text: "",
+          icon: "warning",
+          showConfirmButton: false,
+        });
+      }
+      else{
+      swal({
+      title: "ยืนยันการบันทึก?",
+      icon: "warning",
+      buttons: true,
+      successMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        $.ajax({
+        type: 'POST',
+        url: "/nextyear",
         data: formData,
         cache: false,
         contentType: false,

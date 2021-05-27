@@ -50,9 +50,9 @@
           <div id="body">
             <div class="col-md-12 col-sm-9 col-xs-12">
             <div class="form-group">
-            
-                <label>ชื่อผู้ร่วมวิจัย</label> <a data-target="#modal-edit" data-toggle="modal" class="MainNavText" id="MainNavHelp" 
-       href="#modal-edit"><i class='fa fa-plus'></i> เพิ่มผู้ร่วมวิจัยหลักสูตรอื่น</a> 
+            <!-- <a data-target="#modal-edit" data-toggle="modal" class="MainNavText" id="MainNavHelp" 
+       href="#modal-edit"><i class='fa fa-plus'></i> เพิ่มผู้ร่วมวิจัยหลักสูตรอื่น</a> -->
+                <label>ชื่อผู้ร่วมวิจัย</label>  
        &nbsp;&nbsp;<a data-target="#modal-info" data-toggle="modal" class="MainNavText" id="MainNavHelp" 
        href="#modal-info"><i class='fa fa-plus'></i> เพิ่มผู้ใช้งาน</a>
                 <select class="form-control" id="teacher_name" name="teacher_name[]" multiple="multiple" 
@@ -74,9 +74,40 @@
             <div class="col-md-12 col-sm-9 col-xs-12">
             <div class="form-group">
                     <label for="exampleInputPassword1">ปีที่ทำวิจัย</label>
-                    <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-                  type = "number"
-                  maxlength = "4" class="form-control" id="research_results_year" name="research_results_year" placeholder="ปีที่จัดทำ">
+                    <input type="date" class="form-control" id="research_results_date" name="research_results_date" placeholder="งบประมาณ">
+                  </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+    <div class="row">
+            <div class="col">
+            <div class="data">
+        <div class="col-md-12">
+          <div id="body">
+            <div class="col-md-12 col-sm-9 col-xs-12">
+            <label for="exampleInputPassword1">แหล่งงบประมาณ</label>
+            <div class="form-group">
+                    <input type="radio" id="source_salary" name="source_salary" value="ภายใน"  checked/>
+                    <label for="exampleInputPassword1">ภายใน</label>
+                    <input type="radio" id="source_salary" name="source_salary" value="ภายนอก" />
+                    <label for="exampleInputPassword1">ภายนอก</label>
+                  </div>
+            </div>
+          </div>
+        </div>
+      </div>
+            </div>
+            <div class="col">
+            <div class="data">
+        <div class="col-md-12">
+          <div id="body">
+            <div class="col-md-12 col-sm-9 col-xs-12">
+            <div class="form-group">
+                    <label for="exampleInputPassword1">หน่วยงานที่ให้ทุน</label>
+                    <input type="text" class="form-control" id="research_results_source_salary" name="research_results_source_salary" placeholder="หน่วยงานที่ให้ทุน">
                   </div>
             </div>
           </div>
@@ -91,8 +122,8 @@
           <div id="body">
             <div class="col-md-12 col-sm-9 col-xs-12">
             <div class="form-group">
-                    <label for="exampleInputPassword1">แหล่งงบประมาณ</label>
-                    <input type="text" class="form-control" id="research_results_salary" name="research_results_salary" placeholder="งบประมาณ">
+                    <label for="exampleInputPassword1">งบประมาณ</label>
+                    <input type="number" class="form-control" id="research_results_salary" name="research_results_salary" placeholder="งบประมาณ">
                   </div>
             </div>
           </div>
@@ -104,10 +135,7 @@
         <div class="col-md-12">
           <div id="body">
             <div class="col-md-12 col-sm-9 col-xs-12">
-            <div class="form-group">
-                    <label for="exampleInputPassword1">งบประมาณ</label>
-                    <input type="number" class="form-control" id="research_results_salary" name="research_results_salary" placeholder="งบประมาณ">
-                  </div>
+            
             </div>
           </div>
         </div>
@@ -126,44 +154,21 @@
       </div>
     </form>
     <div class="modal  fade " id="modal-info">
-          <div class="modal-dialog modal-lg">
+          <div class="modal-dialog ">
             <div class="modal-content">
               <div class="modal-header">
              
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">เพิ่มข้อมูลผู้ใช้งาน</h4>
+                <h4 class="modal-title">เพิ่มข้อมูลผู้ร่วมวิจัย</h4>
               </div>
               <form  id="adddata2" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data">
               @csrf
               <div class="modal-body">
-          <div class="row">
-            <div class="col-md-6">
-            <div class="form-group text-center">
-                <label for="exampleInputEmail1">รูปภาพ</label><br>
-                <img id="image_preview_container" src="/images1/profile.png"
-                        alt="preview image" class="imgavt" style="max-height: 160px;">
-                  <input class="inp"  type="file" id="image" name="image">
-                </div>
                 <div class="form-group">
+                <input type="hidden" class="form-control" id="username" name="username" placeholder="username" readonly>
                   <label for="exampleInputPassword1">ชื่อ-สกุล</label>
                   <input type="text" class="form-control" id="user_fullname" name="user_fullname" placeholder="ชื่อ-สกุล">
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputPassword1">username</label>
-                  <input type="text" class="form-control" id="username" name="username" placeholder="username" readonly>
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputPassword1">password</label>
-                  <input type="password" class="form-control" id="password" name="password" placeholder="password">
-                </div>
-                
-            </div>
-
-            <div class="col-md-6">
-            <div class="form-group">
-                  <label for="exampleInputPassword1">email</label>
-                  <input type="email" class="form-control" id="email" name="email" placeholder="email">
                 </div>
             <div class="form-group">
                 <label for="exampleInputPassword1">คณะ</label>
@@ -189,26 +194,8 @@
                                     @endforeach
                                   </select>
                                   </div>
-                                  <div class="form-group">
-                <label for="exampleInputPassword1">กลุ่มผู้ใช้งาน</label>
-                                  <select class="form-control"  id="user_group_id"  class="form-control @error('role') is-invalid @enderror" name="user_group_id">
-                                    @foreach($groupuser as $value)
-                                    <option value="{{$value['user_group_id']}}">{{$value['user_group_name']}}</option>
-                                    @endforeach
-                                  </select>
-                                  </div>
-                                  <div class="form-group">
-                <label for="exampleInputPassword1">ตำแหน่งทางวิชาการ</label>
-                                  <select class="form-control"  id="academic_position"  class="form-control @error('role') is-invalid @enderror" name="academic_position">
-                                  <option value=""></option>
-                                    <option value="ศาสตราจารย์">ศาสตราจารย์</option>
-                                    <option value="รองศาสตราจารย์">รองศาสตราจารย์</option>
-                                    <option value="ผู้ช่วยศาสตราจารย์">ผู้ช่วยศาสตราจารย์</option>
-                                  </select>
-                                  </div>
-            </div>
-          </div>
-             </div>
+
+      
 
               <div class="modal-footer">
                 <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">ปิด</button>
@@ -291,7 +278,15 @@
 }
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <script>
+        $('#datepicker').datepicker({
+            uiLibrary: 'bootstrap',
+            format:'dd/mm/yyyy',
+        });
+    </script>
 <script>
+
 function myFunction() {
   var token = $('meta[name="csrf-token"]').attr('content');
   var e = document.getElementById("user_course");
@@ -338,6 +333,8 @@ $(function () {
     $('#example11').DataTable({
       lengthMenu: [ 10, 20, 50, 100]
     });
+
+      
   })
 </script>
 <script type="text/javascript">
@@ -380,7 +377,7 @@ $(function () {
       e.preventDefault();
       var formData = new FormData(this);
       var owner = document.getElementById("owner").value;
-      var research_results_year = document.getElementById("research_results_year").value;
+      var research_results_year = document.getElementById("research_results_date").value;
       var research_results_name = document.getElementById("research_results_name").value;
       var research_results_salary = document.getElementById("research_results_salary").value;
       var teacher_name = $('#teacher_name').val();
@@ -457,7 +454,6 @@ $(function () {
     });
 
     $('#adddata2').submit(function(e) {
-      console.log("เข้า");
       e.preventDefault();
       var formData = new FormData(this);
 
@@ -471,7 +467,7 @@ $(function () {
       if (willDelete) {
         $.ajax({
         type: 'POST',
-        url: "/adduser",
+        url: "/adduser2",
         data: formData,
         cache: false,
         contentType: false,

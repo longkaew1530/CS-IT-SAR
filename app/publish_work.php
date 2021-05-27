@@ -10,7 +10,7 @@ class publish_work extends Model
     protected $primaryKey = 'publish_id';
     protected $fillable=[
         'owner','teacher_name','category_publish_work','publish_work_year','publish_work_yearshow','publish_work_name','publish_work_issue','publish_work_page'
-        ,'publish_work_date','publish_work_place','province','country','journal_name','category'
+        ,'publish_work_date','publish_work_place','province','country','journal_name','category','publish_work_yearanddate'
     ];
     public function category_research_results()
     {

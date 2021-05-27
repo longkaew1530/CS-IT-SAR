@@ -12,6 +12,7 @@ use Excel;
 use App\defaulindicator;
 use App\ModelAJ\Research_results;
 use App\branch;
+use App\ModelAJ\Research_results_user;
 use App\user_permission_status;
 use App\category4_teaching_quality;
 use App\training_information;
@@ -199,10 +200,20 @@ class APIController extends Controller
      {
          $course = course_detail::where('course_id',$id)->get();
          $li = '';   
+         
         foreach ($course as $key=>$enrollment) {
+            $li2='';
+            if($enrollment->academic_position==='ประธานหลักสูตร'){
+                $li2.='<option value="ประธานหลักสูตร" selected>ประธานหลักสูตร</option>
+                        <option value="อาจารย์" >อาจารย์</option></select>';
+            }
+            else if($enrollment->academic_position==='อาจารย์'){
+                $li2.='<option value="ประธานหลักสูตร" >ประธานหลักสูตร</option>
+                <option value="อาจารย์" selected>อาจารย์</option></select>';
+            }
         $li .= '<tr id="row'.$key.'"><td>'.($key+1).'. </td><td width="110%"><input type="text" id="name1" name="name[]" placeholder="ชื่อ-สกุล" class="form-control name_list" value="'.$enrollment->name.'"/></td><td><button type="button" name="remove" id="'.$key.'" class="btn btn-danger ml-1 btn_remove2">X</button></td></tr>
-                <tr id="row2'.$key.'"><td></td><td><textarea type="text" id="background1"  name="background[]" placeholder="วุฒิการศึกษา" class="form-control name_list">'.$enrollment->background.'</textarea><br></td></tr>
-                <tr id="row3'.$key.'"><td></td><td><textarea type="text" id="academic_position1"  name="academic_position[]" placeholder="ตำแหน่งทางวิชาการ" class="form-control name_list">'.$enrollment->academic_position.'</textarea><br></td></tr>';
+                <tr id="row2'.$key.'"><td></td><td><textarea type="text" id="background1"  name="background[]" placeholder="วุฒิการศึกษา" class="form-control name_list">'.$enrollment->background.'</textarea></td></tr>
+                <tr id="row3'.$key.'"><td></td><td><select class="form-control"  id="academic_position1"  class="form-control" name="academic_position[]">'.$li2.'<br></td></tr><br>';
         }
     
         return response()->json(['success'=> $li]);
@@ -238,19 +249,7 @@ class APIController extends Controller
          $data->place = $request->input('place');
          $data->initials = $request->input('initials');
          $data->save();
-         $checkdata=course_detail::where('course_id',$data->course_id);
-         if($checkdata!=""){
-             $checkdata->delete();
-         }
-         foreach($getdata['name'] as $key=>$value){
-             if($getdata['background'][$key]==""){
-                 continue;
-             }
-            $insert[$key]['course_id'] = $data->course_id;
-            $insert[$key]['name'] = $value;
-            $insert[$key]['background'] = $getdata['background'][$key];
-         }
-         course_detail::insert($insert);
+         
          return redirect('/course');
      }
      public function deletecourse($id)
@@ -274,7 +273,7 @@ class APIController extends Controller
             $insert[$key]['course_id'] = $request->course_id;
             $insert[$key]['name'] = $value;
             $insert[$key]['background'] = $getdata['background'][$key];
-            $insert[$key]['academic_position'] = $getdata['academic_position'][$key];
+            $insert[$key]['academic_position'] = $getdata['academic_position3'][$key];
          }
          course_detail::insert($insert);
          return $insert;
@@ -375,7 +374,7 @@ class APIController extends Controller
      /////กลุ่มผู้ใช้งาน/////กลุ่มผู้ใช้งาน/////กลุ่มผู้ใช้งาน/////กลุ่มผู้ใช้งาน/////กลุ่มผู้ใช้งาน/////กลุ่มผู้ใช้งาน
      
      /////ปีถัดไป/////ปีถัดไป/////ปีถัดไป/////ปีถัดไป/////ปีถัดไป/////ปีถัดไป
-     public function nextyear()
+     public function nextyear(Request $request)
      {
          $getyear=Year::all();
          foreach($getyear as $value){
@@ -384,6 +383,8 @@ class APIController extends Controller
          $queryyaer= new Year;
          $nextyear++;
          $queryyaer->year_name=$nextyear;
+         $queryyaer->date1=$request->date1;
+         $queryyaer->date2=$request->date2;
          $queryyaer->save();
          $getall=defaulindicator::all();
          $getcourse=Course::all();
@@ -521,7 +522,7 @@ class APIController extends Controller
           'user_branch' => $request->branch,
           'user_course' => $request->user_course,
           'user_group_id' => $request->user_group_id,
-          'academic_position' => $request->academic_position,
+          'prefix' => $request->prefix,
         ];
         if ($files = $request->file('image')) {
             
@@ -537,6 +538,24 @@ class APIController extends Controller
         else{
 
         }
+        
+        User::insert($data);  
+    
+        return $data;
+     }
+     public function adduser2(Request $request)
+     {
+       $data = ['user_fullname' => $request->user_fullname,
+         'email' => "aj@hotmail.com",
+          'username' => $request->username,
+          'password' => Hash::make(1),
+          'user_faculty' => $request->user_faculty,
+          'user_branch' => $request->branch,
+          'user_course' => $request->user_course,
+          'user_group_id' => 5,
+          'prefix' => "",
+        ];
+
         
         User::insert($data);  
     
@@ -590,7 +609,7 @@ class APIController extends Controller
        $data->user_course = $request->input('user_course');
        $data->user_branch = $request->input('branch');
        $data->user_group_id = $request->input('user_group_id');
-       $data->academic_position = $request->input('academic_position');
+       $data->prefix = $request->input('prefix');
         if ($files = $request->file('image')) {
            //delete old file
            \File::delete('public/user/'.$request->hidden_image);
@@ -818,7 +837,14 @@ class APIController extends Controller
           else{
             $data3= new user_permission_status;
           }
-
+          $data3->status1=0;
+          $data3->status2=0;
+          $data3->status3=0;
+          $data3->status4=0;
+          $data3->status5=0;
+          $data3->status6=0;
+          $data3->status7=0;
+          $data3->status8=0;
           if(isset($data['cate1'])){
             $data3->status1=1;
           }
@@ -1121,52 +1147,39 @@ class APIController extends Controller
       }
       public function gettraining_information($id)
      {
-         $course = course_detail::where('course_id',$id)->get();
-         $li = '';   
-        foreach ($course as $key=>$enrollment) {
-        $li .= '<tr id="row'.$key.'"><td>'.($key+1).'. </td><td width="110%"><input type="text" id="name1" name="name[]" placeholder="ชื่อ-สกุล" class="form-control name_list" value="'.$enrollment->name.'"/></td><td><button type="button" name="remove" id="'.$key.'" class="btn btn-danger ml-1 btn_remove2">X</button></td></tr>
-                <tr id="row2'.$key.'"><td></td><td><textarea type="text" id="background1"  name="background[]" placeholder="วุฒิการศึกษา" class="form-control name_list">'.$enrollment->background.'</textarea><br></td></tr>
-                <tr id="row3'.$key.'"><td></td><td><textarea type="text" id="academic_position1"  name="academic_position[]" placeholder="ตำแหน่งทางวิชาการ" class="form-control name_list">'.$enrollment->academic_position.'</textarea><br></td></tr>';
-        }
-    
-        return response()->json(['success'=> $li]);
+         $course = training_information::where('id',$id)->get();
+         return $course;
      }
      public function addtraining_information(Request $request)
-     {
+     {  
+
         $user=auth()->user();
          $data['user_id']=$user->id;
          $data['name_training']=$request->name_training;
          $data['date_training']=$request->date_training;
          $data['place_training']=$request->place_training;
          $data['category_training']=$request->category_training;
-         $data['year_id']=session()->get('year_id');
+         $data['year_id']=$request->year_id;
          training_information::insert($data);
 
          return $data;
      }
      public function updatetraining_information(Request $request)
      {
-        $getdata=$request->all();
-         $course_id=$request->input('course_id');
-         $data = training_information::find($course_id);
-         $data->course_name = $request->input('course_name');
-         $data->faculty_id = $request->input('faculty_id');
-         $data->course_code = $request->input('course_code');
-         $data->update_course = $request->input('update_course');
-         $data->place = $request->input('place');
-         $data->initials = $request->input('initials');
+         $data = training_information::find($request->id);
+         $data['name_training']=$request->name_training;
+         $data['date_training']=$request->date_training;
+         $data['place_training']=$request->place_training;
+         $data['category_training']=$request->category_training;
+         $data['year_id']=$request->year_id;
          $data->save();
-
+         return $data;
      }
      public function deletetraining_information($id)
      {
-         $product = training_information::where('user_id',$id)
-         ->where('year_id',session()->get('year_id'))
-         ->where('course_id',session()->get('usercourse'))
-         ->where('branch_id',session()->get('branch_id'));
-
+         $product = training_information::find($id);
          $product->delete();
-         return true;
+         return $product;
      }
      public function addcourse_responsible_teacherback(Request $request)
      {
@@ -1175,12 +1188,20 @@ class APIController extends Controller
          ->where('year_id',(session()->get('year_id')-1))
          ->get();
         foreach($check as $value){
-            $data=new course_responsible_teacher;
-            $data->user_id=$value['user_id'];
-            $data->year_id=session()->get('year_id');
-            $data->course_id=$value['course_id'];
-            $data->branch_id=$value['branch_id'];
-            $data->save();
+            $checkdata=course_responsible_teacher::where('user_id',$value['user_id'])
+            ->where('course_id',session()->get('usercourse'))
+            ->where('branch_id',session()->get('branch_id'))
+            ->where('year_id',session()->get('year_id'))
+            ->get();
+            if($checkdata=="[]"){
+                $data=new course_responsible_teacher;
+                $data->user_id=$value['user_id'];
+                $data->year_id=session()->get('year_id');
+                $data->course_id=$value['course_id'];
+                $data->branch_id=$value['branch_id'];
+                $data->save();
+            }
+            
         }
 
          return $data;
@@ -1192,12 +1213,19 @@ class APIController extends Controller
          ->where('year_id',(session()->get('year_id')-1))
          ->get();
         foreach($check as $value){
-            $data=new course_teacher;
-            $data->user_id=$value['user_id'];
-            $data->year_id=session()->get('year_id');
-            $data->course_id=$value['course_id'];
-            $data->branch_id=$value['branch_id'];
-            $data->save();
+            $checkdata=course_teacher::where('user_id',$value['user_id'])
+            ->where('course_id',session()->get('usercourse'))
+            ->where('branch_id',session()->get('branch_id'))
+            ->where('year_id',session()->get('year_id'))
+            ->get();
+            if($checkdata=="[]"){
+                $data=new course_teacher;
+                $data->user_id=$value['user_id'];
+                $data->year_id=session()->get('year_id');
+                $data->course_id=$value['course_id'];
+                $data->branch_id=$value['branch_id'];
+                $data->save();
+            }
         }
 
          return $data;
@@ -1209,12 +1237,20 @@ class APIController extends Controller
          ->where('year_id',(session()->get('year_id')-1))
          ->get();
         foreach($check as $value){
-            $data=new instructor;
-            $data->user_id=$value['user_id'];
-            $data->year_id=session()->get('year_id');
-            $data->course_id=$value['course_id'];
-            $data->branch_id=$value['branch_id'];
-            $data->save();
+            
+            $checkdata=instructor::where('user_id',$value['user_id'])
+            ->where('course_id',session()->get('usercourse'))
+            ->where('branch_id',session()->get('branch_id'))
+            ->where('year_id',session()->get('year_id'))
+            ->get();
+            if($checkdata=="[]"){
+                $data=new instructor;
+                $data->user_id=$value['user_id'];
+                $data->year_id=session()->get('year_id');
+                $data->course_id=$value['course_id'];
+                $data->branch_id=$value['branch_id'];
+                $data->save();
+            }
         }
 
          return $data;
@@ -1230,4 +1266,18 @@ class APIController extends Controller
 
          return $researchresults2;
      }
+     public function getcourse_username3()
+      {
+        $researchresults2=Research_results::rightjoin('research_results_user','research_results_user.research_results_research_results_id','=','research_results.research_results_id')
+        ->leftjoin('category_research_results','category_research_results.id','=','research_results.research_results_category')
+        ->leftjoin('users','users.id','=','research_results_user.user_id')
+        ->where('research_results.research_results_id',session()->get('index25'))
+        ->get();
+           $data =Research_results_user::leftjoin('users','users.id','=','research_results_user.user_id')
+           ->where('research_results_user.research_results_research_results_id',session()->get('index25'))
+           ->get();
+           $data[0]['owner']=$researchresults2[0]['owner'];
+  
+          return $data;
+      }
 }

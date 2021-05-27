@@ -102,7 +102,7 @@
           <td>{{$row['research_results_year']}}</td>
           <td>{{$row['research_results_salary']}}</td>	
           <td class="text-center">
-          <a href="/editresearch_results" class="btn btn-warning"><i class='fa fas fa-edit'></i></a>
+          <a href="/editresearch_results/{{$row['research_results_id']}}" class="btn btn-warning"><i class='fa fas fa-edit'></i></a>
           </button></td>
           <td class="text-center">
             <meta name="csrf-token" content="{{ csrf_token() }}">

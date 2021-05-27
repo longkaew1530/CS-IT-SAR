@@ -38,7 +38,7 @@ Route::get('/assign_indicator', 'DashboardController@index21');
 Route::get('/addcourse_responsible_teacher', 'DashboardController@index22');
 Route::get('/historical_report', 'DashboardController@index23');
 Route::get('/showresearch_results', 'DashboardController@index24');
-Route::get('/editresearch_results', 'DashboardController@index25');
+Route::get('/editresearch_results/{id}', 'DashboardController@index25');
 /////อาจารย์
 Route::get('/educational_background', 'AJController@educational_background');
 Route::get('/research_results', 'AJController@research_results');
@@ -167,6 +167,7 @@ Route::post('/backyear','APIController@backyear');
 Route::delete('/deleteyear/{id}','APIController@deleteyear');
 /////user
 Route::post('/adduser','APIController@adduser');
+Route::post('/adduser2','APIController@adduser2');
 Route::post('/uploadimage','APIController@uploadimage');
 Route::delete('/deleteuser/{id}', 'APIController@deleteuser');
 Route::get('/getuser/{id}','APIController@getuser');
@@ -374,6 +375,7 @@ Route::get('/getallindicator','ShowdataController@getallindicator');
 /////getcourse_user
 Route::get('/getcourse_username/{id}','APIController@getcourse_username');
 Route::get('/getcourse_username2','APIController@getcourse_username2');
+Route::get('/getcourse_username3','APIController@getcourse_username3');
 
 ////indicator1-1
 Route::get('/getindicator1_1','APIAJController@getindicator1_1');
@@ -381,9 +383,10 @@ Route::post('/addindicator1_1','APIAJController@addindicator1_1');
 Route::post('/updateindicator1_1','APIAJController@updateindicator1_1');
 
 ////training_information
-Route::get('/gettraining_information','APIController@gettraining_information');
+Route::get('/gettraining_information/{id}','APIController@gettraining_information');
 Route::post('/addtraining_information','APIController@addtraining_information');
 Route::post('/updatetraining_information','APIController@updatetraining_information');
+Route::post('/deletetraining_information/{id}','APIController@deletetraining_information');
 
 Route::post('/addcourse_responsible_teacherback','APIController@addcourse_responsible_teacherback');
 Route::post('/addcourseteacherback','APIController@addcourseteacherback');

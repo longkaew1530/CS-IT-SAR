@@ -18,7 +18,7 @@ class User extends Authenticatable
     protected $table = 'users';
     protected $primaryKey = 'id';
     protected $fillable = [
-        'id','user_fullname', 'username', 'password','email','user_faculty','user_ course','user_group_id','academic_position','image','user_branch'
+        'id','prefix','user_fullname', 'username', 'password','email','user_faculty','user_ course','user_group_id','academic_position','image','user_branch'
     ];
     public function educational_background()
     {
@@ -42,7 +42,8 @@ class User extends Authenticatable
     public function training_information()
     {
         return $this->hasMany('App\training_information','user_id','id')
-        ->where('year_id',session()->get('year_id'));
+        ->where('year_id','>=',session()->get('yearBegin'))
+        ->where('year_id','<=',session()->get('yearEnd'));
     }
     /**
      * The attributes that should be hidden for arrays.

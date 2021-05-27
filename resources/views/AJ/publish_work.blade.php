@@ -54,9 +54,7 @@
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">ปีที่</label>
-                    <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-                  type = "number"
-                  maxlength = "4" class="form-control" id="publish_work_year" name="publish_work_year" placeholder="ปีที่">
+                    <input type = "date" class="form-control" id="publish_work_year" name="publish_work_year" placeholder="ปีที่">
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">ฉบับที่</label>
@@ -98,6 +96,10 @@
                   <div class="form-group">
                     <label for="exampleInputPassword1">วันที่</label>
                     <input type = "text" class="form-control" id="publish_work_date2" name="publish_work_date2" placeholder="วันที่">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">วัน/เดือน/ปี</label>
+                    <input type = "date" class="form-control" id="publish_work_yearanddate2" name="publish_work_yearanddate2" placeholder="วันที่">
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">หน้า</label>

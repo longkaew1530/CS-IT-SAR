@@ -3,7 +3,7 @@
 @section('content')
 <div class="box box-warning marginl ">
   <div class="box-header">
-    <h2 class="box-title">ข้อมูลการอบรบ</h2>
+    <h2 class="box-title">ข้อมูลการอบรม</h2>
   </div>
   <button class="btn btn-success ml-1" type="button" data-toggle="modal" data-target="#modal-info"><i class="fa fa-plus"></i> เพิ่มข้อมูล</button>
   <div class="modal  fade" id="modal-info">
@@ -12,7 +12,7 @@
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">เพิ่มข้อมูลการอบรบ</h4>
+                <h4 class="modal-title">เพิ่มข้อมูลการอบรม</h4>
               </div>
               <form id="adddata" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data" >
                 @csrf
@@ -25,6 +25,10 @@
                   <div class="form-group">
                     <label for="exampleInputPassword1">วัน/เดือน/ปี ที่อบรบ</label>
                     <input  type="text" class="form-control" id="date_training" name="date_training" placeholder="วัน/เดือน/ปี ที่อบรบ">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">วัน/เดือน/ปี ที่อบรบ</label>
+                    <input  type="date" class="form-control" id="year_id" name="year_id" placeholder="วัน/เดือน/ปี ที่อบรบ">
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">สถานที่</label>
@@ -77,10 +81,10 @@
           <td>{{$row['date_training']}}</td>
           <td>{{$row['place_training']}}</td>
           <td>{{$row['category_training']}}</td>
-          <td class="text-center"><button class="btn btn-warning" type="button" data-toggle="modal" data-target="#modal-edit" data-id="{{$row['research_results_id']}}"><i class='fa fas fa-edit'></i></button></td>
+          <td class="text-center"><button class="btn btn-warning" type="button" data-toggle="modal" data-target="#modal-edit" data-id="{{$row['id']}}"><i class='fa fas fa-edit'></i></button></td>
           <td class="text-center">
             <meta name="csrf-token" content="{{ csrf_token() }}">
-            <button type="button" class="btn btn-danger deletedata" data-id="{{$row['research_results_id']}}"><i class='fa fa-trash'></i></button>
+            <button type="button" class="btn btn-danger deletedata" data-id="{{$row['id']}}"><i class='fa fa-trash'></i></button>
           </td>
         </tr>
         
@@ -97,43 +101,31 @@
                 @csrf
                 <div class="box-body">
                     <input type="hidden" class="form-control" id="id" name="id" >
-                  <div class="form-group">
-                    <label for="exampleInputPassword1">ชื่อผู้วิจัย</label>
-                    <input type="hidden" id="owner1" name="owner"   value="{{ Auth::user()->id }}">
-                    <input type="text" id="ownername"  class="form-control" value="{{ Auth::user()->user_fullname }}"   disabled>
-                  </div>
-                  
-                  <div class="form-group">
-                <label>ชื่อผู้ร่วมวิจัย</label>
-                <select class="form-control select2" id="select" name="teacher_name[]" multiple="multiple" data-placeholder="เลือกผู้ร่วมวิจัย"
-                        style="width: 100%;">
-                        @foreach($userall as $value)
-                      <option value="{{$value['id']}}">{{$value['user_fullname']}}</option>
-                      @endforeach
-                </select>
-              </div>
-              <div class="form-group">
-                    <label for="exampleInputPassword1">ชื่อผู้ทำวิจัยทั้งหมด</label>
-                    <textarea class="form-control" rows="3" placeholder="ชื่อผู้ทำวิจัยทั้งหมด" id="listname1" name="listname"></textarea>
-                  </div>
-             
-                  <div class="form-group">
-                    <label for="exampleInputPassword1">ปีที่ทำวิจัย/ตีพิมพ์</label>
-                    <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-                  type = "number"
-                  maxlength = "4" class="form-control" id="research_results_year1" name="research_results_year" placeholder="ปีที่จัดทำ">
+                    <div class="form-group">
+                    <label for="exampleInputPassword1">ชื่อการอบรบ</label>
+                    
+                    <input type="text" class="form-control"  id="name_training1" name="name_training"   placeholder="ชื่อการอบรบ">
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">ชื่อผลงาน</label>
-                    <input type="text" class="form-control" id="research_results_name1" name="research_results_name" placeholder="ชื่อผลงาน">
+                    <label for="exampleInputPassword1">วัน/เดือน/ปี ที่อบรบ</label>
+                    <input  type="text" class="form-control" id="date_training1" name="date_training" placeholder="วัน/เดือน/ปี ที่อบรบ">
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">รายละเอียด</label>
-                    <textarea class="form-control" rows="3" placeholder="รายละเอียด" id="research_results_description1" name="research_results_description"></textarea>
+                    <label for="exampleInputPassword1">วัน/เดือน/ปี ที่อบรบ</label>
+                    <input  type="date" class="form-control" id="year_id1" name="year_id" placeholder="วัน/เดือน/ปี ที่อบรบ">
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">งบประมาณ</label>
-                    <input type="number" class="form-control" id="research_results_salary1" name="research_results_salary" placeholder="งบประมาณ">
+                    <label for="exampleInputPassword1">สถานที่</label>
+                    <input type="hidden" id="owner" name="owner"  >
+                    <input type="text" class="form-control"  placeholder="สถานที่" id="place_training1" name="place_training" >
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">ประเภท</label>
+                    <select class="form-control" id="category_training1" name="category_training" class="form-control @error('role') is-invalid @enderror" >
+                      <option value="อบรบ">อบรบ</option>
+                      <option value="ประชุม">ประชุม</option>
+                      <option value="สัมมนา">สัมมนา</option>
+                    </select>
                   </div>
                 </div>
                 <div class="modal-footer">
@@ -240,7 +232,7 @@
       var category_training = document.getElementById("category_training").value;
       if(name_training==""||date_training==""||category_training==""){
          swal({
-          title: "ชื่อผู้วิจัยไม่สามารถซ้ำกับชื่อผู้ร่วมวิจัยได้",
+          title: "กรุณาป้อนข้อมูลให้ครบ",
           text: "",
           icon: "warning",
           showConfirmButton: false,
@@ -290,33 +282,12 @@
     $('#updatedata').submit(function(e) {
       e.preventDefault();
       var formData = new FormData(this);
-      var owner = document.getElementById("owner1").value;
-      var research_results_year = document.getElementById("research_results_year1").value;
-      var research_results_name = document.getElementById("research_results_name1").value;
-      var research_results_salary = document.getElementById("research_results_salary1").value;
-      var teacher_name = $('#select').val();
-      var checkdup="aaaaa";
-            for (index = 0; index < teacher_name.length; ++index) {
-              if(teacher_name[index]==owner){
-                checkdup="";
-              }
-            }
-      var gettname="";
-            for (index = 0; index < teacher_name.length; ++index) {
-              if(teacher_name[index]!=""){
-                gettname="aaaa";
-             }
-            }
-      if(checkdup==""){
+      var name_training1 = document.getElementById("name_training1").value;
+      var date_training1 = document.getElementById("date_training1").value;
+      var category_training1 = document.getElementById("category_training1").value;
+
+      if(name_training1==""||date_training1==""||category_training1==""){
          swal({
-          title: "ชื่อผู้วิจัยไม่สามารถซ้ำกับชื่อผู้ร่วมวิจัยได้",
-          text: "",
-          icon: "warning",
-          showConfirmButton: false,
-        });
-      }
-      else if(owner==""||research_results_year==""||research_results_name==""||research_results_salary==""){
-        swal({
           title: "กรุณาป้อนข้อมูลให้ครบ",
           text: "",
           icon: "warning",
@@ -334,7 +305,7 @@
       if (willDelete) {
         $.ajax({
         type: 'POST',
-        url: "/updateresearch_results",
+        url: "/updatetraining_information",
         data: formData,
         cache: false,
         contentType: false,
@@ -348,7 +319,7 @@
           icon: "success",
           button: "ตกลง",
         }).then(function() {
-          window.location = "/research_results";
+          window.location = "/training_information";
         });
           }
         },
@@ -371,26 +342,16 @@
       var modal = $(this);
       var studentSelect = $('#select');
       modal.find('#emp_id').val(id);
-      var url = "/getresearch_results";
+      var url = "/gettraining_information";
       $.get(url + '/' + id, function(data) {
         //success data
-        $("#id").val(data[0].research_results_id);
-        // $("#owner1").val(data[0].owner);
-        // $("#ownername").val(data[0].user_fullname);
-        var get=[];
-        for (index = 0; index < data.length; ++index) {
-                if(data[index].user_id!=data[0].owner){
-                  get[index]=data[index].user_id;
-                } 
-        }
-        $("#select").val(get);
-        $("#listname1").val(data[0].teacher_name);
-        $("#research_results_year1").val(data[0].research_results_year);
-        $("#research_results_year1").val(data[0].research_results_year);
-        $("#research_results_category1").val(data[0].research_results_category);
-        $("#research_results_name1").val(data[0].research_results_name);
-        $("#research_results_description1").val(data[0].research_results_description);
-        $("#research_results_salary1").val(data[0].research_results_salary);
+        $("#id").val(data[0].id);
+        $("#name_training1").val(data[0].name_training);
+        $("#date_training1").val(data[0].date_training);
+        $("#year_id1").val(data[0].year_id);
+        $("#place_training1").val(data[0].place_training);
+        $("#category_training1").val(data[0].category_training);
+
         
 
         $('#select').select2({
@@ -421,7 +382,7 @@
     .then((willDelete) => {
       if (willDelete) {
         $.ajax({
-      url: "/deleteresearch_results/" + id,
+      url: "/deletetraining_information/" + id,
       type: 'post',
       data: {
         "id": id,
@@ -434,7 +395,7 @@
           icon: "success",
           button: "ตกลง",
         }).then(function() {
-          window.location = "/research_results";
+          window.location = "/training_information";
         });
       }
     });

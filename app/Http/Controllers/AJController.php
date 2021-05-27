@@ -46,6 +46,8 @@ use App\category7_strength;
 use App\category7_newstrength;
 use App\category7_development_proposal;
 use App\in_index;
+use Illuminate\Support\Carbon;
+
 class AJController extends Controller
 {
     public function __construct()
@@ -75,13 +77,19 @@ class AJController extends Controller
         // ->where('owner',$user->id)
         // ->get();
         $category=categoty_researh::all();
+        // foreach($researchresults as $key=>$value){
+        //     $get=Carbon::parse($researchresults[$key]['research_results_date'])->thaidate();
+        //     $researchresults[$key]['research_results_date']=$get;
+        // }
+
+       
+
         return view('AJ/research_results',compact('researchresults','category','userall'));
     }
     public function training_information()
     {
         $user=auth()->user();
         $userall=training_information::where('user_id',$user->id)
-        ->where('year_id',session()->get('year_id'))
         ->get();
 
         return view('AJ/training_information',compact('userall'));

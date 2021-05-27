@@ -233,7 +233,7 @@ class CategoryController extends Controller
         //ดึงค่าตารางหลักสูตร
         $course = Course::where('course_id',session()->get('usercourse'))->get();
         $course_detail = course_detail::where('course_id',session()->get('usercourse'))
-        ->orderBy('academic_position','desc')
+        ->orderBy('academic_position','asc')
         ->get();
         $user=auth()->user();
         $user_branch=branch::where('id',$user->user_branch)->get();
@@ -365,8 +365,11 @@ class CategoryController extends Controller
         ->where('course_responsible_teacher.year_id',session()->get('year_id'))
         ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
         ->where('course_responsible_teacher.branch_id',session()->get('branch_id'))
-        ->where('publish_work.publish_work_year',session()->get('year'))
+        ->where('publish_work.publish_work_yearanddate','>=',session()->get('yearBegin'))
+        ->where('publish_work.publish_work_yearanddate','<=',session()->get('yearEnd'))
+        ->orderBy('category_research_results.score','desc')
         ->get();
+       
     //    dd($category_re);
         //ดึงค่าตารางอาจารย์ผู้รับผิดชอบหลักสูตร
         $trc = course_responsible_teacher::join('year','course_responsible_teacher.year_id','=','year.year_id')
@@ -395,24 +398,21 @@ class CategoryController extends Controller
                     $counteb_name=$counteb_name+1;
                 }
             }
-            if($value['academic_position']=='ผู้ช่วยศาสตราจารย์')
+            if($value['academic_position']=="ผู้ช่วยศาสตราจารย์")
             {
                 $countposition1=$countposition1+1;
             }
-            else if($value['academic_position']=='รองศาตราจารย์')
+            else if($value['academic_position']=="รองศาสตราจารย์")
             {
                 $countposition2=$countposition2+1;
             }
-            else if($value['academic_position']=='ศาสตราจารย์'){
+            else if($value['academic_position']=="ศาสตราจารย์"){
                 $countposition3=$countposition3+1;
             }
         }
         $countcate=0;
-        foreach($category_re as $value){
-            if($value['publish_work_year']==session()->get('year')){
+        foreach($category_re as $value){        
                 $countcate=$countcate+$value['score'];
-            }
-            
         }
 
         $inc=PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')

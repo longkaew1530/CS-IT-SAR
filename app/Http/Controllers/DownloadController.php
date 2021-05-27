@@ -475,7 +475,12 @@ class DownloadController extends Controller
         }
         $getbranch=branch::where('branch_id',session()->get('branch_id'))
         ->get();
-        return view('downloadcategory/category2',compact('getbranch','check4_1','check4_2','check4_3','pdca','name','id','getcourse','getcategorypdca','inc','checkedit','category_re','count','counteb_name','countposition1','countposition2','countposition3'
+        $tran=User::rightjoin('course_responsible_teacher','users.id','=','course_responsible_teacher.user_id')
+            ->where('users.user_course',session()->get('usercourse'))
+            ->where('users.user_branch',session()->get('branch_id'))
+            ->where('course_responsible_teacher.year_id',session()->get('year_id'))
+            ->get();
+        return view('downloadcategory/category2',compact('tran','getbranch','check4_1','check4_2','check4_3','pdca','name','id','getcourse','getcategorypdca','inc','checkedit','category_re','count','counteb_name','countposition1','countposition2','countposition3'
                     ,'cate','qty1','B','qty2','C','qty3','E','inc4_2','id4_2','name4_2','in4_3','inc3','name4_3','id4_3','getcategorypdca4_3'));
         }
         else if($id==3){

@@ -55,7 +55,7 @@
                 <tr>
                   <td>-{{$row['name']}}<br>
                      @foreach($row->publish_work as $key =>$value)
-                     @if($value['publish_work_year']==session()->get('year'))
+                     
                        @if($value['publish_work_issue']!="")
                        <li class="ml-2">{{$value['teacher_name'].".(".($value['publish_work_year']).") ".$value['publish_work_name'].". ".$value['journal_name']." ".$value['publish_work_issue']." (".$value['publish_work_year'].") ".$value['publish_work_page']}}</li>
                        @else
@@ -66,7 +66,7 @@
                       @endif
                       
                        @endif
-                       @endif 
+                      
                       @endforeach
                   </td>           
                   <td class="text-center">
@@ -75,9 +75,9 @@
                   <td class="text-center">
                   <?php $i=0 ?>
                   @foreach($row->publish_work as $ke =>$value1)
-                        @if($value1['publish_work_year']==session()->get('year'))
+                        
                        <?php $i++ ?>
-                       @endif
+                       
                   @endforeach
                   <?php  $totalqty=$totalqty+$i;?>
                   @if( $i!=0)

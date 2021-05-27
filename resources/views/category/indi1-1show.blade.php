@@ -3,6 +3,7 @@
             <div class="box-header">
             <div class="data">
         <div class="col-md-12">
+        
         @if($checkedit!="")<a href="/getindicator1_1" class="btn btn-warning fr"><i class='fa fas fa-edit'></i> แก้ไขข้อมูล</a>@endif
               <h1 class="box-title">การกำกับให้เป็นไปตามมาตรฐาน (เกณฑ์มาตรฐานหลักสูตร พ.ศ.2558)</h1>
               <br>
@@ -25,12 +26,20 @@
                     </label>
                   </div>
                 </div>
-       
+              
               หลักสูตร{{$c}} มีอาจารย์ประจำหลักสูตรจำนวน {{$count}} คน 
               เป็นอาจารย์ผู้รับผิดชอบหลักสูตรเพียง 1 หลักสูตรเท่านั้น และอยู่ประจำหลักสูตรตลอดระยะเวลาที่จัดการศึกษาตามหลักสูตรดังนี้<br>
               @foreach($nameteacher as $key =>$value)
               
-                <ul>{{($key + 1)}}. {{$value['user_fullname']}}</ul>
+                <ul>{{($key + 1)}}. @if($value['academic_position']!="")
+                          @if($value['prefix']=="ดร.")
+                          {{$value['academic_position']}} {{$value['prefix']}}{{$value['user_fullname']}}
+                          @else
+                          {{$value['academic_position']}}{{$value['user_fullname']}}
+                          @endif
+                      @else
+                      {{$value['prefix']}}{{$value['user_fullname']}}
+                      @endif</ul>
               
               @endforeach
 
@@ -63,7 +72,17 @@
                 </tr>
                 @foreach($educ_bg as $key =>$row )
                 <tr>
-                  <td>{{($key + 1)}}. {{$row['user_fullname']}}</td>
+                  <td>{{($key + 1)}}. 
+                  @if($row['academic_position']!="")
+                          @if($row['prefix']=="ดร.")
+                          {{$row['academic_position']}} {{$row['prefix']}}{{$row['user_fullname']}}
+                          @else
+                          {{$row['academic_position']}}{{$row['user_fullname']}}
+                          @endif
+                      @else
+                      {{$row['prefix']}}{{$row['user_fullname']}}
+                      @endif
+                  </td>
                                 
                   <td>
                   @foreach($row->educational_background as $value) 
@@ -126,7 +145,15 @@
                 </tr>
                 @foreach($tc_course as $key =>$row )
                 <tr>
-                  <td>{{($key + 1)}}. {{$row['user_fullname']}}</td>
+                  <td>{{($key + 1)}}. @if($row['academic_position']!="")
+                          @if($row['prefix']=="ดร.")
+                          {{$row['academic_position']}} {{$row['prefix']}}{{$row['user_fullname']}}
+                          @else
+                          {{$row['academic_position']}}{{$row['user_fullname']}}
+                          @endif
+                      @else
+                      {{$row['prefix']}}{{$row['user_fullname']}}
+                      @endif</td>
                                 
                   <td>
                   @foreach($row->educational_background as $value) 
@@ -193,7 +220,15 @@
                 @foreach($instructor as $key =>$row )
                 <tr>
                 <td>{{($key + 1)}}</td>
-                  <td>{{$row['user_fullname']}}</td>             
+                  <td>@if($row['academic_position']!="")
+                          @if($row['prefix']=="ดร.")
+                          {{$row['academic_position']}} {{$row['prefix']}}{{$row['user_fullname']}}
+                          @else
+                          {{$row['academic_position']}}{{$row['user_fullname']}}
+                          @endif
+                      @else
+                      {{$row['prefix']}}{{$row['user_fullname']}}
+                      @endif</td>             
                   <td>
                   @foreach($row->educational_background as $value) 
                   {{$value['abbreviations']." (".$value['eb_fieldofstudy'].")"}}<br>

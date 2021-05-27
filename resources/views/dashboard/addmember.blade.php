@@ -68,6 +68,15 @@
                   <input class="inp"  type="file" id="image" name="image">
                 </div>
                 <div class="form-group">
+                <label for="exampleInputPassword1">คำนำหน้า</label>
+                                  <select class="form-control"  id="prefix"  class="form-control @error('role') is-invalid @enderror" name="prefix">
+                                    <option value="นาย">นาย</option>
+                                    <option value="นาง">นาง</option>
+                                    <option value="นางสาว">นางสาว</option>
+                                    <option value="ดร.">ดร.</option>
+                                  </select>
+                                  </div>
+                <div class="form-group">
                   <label for="exampleInputPassword1">ชื่อ-สกุล</label>
                   <input type="text" class="form-control" id="user_fullname" name="user_fullname" placeholder="ชื่อ-สกุล">
                 </div>
@@ -75,14 +84,15 @@
                   <label for="exampleInputPassword1">username</label>
                   <input type="text" class="form-control" id="username" name="username" placeholder="username" readonly>
                 </div>
-                <div class="form-group">
-                  <label for="exampleInputPassword1">password</label>
-                  <input type="password" class="form-control" id="password" name="password" placeholder="password">
-                </div>
+               
                 
             </div>
 
             <div class="col-md-6">
+            <div class="form-group">
+                  <label for="exampleInputPassword1">password</label>
+                  <input type="password" class="form-control" id="password" name="password" placeholder="password">
+                </div>
             <div class="form-group">
                   <label for="exampleInputPassword1">email</label>
                   <input type="email" class="form-control" id="email" name="email" placeholder="email">
@@ -119,15 +129,7 @@
                                     @endforeach
                                   </select>
                                   </div>
-                                  <div class="form-group">
-                <label for="exampleInputPassword1">ตำแหน่งทางวิชาการ</label>
-                                  <select class="form-control"  id="academic_position"  class="form-control @error('role') is-invalid @enderror" name="academic_position">
-                                  <option value=""></option>
-                                    <option value="ศาสตราจารย์">ศาสตราจารย์</option>
-                                    <option value="รองศาสตราจารย์">รองศาสตราจารย์</option>
-                                    <option value="ผู้ช่วยศาสตราจารย์">ผู้ช่วยศาสตราจารย์</option>
-                                  </select>
-                                  </div>
+                                  
             </div>
           </div>
              </div>
@@ -173,6 +175,15 @@
                   <input class="inp" type="file" id="image1" name="image" >
                 </div>
                 <div class="form-group">
+                <label for="exampleInputPassword1">คำนำหน้า</label>
+                                  <select class="form-control"  id="prefix1"  class="form-control @error('role') is-invalid @enderror" name="prefix">
+                                    <option value="นาย">นาย</option>
+                                    <option value="นาง">นาง</option>
+                                    <option value="นางสาว">นางสาว</option>
+                                    <option value="ดร.">ดร.</option>
+                                  </select>
+                                  </div>
+                <div class="form-group">
                   <label for="exampleInputPassword1">ชื่อ-สกุล</label>
                   <input type="text" class="form-control" id="user_fullname1" name="user_fullname" placeholder="ชื่อ-สกุล">
                 </div>
@@ -180,13 +191,14 @@
                   <label for="exampleInputPassword1">username</label>
                   <input type="text" class="form-control" id="username1" name="username" placeholder="username" readonly>
                 </div>
-                <div class="form-group">
-                  <label for="exampleInputPassword1">password</label>
-                  <input type="password" class="form-control" id="password1" name="password" placeholder="password">
-                </div>
+                
                 
             </div>
               <div class="col-md-6">
+              <div class="form-group">
+                  <label for="exampleInputPassword1">password</label>
+                  <input type="password" class="form-control" id="password1" name="password" placeholder="password">
+                </div>
                 <div class="form-group">
                   <label for="exampleInputPassword1">email</label>
                   <input type="email" class="form-control" id="email1" name="email" placeholder="email">
@@ -224,14 +236,7 @@
                                   </select>
                                   </div>
                                   
-                                  <div class="form-group">
-                <label for="exampleInputPassword1">ตำแหน่งทางวิชาการ</label>
-                                  <select class="form-control"  id="academic_position1"  class="form-control @error('role') is-invalid @enderror" name="academic_position">
-                                    <option value="ศาสตราจารย์">ศาสตราจารย์</option>
-                                    <option value="รองศาสตราจารย์">รองศาสตราจารย์</option>
-                                    <option value="ผู้ช่วยศาสตราจารย์">ผู้ช่วยศาสตราจารย์</option>
-                                  </select>
-                                  </div>
+                                  
                 </div>
               </div>
              </div>
@@ -343,7 +348,7 @@ var url = "/getuser";
             $("#user_course1").val(data[0].user_course);
             $("#branch1").val(data[0].user_branch);
             $("#user_group_id1").val(data[0].user_group_id);
-            $("#academic_position1").val(data[0].academic_position);
+            $("#prefix1").val(data[0].prefix);
             if(data[0].image!=""){
               document.getElementById("image_preview_container1").src ="public/user/"+ data[0].image;
             }

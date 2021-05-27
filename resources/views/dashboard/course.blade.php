@@ -117,7 +117,12 @@
                         <td><textarea type="text" id="background"   name="background[]" placeholder="วุฒิการศึกษา" class="form-control name_list"></textarea></td>    
                     </tr>  
                     <tr> <td></td> 
-                        <td><textarea type="text" id="academic_position"   name="academic_position[]" placeholder="ตำแหน่งทางวิชาการ" class="form-control name_list"></textarea></td>    
+                        <td>
+                        <select class="form-control"  id="academic_position1"  class="form-control @error('role') is-invalid @enderror" name="academic_position3[]">
+                        <option value="ประธานหลักสูตร">ประธานหลักสูตร</option>
+                        <option value="อาจารย์">อาจารย์</option>
+                        </select>
+                        </td>    
                         <td><button type="button" name="add" id="add" class="btn btn-success"><i class="fa fa-plus"></i></button></td>  
                     </tr> 
                 </table>  
@@ -163,7 +168,12 @@
                         <td><textarea type="text" id="background"   name="background[]" placeholder="วุฒิการศึกษา" class="form-control name_list"></textarea></td>    
                     </tr> 
                     <tr>
-                        <td><textarea type="text" id="academic_position"   name="academic_position[]" placeholder="ตำแหน่งทางวิชาการ" class="form-control name_list"></textarea></td>    
+                        <td>
+                        <select class="form-control"  id="academic_position1"  class="form-control @error('role') is-invalid @enderror" name="academic_position[]">
+                        <option value="ประธานหลักสูตร">ประธานหลักสูตร</option>
+                        <option value="อาจารย์">อาจารย์</option>
+                        </select>
+                        </td>    
                         <td><button type="button" name="add2" id="add2" class="btn btn-success"><i class="fa fa-plus"></i></button></td>  
                     </tr>  
                 </table>  
@@ -349,7 +359,7 @@ var url2 = "/getcoursedetail";
             
             jQuery('#dynamic_field2').show();
             jQuery('#dynamic_field2').html(data2.success);
-            console.log(data2[0].id);
+           
         })
 });
 $('#modal-info3').on('show.bs.modal', function (event) {
@@ -368,7 +378,7 @@ $.get(url + '/' + id, function (data) {
             //success data
             jQuery('#dynamic_field2').show();
             jQuery('#dynamic_field2').html(data2.success);
-           
+           console.log(data2.success);
         })
 });
 $('#modal-info2').on('show.bs.modal', function (event) {
@@ -401,11 +411,11 @@ var url2 = "/getcoursedetail";
       $('#add').click(function(){  
            i++;  
 
-           $('#dynamic_field').append('<tr id="row2'+i+'"><td>'+(i+1)+'</td><td width="100%"><input type="text" id="name" name="name[]" placeholder="ชื่อ-สกุล" class="form-control name_list" /></td></tr><tr id="row'+i+'" class="dynamic-added"><td></td><td><textarea type="text"  id="editor" name="background[]" placeholder="วุฒิการศึกษา" class="form-control name_list"></textarea></td></tr><tr id="row3'+i+'" class="dynamic-added"><td></td><td><textarea type="text"  id="editor" name="academic_position[]" placeholder="ตำแหน่งทางวิชา" class="form-control name_list"></textarea></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');  
+           $('#dynamic_field').append('<tr id="row2'+i+'"><td>'+(i+1)+'</td><td width="100%"><input type="text" id="name" name="name[]" placeholder="ชื่อ-สกุล" class="form-control name_list" /></td></tr><tr id="row'+i+'" class="dynamic-added"><td></td><td><textarea type="text"  id="editor" name="background[]" placeholder="วุฒิการศึกษา" class="form-control name_list"></textarea></td></tr><tr id="row3'+i+'" class="dynamic-added"><td></td><td><select class="form-control"  id="academic_position1"  class="form-control @error('role') is-invalid @enderror" name="academic_position3[]"><option value="ประธานหลักสูตร">ประธานหลักสูตร</option><option value="อาจารย์">อาจารย์</option></select></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');  
       });  
       $('#add2').click(function(){  
            x++;  
-           $('#dynamic_field3').append('<tr id="row2'+x+'"><td width="100%"><input type="text" id="name" name="name[]" placeholder="ชื่อ-สกุล" class="form-control name_list" /></td></tr><tr id="row'+x+'" class="dynamic-added"><td><textarea type="text"  id="editor" name="background[]" placeholder="วุฒิการศึกษา" class="form-control name_list"></textarea></td></tr><tr id="row3'+x+'" class="dynamic-added"><td><textarea type="text"  id="editor" name="academic_position[]" placeholder="ตำแหน่งทางวิชา" class="form-control name_list"></textarea></td><td><button type="button" name="remove" id="'+x+'" class="btn btn-danger btn_remove">X</button></td></tr>');  
+           $('#dynamic_field3').append('<tr id="row2'+x+'"><td width="100%"><input type="text" id="name" name="name[]" placeholder="ชื่อ-สกุล" class="form-control name_list" /></td></tr><tr id="row'+x+'" class="dynamic-added"><td><textarea type="text"  id="editor" name="background[]" placeholder="วุฒิการศึกษา" class="form-control name_list"></textarea></td></tr><tr id="row3'+x+'" class="dynamic-added"><td><select class="form-control"  id="academic_position1"  class="form-control @error('role') is-invalid @enderror" name="academic_position[]"><option value="ประธานหลักสูตร">ประธานหลักสูตร</option><option value="อาจารย์">อาจารย์</option></select></td><td><button type="button" name="remove" id="'+x+'" class="btn btn-danger btn_remove">X</button></td></tr>');  
       });
 
       $(document).on('click', '.btn_remove', function(){  
@@ -512,7 +522,14 @@ var url2 = "/getcoursedetail";
 
       var teacher_name = $('#name').val();
       var teacher_name2 = $('#background').val();
-      console.log(teacher_name2);
+      var teacher_name3 = $('#academic_position1').val();
+      var gettname1=0;
+      $('select[name="academic_position3[]"]').each(function() {
+        if($(this).val()==="ประธานหลักสูตร"){
+                gettname1++;
+        }
+    });
+    console.log(gettname1);
       var gettname="";
             for (index = 0; index < teacher_name.length; ++index) {
               if(teacher_name[index]!=""){
@@ -525,10 +542,17 @@ var url2 = "/getcoursedetail";
                 gettname2="aaaa";
              }
             }      
-
        if(gettname==""||gettname2==""){
         swal({
           title: "กรุณาป้อนข้อมูลให้ครบ",
+          text: "",
+          icon: "warning",
+          showConfirmButton: false,
+        });
+      }
+      else if(gettname1!=1){
+        swal({
+          title: "ประธานหลักสูตรสามารถเลือกอาจารย์ได้ท่านเดียว",
           text: "",
           icon: "warning",
           showConfirmButton: false,
@@ -581,7 +605,7 @@ var url2 = "/getcoursedetail";
                 CKEDITOR.instances[instance].updateElement();
         }
       var formData = new FormData(this);
-
+      
    
 
  

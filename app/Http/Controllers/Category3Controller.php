@@ -12,6 +12,7 @@ use App\ModelAJ\Research_results;
 use App\Year;
 use App\Tps;
 use App\indicator4_3;
+use App\publish_work;
 use App\branch;
 use App\indicator;
 use App\indicator2_1;
@@ -265,7 +266,22 @@ class Category3Controller extends Controller
         $tran=User::rightjoin('course_responsible_teacher','users.id','=','course_responsible_teacher.user_id')
         ->where('users.user_course',session()->get('usercourse'))
         ->where('users.user_branch',session()->get('branch_id'))
+        ->where('course_responsible_teacher.year_id',session()->get('year_id'))
         ->get();
+        $trc = course_responsible_teacher::join('year','course_responsible_teacher.year_id','=','year.year_id')
+        ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
+        ->where('course_responsible_teacher.branch_id',session()->get('branch_id'))
+        ->where('course_responsible_teacher.year_id',session()->get('year_id'))
+        ->get();
+        $category_re = Research_results::rightjoin('course_responsible_teacher','research_results.owner','=','course_responsible_teacher.user_id')
+        ->where('course_responsible_teacher.year_id',session()->get('year_id'))
+        ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
+        ->where('course_responsible_teacher.branch_id',session()->get('branch_id'))
+        ->where('research_results.research_results_date','>=',session()->get('yearBegin'))
+        ->where('research_results.research_results_date','<=',session()->get('yearEnd'))
+        ->get();
+        ///นับอาจารย์ผู้รีบผิดชอบหลักสูตร
+        $count=count($trc);
         if(count($inc)==0){
             $inc="";
         }
@@ -275,7 +291,7 @@ class Category3Controller extends Controller
             $id=$value['Indicator_id'];
         }
         $checkedit="asdsad";
-        return view('category3/showpdca',compact('pdca','name','id','getcourse','getcategorypdca','inc','checkedit','getbranch','tran'));
+        return view('category3/showpdca',compact('category_re','count','pdca','name','id','getcourse','getcategorypdca','inc','checkedit','getbranch','tran'));
     }
     public function indicator3_3()
     {

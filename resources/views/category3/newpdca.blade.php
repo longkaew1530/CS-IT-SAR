@@ -45,14 +45,24 @@
                   <ins><b>การดำเนินงานตามแผน (D)</b></ins><br>
                   {!!$row1['d']!!}
                   @if($row['id']==3)
+                  ในปีการศึกษา {{session()->get('year')}} อาจารย์ผู้รับผิดชอบหลักสูตรจำนวน {{$count}} ท่านได้เข้ารับการฝึกอบรมดูงาน สัมมนาทางวิชาการ นำเสนอผลงาน ดังนี้<br>
                   @foreach($tran as $k=>$tvalue)
-                  {{$k+1}}. <b>{{$tvalue['user_fullname']}}</b><br>
+                  {{$k+1}}. 
+                  @if($tvalue['academic_position']!="")
+                  <b>{{$tvalue['academic_position']}}{{$tvalue['user_fullname']}}</b><br>
+                  @else
+                  <b>อาจารย์{{$tvalue['user_fullname']}}</b><br>
+                  @endif
                   @foreach($tvalue->training_information as $ttvalue)
                   <li>{{$ttvalue['name_training']." วันที่ ".$ttvalue['date_training']." ".$ttvalue['place_training']}}</li>
                   @endforeach<br>
                   @endforeach
+                  <b>ส่งเสริมให้อาจารย์ผู้รับผิดชอบหลักสูตรพัฒนางานวิจัย โดยในปีการศึกษา {{session()->get('year')}} ดังนี้</b><br>
+                      @foreach($category_re as $cvalue)
+                        -{{$cvalue['research_results_name']}} โดย {{$cvalue['teacher_name']}}<br>
+                      @endforeach
                   @endif
-                  </b><br><br>
+                  </br><br><br>
                   <?php 
                   $checkcheck3=0;
                   foreach($row1->docpdca as $check4){
