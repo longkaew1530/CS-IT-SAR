@@ -101,10 +101,7 @@
                     <label for="exampleInputPassword1">วัน/เดือน/ปี</label>
                     <input type = "date" class="form-control" id="publish_work_yearanddate2" name="publish_work_yearanddate2" placeholder="วันที่">
                   </div>
-                  <div class="form-group">
-                    <label for="exampleInputPassword1">หน้า</label>
-                    <input type = "text" class="form-control" id="publish_work_page2" name="publish_work_page2" placeholder="หน้า">
-                  </div>
+                  
                   <div class="form-group">
                     <label for="exampleInputPassword1">สถานที่จัด</label>
                     <input type="text" class="form-control" id="publish_work_place2" name="publish_work_place2" placeholder="สถานที่จัด">
@@ -116,6 +113,10 @@
                   <div class="form-group">
                     <label for="exampleInputPassword1">ประเทศ</label>
                     <input type="text" class="form-control" id="country" name="country" placeholder="ประเทศ">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">หน้า</label>
+                    <input type = "text" class="form-control" id="publish_work_page2" name="publish_work_page2" placeholder="หน้า">
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">ประเภทการเผยแพร่</label>
@@ -195,6 +196,7 @@
               </div>
               <form id="updatedata" method="POST" action="javascript:void(0)" accept-charset="utf-8" enctype="multipart/form-data" >
                 @csrf
+                <input type="hidden" class="form-control" id="owner3" name="owner3" >
                    <input type="hidden" class="form-control" id="id3" name="id" >
                     <input type="hidden" class="form-control" id="getcategory3" name="category" >
                 <div class="box-body">
@@ -203,16 +205,22 @@
                     <label for="exampleInputPassword1">ชื่อบทความ</label>
                     <input type="text" class="form-control" id="publish_work_name3" name="publish_work_name" placeholder="ชื่อบทความ">
                   </div>
-
+                  <div class="form-group">
+                <label>ชื่อเจ้าของผลงาน</label>
+                <select class="form-control " id="teacher_name3" name="teacher_name3[]" multiple="multiple" 
+                        style="width: 100%;">
+                        @foreach($userall as $value)
+                      <option value="{{$value['id']}}">{{$value['user_fullname']}}</option>
+                        @endforeach
+                </select>
+              </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">ชื่อวารสาร</label>
                     <input type = "text" class="form-control" id="journal_name3" name="journal_name" placeholder="ชื่อวารสาร">
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">ปีที่</label>
-                    <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-                  type = "number"
-                  maxlength = "4" class="form-control" id="publish_work_year3" name="publish_work_year" placeholder="ปีที่">
+                    <input type = "date" class="form-control" id="publish_work_year3" name="publish_work_year" placeholder="ปีที่">
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">ฉบับที่</label>
@@ -238,7 +246,15 @@
                     <label for="exampleInputPassword1">ชื่อผลงาน</label>
                     <input type = "text" class="form-control" id="publish_work_name4" name="publish_work_name3" placeholder="ชื่อผลงาน">
                   </div>
-
+                  <div class="form-group">
+                <label>ชื่อเจ้าของผลงาน</label>
+                <select class="form-control " id="teacher_name4" name="teacher_name4[]" multiple="multiple" 
+                        style="width: 100%;">
+                        @foreach($userall as $value)
+                      <option value="{{$value['id']}}">{{$value['user_fullname']}}</option>
+                        @endforeach
+                </select>
+              </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">ชื่อการประชุม</label>
                     <input type = "text" class="form-control" id="journal_name4" name="journal_name3" placeholder="ชื่องาน">
@@ -248,9 +264,10 @@
                     <input type = "text" class="form-control" id="publish_work_date4" name="publish_work_date3" placeholder="วันที่">
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">หน้า</label>
-                    <input type = "text" class="form-control" id="publish_work_page4" name="publish_work_page3" placeholder="หน้า">
+                    <label for="exampleInputPassword1">วัน/เดือน/ปี</label>
+                    <input type = "date" class="form-control" id="publish_work_yearanddate4" name="publish_work_yearanddate3" placeholder="วันที่">
                   </div>
+                  
                   <div class="form-group">
                     <label for="exampleInputPassword1">สถานที่จัด</label>
                     <input type="text" class="form-control" id="publish_work_place4" name="publish_work_place3" placeholder="สถานที่จัด">
@@ -262,6 +279,10 @@
                   <div class="form-group">
                     <label for="exampleInputPassword1">ประเทศ</label>
                     <input type="text" class="form-control" id="country4" name="country3" placeholder="ประเทศ">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">หน้า</label>
+                    <input type = "text" class="form-control" id="publish_work_page4" name="publish_work_page3" placeholder="หน้า">
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">ประเภทการเผยแพร่</label>
@@ -398,6 +419,12 @@
 <script>
   $(document).ready(function() {
     $('#select3').select2({
+        
+      })
+      $('#teacher_name3').select2({
+        
+      })
+      $('#teacher_name4').select2({
         
       })
       $('.select1').select2({
@@ -551,14 +578,23 @@
         
         $("#id3").val(data[0].publish_id);
           $("#getcategory3").val(data[0].category);
+          $("#owner3").val(data[0].owner);
         if(data[0].category==1){
           var x = document.getElementById("myDIV3");
           x.style.display = "block";
           var n = document.getElementById("myDIV4");
           n.style.display = "none";
+          var get=[];
+        for (index = 0; index < data.length; ++index) {
+                
+                  get[index]=data[index].user_id;
+               
+        }
+        $("#teacher_name3").val(get);
+        $('#teacher_name3').select2();
         $("#publish_work_name3").val(data[0].publish_work_name);
         $("#journal_name3").val(data[0].journal_name);
-        $("#publish_work_year3").val(data[0].publish_work_year);
+        $("#publish_work_year3").val(data[0].publish_work_yearanddate);
         $("#publish_work_issue3").val(data[0].publish_work_issue);
         $("#publish_work_page3").val(data[0].publish_work_page);
         $("#category_publish_work3").val(data[0].category_publish_work);
@@ -568,9 +604,23 @@
           x.style.display = "none";
           var n = document.getElementById("myDIV4");
           n.style.display = "block";
+          var get=[];
+          for (index = 0; index < data.length; ++index) {
+               
+                  get[index]=data[index].user_id;
+               
+        }
+        $("#teacher_name4").val(get);
+        $('#teacher_name4').select2();
         $("#publish_work_name4").val(data[0].publish_work_name);
         $("#journal_name4").val(data[0].journal_name);
-        $("#publish_work_date4").val(data[0].publish_work_year);
+        if(data[0].publish_work_date==1){
+          $("#publish_work_date4").val('-');
+        }
+        else{
+          $("#publish_work_date4").val(data[0].publish_work_date);
+        }
+        $("#publish_work_yearanddate4").val(data[0].publish_work_yearanddate);
         $("#publish_work_page4").val(data[0].publish_work_page);
         $("#publish_work_place4").val(data[0].publish_work_place);
         $("#province4").val(data[0].province);

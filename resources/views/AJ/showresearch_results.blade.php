@@ -72,9 +72,16 @@
         <div class="col-md-12">
           <div id="body">
             <div class="col-md-12 col-sm-9 col-xs-12">
-            <div class="form-group">
+            
+            <div class="form-group">    
                     <label for="exampleInputPassword1">ปีที่ทำวิจัย</label>
-                    <input type="date" class="form-control" id="research_results_date" name="research_results_date" placeholder="งบประมาณ">
+                    <div class="input-group date">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  <input type="text" class="form-control pull-right " id="datepicker" name="research_results_date">
+                </div>
+                    <!-- <input type="date" class="form-control" id="research_results_date" name="research_results_date" placeholder="งบประมาณ"> -->
                   </div>
             </div>
           </div>
@@ -122,6 +129,7 @@
           <div id="body">
             <div class="col-md-12 col-sm-9 col-xs-12">
             <div class="form-group">
+              
                     <label for="exampleInputPassword1">งบประมาณ</label>
                     <input type="number" class="form-control" id="research_results_salary" name="research_results_salary" placeholder="งบประมาณ">
                   </div>
@@ -278,15 +286,25 @@
 }
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-
-    <script>
-        $('#datepicker').datepicker({
-            uiLibrary: 'bootstrap',
-            format:'dd/mm/yyyy',
-        });
-    </script>
+<script type="text/javascript" >
+  $(function () {
+    var currentTime = new Date()
+    var year = currentTime.getFullYear()
+    $.fn.datepicker.defaults.language = 'th';
+    $.fn.datepicker.defaults.format = 'yyyy/mm/dd';
+    if(year<2500){
+      year=year+543;
+    }
+    $('#datepicker').datepicker({
+    defaultViewDate: {year: year}
+  })
+  $('#datepicker2').datepicker({
+    defaultViewDate: {year: year}
+  })
+   //as you defined in bootstrap-datepicker.XX.js
+});
+</script>
 <script>
-
 function myFunction() {
   var token = $('meta[name="csrf-token"]').attr('content');
   var e = document.getElementById("user_course");
@@ -333,12 +351,13 @@ $(function () {
     $('#example11').DataTable({
       lengthMenu: [ 10, 20, 50, 100]
     });
-
+    
       
   })
 </script>
 <script type="text/javascript">
   $(document).ready(function(e) {
+    
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -377,7 +396,7 @@ $(function () {
       e.preventDefault();
       var formData = new FormData(this);
       var owner = document.getElementById("owner").value;
-      var research_results_year = document.getElementById("research_results_date").value;
+      var research_results_year = document.getElementById("datepicker").value;
       var research_results_name = document.getElementById("research_results_name").value;
       var research_results_salary = document.getElementById("research_results_salary").value;
       var teacher_name = $('#teacher_name').val();
@@ -498,5 +517,9 @@ $(function () {
     });
   });
 </script>
-
+<script>
+  $(function () {
+    
+  })
+</script>
 @endsection 

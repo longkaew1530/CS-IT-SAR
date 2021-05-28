@@ -83,8 +83,35 @@
                   type = "number"
                   maxlength = "4" class="form-control" id="year" name="year" placeholder="ปีการศึกษา">
                 </div>
+
+                <div class="row">
+              <div class="col-md-6">
+              <div class="form-group">
+                  <label for="exampleInputEmail1">วัน/เดือน/ปี</label>
+                  <div class="input-group date">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  <input type="text" class="form-control pull-right " id="datepicker3" name="date3">
+                </div>
+                  <!-- <input type ="date"  class="form-control" id="date3" name="date3" placeholder="ปีการศึกษา"> -->
+                </div>
+             </div>
+             <div class="col-md-6">
+              <div class="form-group">
+                  <label for="exampleInputEmail1">ถึง วัน/เดือน/ปี</label>
+                  <div class="input-group date">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  <input type="text" class="form-control pull-right " id="datepicker4" name="date4">
+                </div>
+                  <!-- <input type ="date"  class="form-control" id="date4" name="date4" placeholder="ปีการศึกษา">  -->
+                </div>
+             </div>
+              </div>
             </div>
-        
+            
            
               <div class="modal-footer">
                 <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">ปิด</button>
@@ -116,13 +143,25 @@
               <div class="col-md-6">
               <div class="form-group">
                   <label for="exampleInputEmail1">วัน/เดือน/ปี</label>
-                  <input type ="date"  class="form-control" id="date1" name="date1" placeholder="ปีการศึกษา">
+                  <div class="input-group date">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  <input type="text" class="form-control pull-right " id="datepicker" name="date1">
+                </div>
+                  <!-- <input type ="date"  class="form-control" id="date1" name="date1" placeholder="ปีการศึกษา"> -->
                 </div>
              </div>
              <div class="col-md-6">
               <div class="form-group">
                   <label for="exampleInputEmail1">ถึง วัน/เดือน/ปี</label>
-                  <input type ="date"  class="form-control" id="date2" name="date2" placeholder="ปีการศึกษา"> 
+                  <div class="input-group date">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  <input type="text" class="form-control pull-right " id="datepicker2" name="date2">
+                </div>
+                  <!-- <input type ="date"  class="form-control" id="date2" name="date2" placeholder="ปีการศึกษา">  -->
                 </div>
              </div>
               </div>
@@ -349,6 +388,30 @@ input:checked + .slider:before {
 }
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script type="text/javascript" >
+  $(function () {
+    var currentTime = new Date()
+    var year = currentTime.getFullYear()
+    $.fn.datepicker.defaults.language = 'th';
+    $.fn.datepicker.defaults.format = 'yyyy/mm/dd';
+    if(year<2500){
+      year=year+543;
+    }
+    $('#datepicker').datepicker({
+    defaultViewDate: {year: year}
+  })
+  $('#datepicker2').datepicker({
+    defaultViewDate: {year: year}
+  })
+  $('#datepicker3').datepicker({
+    defaultViewDate: {year: year}
+  })
+  $('#datepicker4').datepicker({
+    defaultViewDate: {year: year}
+  })
+   //as you defined in bootstrap-datepicker.XX.js
+});
+</script>
 <script>
   $(function () {
     $('#example3').DataTable({
@@ -372,9 +435,10 @@ input:checked + .slider:before {
         }
       var formData = new FormData(this);
       var course_name = document.getElementById("year").value;
+      var date1 = document.getElementById("datepicker3").value;
+      var date2 = document.getElementById("datepicker4").value;
 
-
-       if(course_name==""){
+       if(course_name==""||date1==""||date2==""){
         swal({
           title: "กรุณาป้อนข้อมูลให้ครบ",
           text: "",
@@ -430,10 +494,10 @@ input:checked + .slider:before {
                 CKEDITOR.instances[instance].updateElement();
         }
       var formData = new FormData(this);
-      var date1 = document.getElementById("date1").value;
-      var date2 = document.getElementById("date2").value;
+      var date1 = document.getElementById("datepicker").value;
+      var date2 = document.getElementById("datepicker2").value;
 
-       if(date1==""||date1==""){
+       if(date1==""||date2==""){
         swal({
           title: "กรุณาป้อนข้อมูลให้ครบ",
           text: "",

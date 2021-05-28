@@ -97,9 +97,7 @@ class AJController extends Controller
     public function publish_work()
     {
         $user=auth()->user();
-        $userall=User::where('user_course',$user->user_course)
-        ->where('user_branch',session()->get('branch_id'))
-        ->where('user_group_id','!=',2)
+        $userall=User::where('user_group_id','!=',2)
         ->where('user_group_id','!=',1)
         ->get();
         $researchresults=publish_work::rightjoin('publish_work_user','publish_work_user.publish_work_publish_id','=','publish_work.publish_id')

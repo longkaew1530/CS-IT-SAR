@@ -28,6 +28,25 @@
   <link rel="stylesheet" href="{{url('/')}}/plugins/iCheck/all.css">
   <link rel="stylesheet" href="{{url('/')}}/bower_components/select2/dist/css/select2.min.css">
   <link rel="stylesheet" href="{{url('/')}}/plugins/timepicker/bootstrap-timepicker.min.css">
+
+
+  <link rel="stylesheet" href="{{url('/')}}/bower_components/bootstrap-daterangepicker/daterangepicker.css">
+  <!-- bootstrap datepicker -->
+  <link rel="stylesheet" href="{{url('/')}}/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+  <!-- iCheck for checkboxes and radio inputs -->
+  <link rel="stylesheet" href="{{url('/')}}/plugins/iCheck/all.css">
+  <!-- Bootstrap Color Picker -->
+  <link rel="stylesheet" href="{{url('/')}}/bower_components/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css">
+  <!-- Bootstrap time Picker -->
+  <link rel="stylesheet" href="{{url('/')}}/plugins/timepicker/bootstrap-timepicker.min.css">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="{{url('/')}}/bower_components/select2/dist/css/select2.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{{url('/')}}/dist/css/AdminLTE.min.css">
+  <!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+  <link rel="stylesheet" href="{{url('/')}}/dist/css/skins/_all-skins.min.css">
+
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" ></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css"  />
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
@@ -189,7 +208,11 @@
 <!-- bootstrap color picker -->
 <script src="{{url('/')}}/bower_components/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js"></script>
 <!-- bootstrap time picker -->
+<script src="{{url('/')}}/bower_components/bootstrap-datepicker/js/locales/bootstrap-datepicker.th.js"></script>
+<!-- bootstrap color picker -->
+<!-- bootstrap time picker -->
 <script src="{{url('/')}}/plugins/timepicker/bootstrap-timepicker.min.js"></script>
+
 <script>
     
 

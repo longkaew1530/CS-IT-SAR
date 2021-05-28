@@ -55,10 +55,10 @@
           <!-- /.modal-dialog -->
         </div>
             <button  class="btn btn-success ml-1" type="button"   data-toggle="modal" data-target="#modal-edit"><i class="fa fa-plus"></i> เพิ่มข้อมูล</button>
-            @if($check!="[]")<button  class="btn btn-success ml-1" type="button" onclick="calc()" ><i class="fa fa-save"></i> ดึงข้อมูลปีการศึกษาที่ผ่านมา</button>
+            <!-- @if($check!="[]")<button  class="btn btn-success ml-1" type="button" onclick="calc()" ><i class="fa fa-save"></i> ดึงข้อมูลปีการศึกษาที่ผ่านมา</button>
             @else
             <button  class="btn btn-success ml-1" type="button" onclick="calc()" disabled><i class="fa fa-save"></i> ดึงข้อมูลปีการศึกษาที่ผ่านมา</button>
-            @endif
+            @endif -->
             <!-- /.box-header -->
             <div class="box-body">
             <!-- /.box-header -->

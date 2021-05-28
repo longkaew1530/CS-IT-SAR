@@ -390,7 +390,52 @@ class APIController extends Controller
          $getcourse=Course::all();
          $getbranch=branch::all();
          $categoryall=category::all();
-
+         $userpermiss=user_permission::where('year_id',$queryyaer->year_id-1)->get();
+         if($userpermiss!="[]"){
+         foreach($userpermiss as $uvalue){
+                $datauserpermiss=new user_permission;
+                $datauserpermiss->user_id=$uvalue['user_id'];
+                $datauserpermiss->category_id=$uvalue['category_id'];
+                $datauserpermiss->Indicator_id=$uvalue['Indicator_id'];
+                $datauserpermiss->year_id=$queryyaer->year_id;
+                $datauserpermiss->save();
+         }
+        }
+         $course_teacher=course_teacher::where('year_id',$queryyaer->year_id-1)->get();
+         if($course_teacher!="[]"){
+            foreach($course_teacher as $uvalue1){
+                $datacourse_teacher=new course_teacher;
+                $datacourse_teacher->user_id=$uvalue1['user_id'];
+                $datacourse_teacher->course_id=$uvalue1['course_id'];
+                $datacourse_teacher->branch_id=$uvalue1['branch_id'];
+                $datacourse_teacher->year_id=$queryyaer->year_id;
+                $datacourse_teacher->save();
+             }
+         }
+         
+         $course_responsible_teacher=course_responsible_teacher::where('year_id',$queryyaer->year_id-1)->get();
+         if($course_responsible_teacher!="[]"){
+         foreach($course_responsible_teacher as $uvalue2){
+            $datacourse_responsible_teacher=new course_responsible_teacher;
+            $datacourse_responsible_teacher->user_id=$uvalue2['user_id'];
+            $datacourse_responsible_teacher->course_id=$uvalue2['course_id'];
+            $datacourse_responsible_teacher->branch_id=$uvalue2['branch_id'];
+            $datacourse_responsible_teacher->year_id=$queryyaer->year_id;
+            $datacourse_responsible_teacher->save();
+         }
+        }
+        
+         $instructor=instructor::where('year_id',$queryyaer->year_id-1)->get();
+         if($instructor!="[]"){
+         foreach($instructor as $uvalue3){
+            $datainstructor=new instructor;
+            $datainstructor->user_id=$uvalue3['user_id'];
+            $datainstructor->course_id=$uvalue3['course_id'];
+            $datainstructor->branch_id=$uvalue3['branch_id'];
+            $datainstructor->year_id=$queryyaer->year_id;
+            $datainstructor->save();
+         }
+        }
             foreach($getbranch as $row2){
                  $checkdata2=Course::where('course_id',$row2['course_id'])->get();
                 foreach($getall as $value){
@@ -430,6 +475,8 @@ class APIController extends Controller
         $queryyaer= new Year;
         $queryyaer->year_name=$request->year;
         $queryyaer->active=1;
+        $queryyaer->date1=$request->date3;
+        $queryyaer->date2=$request->date4;
         $queryyaer->save();
         $getall=defaulindicator::all();
         $getcourse=Course::all();
@@ -448,7 +495,9 @@ class APIController extends Controller
                    $data['url']=$value['url'];
                    $data['active']=1;
                    $data['year_id']=$queryyaer->year_id;
-                   $data['course_id']=$checkdata2[0]['course_id'];
+                   foreach($checkdata2 as $cvalue){
+                    $data['course_id']=$cvalue['course_id'];
+                   }
                    $data['branch_id']=$row2['branch_id'];
                    $data->save(); 
            }
@@ -463,7 +512,9 @@ class APIController extends Controller
                $data1['category_id']=$value['category_id'];
                $data1['active']=1;
                $data1['year_id']=$queryyaer->year_id;
-               $data1['course_id']=$checkdata2[0]['course_id'];
+               foreach($checkdata2 as $cvalue){
+                $data1['course_id']=$cvalue['course_id'];
+               }
                $data1['branch_id']=$row2['branch_id'];
                $data1->save();  
        }

@@ -28,7 +28,13 @@
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">วัน/เดือน/ปี ที่อบรบ</label>
-                    <input  type="date" class="form-control" id="year_id" name="year_id" placeholder="วัน/เดือน/ปี ที่อบรบ">
+                    <div class="input-group date">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  <input type="text" class="form-control pull-right " id="datepicker"  name="year_id" >
+                </div>
+                    <!-- <input  type="date" class="form-control" id="year_id" name="year_id" placeholder="วัน/เดือน/ปี ที่อบรบ"> -->
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">สถานที่</label>
@@ -112,7 +118,13 @@
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">วัน/เดือน/ปี ที่อบรบ</label>
-                    <input  type="date" class="form-control" id="year_id1" name="year_id" placeholder="วัน/เดือน/ปี ที่อบรบ">
+                    <div class="input-group date">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  <input type="text" class="form-control pull-right " id="datepicker2"  name="year_id" >
+                </div>
+                    <!-- <input  type="date" class="form-control" id="year_id1" name="year_id" placeholder="วัน/เดือน/ปี ที่อบรบ"> -->
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">สถานที่</label>
@@ -198,6 +210,24 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js"></script>
+<script type="text/javascript" >
+  $(function () {
+    var currentTime = new Date()
+    var year = currentTime.getFullYear()
+    $.fn.datepicker.defaults.language = 'th';
+    $.fn.datepicker.defaults.format = 'yyyy/mm/dd';
+    if(year<2500){
+      year=year+543;
+    }
+    $('#datepicker').datepicker({
+    defaultViewDate: {year: year}
+  })
+  $('#datepicker2').datepicker({
+    defaultViewDate: {year: year}
+  })
+   //as you defined in bootstrap-datepicker.XX.js
+});
+</script>
 <script>
   $(function() {
     $('#example3').DataTable({
@@ -348,7 +378,7 @@
         $("#id").val(data[0].id);
         $("#name_training1").val(data[0].name_training);
         $("#date_training1").val(data[0].date_training);
-        $("#year_id1").val(data[0].year_id);
+        $("#datepicker2").val(data[0].year_id);
         $("#place_training1").val(data[0].place_training);
         $("#category_training1").val(data[0].category_training);
 

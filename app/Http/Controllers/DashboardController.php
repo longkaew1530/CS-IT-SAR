@@ -83,6 +83,7 @@ class DashboardController extends Controller
             session()->put('year_id',$y_id);
             session()->put('yearBegin',$y1);
             session()->put('yearEnd',$y2);
+            session()->put('checkyear_id',$y_id);
         }
         if($user_group!=2){
             session()->put('branch_id',$user->user_branch);
@@ -105,7 +106,7 @@ class DashboardController extends Controller
         session()->put('menu',$menu);
         $category=category::all();
         $getfaculty=faculty::where('faculty_id',$user->user_faculty)->get();
-        session()->put('checkyear_id',$y_id);
+        
         session()->put('getfaculty',$getfaculty);
         $roleindicator=user_permission::leftjoin('indicator','user_permission.indicator_id','=','indicator.id')
         ->where('user_permission.user_id',$user->id)

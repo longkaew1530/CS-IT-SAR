@@ -19,4 +19,5 @@ class user_permission extends Model
     {
         return $this->belongsTo('App\category','category_id');
     }
+    public $timestamps = false;
 }

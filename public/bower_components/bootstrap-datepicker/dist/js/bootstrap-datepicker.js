@@ -956,7 +956,7 @@
 
 		fill: function(){
 			var d = new Date(this.viewDate),
-				year = d.getUTCFullYear(),
+				
 				month = d.getUTCMonth(),
 				startYear = this.o.startDate !== -Infinity ? this.o.startDate.getUTCFullYear() : -Infinity,
 				startMonth = this.o.startDate !== -Infinity ? this.o.startDate.getUTCMonth() : -Infinity,
@@ -1135,7 +1135,7 @@
 				return;
 
 			var d = new Date(this.viewDate),
-				year = d.getUTCFullYear(),
+				year = d.getUTCFullYear()+543,
 				month = d.getUTCMonth(),
 				startYear = this.o.startDate !== -Infinity ? this.o.startDate.getUTCFullYear() : -Infinity,
 				startMonth = this.o.startDate !== -Infinity ? this.o.startDate.getUTCMonth() : -Infinity,
