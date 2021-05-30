@@ -94,9 +94,12 @@
         <div class="col-md-12">
           <div id="body">
             <div class="col-md-12 col-sm-9 col-xs-12">
+            <label for="exampleInputPassword1">แหล่งงบประมาณ</label>
             <div class="form-group">
-                    <label for="exampleInputPassword1">แหล่งงบประมาณ</label>
-                    <input type="text" class="form-control" id="research_results_source_salary" name="research_results_source_salary" placeholder="แหล่งงบประมาณ" value="{{$data[0]['research_results_source_salary']}}" />
+                    <input type="radio" id="source_salary" name="source_salary" value="ภายใน" @if($status1) checked @endif/>
+                    <label for="exampleInputPassword1">ภายใน</label>
+                    <input type="radio" id="source_salary" name="source_salary" value="ภายนอก" @if($status2) checked @endif/>
+                    <label for="exampleInputPassword1">ภายนอก</label>
                   </div>
             </div>
           </div>
@@ -109,9 +112,36 @@
           <div id="body">
             <div class="col-md-12 col-sm-9 col-xs-12">
             <div class="form-group">
-                    <label for="exampleInputPassword1">งบประมาณ</label>
+            <label for="exampleInputPassword1">หน่วยงานที่ให้ทุน</label>
+                    <input type="text" class="form-control" id="research_results_source_salary" name="research_results_source_salary" placeholder="แหล่งงบประมาณ" value="{{$data[0]['research_results_source_salary']}}" />
+                  </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+    <div class="row">
+            <div class="col">
+            <div class="data">
+        <div class="col-md-12">
+          <div id="body">
+            <div class="col-md-12 col-sm-9 col-xs-12">
+            <div class="form-group">
+            <label for="exampleInputPassword1">งบประมาณ</label>
                     <input type="number" class="form-control" id="research_results_salary" name="research_results_salary" placeholder="งบประมาณ" value="{{$data[0]['research_results_salary']}}">
                   </div>
+            </div>
+          </div>
+        </div>
+      </div>
+            </div>
+            <div class="col">
+            <div class="data">
+        <div class="col-md-12">
+          <div id="body">
+            <div class="col-md-12 col-sm-9 col-xs-12">
+      
             </div>
           </div>
         </div>
@@ -303,10 +333,12 @@
     if(year<2500){
       year=year+543;
     }
+    var date = document.getElementById("datepicker").value;
     $('#datepicker').datepicker({
-    defaultViewDate: {year: year}
+    defaultViewDate: {year: year},
+    autoclose: true,
   })
-
+  $('#datepicker').datepicker("setDate", new Date(date) );
    //as you defined in bootstrap-datepicker.XX.js
 });
 </script>
@@ -404,7 +436,7 @@ $(function () {
       e.preventDefault();
       var formData = new FormData(this);
       var owner = document.getElementById("owner").value;
-      var research_results_year = document.getElementById("research_results_date").value;
+      var research_results_year = document.getElementById("datepicker").value;
       var research_results_name = document.getElementById("research_results_name").value;
       var research_results_salary = document.getElementById("research_results_salary").value;
       var teacher_name = $('#teacher_name').val();

@@ -608,14 +608,12 @@ class ReportController extends Controller
         // ->groupBy('research_results_id')
         // ->leftjoin('category_research_results','research_results.research_results_category','=','category_research_results.id')
         // ->get();
-        $category_re = publish_work::rightjoin('course_responsible_teacher','publish_work.owner','=','course_responsible_teacher.user_id')
-        ->leftjoin('category_research_results','publish_work.category_publish_work','=','category_research_results.id')
+        $category_re = Research_results::rightjoin('course_responsible_teacher','research_results.owner','=','course_responsible_teacher.user_id')
         ->where('course_responsible_teacher.year_id',session()->get('year_id'))
         ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
         ->where('course_responsible_teacher.branch_id',session()->get('branch_id'))
-        ->where('publish_work.publish_work_yearanddate','>=',session()->get('yearBegin'))
-        ->where('publish_work.publish_work_yearanddate','<=',session()->get('yearEnd'))
-        ->orderBy('category_research_results.score','desc')
+        ->where('research_results.research_results_date','>=',session()->get('yearBegin'))
+        ->where('research_results.research_results_date','<=',session()->get('yearEnd'))
         ->get();
     //    dd($category_re);
         //ดึงค่าตารางอาจารย์ผู้รับผิดชอบหลักสูตร

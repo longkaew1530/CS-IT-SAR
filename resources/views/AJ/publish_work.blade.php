@@ -54,7 +54,13 @@
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">ปีที่</label>
-                    <input type = "date" class="form-control" id="publish_work_year" name="publish_work_year" placeholder="ปีที่">
+                    <div class="input-group date">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  <input type="text" class="form-control pull-right " id="datepicker" name="publish_work_year">
+                </div>
+                    <!-- <input type = "date" class="form-control" id="publish_work_year" name="publish_work_year" placeholder="ปีที่"> -->
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">ฉบับที่</label>
@@ -99,7 +105,13 @@
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">วัน/เดือน/ปี</label>
-                    <input type = "date" class="form-control" id="publish_work_yearanddate2" name="publish_work_yearanddate2" placeholder="วันที่">
+                    <div class="input-group date">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  <input type="text" class="form-control pull-right " id="datepicker2" name="publish_work_yearanddate2">
+                </div>
+                    <!-- <input type = "date" class="form-control" id="publish_work_yearanddate2" name="publish_work_yearanddate2" placeholder="วันที่"> -->
                   </div>
                   
                   <div class="form-group">
@@ -220,7 +232,13 @@
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">ปีที่</label>
-                    <input type = "date" class="form-control" id="publish_work_year3" name="publish_work_year" placeholder="ปีที่">
+                    <div class="input-group date">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  <input type="text" class="form-control pull-right " id="datepicker3" name="publish_work_year">
+                </div>
+                    <!-- <input type = "date" class="form-control" id="publish_work_year3" name="publish_work_year" placeholder="ปีที่"> -->
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">ฉบับที่</label>
@@ -265,7 +283,13 @@
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">วัน/เดือน/ปี</label>
-                    <input type = "date" class="form-control" id="publish_work_yearanddate4" name="publish_work_yearanddate3" placeholder="วันที่">
+                    <div class="input-group date">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  <input type="text" class="form-control pull-right " id="datepicker4" name="publish_work_yearanddate3">
+                </div>
+                    <!-- <input type = "date" class="form-control" id="publish_work_yearanddate4" name="publish_work_yearanddate3" placeholder="วันที่"> -->
                   </div>
                   
                   <div class="form-group">
@@ -370,6 +394,35 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js"></script>
+<script type="text/javascript" >
+  $(function () {
+    var currentTime = new Date()
+    var year = currentTime.getFullYear()
+    $.fn.datepicker.defaults.language = 'th';
+    $.fn.datepicker.defaults.format = 'yyyy/mm/dd';
+    if(year<2500){
+      year=year+543;
+    }
+    $('#datepicker').datepicker({
+    defaultViewDate: {year: year},
+    autoclose: true,
+  })
+  $('#datepicker2').datepicker({
+    defaultViewDate: {year: year},
+    autoclose: true,
+  })
+  $('#datepicker3').datepicker({
+    defaultViewDate: {year: year},
+    autoclose: true,
+  })
+  $('#datepicker4').datepicker({
+    defaultViewDate: {year: year},
+    autoclose: true,
+  })
+
+   //as you defined in bootstrap-datepicker.XX.js
+});
+</script>
 <script>
   $(function() {
     $('#example3').DataTable({
@@ -594,7 +647,8 @@
         $('#teacher_name3').select2();
         $("#publish_work_name3").val(data[0].publish_work_name);
         $("#journal_name3").val(data[0].journal_name);
-        $("#publish_work_year3").val(data[0].publish_work_yearanddate);
+        $("#datepicker3").val(data[0].publish_work_yearanddate);
+        $('#datepicker3').datepicker("setDate", new Date(data[0].publish_work_yearanddate));
         $("#publish_work_issue3").val(data[0].publish_work_issue);
         $("#publish_work_page3").val(data[0].publish_work_page);
         $("#category_publish_work3").val(data[0].category_publish_work);
@@ -620,7 +674,8 @@
         else{
           $("#publish_work_date4").val(data[0].publish_work_date);
         }
-        $("#publish_work_yearanddate4").val(data[0].publish_work_yearanddate);
+        $("#datepicker4").val(data[0].publish_work_yearanddate);
+        $('#datepicker4').datepicker("setDate", new Date(data[0].publish_work_yearanddate));
         $("#publish_work_page4").val(data[0].publish_work_page);
         $("#publish_work_place4").val(data[0].publish_work_place);
         $("#province4").val(data[0].province);

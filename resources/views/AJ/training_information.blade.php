@@ -220,10 +220,12 @@
       year=year+543;
     }
     $('#datepicker').datepicker({
-    defaultViewDate: {year: year}
+    defaultViewDate: {year: year},
+    autoclose: true,
   })
   $('#datepicker2').datepicker({
-    defaultViewDate: {year: year}
+    defaultViewDate: {year: year},
+    autoclose: true,
   })
    //as you defined in bootstrap-datepicker.XX.js
 });
@@ -379,6 +381,7 @@
         $("#name_training1").val(data[0].name_training);
         $("#date_training1").val(data[0].date_training);
         $("#datepicker2").val(data[0].year_id);
+        $('#datepicker2').datepicker("setDate", new Date(data[0].year_id));
         $("#place_training1").val(data[0].place_training);
         $("#category_training1").val(data[0].category_training);
 

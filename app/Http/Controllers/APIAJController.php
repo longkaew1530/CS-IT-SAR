@@ -201,6 +201,7 @@ class APIAJController extends Controller
         $data->research_results_name=$request->research_results_name;
         $data->research_results_source_salary=$request->research_results_source_salary;
         $data->research_results_salary=$request->research_results_salary;
+        $data->source_salary=$request->source_salary;
         $data->save();
         $checkdata=Research_results_user::where('research_results_research_results_id',$request->id);
         if($checkdata!="[]"){
@@ -282,13 +283,13 @@ class APIAJController extends Controller
             $data->owner=$request->owner;
             $data->teacher_name=$text;
             $data->category_publish_work=$request->category_publish_work;
-            $date = explode('-', $request->publish_work_year);
+            $date = explode('/', $request->publish_work_year);
             $geti=(int)$date[0];
             if($geti<=2500){
                 $gety=$geti+543;
             }
             else{
-                $gety=$request->$geti;
+                $gety=$geti;
             }
             $data->publish_work_year=$gety;
             $data->publish_work_yearshow=$request->publish_work_year;
@@ -314,7 +315,7 @@ class APIAJController extends Controller
             $data->owner=$request->owner;
             $data->teacher_name=$text;
             $data->category_publish_work=$request->category_publish_work2;
-            $date = explode('-', $request->publish_work_yearanddate2);
+            $date = explode('/', $request->publish_work_yearanddate2);
             $geti=(int)$date[0];
             // if(isset($get_date[2])){
             //     $data->publish_work_year=$get_date[2];
@@ -328,7 +329,7 @@ class APIAJController extends Controller
                 $gety=$geti+543;
             }
             else{
-                $gety=$request->$geti;
+                $gety=$geti;
             }
             $data->publish_work_year=$gety;
             $data->publish_work_yearanddate=$request->publish_work_yearanddate2;
@@ -400,19 +401,20 @@ class APIAJController extends Controller
         $data=publish_work::find($request->id);
         if($request->category==1){
         $data->category_publish_work=$request->category_publish_work;
-        $date = explode('-', $request->publish_work_year);
+        $date = explode('/', $request->publish_work_year);
             $geti=(int)$date[0];
             if($geti<=2500){
                 $gety=$geti+543;
             }
             else{
-                $gety=$request->$geti;
+                $gety=$geti;
             }
 
         $data->owner=$request->owner3;
         $data->teacher_name=$text;
         $data->publish_work_year=$gety;
         $data->publish_work_yearshow=$request->publish_work_year;
+        $data->publish_work_yearanddate=$request->publish_work_year;
         $data->publish_work_name=$request->publish_work_name;
         $data->publish_work_issue=$request->publish_work_issue;
         $data->publish_work_page=$request->publish_work_page;
@@ -436,14 +438,14 @@ class APIAJController extends Controller
         $data->category_publish_work=$request->category_publish_work3;
         $data->owner=$request->owner3;
         $data->teacher_name=$text;
-        $date = explode('-', $request->publish_work_yearanddate3);
+        $date = explode('/', $request->publish_work_yearanddate3);
         $geti=(int)$date[0];
 
         if($geti<=2500){
             $gety=$geti+543;
         }
         else{
-            $gety=$request->$geti;
+            $gety=$geti;
         }
         if($request->publish_work_date3=='-'){
             $data->publish_work_date=1;

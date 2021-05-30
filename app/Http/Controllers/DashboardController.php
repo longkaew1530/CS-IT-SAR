@@ -286,6 +286,7 @@ class DashboardController extends Controller
         $tc_course= User::leftjoin('course_teacher','users.id','=','course_teacher.user_id')
          ->where('users.user_course',session()->get('usercourse'))
          ->where('course_teacher.year_id',session()->get('year_id'))
+         ->where('course_teacher.status','!=',1)
          ->get();
         // $tc=User::select('*')->whereNotIn('book_price', [100,200])
         // ->where('user_course',session()->get('usercourse'))
@@ -293,8 +294,8 @@ class DashboardController extends Controller
         $tc=User::whereNotIn('users.id', function($join1)
             {
                 
-                $join1->select('user_id')->from('course_teacher')
-                ->where('course_teacher.course_id',session()->get('usercourse'))
+             $join1->select('user_id')->from('course_teacher')
+            ->where('course_teacher.course_id',session()->get('usercourse'))
              ->where('course_teacher.year_id',session()->get('year_id'));
 
             })
@@ -314,6 +315,7 @@ class DashboardController extends Controller
         $tc_course= instructor::leftjoin('users','instructor.user_id','=','users.id')
          ->where('instructor.course_id',session()->get('usercourse'))
          ->where('instructor.year_id',session()->get('year_id'))
+         ->where('instructor.status','!=',1)
          ->get();
          $tc=User::whereNotIn('users.id', function($join1)
          {
@@ -357,6 +359,7 @@ class DashboardController extends Controller
          ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
          ->where('course_responsible_teacher.branch_id',session()->get('branch_id'))
          ->where('course_responsible_teacher.year_id',session()->get('year_id'))
+         ->where('course_responsible_teacher.status','!=',1)
          ->get();
          $tc=User::whereNotIn('users.id', function($join1)
          {
@@ -468,7 +471,16 @@ class DashboardController extends Controller
         ->get();
         $data = Research_results::where('research_results_id',$id)
         ->get();
-      
-        return view('AJ/editresearch_results',compact('data','tc','tc_course','researchresults','category','userall','user','course','faculty','groupuser','branch'));
+        $status1=0;
+        $status2=0;
+        if($data[0]['source_salary']=="ภายใน"){
+            $status1=1;
+            $status2=0;
+        }
+        else{
+            $status1=0;
+            $status2=1;
+        }
+        return view('AJ/editresearch_results',compact('status1','status2','data','tc','tc_course','researchresults','category','userall','user','course','faculty','groupuser','branch'));
     }
 }

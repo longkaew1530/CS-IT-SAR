@@ -391,16 +391,7 @@ class APIController extends Controller
          $getbranch=branch::all();
          $categoryall=category::all();
          $userpermiss=user_permission::where('year_id',$queryyaer->year_id-1)->get();
-         if($userpermiss!="[]"){
-         foreach($userpermiss as $uvalue){
-                $datauserpermiss=new user_permission;
-                $datauserpermiss->user_id=$uvalue['user_id'];
-                $datauserpermiss->category_id=$uvalue['category_id'];
-                $datauserpermiss->Indicator_id=$uvalue['Indicator_id'];
-                $datauserpermiss->year_id=$queryyaer->year_id;
-                $datauserpermiss->save();
-         }
-        }
+        
          $course_teacher=course_teacher::where('year_id',$queryyaer->year_id-1)->get();
          if($course_teacher!="[]"){
             foreach($course_teacher as $uvalue1){
@@ -408,6 +399,7 @@ class APIController extends Controller
                 $datacourse_teacher->user_id=$uvalue1['user_id'];
                 $datacourse_teacher->course_id=$uvalue1['course_id'];
                 $datacourse_teacher->branch_id=$uvalue1['branch_id'];
+                $datacourse_teacher->status=$uvalue1['status'];
                 $datacourse_teacher->year_id=$queryyaer->year_id;
                 $datacourse_teacher->save();
              }
@@ -420,6 +412,7 @@ class APIController extends Controller
             $datacourse_responsible_teacher->user_id=$uvalue2['user_id'];
             $datacourse_responsible_teacher->course_id=$uvalue2['course_id'];
             $datacourse_responsible_teacher->branch_id=$uvalue2['branch_id'];
+            $datacourse_responsible_teacher->status=$uvalue2['status'];
             $datacourse_responsible_teacher->year_id=$queryyaer->year_id;
             $datacourse_responsible_teacher->save();
          }
@@ -432,6 +425,7 @@ class APIController extends Controller
             $datainstructor->user_id=$uvalue3['user_id'];
             $datainstructor->course_id=$uvalue3['course_id'];
             $datainstructor->branch_id=$uvalue3['branch_id'];
+            $datainstructor->status=$uvalue3['status'];
             $datainstructor->year_id=$queryyaer->year_id;
             $datainstructor->save();
          }
@@ -450,6 +444,25 @@ class APIController extends Controller
                         $data['course_id']=$checkdata2[0]['course_id'];
                         $data['branch_id']=$row2['branch_id'];
                         $data->save(); 
+                        if($userpermiss!="[]"){
+                            foreach($userpermiss as $uvalue){
+                                    $getcheckuser=User::where('id',$uvalue['user_id'])->get();
+                                    if($getcheckuser!="[]"){
+                                        if($getcheckuser[0]['user_branch']==$row2['branch_id']
+                                        &&$getcheckuser[0]['user_course']==$checkdata2[0]['course_id']
+                                        &&$value['category_id']==$uvalue['category_id'])
+                                        {
+                                            $datauserpermiss=new user_permission;
+                                            $datauserpermiss->user_id=$uvalue['user_id'];
+                                            $datauserpermiss->category_id=$uvalue['category_id'];
+                                            $datauserpermiss->Indicator_id=$data->id;
+                                            $datauserpermiss->year_id=$queryyaer->year_id;
+                                            $datauserpermiss->save();
+                                            break;
+                                        }
+                                    }    
+                                }
+                        }
                 }
             }
 
@@ -575,6 +588,7 @@ class APIController extends Controller
           'user_group_id' => $request->user_group_id,
           'prefix' => $request->prefix,
         ];
+        
         if ($files = $request->file('image')) {
             
            //delete old file
@@ -591,7 +605,35 @@ class APIController extends Controller
         }
         
         User::insert($data);  
+        $getlast=User::orderBy('id','desc')->first();
+
+        if($request->user_group_id==3){
+                    $datacourse_teacher=new course_teacher;
+                    $datacourse_teacher->user_id=$getlast['id'];
+                    $datacourse_teacher->course_id=$getlast['user_course'];
+                    $datacourse_teacher->branch_id=$getlast['user_branch'];
+                    $datacourse_teacher->status=1;
+                    $datacourse_teacher->year_id=session()->get('year_id');
+                    $datacourse_teacher->save();
     
+    
+                    $datacourse_responsible_teacher=new course_responsible_teacher;
+                    $datacourse_responsible_teacher->user_id=$getlast['id'];
+                    $datacourse_responsible_teacher->course_id=$getlast['user_course'];
+                    $datacourse_responsible_teacher->branch_id=$getlast['user_branch'];
+                    $datacourse_responsible_teacher->status=1;
+                    $datacourse_responsible_teacher->year_id=session()->get('year_id');
+                    $datacourse_responsible_teacher->save();
+    
+            
+                    $datainstructor=new instructor;
+                    $datainstructor->user_id=$getlast['id'];
+                    $datainstructor->course_id=$getlast['user_course'];
+                    $datainstructor->branch_id=$getlast['user_branch'];
+                    $datainstructor->status=1;
+                    $datainstructor->year_id=session()->get('year_id');
+                    $datainstructor->save();
+                    }
         return $data;
      }
      public function adduser2(Request $request)
@@ -671,6 +713,45 @@ class APIController extends Controller
            $data->image = "$profileImage";
         }
         $data->save();
+        $check1=course_teacher::where('user_id',$request->input('userid'));
+        if($check1!="[]"){
+            $check1->delete();
+        }
+        $check2=course_responsible_teacher::where('user_id',$request->input('userid'));
+        if($check2!="[]"){
+            $check2->delete();
+        }
+        $check3=instructor::where('user_id',$request->input('userid'));
+        if($check3!="[]"){
+            $check3->delete();
+        }
+        if($request->input('user_group_id')==3){
+            $datacourse_teacher=new course_teacher;
+            $datacourse_teacher->user_id=$getlast['id'];
+            $datacourse_teacher->course_id=$getlast['user_course'];
+            $datacourse_teacher->branch_id=$getlast['user_branch'];
+            $datacourse_teacher->status=1;
+            $datacourse_teacher->year_id=session()->get('year_id');
+            $datacourse_teacher->save();
+
+
+            $datacourse_responsible_teacher=new course_responsible_teacher;
+            $datacourse_responsible_teacher->user_id=$getlast['id'];
+            $datacourse_responsible_teacher->course_id=$getlast['user_course'];
+            $datacourse_responsible_teacher->branch_id=$getlast['user_branch'];
+            $datacourse_responsible_teacher->status=1;
+            $datacourse_responsible_teacher->year_id=session()->get('year_id');
+            $datacourse_responsible_teacher->save();
+
+    
+            $datainstructor=new instructor;
+            $datainstructor->user_id=$getlast['id'];
+            $datainstructor->course_id=$getlast['user_course'];
+            $datainstructor->branch_id=$getlast['user_branch'];
+            $datainstructor->status=1;
+            $datainstructor->year_id=session()->get('year_id');
+            $datainstructor->save();
+            }
         return $data; 
      }
      public function deleteuser($id)
@@ -822,6 +903,7 @@ class APIController extends Controller
             $data['year_id']=session()->get('year_id');
             $data['course_id']=session()->get('usercourse');
             $data['branch_id']=session()->get('branch_id');
+            $data['status']=0;
             course_teacher::insert($data);
         }
         return $data;
@@ -851,6 +933,7 @@ class APIController extends Controller
               $data['year_id']=session()->get('year_id');
               $data['course_id']=session()->get('usercourse');
               $data['branch_id']=session()->get('branch_id');
+              $data['status']=0;
               instructor::insert($data);
           }
           return $data;
@@ -1026,6 +1109,7 @@ class APIController extends Controller
               $data['year_id']=session()->get('year_id');
               $data['course_id']=session()->get('usercourse');
               $data['branch_id']=session()->get('branch_id');
+              $data['status']=0;
               course_responsible_teacher::insert($data);
           }
           return $data;

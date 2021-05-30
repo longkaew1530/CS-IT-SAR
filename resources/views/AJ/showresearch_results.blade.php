@@ -296,10 +296,12 @@
       year=year+543;
     }
     $('#datepicker').datepicker({
-    defaultViewDate: {year: year}
+    defaultViewDate: {year: year},
+    autoclose: true,
   })
   $('#datepicker2').datepicker({
-    defaultViewDate: {year: year}
+    defaultViewDate: {year: year},
+    autoclose: true,
   })
    //as you defined in bootstrap-datepicker.XX.js
 });

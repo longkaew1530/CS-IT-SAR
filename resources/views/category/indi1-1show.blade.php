@@ -177,11 +177,23 @@
                   
                  
                   <td>@foreach($row->publish_work as $value) 
-                  @if($value['publish_work_year']==$y
-                     ||$value['publish_work_year']==$y-1
+                  <?php 
+                      $get1=0;
+                     if($value['publish_work_year']>=$y){
+                           $paymentDate=date('Y-m-d', strtotime($value['publish_work_yearanddate']));
+                          
+                           $contractDateBegin = date('Y-m-d', strtotime(session()->get('yearBegin')));
+                           $contractDateEnd = date('Y-m-d', strtotime(session()->get('yearEnd')));
+                           if (($paymentDate >= $contractDateBegin) && ($paymentDate <= $contractDateEnd)){
+                               $get1=1;
+                           }
+                         }  
+                ?>
+                  @if($value['publish_work_year']==$y-1
                      ||$value['publish_work_year']==$y-2
                      ||$value['publish_work_year']==$y-3
-                     ||$value['publish_work_year']==$y-4)
+                     ||$value['publish_work_year']==$y-4
+                     ||$get1==1)
                      @if($value['category']==1)
                     -{{$value['teacher_name'].".(".($value['publish_work_year']).") ".$value['publish_work_name'].". ".$value['journal_name']." ".$value['publish_work_issue']." (".$value['publish_work_yearshow'].") ".$value['publish_work_page']}}<br>
                     @else
