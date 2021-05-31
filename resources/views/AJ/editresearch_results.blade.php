@@ -71,7 +71,7 @@
             <div class="data">
         <div class="col-md-12">
           <div id="body">
-            <div class="col-md-12 col-sm-9 col-xs-12">
+            <div class="col-md-6 col-sm-9 col-xs-12">
             <div class="form-group">
                     <label for="exampleInputPassword1">ปีที่ทำวิจัย</label>
                     <div class="input-group date">
@@ -81,6 +81,19 @@
                   <input type="text" class="form-control pull-right " id="datepicker" name="research_results_date" value="{{$data[0]['research_results_date']}}">
                 </div>
                     <!-- <input type="date" class="form-control" id="research_results_date" name="research_results_date" placeholder="งบประมาณ" value="{{$data[0]['research_results_date']}}"> -->
+                  </div>
+            </div>
+            <div class="col-md-6 col-sm-9 col-xs-12">
+            
+            <div class="form-group">    
+                    <label for="exampleInputPassword1">วัน/เดือน/ปี ที่สิ้นสุดสัญญา</label>
+                    <div class="input-group date">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  <input type="text" class="form-control pull-right " id="datepicker2" name="research_results_date2" value="{{$data[0]['research_results_date2']}}">
+                </div>
+                    <!-- <input type="date" class="form-control" id="research_results_date" name="research_results_date" placeholder="งบประมาณ"> -->
                   </div>
             </div>
           </div>
@@ -334,13 +347,22 @@
       year=year+543;
     }
     var date = document.getElementById("datepicker").value;
+    var date2 = document.getElementById("datepicker2").value;
     $('#datepicker').datepicker({
     defaultViewDate: {year: year},
     autoclose: true,
   })
   $('#datepicker').datepicker("setDate", new Date(date) );
    //as you defined in bootstrap-datepicker.XX.js
-});
+   $('#datepicker2').datepicker({
+    defaultViewDate: {year: year},
+    autoclose: true,
+  })
+  $('#datepicker2').datepicker("setDate", new Date(date2) );
+   //as you defined in bootstrap-datepicker.XX.js
+  })
+  
+  
 </script>
 <script>
 function myFunction() {

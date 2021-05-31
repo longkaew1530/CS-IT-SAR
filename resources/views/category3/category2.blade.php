@@ -71,19 +71,27 @@
                 <tr>
                   <td>-{{$row['name']}}<br>
                      @foreach($row->publish_work as $key =>$value)
-                    
-
-                       @if($value['publish_work_issue']!="")
-                       <li class="ml-2">{{$value['teacher_name'].".(".($value['publish_work_year']).") ".$value['publish_work_name'].". ".$value['journal_name']." ".$value['publish_work_issue']." (".$value['publish_work_year'].") ".$value['publish_work_page']}}</li>
-                       @else
-                       @if($value['publish_work_date']!=1)
-                       <li class="ml-2">{{$value['teacher_name'].".(".($value['publish_work_year']).") ".$value['publish_work_name']." ".$value['journal_name'].". ".$value['publish_work_date']." ".$value['publish_work_place'].", ".$value['province'].". ".$value['country']." ".$value['publish_work_page']."."}}</li><br>
-                      @else
-                      <li class="ml-2">{{$value['teacher_name'].".(".($value['publish_work_year']).") ".$value['publish_work_name']." ".$value['journal_name'].". ".$value['province'].". ".$value['country']." ".$value['publish_work_page']."."}}</li><br>
-                      @endif
-                      
-                       @endif
-                  
+                     @if($value['publish_work_yearanddate']>=session()->get('yearBegin')&&$value['publish_work_yearanddate']<=session()->get('yearEnd'))
+                              @if($value['publish_work_issue']!="")
+                              <li class="ml-2">{{$value['teacher_name'].".(".($value['publish_work_year']).") ".$value['publish_work_name'].". ".$value['journal_name']." ".$value['publish_work_issue']." (".$value['publish_work_year'].") ".$value['publish_work_page']}}</li>
+                              @else
+                              @if($value['publish_work_date']!=1)
+                              <li class="ml-2">{{$value['teacher_name'].".(".($value['publish_work_year']).") ".$value['publish_work_name']." ".$value['journal_name'].". ".$value['publish_work_date']." ".$value['publish_work_place'].", ".$value['province'].". ".$value['country']." ".$value['publish_work_page']."."}}</li><br>
+                              @else
+                              <li class="ml-2">{{$value['teacher_name'].".(".($value['publish_work_year']).") ".$value['publish_work_name']." ".$value['journal_name'].". ".$value['province'].". ".$value['country']." ".$value['publish_work_page']."."}}</li><br>
+                              @endif
+                              @endif
+                        @elseif($value['publish_work_yearanddate2']>=session()->get('yearBegin')&&$value['publish_work_yearanddate2']<=session()->get('yearEnd'))
+                        @if($value['publish_work_issue']!="")
+                              <li class="ml-2">{{$value['teacher_name'].".(".($value['publish_work_year']).") ".$value['publish_work_name'].". ".$value['journal_name']." ".$value['publish_work_issue']." (".$value['publish_work_year'].") ".$value['publish_work_page']}}</li>
+                              @else
+                              @if($value['publish_work_date']!=1)
+                              <li class="ml-2">{{$value['teacher_name'].".(".($value['publish_work_year']).") ".$value['publish_work_name']." ".$value['journal_name'].". ".$value['publish_work_date']." ".$value['publish_work_place'].", ".$value['province'].". ".$value['country']." ".$value['publish_work_page']."."}}</li><br>
+                              @else
+                              <li class="ml-2">{{$value['teacher_name'].".(".($value['publish_work_year']).") ".$value['publish_work_name']." ".$value['journal_name'].". ".$value['province'].". ".$value['country']." ".$value['publish_work_page']."."}}</li><br>
+                              @endif
+                              @endif
+                        @endif
                       @endforeach
                   </td>           
                   <td class="text-center">
@@ -92,9 +100,11 @@
                   <td class="text-center">
                   <?php $i=0 ?>
                   @foreach($row->publish_work as $ke =>$value1)
-                        
-                       <?php $i++ ?>
-                      
+                  @if($value1['publish_work_yearanddate']>=session()->get('yearBegin')&&$value1['publish_work_yearanddate']<=session()->get('yearEnd'))
+                        <?php $i++ ?>
+                  @elseif($value1['publish_work_yearanddate2']>=session()->get('yearBegin')&&$value1['publish_work_yearanddate2']<=session()->get('yearEnd'))
+                        <?php $i++ ?>
+                  @endif 
                   @endforeach
                   <?php  $totalqty=$totalqty+$i;?>
                   @if( $i!=0)
@@ -132,21 +142,39 @@
                   <th width="10%" class="text-center">ค่าน้ำหนัก</th>
                 </tr>
                 @foreach($category_re as $key =>$value)
-                <tr>
-                  <td>{{$value['publish_work_name']}}</td>           
-                  <td>{{$value['teacher_name']}}</td>
-                  @if($value['publish_work_issue']!="")
-                  <td>{{$value['journal_name']." ".$value['publish_work_issue']." (".$value['publish_work_year'].") ".$value['publish_work_page']}}</td>
-                  @else
-                    @if($value['publish_work_date']!=1)
-                    <td>{{$value['journal_name'].". ".$value['publish_work_date']." ".$value['publish_work_place'].", ".$value['province'].". ".$value['country']." ".$value['publish_work_page']."."}}</td>
-                    @else
-                    <td>{{$value['journal_name'].". ".$value['province'].". ".$value['country']." ".$value['publish_work_page']."."}}</td>
-                    @endif
-                    
-                  @endif
-                  <td>{{$value['score']}}</td>
-                </tr>
+                @if($value['publish_work_yearanddate']>=session()->get('yearBegin')&&$value['publish_work_yearanddate']<=session()->get('yearEnd'))
+                    <tr>
+                      <td>{{$value['publish_work_name']}}</td>           
+                      <td>{{$value['teacher_name']}}</td>
+                      @if($value['publish_work_issue']!="")
+                      <td>{{$value['journal_name']." ".$value['publish_work_issue']." (".$value['publish_work_year'].") ".$value['publish_work_page']}}</td>
+                      @else
+                        @if($value['publish_work_date']!=1)
+                        <td>{{$value['journal_name'].". ".$value['publish_work_date']." ".$value['publish_work_place'].", ".$value['province'].". ".$value['country']." ".$value['publish_work_page']."."}}</td>
+                        @else
+                        <td>{{$value['journal_name'].". ".$value['province'].". ".$value['country']." ".$value['publish_work_page']."."}}</td>
+                        @endif
+                        
+                      @endif
+                      <td>{{$value['score']}}</td>
+                    </tr>
+                  @elseif($value['publish_work_yearanddate2']>=session()->get('yearBegin')&&$value['publish_work_yearanddate2']<=session()->get('yearEnd'))
+                      <tr>
+                      <td>{{$value['publish_work_name']}}</td>           
+                      <td>{{$value['teacher_name']}}</td>
+                      @if($value['publish_work_issue']!="")
+                      <td>{{$value['journal_name']." ".$value['publish_work_issue']." (".$value['publish_work_year'].") ".$value['publish_work_page']}}</td>
+                      @else
+                        @if($value['publish_work_date']!=1)
+                        <td>{{$value['journal_name'].". ".$value['publish_work_date']." ".$value['publish_work_place'].", ".$value['province'].". ".$value['country']." ".$value['publish_work_page']."."}}</td>
+                        @else
+                        <td>{{$value['journal_name'].". ".$value['province'].". ".$value['country']." ".$value['publish_work_page']."."}}</td>
+                        @endif
+                        
+                      @endif
+                      <td>{{$value['score']}}</td>
+                    </tr>
+                  @endif 
                 @endforeach
               </tbody></table>
             </div>

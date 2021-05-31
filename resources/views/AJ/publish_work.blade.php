@@ -53,12 +53,22 @@
                     <input type = "text" class="form-control" id="journal_name" name="journal_name" placeholder="ชื่อวารสาร">
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">ปีที่</label>
+                    <label for="exampleInputPassword1">วัน/เดือน/ปี</label>
                     <div class="input-group date">
                   <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                   </div>
                   <input type="text" class="form-control pull-right " id="datepicker" name="publish_work_year">
+                </div>
+                    <!-- <input type = "date" class="form-control" id="publish_work_year" name="publish_work_year" placeholder="ปีที่"> -->
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">ถึง วัน/เดือน/ปี</label>
+                    <div class="input-group date">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  <input type="text" class="form-control pull-right " id="datepicker5" name="publish_work_yearnew">
                 </div>
                     <!-- <input type = "date" class="form-control" id="publish_work_year" name="publish_work_year" placeholder="ปีที่"> -->
                   </div>
@@ -99,10 +109,10 @@
                     <label for="exampleInputPassword1">ชื่อการประชุม</label>
                     <input type = "text" class="form-control" id="journal_name2" name="journal_name2" placeholder="ชื่องาน">
                   </div>
-                  <div class="form-group">
+                  <!-- <div class="form-group">
                     <label for="exampleInputPassword1">วันที่</label>
                     <input type = "text" class="form-control" id="publish_work_date2" name="publish_work_date2" placeholder="วันที่">
-                  </div>
+                  </div> -->
                   <div class="form-group">
                     <label for="exampleInputPassword1">วัน/เดือน/ปี</label>
                     <div class="input-group date">
@@ -113,7 +123,16 @@
                 </div>
                     <!-- <input type = "date" class="form-control" id="publish_work_yearanddate2" name="publish_work_yearanddate2" placeholder="วันที่"> -->
                   </div>
-                  
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">ถึง วัน/เดือน/ปี</label>
+                    <div class="input-group date">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  <input type="text" class="form-control pull-right " id="datepicker7" name="publish_work_yearnew2">
+                </div>
+                    <!-- <input type = "date" class="form-control" id="publish_work_yearanddate2" name="publish_work_yearanddate2" placeholder="วันที่"> -->
+                  </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">สถานที่จัด</label>
                     <input type="text" class="form-control" id="publish_work_place2" name="publish_work_place2" placeholder="สถานที่จัด">
@@ -184,7 +203,7 @@
           <?php
             $get_date=explode(" ",$row['publish_work_date']);          
           ?>
-          @if($row['publish_work_date']!=1)
+          @if($row['publish_work_date']!="1")
           <td>{{$row['teacher_name'].".(".($row['publish_work_year']+$y).") ".$row['publish_work_name']." ".$row['journal_name'].". ".$row['publish_work_date']." ".$row['publish_work_place'].", ".$row['province'].". ".$row['country']." ".$row['publish_work_page']."."}}</td>
           @else
           <td>{{$row['teacher_name'].".(".($row['publish_work_year']+$y).") ".$row['publish_work_name']." ".$row['journal_name'].". ".$row['province'].". ".$row['country']." ".$row['publish_work_page']."."}}</td>
@@ -231,7 +250,7 @@
                     <input type = "text" class="form-control" id="journal_name3" name="journal_name" placeholder="ชื่อวารสาร">
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">ปีที่</label>
+                    <label for="exampleInputPassword1">วัน/เดือน/ปี</label>
                     <div class="input-group date">
                   <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
@@ -239,6 +258,16 @@
                   <input type="text" class="form-control pull-right " id="datepicker3" name="publish_work_year">
                 </div>
                     <!-- <input type = "date" class="form-control" id="publish_work_year3" name="publish_work_year" placeholder="ปีที่"> -->
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">ถึง วัน/เดือน/ปี</label>
+                    <div class="input-group date">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  <input type="text" class="form-control pull-right " id="datepicker6" name="publish_work_yearnew">
+                </div>
+                    <!-- <input type = "date" class="form-control" id="publish_work_year" name="publish_work_year" placeholder="ปีที่"> -->
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">ฉบับที่</label>
@@ -278,10 +307,6 @@
                     <input type = "text" class="form-control" id="journal_name4" name="journal_name3" placeholder="ชื่องาน">
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">วันที่</label>
-                    <input type = "text" class="form-control" id="publish_work_date4" name="publish_work_date3" placeholder="วันที่">
-                  </div>
-                  <div class="form-group">
                     <label for="exampleInputPassword1">วัน/เดือน/ปี</label>
                     <div class="input-group date">
                   <div class="input-group-addon">
@@ -291,7 +316,16 @@
                 </div>
                     <!-- <input type = "date" class="form-control" id="publish_work_yearanddate4" name="publish_work_yearanddate3" placeholder="วันที่"> -->
                   </div>
-                  
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">ถึง วัน/เดือน/ปี</label>
+                    <div class="input-group date">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  <input type="text" class="form-control pull-right " id="datepicker8" name="publish_work_yearnew3">
+                </div>
+                    <!-- <input type = "date" class="form-control" id="publish_work_yearanddate2" name="publish_work_yearanddate2" placeholder="วันที่"> -->
+                  </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">สถานที่จัด</label>
                     <input type="text" class="form-control" id="publish_work_place4" name="publish_work_place3" placeholder="สถานที่จัด">
@@ -419,7 +453,22 @@
     defaultViewDate: {year: year},
     autoclose: true,
   })
-
+  $('#datepicker5').datepicker({
+    defaultViewDate: {year: year},
+    autoclose: true,
+  })
+  $('#datepicker6').datepicker({
+    defaultViewDate: {year: year},
+    autoclose: true,
+  })
+  $('#datepicker7').datepicker({
+    defaultViewDate: {year: year},
+    autoclose: true,
+  })
+  $('#datepicker8').datepicker({
+    defaultViewDate: {year: year},
+    autoclose: true,
+  })
    //as you defined in bootstrap-datepicker.XX.js
 });
 </script>
@@ -649,6 +698,8 @@
         $("#journal_name3").val(data[0].journal_name);
         $("#datepicker3").val(data[0].publish_work_yearanddate);
         $('#datepicker3').datepicker("setDate", new Date(data[0].publish_work_yearanddate));
+        $("#datepicker6").val(data[0].publish_work_yearanddate2);
+        $('#datepicker6').datepicker("setDate", new Date(data[0].publish_work_yearanddate2));
         $("#publish_work_issue3").val(data[0].publish_work_issue);
         $("#publish_work_page3").val(data[0].publish_work_page);
         $("#category_publish_work3").val(data[0].category_publish_work);
@@ -676,6 +727,8 @@
         }
         $("#datepicker4").val(data[0].publish_work_yearanddate);
         $('#datepicker4').datepicker("setDate", new Date(data[0].publish_work_yearanddate));
+        $("#datepicker8").val(data[0].publish_work_yearanddate2);
+        $('#datepicker8').datepicker("setDate", new Date(data[0].publish_work_yearanddate2));
         $("#publish_work_page4").val(data[0].publish_work_page);
         $("#publish_work_place4").val(data[0].publish_work_place);
         $("#province4").val(data[0].province);

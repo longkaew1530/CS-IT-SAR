@@ -365,11 +365,9 @@ class CategoryController extends Controller
         ->where('course_responsible_teacher.year_id',session()->get('year_id'))
         ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
         ->where('course_responsible_teacher.branch_id',session()->get('branch_id'))
-        ->where('publish_work.publish_work_yearanddate','>=',session()->get('yearBegin'))
-        ->where('publish_work.publish_work_yearanddate','<=',session()->get('yearEnd'))
         ->orderBy('category_research_results.score','desc')
         ->get();
-       
+      
     //    dd($category_re);
         //ดึงค่าตารางอาจารย์ผู้รับผิดชอบหลักสูตร
         $trc = course_responsible_teacher::join('year','course_responsible_teacher.year_id','=','year.year_id')
@@ -408,13 +406,19 @@ class CategoryController extends Controller
             }
             else if($value['academic_position']=="ศาสตราจารย์"){
                 $countposition3=$countposition3+1;
-            }
+            } 
         }
         $countcate=0;
-        foreach($category_re as $value){        
+        foreach($category_re as $value){
+            if($value['publish_work_yearanddate']>=session()->get('yearBegin')&&$value['publish_work_yearanddate']<=session()->get('yearEnd')){
                 $countcate=$countcate+$value['score'];
+            }
+            else if($value['publish_work_yearanddate2']>=session()->get('yearBegin')&&$value['publish_work_yearanddate2']<=session()->get('yearEnd')){
+                $countcate=$countcate+$value['score'];
+            }
+                
         }
-
+        
         $inc=PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
         ->where('pdca.course_id',session()->get('usercourse'))
         ->where('pdca.branch_id',session()->get('branch_id'))

@@ -22,7 +22,8 @@
       </div>
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
-        <li class="header">MAIN NAVIGATION</li>
+      
+        <li class="header">{{session()->get('getyearBegin')}} ถึง {{session()->get('getyearEnd')}}</li>
         <!-- <li class="active treeview menu-open">
           <a href="">
             <i class=""></i><span>หมวดที่1</span>

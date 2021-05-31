@@ -146,6 +146,7 @@ class APIAJController extends Controller
         $data->teacher_name=$text;
         $data->research_results_category=$request->research_results_category;
         $data->research_results_date=$request->research_results_date;
+        $data->research_results_date2=$request->research_results_date2;
         $data->research_results_name=$request->research_results_name;
         $data->research_results_source_salary=$request->research_results_source_salary;
         $data->source_salary=$request->source_salary;
@@ -198,6 +199,7 @@ class APIAJController extends Controller
         $data->teacher_name=$text;
         $data->research_results_category=$request->research_results_category;
         $data->research_results_date=$request->research_results_date;
+        $data->research_results_date2=$request->research_results_date2;
         $data->research_results_name=$request->research_results_name;
         $data->research_results_source_salary=$request->research_results_source_salary;
         $data->research_results_salary=$request->research_results_salary;
@@ -283,7 +285,7 @@ class APIAJController extends Controller
             $data->owner=$request->owner;
             $data->teacher_name=$text;
             $data->category_publish_work=$request->category_publish_work;
-            $date = explode('/', $request->publish_work_year);
+            $date = explode('/', $request->publish_work_yearnew);
             $geti=(int)$date[0];
             if($geti<=2500){
                 $gety=$geti+543;
@@ -292,8 +294,9 @@ class APIAJController extends Controller
                 $gety=$geti;
             }
             $data->publish_work_year=$gety;
-            $data->publish_work_yearshow=$request->publish_work_year;
+            $data->publish_work_yearshow=$request->publish_work_yearnew;
             $data->publish_work_yearanddate=$request->publish_work_year;
+            $data->publish_work_yearanddate2=$request->publish_work_yearnew;
             $data->publish_work_name=$request->publish_work_name;
             $data->publish_work_issue=$request->publish_work_issue;
             $data->publish_work_page=$request->publish_work_page;
@@ -333,13 +336,60 @@ class APIAJController extends Controller
             }
             $data->publish_work_year=$gety;
             $data->publish_work_yearanddate=$request->publish_work_yearanddate2;
-            if(isset($request->publish_work_date2)){
-                $data->publish_work_date=$request->publish_work_date2;
+            $data->publish_work_yearanddate2=$request->publish_work_yearnew2;
+            // if(isset($request->publish_work_date2)){
+            //     $data->publish_work_date=$request->publish_work_date2;
+            // }
+            // else{
+            //     $data->publish_work_date=1;
+            // }
+            $getdate1 = explode("/" ,$request->publish_work_yearanddate2);
+            $getdate2 = explode("/" ,$request->publish_work_yearnew2);
+
+            if($getdate1[1]=="01"){
+                $setname="มกราคม";
+            }
+            else if($getdate1[1]=="02"){
+                $setname="กุมภาพันธ์";
+            }
+            else if($getdate1[1]=="03"){
+                $setname="มีนาคม";
+            }
+            else if($getdate1[1]=="04"){
+                $setname="เมษายน";
+            }
+            else if($getdate1[1]=="05"){
+                $setname="พฤษภาคม";
+            }
+            else if($getdate1[1]=="06"){
+                $setname="มิถุนายน";
+            }
+            else if($getdate1[1]=="07"){
+                $setname="กรกฎาคม";
+            }
+            else if($getdate1[1]=="08"){
+                $setname="สิงหาคม";
+            }
+            else if($getdate1[1]=="09"){
+                $setname="กันยายน";
+            }
+            else if($getdate1[1]=="10"){
+                $setname="ตุลาคม";
+            }
+            else if($getdate1[1]=="11"){
+                $setname="พฤศจิกายน";
             }
             else{
-                $data->publish_work_date=1;
+                $setname="ธันวาคม";
             }
-            
+            if(isset($request->publish_work_yearnew2)){
+                $getyear=(int)$getdate1[2]."-".(int)$getdate2[2]." ".$setname." ".$getdate2[0];
+            }
+            else{
+                $getyear=(int)$getdate1[2]." ".$setname." ".$getdate1[0];
+            }
+         
+            $data->publish_work_date=$getyear;
             $data->publish_work_name=$request->publish_work_name2;
             $data->journal_name=$request->journal_name2;
             $data->publish_work_page=$request->publish_work_page2;
@@ -401,7 +451,7 @@ class APIAJController extends Controller
         $data=publish_work::find($request->id);
         if($request->category==1){
         $data->category_publish_work=$request->category_publish_work;
-        $date = explode('/', $request->publish_work_year);
+        $date = explode('/', $request->publish_work_yearnew);
             $geti=(int)$date[0];
             if($geti<=2500){
                 $gety=$geti+543;
@@ -413,8 +463,9 @@ class APIAJController extends Controller
         $data->owner=$request->owner3;
         $data->teacher_name=$text;
         $data->publish_work_year=$gety;
-        $data->publish_work_yearshow=$request->publish_work_year;
+        $data->publish_work_yearshow=$request->publish_work_yearnew;
         $data->publish_work_yearanddate=$request->publish_work_year;
+        $data->publish_work_yearanddate2=$request->publish_work_yearnew;
         $data->publish_work_name=$request->publish_work_name;
         $data->publish_work_issue=$request->publish_work_issue;
         $data->publish_work_page=$request->publish_work_page;
@@ -447,15 +498,61 @@ class APIAJController extends Controller
         else{
             $gety=$geti;
         }
-        if($request->publish_work_date3=='-'){
-            $data->publish_work_date=1;
-        }
-        else{
-            $data->publish_work_date=$request->publish_work_date3;
-        }
+        // if($request->publish_work_date3=='-'){
+        //     $data->publish_work_date=1;
+        // }
+        // else{
+        //     $data->publish_work_date=$request->publish_work_date3;
+        // }
+        $getdate1 = explode("/" ,$request->publish_work_yearanddate3);
+            $getdate2 = explode("/" ,$request->publish_work_yearnew3);
+
+            if($getdate1[1]=="01"){
+                $setname="มกราคม";
+            }
+            else if($getdate1[1]=="02"){
+                $setname="กุมภาพันธ์";
+            }
+            else if($getdate1[1]=="03"){
+                $setname="มีนาคม";
+            }
+            else if($getdate1[1]=="04"){
+                $setname="เมษายน";
+            }
+            else if($getdate1[1]=="05"){
+                $setname="พฤษภาคม";
+            }
+            else if($getdate1[1]=="06"){
+                $setname="มิถุนายน";
+            }
+            else if($getdate1[1]=="07"){
+                $setname="กรกฎาคม";
+            }
+            else if($getdate1[1]=="08"){
+                $setname="สิงหาคม";
+            }
+            else if($getdate1[1]=="09"){
+                $setname="กันยายน";
+            }
+            else if($getdate1[1]=="10"){
+                $setname="ตุลาคม";
+            }
+            else if($getdate1[1]=="11"){
+                $setname="พฤศจิกายน";
+            }
+            else{
+                $setname="ธันวาคม";
+            }
+            if(isset($request->publish_work_yearnew3)){
+                $getyear=(int)$getdate1[2]."-".(int)$getdate2[2]." ".$setname." ".$getdate2[0];
+            }
+            else{
+                $getyear=(int)$getdate1[2]." ".$setname." ".$getdate1[0];
+            }
+            $data->publish_work_date=$getyear;
         $data->publish_work_year=$gety;
          $data->publish_work_yearanddate=$request->publish_work_yearanddate3;
-
+         $data->publish_work_yearanddate2=$request->publish_work_yearnew3;
             
         $data->publish_work_name=$request->publish_work_name3;
         $data->journal_name=$request->journal_name3;

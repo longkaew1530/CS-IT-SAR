@@ -54,12 +54,20 @@
                   <b>อาจารย์{{$tvalue['user_fullname']}}</b><br>
                   @endif
                   @foreach($tvalue->training_information as $ttvalue)
-                  <li>{{$ttvalue['name_training']." วันที่ ".$ttvalue['date_training']." ".$ttvalue['place_training']}}</li>
+                    @if($ttvalue['date_training2']>=session()->get('yearBegin')&&$ttvalue['date_training2']<=session()->get('yearEnd'))
+                    <li>{{$ttvalue['name_training']." วันที่ ".$ttvalue['date_training']." ".$ttvalue['place_training']}}</li>
+                    @elseif($ttvalue['year_id']>=session()->get('yearBegin')&&$ttvalue['year_id ']<=session()->get('yearEnd'))
+                    <li>{{$ttvalue['name_training']." วันที่ ".$ttvalue['date_training']." ".$ttvalue['place_training']}}</li>
+                    @endif
                   @endforeach<br>
                   @endforeach
                   <b>ส่งเสริมให้อาจารย์ผู้รับผิดชอบหลักสูตรพัฒนางานวิจัย โดยในปีการศึกษา {{session()->get('year')}} ดังนี้</b><br>
                       @foreach($category_re as $cvalue)
+                        @if($cvalue['research_results_date']>=session()->get('yearBegin')&&$cvalue['research_results_date']<=session()->get('yearEnd'))
                         -{{$cvalue['research_results_name']}} โดย {{$cvalue['teacher_name']}}<br>
+                        @elseif($cvalue['research_results_date2']>=session()->get('yearBegin')&&$cvalue['research_results_date2']<=session()->get('yearEnd'))
+                        -{{$cvalue['research_results_name']}} โดย {{$cvalue['teacher_name']}}<br>
+                        @endif
                       @endforeach
                   @endif
                   </br><br><br>

@@ -54,6 +54,7 @@ use App\Faculty;
 use App\groupuser;
 use App\course_responsible_teacher;
 use App\Educational_background;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -84,6 +85,44 @@ class DashboardController extends Controller
             session()->put('yearBegin',$y1);
             session()->put('yearEnd',$y2);
             session()->put('checkyear_id',$y_id);
+            $getdate1 = explode("-" ,$y1);
+            $getdate2 = explode("-" ,$y1);
+            $getdate3 = explode("-" ,$y1);
+            $getdate1int=(int)$getdate1[0];
+            $dateall=($getdate1int-543)."-".$getdate2[1]."-".$getdate3[2];
+
+            $getdate4 = explode("-" ,$y2);
+            $getdate5 = explode("-" ,$y2);
+            $getdate6 = explode("-" ,$y2);
+            $getdate4int=(int)$getdate4[0];
+            $dateall2=($getdate4int-543)."-".$getdate5[1]."-".$getdate6[2];
+
+
+            $getyearBegin=Carbon::parse($dateall)->thaidate();
+            $getyearEnd=Carbon::parse($dateall2)->thaidate();
+            session()->put('getyearBegin',$getyearBegin);
+            session()->put('getyearEnd',$getyearEnd);
+
+            foreach($getAllyear as $keyy=>$yvalue){
+                $getdate1 = explode("-" ,$yvalue['date1']);
+                $getdate2 = explode("-" ,$yvalue['date1']);
+                $getdate3 = explode("-" ,$yvalue['date1']);
+                $getdate1int=(int)$getdate1[0];
+                $dateall=($getdate1int-543)."-".$getdate2[1]."-".$getdate3[2];
+
+                $getdate4 = explode("-" ,$yvalue['date2']);
+                $getdate5 = explode("-" ,$yvalue['date2']);
+                $getdate6 = explode("-" ,$yvalue['date2']);
+                $getdate4int=(int)$getdate4[0];
+                $dateall2=($getdate4int-543)."-".$getdate5[1]."-".$getdate6[2];
+
+
+                $getyearBegin=Carbon::parse($dateall)->thaidate();
+                $getyearEnd=Carbon::parse($dateall2)->thaidate();
+
+                $getyear[$keyy]['begin']=$getyearBegin;
+                $getyear[$keyy]['end']=$getyearEnd;
+            }
         }
         if($user_group!=2){
             session()->put('branch_id',$user->user_branch);
@@ -132,7 +171,7 @@ class DashboardController extends Controller
             session()->put('m_menu1',1);  
             session()->put('m_menu2',10);
             session()->put('putput',0);  
-            return view('dashboard/year',compact('year','getAllyear'));
+            return view('dashboard/year',compact('year','getAllyear','getyear'));
         }
        else if($user_group==3){
             session()->put('putput',3);

@@ -25,8 +25,6 @@ class categoty_researh extends Model
         ->rightjoin('course_responsible_teacher','publish_work.owner','=','course_responsible_teacher.user_id')
         ->where('course_responsible_teacher.year_id',session()->get('year_id'))
         ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
-        ->where('course_responsible_teacher.branch_id',session()->get('branch_id'))
-        ->where('publish_work.publish_work_yearanddate','>=',session()->get('yearBegin'))
-        ->where('publish_work.publish_work_yearanddate','<=',session()->get('yearEnd'));
+        ->where('course_responsible_teacher.branch_id',session()->get('branch_id'));
     }
 }

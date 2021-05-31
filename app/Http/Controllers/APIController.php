@@ -391,7 +391,25 @@ class APIController extends Controller
          $getbranch=branch::all();
          $categoryall=category::all();
          $userpermiss=user_permission::where('year_id',$queryyaer->year_id-1)->get();
-        
+         $userpermissstatus=user_permission_status::where('year_id',$queryyaer->year_id-1)->get();
+         if($userpermissstatus!="[]"){
+            foreach($userpermissstatus as $userstatus){
+                $datastatus=new user_permission_status;
+                $datastatus->status1=$userstatus['status1'];
+                $datastatus->status2=$userstatus['status2'];
+                $datastatus->status3=$userstatus['status3'];
+                $datastatus->status4=$userstatus['status4'];
+                $datastatus->status5=$userstatus['status5'];
+                $datastatus->status6=$userstatus['status6'];
+                $datastatus->status7=$userstatus['status7'];
+                $datastatus->status8=$userstatus['status8'];
+                $datastatus->branch_id=$userstatus['branch_id'];
+                $datastatus->course_id=$userstatus['course_id'];
+                $datastatus->year_id=$queryyaer->year_id;
+                $datastatus->user_id=$userstatus['user_id'];
+                $datastatus->save();
+            }
+         }
          $course_teacher=course_teacher::where('year_id',$queryyaer->year_id-1)->get();
          if($course_teacher!="[]"){
             foreach($course_teacher as $uvalue1){
@@ -1291,7 +1309,54 @@ class APIController extends Controller
         $user=auth()->user();
          $data['user_id']=$user->id;
          $data['name_training']=$request->name_training;
-         $data['date_training']=$request->date_training;
+         $getdate1 = explode("/" ,$request->date_training2);
+         $getdate2 = explode("/" ,$request->year_id);
+
+         if($getdate1[1]=="01"){
+             $setname="มกราคม";
+         }
+         else if($getdate1[1]=="02"){
+            $setname="กุมภาพันธ์";
+         }
+         else if($getdate1[1]=="03"){
+            $setname="มีนาคม";
+         }
+         else if($getdate1[1]=="04"){
+            $setname="เมษายน";
+         }
+         else if($getdate1[1]=="05"){
+            $setname="พฤษภาคม";
+         }
+         else if($getdate1[1]=="06"){
+            $setname="มิถุนายน";
+         }
+         else if($getdate1[1]=="07"){
+            $setname="กรกฎาคม";
+         }
+         else if($getdate1[1]=="08"){
+            $setname="สิงหาคม";
+         }
+         else if($getdate1[1]=="09"){
+            $setname="กันยายน";
+         }
+         else if($getdate1[1]=="10"){
+            $setname="ตุลาคม";
+         }
+         else if($getdate1[1]=="11"){
+            $setname="พฤศจิกายน";
+         }
+         else{
+            $setname="ธันวาคม";
+         }
+         if(isset($request->year_id)){
+            $getyear=(int)$getdate1[2]."-".(int)$getdate2[2]." ".$setname." ".$getdate2[0];
+         }
+         else{
+            $getyear=(int)$getdate1[2]." ".$setname." ".$getdate1[0];
+         }
+         
+         $data['date_training']=$getyear;
+         $data['date_training2']=$request->date_training2;
          $data['place_training']=$request->place_training;
          $data['category_training']=$request->category_training;
          $data['year_id']=$request->year_id;
@@ -1302,8 +1367,57 @@ class APIController extends Controller
      public function updatetraining_information(Request $request)
      {
          $data = training_information::find($request->id);
+         $getdate1 = explode("/" ,$request->date_training2);
+         $getdate2 = explode("/" ,$request->year_id);
+
+         if($getdate1[1]=="01"){
+             $setname="มกราคม";
+         }
+         else if($getdate1[1]=="02"){
+            $setname="กุมภาพันธ์";
+         }
+         else if($getdate1[1]=="03"){
+            $setname="มีนาคม";
+         }
+         else if($getdate1[1]=="04"){
+            $setname="เมษายน";
+         }
+         else if($getdate1[1]=="05"){
+            $setname="พฤษภาคม";
+         }
+         else if($getdate1[1]=="06"){
+            $setname="มิถุนายน";
+         }
+         else if($getdate1[1]=="07"){
+            $setname="กรกฎาคม";
+         }
+         else if($getdate1[1]=="08"){
+            $setname="สิงหาคม";
+         }
+         else if($getdate1[1]=="09"){
+            $setname="กันยายน";
+         }
+         else if($getdate1[1]=="10"){
+            $setname="ตุลาคม";
+         }
+         else if($getdate1[1]=="11"){
+            $setname="พฤศจิกายน";
+         }
+         else{
+            $setname="ธันวาคม";
+         }
+
+         if(isset($request->year_id)){
+            $getyear=(int)$getdate1[2]."-".(int)$getdate2[2]." ".$setname." ".$getdate2[0];
+         }
+         else{
+            $getyear=(int)$getdate1[2]." ".$setname." ".$getdate1[0];
+         }
+
+         
          $data['name_training']=$request->name_training;
-         $data['date_training']=$request->date_training;
+         $data['date_training']=$getyear;
+         $data['date_training2']=$request->date_training2;
          $data['place_training']=$request->place_training;
          $data['category_training']=$request->category_training;
          $data['year_id']=$request->year_id;

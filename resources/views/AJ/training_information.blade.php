@@ -23,11 +23,17 @@
                     <input type="text" class="form-control"  id="name_training" name="name_training"   placeholder="ชื่อการอบรบ">
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">วัน/เดือน/ปี ที่อบรบ</label>
-                    <input  type="text" class="form-control" id="date_training" name="date_training" placeholder="วัน/เดือน/ปี ที่อบรบ">
+                    <label for="exampleInputPassword1">วัน/เดือน/ปี </label>
+                    <div class="input-group date">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  <input type="text" class="form-control pull-right " id="datepicker3"  name="date_training2" >
+                </div>
+                    <!-- <input  type="date" class="form-control" id="year_id" name="year_id" placeholder="วัน/เดือน/ปี ที่อบรบ"> -->
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">วัน/เดือน/ปี ที่อบรบ</label>
+                    <label for="exampleInputPassword1">ถึง วัน/เดือน/ปี </label>
                     <div class="input-group date">
                   <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
@@ -113,11 +119,17 @@
                     <input type="text" class="form-control"  id="name_training1" name="name_training"   placeholder="ชื่อการอบรบ">
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">วัน/เดือน/ปี ที่อบรบ</label>
-                    <input  type="text" class="form-control" id="date_training1" name="date_training" placeholder="วัน/เดือน/ปี ที่อบรบ">
+                    <label for="exampleInputPassword1">วัน/เดือน/ปี </label>
+                    <div class="input-group date">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  <input type="text" class="form-control pull-right " id="datepicker4"  name="date_training2" >
+                </div>
+                    <!-- <input  type="date" class="form-control" id="year_id" name="year_id" placeholder="วัน/เดือน/ปี ที่อบรบ"> -->
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">วัน/เดือน/ปี ที่อบรบ</label>
+                    <label for="exampleInputPassword1">ถึง วัน/เดือน/ปี</label>
                     <div class="input-group date">
                   <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
@@ -227,6 +239,14 @@
     defaultViewDate: {year: year},
     autoclose: true,
   })
+  $('#datepicker3').datepicker({
+    defaultViewDate: {year: year},
+    autoclose: true,
+  })
+  $('#datepicker4').datepicker({
+    defaultViewDate: {year: year},
+    autoclose: true,
+  })
    //as you defined in bootstrap-datepicker.XX.js
 });
 </script>
@@ -260,7 +280,7 @@
       e.preventDefault();
       var formData = new FormData(this);
       var name_training = document.getElementById("name_training").value;
-      var date_training = document.getElementById("date_training").value;
+      var date_training = document.getElementById("datepicker3").value;
       var category_training = document.getElementById("category_training").value;
       if(name_training==""||date_training==""||category_training==""){
          swal({
@@ -315,7 +335,7 @@
       e.preventDefault();
       var formData = new FormData(this);
       var name_training1 = document.getElementById("name_training1").value;
-      var date_training1 = document.getElementById("date_training1").value;
+      var date_training1 = document.getElementById("datepicker4").value;
       var category_training1 = document.getElementById("category_training1").value;
 
       if(name_training1==""||date_training1==""||category_training1==""){
@@ -379,9 +399,12 @@
         //success data
         $("#id").val(data[0].id);
         $("#name_training1").val(data[0].name_training);
-        $("#date_training1").val(data[0].date_training);
-        $("#datepicker2").val(data[0].year_id);
-        $('#datepicker2').datepicker("setDate", new Date(data[0].year_id));
+        $('#datepicker4').datepicker("setDate", new Date(data[0].date_training2));
+       
+        if(data[0].year_id!=null){
+          $('#datepicker2').datepicker("setDate", new Date(data[0].year_id));
+        }
+        
         $("#place_training1").val(data[0].place_training);
         $("#category_training1").val(data[0].category_training);
 

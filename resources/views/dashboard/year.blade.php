@@ -47,6 +47,7 @@
                 <tr>
                   <th width="10%">ที่</th>
                   <th>ปีการศึกษา</th>
+                  <th>วันเดือนปี</th>
                   <th width="15%">เปิด-ปิดการใช้งาน</th>
                 </tr>
                 </thead>
@@ -54,7 +55,8 @@
                   @foreach($getAllyear as $key=>$row)
                 <tr>
                   <td>{{$key+1}}</td>
-                  <td>{{$row['year_name']}}</td>    
+                  <td>{{$row['year_name']}}</td>   
+                  <td>@if($getAllyear!="[]"){{$getyear[$key]['begin']}} ถึง {{$getyear[$key]['end']}}@endif</td>    
                   <td>
                   @if($row['active']==1)
                   <label class="switch" ><input class="switch-input " type="checkbox"  checked disabled/><span class="switch-label" data-on="เปิดการใช้งาน" data-off="ปิดการใช้งาน"></span><span class="switch-handle"></span></label>

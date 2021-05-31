@@ -277,9 +277,8 @@ class Category3Controller extends Controller
         ->where('course_responsible_teacher.year_id',session()->get('year_id'))
         ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
         ->where('course_responsible_teacher.branch_id',session()->get('branch_id'))
-        ->where('research_results.research_results_date','>=',session()->get('yearBegin'))
-        ->where('research_results.research_results_date','<=',session()->get('yearEnd'))
         ->get();
+        
         ///นับอาจารย์ผู้รีบผิดชอบหลักสูตร
         $count=count($trc);
         if(count($inc)==0){

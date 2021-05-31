@@ -94,17 +94,23 @@
                   <td>@foreach($row->publish_work as $value) 
                   <?php 
                       $get1=0;
-                     if($value['publish_work_year']>=$y){
+                     if($value['publish_work_year']>$y){
                            $paymentDate=date('Y-m-d', strtotime($value['publish_work_yearanddate']));
-                          
+                           $paymentDate2=date('Y-m-d', strtotime($value['publish_work_yearanddate2']));
+
                            $contractDateBegin = date('Y-m-d', strtotime(session()->get('yearBegin')));
                            $contractDateEnd = date('Y-m-d', strtotime(session()->get('yearEnd')));
                            if (($paymentDate >= $contractDateBegin) && ($paymentDate <= $contractDateEnd)){
                                $get1=1;
                            }
+                           if (($paymentDate2 >= $contractDateBegin) && ($paymentDate2 <= $contractDateEnd)){
+                            $get1=1;
+                            }
                          }  
                 ?>
-                  @if($value['publish_work_year']==$y-1
+                  @if(
+                     $value['publish_work_year']==$y
+                     ||$value['publish_work_year']==$y-1
                      ||$value['publish_work_year']==$y-2
                      ||$value['publish_work_year']==$y-3
                      ||$value['publish_work_year']==$y-4
@@ -179,17 +185,23 @@
                   <td>@foreach($row->publish_work as $value) 
                   <?php 
                       $get1=0;
-                     if($value['publish_work_year']>=$y){
+                     if($value['publish_work_year']>$y){
                            $paymentDate=date('Y-m-d', strtotime($value['publish_work_yearanddate']));
-                          
+                           $paymentDate2=date('Y-m-d', strtotime($value['publish_work_yearanddate2']));
+
                            $contractDateBegin = date('Y-m-d', strtotime(session()->get('yearBegin')));
                            $contractDateEnd = date('Y-m-d', strtotime(session()->get('yearEnd')));
                            if (($paymentDate >= $contractDateBegin) && ($paymentDate <= $contractDateEnd)){
                                $get1=1;
                            }
+                           if (($paymentDate2 >= $contractDateBegin) && ($paymentDate2 <= $contractDateEnd)){
+                            $get1=1;
+                            }
                          }  
                 ?>
-                  @if($value['publish_work_year']==$y-1
+                  @if(
+                       $value['publish_work_year']==$y
+                     ||$value['publish_work_year']==$y-1
                      ||$value['publish_work_year']==$y-2
                      ||$value['publish_work_year']==$y-3
                      ||$value['publish_work_year']==$y-4
