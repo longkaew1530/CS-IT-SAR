@@ -273,7 +273,7 @@ class Category3Controller extends Controller
         ->where('course_responsible_teacher.branch_id',session()->get('branch_id'))
         ->where('course_responsible_teacher.year_id',session()->get('year_id'))
         ->get();
-        $category_re = Research_results::rightjoin('course_responsible_teacher','research_results.owner','=','course_responsible_teacher.user_id')
+        $category_re2 = Research_results::rightjoin('course_responsible_teacher','research_results.owner','=','course_responsible_teacher.user_id')
         ->where('course_responsible_teacher.year_id',session()->get('year_id'))
         ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
         ->where('course_responsible_teacher.branch_id',session()->get('branch_id'))
@@ -290,7 +290,7 @@ class Category3Controller extends Controller
             $id=$value['Indicator_id'];
         }
         $checkedit="asdsad";
-        return view('category3/showpdca',compact('category_re','count','pdca','name','id','getcourse','getcategorypdca','inc','checkedit','getbranch','tran'));
+        return view('category3/showpdca',compact('category_re2','count','pdca','name','id','getcourse','getcategorypdca','inc','checkedit','getbranch','tran'));
     }
     public function indicator3_3()
     {

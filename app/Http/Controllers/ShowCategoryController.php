@@ -483,14 +483,12 @@ class ShowCategoryController extends Controller
         ->get();
         ///นับอาจารย์ผู้รีบผิดชอบหลักสูตร
         $count=count($trc);
-        $category_re = Research_results::rightjoin('course_responsible_teacher','research_results.owner','=','course_responsible_teacher.user_id')
+        $category_re2 = Research_results::rightjoin('course_responsible_teacher','research_results.owner','=','course_responsible_teacher.user_id')
         ->where('course_responsible_teacher.year_id',session()->get('year_id'))
         ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
         ->where('course_responsible_teacher.branch_id',session()->get('branch_id'))
-        ->where('research_results.research_results_date','>=',session()->get('yearBegin'))
-        ->where('research_results.research_results_date','<=',session()->get('yearEnd'))
         ->get();
-            return view('category3/showpdca',compact('category_re','count','tran','getbranch','pdca','name','id','getcourse','getcategorypdca','inc','checkedit'));
+            return view('category3/showpdca',compact('category_re2','count','tran','getbranch','pdca','name','id','getcourse','getcategorypdca','inc','checkedit'));
         }
         if($id=="4.2"){
           

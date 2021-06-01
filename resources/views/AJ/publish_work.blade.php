@@ -18,6 +18,7 @@
                 @csrf
                 <div class="box-body ">
                 <input type="hidden" id="owner" name="owner" >
+                <input type="hidden" id="owner2" name="owner2" value="{{ Auth::user()->id }}">
                 <input type="hidden" id="checkinfo" name="checkinfo" >
                 <div class="form-group">
                 <input type="radio" id="cate1" name="cate" value="0" onclick="myFunction()" checked/>
@@ -107,7 +108,7 @@
               </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">ชื่อการประชุม</label>
-                    <input type = "text" class="form-control" id="journal_name2" name="journal_name2" placeholder="ชื่องาน">
+                    <input type ="text" class="form-control" id="journal_name5" name="journal_name5" placeholder="ชื่องาน">
                   </div>
                   <!-- <div class="form-group">
                     <label for="exampleInputPassword1">วันที่</label>
@@ -540,6 +541,7 @@
     }
   });
   document.getElementById("research_results_name").selectedIndex = "-1";
+  $("#checkinfo").val(1);
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -613,7 +615,12 @@
           }
         },
         error: function(data) {
-         
+          swal({
+          title: "วัน/เดือน/ปี ไม่ถูกต้อง",
+          text: "",
+          icon: "error",
+          showConfirmButton: false,
+        });
           
           console.log(data.responseJSON.errors);
         }
@@ -656,7 +663,12 @@
           }
         },
         error: function(data) {
-         
+          swal({
+          title: "วัน/เดือน/ปี ไม่ถูกต้อง",
+          text: "",
+          icon: "error",
+          showConfirmButton: false,
+        });
           
           console.log(data.responseJSON.errors);
         }
@@ -791,6 +803,7 @@
 </script>
 <script>
 function myFunction() {
+  $("#checkinfo").val(1);
   var x = document.getElementById("myDIV");
     x.style.display = "block";
     var n = document.getElementById("myDIV2");
@@ -798,6 +811,7 @@ function myFunction() {
 
 }
 function myFunction2() {
+  $("#checkinfo").val(0);
   var x = document.getElementById("myDIV2");
     x.style.display = "block";
     var n = document.getElementById("myDIV");

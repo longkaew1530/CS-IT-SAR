@@ -541,7 +541,12 @@ input:checked + .slider:before {
           }
         },
         error: function(data) {
-         
+          swal({
+          title: "มี วัน/เดือน/ปี นี้แล้ว",
+          text: "",
+          icon: "error",
+          showConfirmButton: false,
+        });
           
           console.log(data.responseJSON.errors);
         }

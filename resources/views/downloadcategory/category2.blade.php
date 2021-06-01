@@ -70,30 +70,48 @@
                 @foreach($cate as $key =>$row)
                 <tr>
                   <td>-{{$row['name']}}<br>
-                     @foreach($row->research_results as $key =>$value)
-                     @if($value['research_results_year']==session()->get('year'))
-                       <li class="ml-2">{{$value['teacher_name'].". (".$value['research_results_year']
-                       ."). ".$value['research_results_name'].". ".
-                       $value['research_results_description']}}</li>
-                       @endif 
+                     @foreach($row->publish_work as $key =>$value)
+                     @if($value['publish_work_yearanddate']>=session()->get('yearBegin')&&$value['publish_work_yearanddate']<=session()->get('yearEnd'))
+                              @if($value['publish_work_issue']!="")
+                              <li class="ml-2">{{$value['teacher_name'].".(".($value['publish_work_year']).") ".$value['publish_work_name'].". ".$value['journal_name']." ".$value['publish_work_issue']." (".$value['publish_work_year'].") ".$value['publish_work_page']}}</li>
+                              @else
+                              @if($value['publish_work_date']!="1")
+                              <li class="ml-2">{{$value['teacher_name'].".(".($value['publish_work_year']).") ".$value['publish_work_name']." ".$value['journal_name'].". ".$value['publish_work_date']." ".$value['publish_work_place'].", ".$value['province'].". ".$value['country']." ".$value['publish_work_page']."."}}</li><br>
+                              @else
+                              <li class="ml-2">{{$value['teacher_name'].".(".($value['publish_work_year']).") ".$value['publish_work_name']." ".$value['journal_name'].". ".$value['province'].". ".$value['country']." ".$value['publish_work_page']."."}}</li><br>
+                              @endif
+                              @endif
+                        @elseif($value['publish_work_yearanddate2']>=session()->get('yearBegin')&&$value['publish_work_yearanddate2']<=session()->get('yearEnd'))
+                        @if($value['publish_work_issue']!="")
+                              <li class="ml-2">{{$value['teacher_name'].".(".($value['publish_work_year']).") ".$value['publish_work_name'].". ".$value['journal_name']." ".$value['publish_work_issue']." (".$value['publish_work_year'].") ".$value['publish_work_page']}}</li>
+                              @else
+                              @if($value['publish_work_date']!="1")
+                              <li class="ml-2">{{$value['teacher_name'].".(".($value['publish_work_year']).") ".$value['publish_work_name']." ".$value['journal_name'].". ".$value['publish_work_date']." ".$value['publish_work_place'].", ".$value['province'].". ".$value['country']." ".$value['publish_work_page']."."}}</li><br>
+                              @else
+                              <li class="ml-2">{{$value['teacher_name'].".(".($value['publish_work_year']).") ".$value['publish_work_name']." ".$value['journal_name'].". ".$value['province'].". ".$value['country']." ".$value['publish_work_page']."."}}</li><br>
+                              @endif
+                              @endif
+                        @endif
                       @endforeach
                   </td>           
-                  <td>
+                  <td class="text-center">
                   {{$row['score']}}
                   </td>
-                  <td>
+                  <td class="text-center">
                   <?php $i=0 ?>
-                  @foreach($row->research_results as $ke =>$value1)
-                        @if($value1['research_results_year']==session()->get('year'))
-                       <?php $i++ ?>
-                       @endif
+                  @foreach($row->publish_work as $ke =>$value1)
+                  @if($value1['publish_work_yearanddate']>=session()->get('yearBegin')&&$value1['publish_work_yearanddate']<=session()->get('yearEnd'))
+                        <?php $i++ ?>
+                  @elseif($value1['publish_work_yearanddate2']>=session()->get('yearBegin')&&$value1['publish_work_yearanddate2']<=session()->get('yearEnd'))
+                        <?php $i++ ?>
+                  @endif 
                   @endforeach
                   <?php  $totalqty=$totalqty+$i;?>
                   @if( $i!=0)
                   <?php echo $i ?>
                   @endif
                   </td>
-                  <td>
+                  <td class="text-center">
                   @if( $i!=0)
                   <?php echo $i*$row['score'];
                         $total=$total+($i*$row['score']);
@@ -124,12 +142,39 @@
                   <th width="10%" class="text-center">ค่าน้ำหนัก</th>
                 </tr>
                 @foreach($category_re as $key =>$value)
-                <tr>
-                  <td><li>{{$value['research_results_name']}}</li> </td>           
-                  <td>{{$value['teacher_name']}}</td>
-                  <td>{{$value['research_results_description']}}</td>
-                  <td>{{$value['score']}}</td>
-                </tr>
+                @if($value['publish_work_yearanddate']>=session()->get('yearBegin')&&$value['publish_work_yearanddate']<=session()->get('yearEnd'))
+                    <tr>
+                      <td>{{$value['publish_work_name']}}</td>           
+                      <td>{{$value['teacher_name']}}</td>
+                      @if($value['publish_work_issue']!="")
+                      <td>{{$value['journal_name']." ".$value['publish_work_issue']." (".$value['publish_work_year'].") ".$value['publish_work_page']}}</td>
+                      @else
+                        @if($value['publish_work_date']!="1")
+                        <td>{{$value['journal_name'].". ".$value['publish_work_date']." ".$value['publish_work_place'].", ".$value['province'].". ".$value['country']." ".$value['publish_work_page']."."}}</td>
+                        @else
+                        <td>{{$value['journal_name'].". ".$value['province'].". ".$value['country']." ".$value['publish_work_page']."."}}</td>
+                        @endif
+                        
+                      @endif
+                      <td>{{$value['score']}}</td>
+                    </tr>
+                  @elseif($value['publish_work_yearanddate2']>=session()->get('yearBegin')&&$value['publish_work_yearanddate2']<=session()->get('yearEnd'))
+                      <tr>
+                      <td>{{$value['publish_work_name']}}</td>           
+                      <td>{{$value['teacher_name']}}</td>
+                      @if($value['publish_work_issue']!="")
+                      <td>{{$value['journal_name']." ".$value['publish_work_issue']." (".$value['publish_work_year'].") ".$value['publish_work_page']}}</td>
+                      @else
+                        @if($value['publish_work_date']!="1")
+                        <td>{{$value['journal_name'].". ".$value['publish_work_date']." ".$value['publish_work_place'].", ".$value['province'].". ".$value['country']." ".$value['publish_work_page']."."}}</td>
+                        @else
+                        <td>{{$value['journal_name'].". ".$value['province'].". ".$value['country']." ".$value['publish_work_page']."."}}</td>
+                        @endif
+                        
+                      @endif
+                      <td>{{$value['score']}}</td>
+                    </tr>
+                  @endif 
                 @endforeach
               </tbody></table>
             </div>
@@ -354,7 +399,7 @@
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script type="text/javascript">
- $(document).ready(function(){      
+$(document).ready(function(){      
   Export2Word('exportContent','หมวดที่2 อาจารย์');
   window.history.back();
  });  
@@ -372,7 +417,7 @@
     var url = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(html);
     
     // Specify file name
-    filename = filename?filename+'.docx':'document.doc';
+    filename = filename?filename+'.doc':'document.doc';
     
     // Create download link element
     var downloadLink = document.createElement("a");

@@ -320,7 +320,12 @@
           }
         },
         error: function(data) {
-         
+          swal({
+          title: "วัน/เดือน/ปี ไม่ถูกต้อง",
+          text: "",
+          icon: "error",
+          showConfirmButton: false,
+        });
           
           console.log(data.responseJSON.errors);
         }
@@ -376,7 +381,12 @@
           }
         },
         error: function(data) {
-         
+          swal({
+          title: "วัน/เดือน/ปี ไม่ถูกต้อง",
+          text: "",
+          icon: "error",
+          showConfirmButton: false,
+        });
           
           console.log(data.responseJSON.errors);
         }

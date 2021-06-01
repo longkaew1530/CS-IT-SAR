@@ -73,6 +73,7 @@ class DashboardController extends Controller
         $year=Year::where('active',1)
         ->get();
         $getAllyear=Year::all();
+
         if($getAllyear!="[]"){
             foreach($year as $value){
                 $y_name=$value['year_name'];
@@ -124,6 +125,7 @@ class DashboardController extends Controller
                 $getyear[$keyy]['end']=$getyearEnd;
             }
         }
+
         if($user_group!=2){
             session()->put('branch_id',$user->user_branch);
         }

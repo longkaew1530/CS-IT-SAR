@@ -117,6 +117,14 @@ class APIAJController extends Controller
     public function addresearch_results(Request $request)
     {
         $getdata=$request->all();
+
+        $contractDateBegin = date('Y-m-d', strtotime($request->research_results_date));
+        $contractDateEnd = date('Y-m-d', strtotime($request->research_results_date2));
+            
+        if ($contractDateBegin>=$contractDateEnd){
+            return false;
+        }
+
         if(isset($getdata['teacher_name'])){
             $countgetname=count($getdata['teacher_name']);
         }
@@ -171,6 +179,12 @@ class APIAJController extends Controller
     public function updateresearch_results(Request $request)
     {
         $getdata=$request->all();
+        $contractDateBegin = date('Y-m-d', strtotime($request->research_results_date));
+        $contractDateEnd = date('Y-m-d', strtotime($request->research_results_date2));
+            
+        if ($contractDateBegin>=$contractDateEnd){
+            return false;
+        }
         if(isset($getdata['teacher_name'])){
         $countgetname=count($getdata['teacher_name']);
         }
@@ -246,6 +260,25 @@ class APIAJController extends Controller
     public function addpublish_work(Request $request)
     {
         $getdata=$request->all();
+
+        if($request->checkinfo==1){
+            $contractDateBegin = date('Y-m-d', strtotime($request->publish_work_year));
+            $contractDateEnd = date('Y-m-d', strtotime($request->publish_work_yearnew));
+                
+            if ($contractDateBegin>=$contractDateEnd){
+                return false;
+            }
+        }
+        else{
+            $contractDateBegin = date('Y-m-d', strtotime($request->publish_work_yearanddate2));
+            $contractDateEnd = date('Y-m-d', strtotime($request->publish_work_yearnew2));
+                
+            if ($contractDateBegin>=$contractDateEnd){
+                return false;
+            }
+        }
+
+        
         if(isset($getdata['teacher_name'])){
             $countgetname=count($getdata['teacher_name']);
         }
@@ -282,7 +315,13 @@ class APIAJController extends Controller
             }
         $data=new publish_work;
         if($request->checkinfo==1){
-            $data->owner=$request->owner;
+            if(isset($request->owner)){
+                $data->owner=$request->owner;
+            }
+            else{
+                $data->owner=$request->owner2;
+            }
+            
             $data->teacher_name=$text;
             $data->category_publish_work=$request->category_publish_work;
             $date = explode('/', $request->publish_work_yearnew);
@@ -315,10 +354,15 @@ class APIAJController extends Controller
         }
         else{
             $get_date=explode(" ",$request->publish_work_date2);
-            $data->owner=$request->owner;
+            if(isset($request->owner)){
+                $data->owner=$request->owner;
+            }
+            else{
+                $data->owner=$request->owner2;
+            }
             $data->teacher_name=$text;
             $data->category_publish_work=$request->category_publish_work2;
-            $date = explode('/', $request->publish_work_yearanddate2);
+            $date = explode('/', $request->publish_work_yearnew2);
             $geti=(int)$date[0];
             // if(isset($get_date[2])){
             //     $data->publish_work_year=$get_date[2];
@@ -388,10 +432,16 @@ class APIAJController extends Controller
             else{
                 $getyear=(int)$getdate1[2]." ".$setname." ".$getdate1[0];
             }
-         
-            $data->publish_work_date=$getyear;
+            $getdate2 = explode(" " ,$request->journal_name5);
+            if($getdate2[0]=="Proceedings"){
+                $data->publish_work_date="1";
+            }
+            else{
+                $data->publish_work_date=$getyear;
+            }
+            
             $data->publish_work_name=$request->publish_work_name2;
-            $data->journal_name=$request->journal_name2;
+            $data->journal_name=$request->journal_name5;
             $data->publish_work_page=$request->publish_work_page2;
             $data->publish_work_place=$request->publish_work_place2;
             $data->province=$request->province;
@@ -413,6 +463,24 @@ class APIAJController extends Controller
     public function updatepublish_work(Request $request)
     {   
         $getdata=$request->all();
+
+        if($request->category==1){
+            $contractDateBegin = date('Y-m-d', strtotime($request->publish_work_year));
+            $contractDateEnd = date('Y-m-d', strtotime($request->publish_work_yearnew));
+                
+            if ($contractDateBegin>=$contractDateEnd){
+                return false;
+            }
+        }
+        else{
+            $contractDateBegin = date('Y-m-d', strtotime($request->publish_work_yearanddate3));
+            $contractDateEnd = date('Y-m-d', strtotime($request->publish_work_yearnew3));
+                
+            if ($contractDateBegin>=$contractDateEnd){
+                return false;
+            }
+        }
+
         if(isset($getdata['teacher_name3'])){
             $countgetname=count($getdata['teacher_name3']);
         }
@@ -489,7 +557,7 @@ class APIAJController extends Controller
         $data->category_publish_work=$request->category_publish_work3;
         $data->owner=$request->owner3;
         $data->teacher_name=$text;
-        $date = explode('/', $request->publish_work_yearanddate3);
+        $date = explode('/', $request->publish_work_yearnew3);
         $geti=(int)$date[0];
 
         if($geti<=2500){
@@ -549,7 +617,15 @@ class APIAJController extends Controller
             else{
                 $getyear=(int)$getdate1[2]." ".$setname." ".$getdate1[0];
             }
-            $data->publish_work_date=$getyear;
+            $getdate2 = explode(" " ,$request->journal_name3);
+            if($getdate2[0]=="Proceedings"){
+                $data->publish_work_date="1";
+            }
+            else{
+                $data->publish_work_date=$getyear;
+            }
+
+            
         $data->publish_work_year=$gety;
          $data->publish_work_yearanddate=$request->publish_work_yearanddate3;
          $data->publish_work_yearanddate2=$request->publish_work_yearnew3;

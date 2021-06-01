@@ -380,6 +380,24 @@ class APIController extends Controller
          foreach($getyear as $value){
              $nextyear=$value['year_name'];
          }
+         $checkyeardup=0;
+         foreach($getyear as $yearvalue1){
+            $paymentDate=date('Y-m-d', strtotime($request->date1));
+            $paymentDate1=date('Y-m-d', strtotime($request->date2));
+            //echo $paymentDate; // echos today! 
+            $contractDateBegin = date('Y-m-d', strtotime($yearvalue1['date1']));
+            $contractDateEnd = date('Y-m-d', strtotime($yearvalue1['date2']));
+                
+            if (($paymentDate >= $contractDateBegin) && ($paymentDate <= $contractDateEnd)){
+                $checkyeardup=1;
+            }
+            if (($paymentDate1 >= $contractDateBegin) && ($paymentDate1 <= $contractDateEnd)){
+                $checkyeardup=1;
+            }
+         }
+         if($checkyeardup==1){
+             return false;
+         }
          $queryyaer= new Year;
          $nextyear++;
          $queryyaer->year_name=$nextyear;
@@ -1305,7 +1323,12 @@ class APIController extends Controller
      }
      public function addtraining_information(Request $request)
      {  
-
+        $contractDateBegin = date('Y-m-d', strtotime($request->date_training2));
+        $contractDateEnd = date('Y-m-d', strtotime($request->year_id));
+                
+        if ($contractDateBegin>=$contractDateEnd){
+                return false;
+        }
         $user=auth()->user();
          $data['user_id']=$user->id;
          $data['name_training']=$request->name_training;
@@ -1366,6 +1389,12 @@ class APIController extends Controller
      }
      public function updatetraining_information(Request $request)
      {
+        $contractDateBegin = date('Y-m-d', strtotime($request->date_training2));
+        $contractDateEnd = date('Y-m-d', strtotime($request->year_id));
+                
+        if ($contractDateBegin>=$contractDateEnd){
+                return false;
+        }
          $data = training_information::find($request->id);
          $getdate1 = explode("/" ,$request->date_training2);
          $getdate2 = explode("/" ,$request->year_id);

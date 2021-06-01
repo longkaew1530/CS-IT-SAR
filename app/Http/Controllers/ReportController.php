@@ -615,6 +615,12 @@ class ReportController extends Controller
         ->where('course_responsible_teacher.branch_id',session()->get('branch_id'))
         ->orderBy('category_research_results.score','desc')
         ->get();
+
+        $category_re2 = Research_results::rightjoin('course_responsible_teacher','research_results.owner','=','course_responsible_teacher.user_id')
+        ->where('course_responsible_teacher.year_id',session()->get('year_id'))
+        ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
+        ->where('course_responsible_teacher.branch_id',session()->get('branch_id'))
+        ->get();
     //    dd($category_re);
         //ดึงค่าตารางอาจารย์ผู้รับผิดชอบหลักสูตร
         $trc = course_responsible_teacher::join('year','course_responsible_teacher.year_id','=','year.year_id')
@@ -760,7 +766,7 @@ class ReportController extends Controller
             ->where('users.user_branch',session()->get('branch_id'))
             ->where('course_responsible_teacher.year_id',session()->get('year_id'))
             ->get();
-        return view('category3/category2',compact('tran','getbranch','check4_1','check4_2','check4_3','pdca','name','id','getcourse','getcategorypdca','inc','checkedit','category_re','count','counteb_name','countposition1','countposition2','countposition3'
+        return view('category3/category2',compact('category_re2','tran','getbranch','check4_1','check4_2','check4_3','pdca','name','id','getcourse','getcategorypdca','inc','checkedit','category_re','count','counteb_name','countposition1','countposition2','countposition3'
                     ,'cate','qty1','B','qty2','C','qty3','E','inc4_2','id4_2','name4_2','in4_3','inc3','name4_3','id4_3','getcategorypdca4_3'));
         }
         else if($id==3){

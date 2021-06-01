@@ -62,7 +62,7 @@
                   @endforeach<br>
                   @endforeach
                   <b>ส่งเสริมให้อาจารย์ผู้รับผิดชอบหลักสูตรพัฒนางานวิจัย โดยในปีการศึกษา {{session()->get('year')}} ดังนี้</b><br>
-                      @foreach($category_re as $cvalue)
+                      @foreach($category_re2 as $cvalue)
                         @if($cvalue['research_results_date']>=session()->get('yearBegin')&&$cvalue['research_results_date']<=session()->get('yearEnd'))
                         -{{$cvalue['research_results_name']}} โดย {{$cvalue['teacher_name']}}<br>
                         @elseif($cvalue['research_results_date2']>=session()->get('yearBegin')&&$cvalue['research_results_date2']<=session()->get('yearEnd'))

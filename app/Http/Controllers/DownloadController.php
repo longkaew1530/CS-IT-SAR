@@ -16,6 +16,7 @@ use App\category6_comment_course;
 use App\category6_assessment_summary;
 use App\category5_course_manage;
 use App\indicator1_1;
+use App\publish_work;
 use App\indicator2_1;
 use App\category3_resignation;
 use App\categoty_researh;
@@ -271,217 +272,225 @@ class DownloadController extends Controller
         }
         else if($id==2){
 
-        $getcategorypdca=indicator::where('Indicator_id',4.1)
-        ->where('course_id',session()->get('usercourse'))
-        ->where('branch_id',session()->get('branch_id'))
-        ->where('year_id',session()->get('year_id'))
-        ->get();
-        $pdca=PDCA::leftjoin('indicator','pdca.Indicator_id','=','indicator.indicator_id')
-        ->where('pdca.Indicator_id',4.1)
-        ->where('pdca.course_id',session()->get('usercourse'))
-        ->where('pdca.branch_id',session()->get('branch_id'))
-        ->where('pdca.year_id',session()->get('year_id'))
-        ->get();
-        $getcourse=Course::where('course_id',session()->get('usercourse'))
-        ->get();
-        $name="";
-        $id="";
-        ////ดึงผลการประเมินตนเอง ตัวบ่งชี้ที่ 1.1
-        $inc= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
-        ->where('pdca.course_id',session()->get('usercourse'))
-        ->where('pdca.branch_id',session()->get('branch_id'))
-        ->where('pdca.year_id',session()->get('year_id'))
-        ->where('pdca.indicator_id',4.1)
-        ->where('pdca.target','!=',null)
-        ->get();
-        if(count($inc)==0){
-            $inc="";
-        }
-        foreach($getcategorypdca as $value)
-        {
-            $name=$value['Indicator_name'];
-            $id=$value['Indicator_id'];
-        }
-        $checkedit="";
-
-        //////ตัวบ่งชี้ 4.2
-        $year=Year::where('year_name',2563)->get();
-        foreach($year as $value){
-            $y=$value['year_name'];
-         }
-        // $category_re=categoty_researh::rightjoin('research_results','category_research_results.id','=','research_results.research_results_category')
-        // ->leftjoin('course_responsible_teacher','research_results.user_id','=','course_responsible_teacher.user_id')
-        // ->get();
-        
-
-        $cate=categoty_researh::all();
-
-        // $category_re=Research_results::rightjoin('research_results_user', function($join1)
-        //     {
-                
-        //         $join1->on('research_results.research_results_id', '=', 'research_results_user.research_results_research_results_id');
-        //         $join1->leftjoin('course_responsible_teacher', function($join2)
-        //         {
-        //           $join2->where('course_responsible_teacher.course_id',session()->get('usercourse'));
-        //           $join2->on('research_results_user.user_id', '=', 'course_responsible_teacher.user_id');
-                  
-        //         });
-        //     })
-        // ->groupBy('research_results_id')
-        // ->leftjoin('category_research_results','research_results.research_results_category','=','category_research_results.id')
-        // ->get();
-        $category_re = Research_results::rightjoin('course_responsible_teacher','research_results.owner','=','course_responsible_teacher.user_id')
-        ->leftjoin('category_research_results','research_results.research_results_category','=','category_research_results.id')
-        ->where('course_responsible_teacher.year_id',session()->get('year_id'))
-        ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
-        ->where('course_responsible_teacher.branch_id',session()->get('branch_id'))
-        ->where('research_results.research_results_year',session()->get('year'))
-        ->get();
-    //    dd($category_re);
-        //ดึงค่าตารางอาจารย์ผู้รับผิดชอบหลักสูตร
-        $trc = course_responsible_teacher::join('year','course_responsible_teacher.year_id','=','year.year_id')
-        ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
-        ->where('course_responsible_teacher.branch_id',session()->get('branch_id'))
-        ->where('course_responsible_teacher.year_id',session()->get('year_id'))
-        ->get();
-        ///นับอาจารย์ผู้รีบผิดชอบหลักสูตร
-        $count=count($trc);
-        
-        $educ_bg= User::leftjoin('course_responsible_teacher','users.id','=','course_responsible_teacher.user_id')
-        ->where('users.user_course',session()->get('usercourse'))
-        ->where('users.user_branch',session()->get('branch_id'))
-        ->where('course_responsible_teacher.year_id',session()->get('year_id'))
-        ->get();
-         $counteb_name=0;
-         $countposition1=0;
-         $countposition2=0;
-         $countposition3=0;
-        foreach($educ_bg as $value)
-        {
-            foreach($value->educational_background as $row)
+            $getcategorypdca=indicator::where('Indicator_id',4.1)
+            ->where('course_id',session()->get('usercourse'))
+            ->where('branch_id',session()->get('branch_id'))
+            ->where('year_id',session()->get('year_id'))
+            ->get();
+            $pdca=PDCA::leftjoin('indicator','pdca.Indicator_id','=','indicator.indicator_id')
+            ->where('pdca.Indicator_id',4.1)
+            ->where('pdca.course_id',session()->get('usercourse'))
+            ->where('pdca.branch_id',session()->get('branch_id'))
+            ->where('pdca.year_id',session()->get('year_id'))
+            ->get();
+            $getcourse=Course::where('course_id',session()->get('usercourse'))
+            ->get();
+            $name="";
+            $id="";
+            ////ดึงผลการประเมินตนเอง ตัวบ่งชี้ที่ 1.1
+            $inc= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+            ->where('pdca.course_id',session()->get('usercourse'))
+            ->where('pdca.branch_id',session()->get('branch_id'))
+            ->where('pdca.year_id',session()->get('year_id'))
+            ->where('pdca.indicator_id',4.1)
+            ->where('pdca.target','!=',null)
+            ->get();
+            if(count($inc)==0){
+                $inc="";
+            }
+            foreach($getcategorypdca as $value)
             {
-                if($row['eb_name']=='ปริญญาเอก')
-                {
-                    $counteb_name=$counteb_name+1;
-                }
+                $name=$value['Indicator_name'];
+                $id=$value['Indicator_id'];
             }
-            if($value['academic_position']=='ผู้ช่วยศาสตราจารย์')
-            {
-                $countposition1=$countposition1+1;
-            }
-            else if($value['academic_position']=='รองศาตราจารย์')
-            {
-                $countposition2=$countposition2+1;
-            }
-            else if($value['academic_position']=='ศาสตราจารย์'){
-                $countposition3=$countposition3+1;
-            }
-        }
-        $countcate=0;
-        foreach($category_re as $value){
-            if($value['research_results_year']==session()->get('year')){
-                $countcate=$countcate+$value['score'];
-            }
+            $checkedit="";
+    
+            //////ตัวบ่งชี้ 4.2
+            $year=Year::where('year_name',2563)->get();
+            foreach($year as $value){
+                $y=$value['year_name'];
+             }
+            // $category_re=categoty_researh::rightjoin('research_results','category_research_results.id','=','research_results.research_results_category')
+            // ->leftjoin('course_responsible_teacher','research_results.user_id','=','course_responsible_teacher.user_id')
+            // ->get();
             
-        }
-
-        $inc4_2=PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
-        ->where('pdca.course_id',session()->get('usercourse'))
-        ->where('pdca.branch_id',session()->get('branch_id'))
-        ->where('pdca.year_id',session()->get('year_id'))
-        ->where('pdca.indicator_id',4.2)
-        ->where('pdca.target','!=',null)
-        ->get();
-        session()->put('result',3);
-        ///ที่มีวุติปริญญาเอก
-        $B=0;
-        $C=0;
-        $E=0;
-        if($count!=0){
-            $B=($counteb_name*100)/$count;
-        }
-        
-        $qty1=($B*5)/20;
-        //ที่มีตำแหน่งทางวิชาการ
-        $A=$countposition1+$countposition2+$countposition3;
-        if($count!=0){
-        $C=($A*100)/$count;
-        }
-        $qty2=($C*5)/60;
-        ///ผลงานทางวิชาการ
-        if($count!=0){
-        $E=($countcate*100)/$count;
-        }
-        $qty3=($E*5)/20;
-        if($qty1>5){
-            $qty1=5;
-        }
-        else if($qty2>5){
-            $qty2=5;
-        }
-        else if($qty3>5){
-            $qty3=5;
-        }
-        $getcategorypdca2=defaulindicator::where('id',9)
-        ->get();
-        $name4_2="";
-        $id4_2="";
-        foreach($getcategorypdca2 as $value)
-        {
-            $name4_2=$value['Indicator_name'];
-            $id4_2=$value['Indicator_id'];
-        }
-        /////ตัวบ่งชี้ที่ 4.3
-        $in4_3=indicator4_3::where('course_id',session()->get('usercourse'))
-        ->where('year_id',session()->get('year_id'))
-        ->get();
-        $inc3= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
-        ->where('pdca.course_id',session()->get('usercourse'))
-        ->where('pdca.branch_id',session()->get('branch_id'))
-        ->where('pdca.year_id',session()->get('year_id'))
-        ->where('pdca.indicator_id',4.3)
-        ->where('pdca.target','!=',null)
-        ->get();
-        
-        $getcategorypdca4_3=defaulindicator::where('id',10)
-        ->get();
-        $name4_3="";
-        $id4_3="";
-        foreach($getcategorypdca4_3 as $value)
-        {
-            $name4_3=$value['Indicator_name'];
-            $id4_3=$value['Indicator_id'];
-        }
-        
-        ////4.3
-        $getpermiss=indicator::where('active',1)
-        ->where('course_id',session()->get('usercourse'))
-        ->where('branch_id',session()->get('branch_id'))
-        ->where('year_id',session()->get('year_id'))
-        ->get();
-        $check4_1=0;
-        $check4_2=0;
-        $check4_3=0;
-        foreach($getpermiss as $checkper){
-            if($checkper['Indicator_id']==4.1){
-                $check4_1=1;
-            }
-            else if($checkper['Indicator_id']==4.2){
-                $check4_2=1;
-            }
-            else if($checkper['Indicator_id']==4.3){
-                $check4_3=1;
-            }
-        }
-        $getbranch=branch::where('branch_id',session()->get('branch_id'))
-        ->get();
-        $tran=User::rightjoin('course_responsible_teacher','users.id','=','course_responsible_teacher.user_id')
+    
+            $cate=categoty_researh::all();
+    
+            // $category_re=Research_results::rightjoin('research_results_user', function($join1)
+            //     {
+                    
+            //         $join1->on('research_results.research_results_id', '=', 'research_results_user.research_results_research_results_id');
+            //         $join1->leftjoin('course_responsible_teacher', function($join2)
+            //         {
+            //           $join2->where('course_responsible_teacher.course_id',session()->get('usercourse'));
+            //           $join2->on('research_results_user.user_id', '=', 'course_responsible_teacher.user_id');
+                      
+            //         });
+            //     })
+            // ->groupBy('research_results_id')
+            // ->leftjoin('category_research_results','research_results.research_results_category','=','category_research_results.id')
+            // ->get();
+            $category_re = publish_work::rightjoin('course_responsible_teacher','publish_work.owner','=','course_responsible_teacher.user_id')
+            ->leftjoin('category_research_results','publish_work.category_publish_work','=','category_research_results.id')
+            ->where('course_responsible_teacher.year_id',session()->get('year_id'))
+            ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
+            ->where('course_responsible_teacher.branch_id',session()->get('branch_id'))
+            ->orderBy('category_research_results.score','desc')
+            ->get();
+            $category_re2 = Research_results::rightjoin('course_responsible_teacher','research_results.owner','=','course_responsible_teacher.user_id')
+            ->where('course_responsible_teacher.year_id',session()->get('year_id'))
+            ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
+            ->where('course_responsible_teacher.branch_id',session()->get('branch_id'))
+            ->get();
+        //    dd($category_re);
+            //ดึงค่าตารางอาจารย์ผู้รับผิดชอบหลักสูตร
+            $trc = course_responsible_teacher::join('year','course_responsible_teacher.year_id','=','year.year_id')
+            ->where('course_responsible_teacher.course_id',session()->get('usercourse'))
+            ->where('course_responsible_teacher.branch_id',session()->get('branch_id'))
+            ->where('course_responsible_teacher.year_id',session()->get('year_id'))
+            ->get();
+            ///นับอาจารย์ผู้รีบผิดชอบหลักสูตร
+            $count=count($trc);
+            
+            $educ_bg= User::leftjoin('course_responsible_teacher','users.id','=','course_responsible_teacher.user_id')
             ->where('users.user_course',session()->get('usercourse'))
             ->where('users.user_branch',session()->get('branch_id'))
             ->where('course_responsible_teacher.year_id',session()->get('year_id'))
             ->get();
-        return view('downloadcategory/category2',compact('tran','getbranch','check4_1','check4_2','check4_3','pdca','name','id','getcourse','getcategorypdca','inc','checkedit','category_re','count','counteb_name','countposition1','countposition2','countposition3'
-                    ,'cate','qty1','B','qty2','C','qty3','E','inc4_2','id4_2','name4_2','in4_3','inc3','name4_3','id4_3','getcategorypdca4_3'));
+             $counteb_name=0;
+             $countposition1=0;
+             $countposition2=0;
+             $countposition3=0;
+            foreach($educ_bg as $value)
+            {
+                foreach($value->educational_background as $row)
+                {
+                    if($row['eb_name']=='ปริญญาเอก')
+                    {
+                        $counteb_name=$counteb_name+1;
+                    }
+                }
+                if($value['academic_position']=='ผู้ช่วยศาสตราจารย์')
+                {
+                    $countposition1=$countposition1+1;
+                }
+                else if($value['academic_position']=='รองศาสตราจารย์')
+                {
+                    $countposition2=$countposition2+1;
+                }
+                else if($value['academic_position']=='ศาสตราจารย์'){
+                    $countposition3=$countposition3+1;
+                }
+            }
+            $countcate=0;
+            foreach($category_re as $value){
+                if($value['publish_work_yearanddate']>=session()->get('yearBegin')&&$value['publish_work_yearanddate']<=session()->get('yearEnd')){
+                    $countcate=$countcate+$value['score'];
+                }
+                else if($value['publish_work_yearanddate2']>=session()->get('yearBegin')&&$value['publish_work_yearanddate2']<=session()->get('yearEnd')){
+                    $countcate=$countcate+$value['score'];
+                }
+            }
+    
+            $inc4_2=PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+            ->where('pdca.course_id',session()->get('usercourse'))
+            ->where('pdca.branch_id',session()->get('branch_id'))
+            ->where('pdca.year_id',session()->get('year_id'))
+            ->where('pdca.indicator_id',4.2)
+            ->where('pdca.target','!=',null)
+            ->get();
+            session()->put('result',3);
+            ///ที่มีวุติปริญญาเอก
+            $B=0;
+            $C=0;
+            $E=0;
+            if($count!=0){
+                $B=($counteb_name*100)/$count;
+            }
+            
+            $qty1=($B*5)/20;
+            //ที่มีตำแหน่งทางวิชาการ
+            $A=$countposition1+$countposition2+$countposition3;
+            if($count!=0){
+            $C=($A*100)/$count;
+            }
+            $qty2=($C*5)/60;
+            ///ผลงานทางวิชาการ
+            if($count!=0){
+            $E=($countcate*100)/$count;
+            }
+            $qty3=($E*5)/20;
+            if($qty1>5){
+                $qty1=5;
+            }
+            else if($qty2>5){
+                $qty2=5;
+            }
+            else if($qty3>5){
+                $qty3=5;
+            }
+            $getcategorypdca2=defaulindicator::where('id',9)
+            ->get();
+            $name4_2="";
+            $id4_2="";
+            foreach($getcategorypdca2 as $value)
+            {
+                $name4_2=$value['Indicator_name'];
+                $id4_2=$value['Indicator_id'];
+            }
+            /////ตัวบ่งชี้ที่ 4.3
+            $in4_3=indicator4_3::where('course_id',session()->get('usercourse'))
+            ->where('year_id',session()->get('year_id'))
+            ->get();
+            $inc3= PDCA::leftjoin('defaulindicator','pdca.indicator_id','=','defaulindicator.indicator_id')
+            ->where('pdca.course_id',session()->get('usercourse'))
+            ->where('pdca.branch_id',session()->get('branch_id'))
+            ->where('pdca.year_id',session()->get('year_id'))
+            ->where('pdca.indicator_id',4.3)
+            ->where('pdca.target','!=',null)
+            ->get();
+            
+            $getcategorypdca4_3=defaulindicator::where('id',10)
+            ->get();
+            $name4_3="";
+            $id4_3="";
+            foreach($getcategorypdca4_3 as $value)
+            {
+                $name4_3=$value['Indicator_name'];
+                $id4_3=$value['Indicator_id'];
+            }
+            
+            ////4.3
+            $getpermiss=indicator::where('active',1)
+            ->where('course_id',session()->get('usercourse'))
+            ->where('branch_id',session()->get('branch_id'))
+            ->where('year_id',session()->get('year_id'))
+            ->get();
+            $check4_1=0;
+            $check4_2=0;
+            $check4_3=0;
+            foreach($getpermiss as $checkper){
+                if($checkper['Indicator_id']==4.1){
+                    $check4_1=1;
+                }
+                else if($checkper['Indicator_id']==4.2){
+                    $check4_2=1;
+                }
+                else if($checkper['Indicator_id']==4.3){
+                    $check4_3=1;
+                }
+            }
+            $getbranch=branch::where('branch_id',session()->get('branch_id'))
+            ->get();
+            $tran=User::rightjoin('course_responsible_teacher','users.id','=','course_responsible_teacher.user_id')
+                ->where('users.user_course',session()->get('usercourse'))
+                ->where('users.user_branch',session()->get('branch_id'))
+                ->where('course_responsible_teacher.year_id',session()->get('year_id'))
+                ->get();
+            return view('downloadcategory/category2',compact('category_re2','tran','getbranch','check4_1','check4_2','check4_3','pdca','name','id','getcourse','getcategorypdca','inc','checkedit','category_re','count','counteb_name','countposition1','countposition2','countposition3'
+                        ,'cate','qty1','B','qty2','C','qty3','E','inc4_2','id4_2','name4_2','in4_3','inc3','name4_3','id4_3','getcategorypdca4_3'));
+       
         }
         else if($id==3){
             $get=year_acceptance::where('course_id',session()->get('usercourse'))
